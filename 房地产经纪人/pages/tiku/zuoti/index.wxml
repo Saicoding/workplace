@@ -111,7 +111,7 @@
 
     <view style='clear:both'></view>
     <view class='jiexi' hidden="{{hiddenjiexi}}">
-      <view>{{jiexi}}</view>
+      <view style="padding-top:40rpx;">{{jiexi}}</view>
     </view>
 
   </view>
