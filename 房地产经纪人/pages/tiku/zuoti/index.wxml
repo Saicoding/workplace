@@ -111,8 +111,6 @@
 
     <view style='clear:both'></view>
     <view class='jiexi' hidden="{{hiddenjiexi}}">
-      正确答案：{{answer}}
-
       <view>{{jiexi}}</view>
     </view>
 

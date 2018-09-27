@@ -229,9 +229,13 @@ Page({
   },
 
   checkval: function(e) {
+    
     let self = this;
     let daan = e.detail.value;
     let srcs = this.reset(self.data.srcs);//初始化srcs
+    let isAnswer = self.data.isAnswer;
+
+    if(isAnswer) return//如果已经回答了 就不作反应
 
     for(let i = 0 ; i < daan.length ;i++){
       srcs[daan[i]] = "/imgs/right_answer.png" ;//将所有选中的选项置位正确图标
@@ -245,10 +249,15 @@ Page({
   },
   chenckChange: function(e) {
     let self = this;
-    let daan = self.data.selectAnswer;
-    let srcs = self.data.srcs;
-    let answers = self.data.answer.split("")
-    console.log(answers)
+    let daan = self.data.selectAnswer;//已经选择的答案
+    let srcs = self.data.srcs;//图片对象
+    let answers = self.data.answer.split("");//将“ABD” 这种字符串转为字符数组
+    let rightNum = self.data.rightNum;//正确答案总数量
+    let wrongNum = self.data.wrongNum;//错误答案总数量
+    let isAnswer = self.data.isAnswer;//是否已经回答
+
+    if (isAnswer) return //如果已经回答过就不作反应
+    
     for(let i = 0 ; i < answers.length ; i++){
       srcs[answers[i]] = "/imgs/right_answer.png";
     }
@@ -261,10 +270,21 @@ Page({
         srcs[daan[i]] = "/imgs/wrong_answer.png";
       }
     }
+    /**
+     * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
+     */
+    if (answers.toString() == daan.toString()){
+      rightNum++;//如果答案正确，正确数量增加
+    }else{
+      wrongNum++;//如果答案错误，错误数量增加
+    }
 
     self.setData({
       hiddenjiexi: false,
-      srcs:srcs
+      srcs:srcs,
+      rightNum:rightNum,
+      wrongNum:wrongNum,
+      isAnswer:true
     })
   },
   /**
