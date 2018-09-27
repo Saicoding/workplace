@@ -1,0 +1,41 @@
+<view class="index-top" >
+<picker  range="{{array}}" range-key="title"  class='picker changeType' value="{{Index}}" bindchange="bindPickerChange"  data-selecthx="{{array[index].title}}" >
+<text class='mulu'>当前题库</text>
+<view  value="{{index}}">
+    {{array[index].title}}  >
+    </view> 
+</picker>
+
+<view class='shiti_index'>
+  <view class='t_left'>
+    <view class='ti_z1'><view class='t_text'>专项练习</view></view>
+    <view class='ti_z2'><view class='t_text'>模拟真题</view></view>
+  </view>
+  <view class='t_center'></view>
+  <view class='t_right'>
+    <view class='ti_z3'><view class='t_text'>我的错题</view></view>
+    <view class='ti_z4'><view class='t_text'>考前押题</view></view>
+  </view>   
+</view>
+
+<view class='shiti_zhangjie'>
+<view class="zhangjie_list">章节目录</view>
+</view>
+
+</view>
+
+<view style="margin-top:20rem">
+<block  wx:for="{{zhangjie}}"  wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx" >
+    <view class='zj_list level1' id='{{item.id}}' bindtap="GOzuoti">
+    {{item.title}}
+    
+    </view>
+    <view bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
+     {{items.title}}
+    </view>
+</block>
+
+
+</view>
+
+
