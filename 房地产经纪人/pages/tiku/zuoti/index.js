@@ -12,7 +12,7 @@ const SRCS= {//定义初始图片对象
   "B": "/imgs/B.png",
   "C": "/imgs/C.png",
   "D": "/imgs/D.png",
-  "E":"/imgs/E.png"//测试
+  "E":"/imgs/E.png"
 }
 Page({
 
