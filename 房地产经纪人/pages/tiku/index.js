@@ -21,7 +21,7 @@ Page({
     })
 
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
-      console.log(res); //正确返回结果
+      console.log(res.data); //正确返回结果
       let self = this;
 
       //设置是否有字节属性
@@ -87,17 +87,20 @@ Page({
 
   /*做题 */
   GOzuoti: function(e) {
+    let self = this;
     let z_id = e.currentTarget.id;
+    let zhangIdx = e.currentTarget.dataset.itemidx;//点击的章index
+    let jieIdx = e.currentTarget.dataset.jieidx;//点击的节index
+    let zhangjie = self.data.zhangjie;//章节
+    let nums = zhangjie[zhangIdx].zhangjie_child[jieIdx].nums;
 
-    //console.log(z_id);
     wx.setStorage({
         key: "id",
         data: "0"
       }),
       wx.navigateTo({
-        url: 'zuoti/index?z_id=' + z_id
+        url: 'zuoti/index?z_id=' + z_id + '&nums=' + nums
       })
-
 
   },
   /**

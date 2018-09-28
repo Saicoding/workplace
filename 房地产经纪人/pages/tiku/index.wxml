@@ -42,7 +42,7 @@
           {{item.title}}
         </view>
       </view>
-      <view hidden="{{!item.isFolder}}"  bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
+      <view hidden="{{!item.isFolder}}" data-itemIdx="{{itemIdx}}" wx:for-index="jieIdx" data-jieIdx="{{jieIdx}}"  bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
         {{items.title}}
       </view>
     </view>

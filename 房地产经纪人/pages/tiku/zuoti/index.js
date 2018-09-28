@@ -23,7 +23,6 @@ Page({
     rightNum: 0, //正确题数
     wrongNum: 0, //错误题数
     num: 1, //第几题
-    totalNum: 300, //总题数
     isAnswer: false, //是否已经选择了答案o
     srcs: { //5个选项对应的图片
       "A": "/imgs/A.png",
@@ -46,7 +45,6 @@ Page({
   touchEnd: function(e) {
     var touchMove = e.changedTouches[0].pageX;
 
-    console.log(touchMove + "||" + touchDot)
     // 向左滑动  
     if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
       tmpFlag = false;
@@ -54,21 +52,19 @@ Page({
       //console.log("touchMove:" + touchMove + " touchDot:" + touchDot + " diff:" + (touchMove - touchDot));
       var self = this;
       let num = self.data.num
-      let px = self.data.px
-
+      let px = self.data.px 
       let id = wx.getStorageSync("id");
+      console.log(id);
       if (touchMove - touchDot > 0) {
-        px--;
+        console.log("ky")
         id -= 2;
       } else {
-        px++;
       }
+      
 
-      //console.log("action = SelectShiti & id=" + id + " & z_id=" + self.data.z_id);
-      console.log("action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id)
       app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id).then((res) => {
+        console.log(res.data.shiti)
         if (res.data.shiti.length == 0) {
-
           wx.showToast({
             title: '没有了',
             icon: 'none',
@@ -136,9 +132,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
     var self = this;
     let id = wx.getStorageSync("id");
+
     app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + options.z_id).then((res) => {
       if (res.data.shiti.length == 0) {
         wx.showToast({
@@ -154,7 +150,6 @@ Page({
         return false
       }
       var tx = "";
-      console.log(res.data.shiti[0])
       if (res.data.shiti[0].TX == "1") {
         tx = "单选题"
       } else if (res.data.shiti[0].TX == "2") {
@@ -164,9 +159,9 @@ Page({
       }
       wx.setStorageSync("id", res.data.shiti[0].id);
 
-
       self.setData({
         z_id: options.z_id,
+        nums:options.nums,
         question: res.data.shiti[0].question,
         TX: tx,
         TX_n: res.data.shiti[0].TX,

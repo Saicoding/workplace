@@ -86,24 +86,8 @@
             <text class = "answer-text">{{E}}</text>
           </view>
         </label>
-        
-        <!-- <label class="checkbox">
-          <checkbox value="A" checked="{{checked}}" />A.{{A}}
-        </label>
-        <label class="checkbox" bindchange="checkvalB">
-          <checkbox value="B" checked="{{checked}}" />B.{{A}}
-        </label>
-        <label class="checkbox" bindchange="checkvalC">
-          <checkbox value="C" checked="{{checked}}" />C.{{A}}
-        </label>
-        <label class="checkbox" bindchange="checkvalD">
-          <checkbox value="D" checked="{{checked}}" />D.{{A}}
-        </label>
-        <label class="checkbox" bindchange="checkvalE">
-          <checkbox value="E" checked="{{checked}}" />E.{{E}}
-        </label> -->
-        <button class='submit_answer' bindtap="chenckChange">确认选择</button>
       </view>
+      <button class='submit_answer' bindtap="chenckChange">确认选择</button>
     </checkbox-group>
     <!--条件题-->
     <view wx:if="{{length > 5}}"> 99 </view>
@@ -132,7 +116,7 @@
     <view class="bottom-block">
       <image src="/imgs/square.png" mod="aspectFit" class="bottom-img"></image>
       <view class="bottom-text">{{px}} /</view>
-      <view class="bottom-text" style="color:#a0a0a0;">{{totalNum}}</view>
+      <view class="bottom-text" style="color:#a0a0a0;">{{nums}}</view>
     </view>
   </view>
 </page>
