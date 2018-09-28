@@ -10,6 +10,7 @@ Page({
   data: {
     //array: [{id:0,title:'无网络'}],
     index:0,
+    flag:"哈哈"
   },
   /* 更改题库 */
   bindPickerChange: function (e) {
@@ -32,6 +33,40 @@ Page({
     });
   
  },
+ /**
+  * 当点击章节
+  */
+  onTapZhangjie:function(e){
+    let self = this;
+    let index = e.currentTarget.dataset.itemidx;
+    let zhangjie = self.data.zhangjie;
+    //判断该章节的叠加状态
+    let folder = self.data.zhangjie[index].isFolder
+    if(folder == undefined){
+      zhangjie[index].isFolder = true;
+    }else if(folder){
+      zhangjie[index].isFolder = false;
+    }else{
+      zhangjie[index].isFolder = true;
+    }
+    console.log(zhangjie[index])
+    self.setData({
+      zhangjie: zhangjie
+    })
+  },
+  /**
+   * 
+   */
+  stopTap:function(){
+    return;
+  },
+  /**
+   * 点击章节后，设置该章节对应的folder状态
+   */
+  setFolder:function(){
+
+  },
+
  /*做题 */
   GOzuoti: function (e) {
     
