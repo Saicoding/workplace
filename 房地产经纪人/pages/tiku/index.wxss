@@ -99,37 +99,42 @@
   border-top: 0.5rem #f3f7f8 solid;
 }
 
+.zj_block {
+  margin-top:40rpx;
+}
+
+.zj_title {
+  height:55rpx;
+}
+
 .zj_list {
-  line-height: 2.8rem;
-  height: 3rem;
+  display: inline-block;
   text-indent: 1rem;
-  font-size: 28rpx;
-  border-bottom: 1px dashed #eee;
+  font-size: 30rpx;
+  height:55rpx;
+  vertical-align: middle;
+  line-height:44rpx;
 }
 
 .zhang-icon {
+  display:inline-block;
   width:55rpx;
   height:55rpx;
-  display: float;
-  float:left;
-  margin-left:35rpx;
-  margin-top:25rpx;
+  margin-left:40rpx;
+  vertical-align: top;
 }
 
-.zhang-block {
 
-}
 
 .level2 {
-  text-indent: 1rem;
+  text-indent: 2.3rem;
   color: #333;
   line-height: 2.8rem;
   height: 2.8rem;
   border-bottom: 1px dashed #eee;
   font-size: 29rpx;
   overflow: hidden;
-  width: 90%;
-  margin: auto 0 0 auto;
+  margin-left:65rpx;
   border-left: 1px #eee dashed;
 }
 

@@ -49,7 +49,6 @@ Page({
     }else{
       zhangjie[index].isFolder = true;
     }
-    console.log(zhangjie[index])
     self.setData({
       zhangjie: zhangjie
     })
