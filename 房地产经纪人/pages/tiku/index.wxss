@@ -104,22 +104,22 @@
 }
 
 .zj_title {
-  height:55rpx;
+  height:40rpx;
+  margin-bottom:30rpx;
 }
 
 .zj_list {
   display: inline-block;
-  text-indent: 1rem;
+  text-indent: 10rpx;
   font-size: 30rpx;
-  height:55rpx;
-  vertical-align: middle;
-  line-height:44rpx;
+  height:40rpx;
+  line-height:-40rpx;
 }
 
 .zhang-icon {
   display:inline-block;
-  width:55rpx;
-  height:55rpx;
+  width:40rpx;
+  height:40rpx;
   margin-left:40rpx;
   vertical-align: top;
 }

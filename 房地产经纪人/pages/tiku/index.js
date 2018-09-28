@@ -1,19 +1,18 @@
-const API_URL = 'https://xcx2.chinaplat.com/';//接口地址
+const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 //const https = require('../../utils/util.js');
 const app = getApp();
 
 Page({
-  
+
   /**
    * 页面的初始数据
    */
   data: {
     //array: [{id:0,title:'无网络'}],
-    index:0,
-    flag:"哈哈"
+    index: 0,
   },
   /* 更改题库 */
-  bindPickerChange: function (e) {
+  bindPickerChange: function(e) {
     var self = this
     //console.log('picker发送选择改变，携带值为', self.data.array[e.detail.value].id)
     self.setData({
@@ -22,33 +21,53 @@ Page({
     })
 
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
-      console.log(res);//正确返回结果
+      console.log(res); //正确返回结果
+      let self = this;
+
+      //设置是否有字节属性
+      let zhangjie = res.data.list;
+      for (let i = 0; i < zhangjie.length; i++) {
+        let child = zhangjie[i].zhangjie_child;
+        if (child.length > 0) {
+          zhangjie[i].hasChild = true;
+        } else {
+          zhangjie[i].hasChild = false;
+        }
+      }
       self.setData({
-        zhangjie: res.data.list
+        zhangjie: zhangjie
       })
       wx.hideLoading();
     }).catch((errMsg) => {
-      console.log(errMsg);//错误提示信息
+      console.log(errMsg); //错误提示信息
       wx.hideLoading();
     });
-  
- },
- /**
-  * 当点击章节
-  */
-  onTapZhangjie:function(e){
+
+  },
+  /**
+   * 当点击章节
+   */
+  onTapZhangjie: function(e) {
     let self = this;
-    let index = e.currentTarget.dataset.itemidx;
+    let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie;
-    //判断该章节的叠加状态
-    let folder = self.data.zhangjie[index].isFolder
-    if(folder == undefined){
+    let folder = zhangjie[index].isFolder //章节的展开与折叠状态
+    let hasChild = zhangjie[index].hasChild //是否有子节
+
+    if (!hasChild) {
+      this.GOzuoti(e);
+
+    }
+
+    //设置章节是展开还是折叠状态
+    if (folder == undefined) {
       zhangjie[index].isFolder = true;
-    }else if(folder){
+    } else if (folder) {
       zhangjie[index].isFolder = false;
-    }else{
+    } else {
       zhangjie[index].isFolder = true;
     }
+
     self.setData({
       zhangjie: zhangjie
     })
@@ -56,59 +75,68 @@ Page({
   /**
    * 
    */
-  stopTap:function(){
+  stopTap: function() {
     return;
   },
   /**
    * 点击章节后，设置该章节对应的folder状态
    */
-  setFolder:function(){
+  setFolder: function() {
 
   },
 
- /*做题 */
-  GOzuoti: function (e) {
-    
-      var z_id = e.currentTarget.id;
-      //console.log(z_id);
-      wx.setStorage({
+  /*做题 */
+  GOzuoti: function(e) {
+    let z_id = e.currentTarget.id;
+
+    //console.log(z_id);
+    wx.setStorage({
         key: "id",
         data: "0"
       }),
-        wx.navigateTo({
-        url: 'zuoti/index?z_id='+z_id
-        })
-    
-       
+      wx.navigateTo({
+        url: 'zuoti/index?z_id=' + z_id
+      })
+
+
   },
-   /**
+  /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    var self=this
-    
+  onLoad: function(options) {
+    var self = this
+
     //调用 app.js里的 post()方法
     app.post(API_URL, "action=SelectZj").then((res) => {
-      console.log(res);//正确返回结果
-      
       self.setData({
         array: res.data.list,
         zhangjie_id: res.data.list[0].id,
       })
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
         //console.log(res);//正确返回结果
-        
+        //设置章是否有子节
+        let zhangjie = res.data.list //得到所有章节
+
+        for (let i = 0; i < zhangjie.length; i++) {
+          let child = zhangjie[i].zhangjie_child;
+          if (child.length > 0) {
+            zhangjie[i].hasChild = true;
+          } else {
+            zhangjie[i].hasChild = false;
+          }
+        }
+
         self.setData({
-          zhangjie: res.data.list
-        })  
+          zhangjie: zhangjie
+        })
         wx.hideLoading();
       }).catch((errMsg) => {
-        console.log(errMsg);//错误提示信息
+        console.log(errMsg); //错误提示信息
         wx.hideLoading();
       });
-      
+
     }).catch((errMsg) => {
-      console.log(errMsg);//错误提示信息
+      console.log(errMsg); //错误提示信息
       wx.hideLoading();
     });
   },
@@ -116,49 +144,49 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
 
   }
 })
