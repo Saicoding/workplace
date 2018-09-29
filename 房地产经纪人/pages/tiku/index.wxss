@@ -98,22 +98,31 @@
   border-bottom: 1px solid#eee;
   border-top: 0.5rem #f3f7f8 solid;
 }
-
+/***********************章节目录************************/
 .zj_block {
-  margin-top:40rpx;
+  
 }
 
 .zj_title {
-  height:40rpx;
-  margin-bottom:30rpx;
+  display: inline-block;
+  width:100%;
+  height:100rpx;
+  vertical-align: middle;
 }
 
 .zj_list {
-  display: inline-block;
-  text-indent: 10rpx;
+  display: float;
+  float:left;
   font-size: 30rpx;
-  height:40rpx;
-  line-height:-40rpx;
+  height:100rpx;
+  line-height:32rpx;
+  padding-left:30rpx;
+}
+
+.zhang-icon-block{
+  display: float;
+  float:left;
+  height:100rpx;
 }
 
 .zhang-icon {
@@ -121,19 +130,21 @@
   width:40rpx;
   height:40rpx;
   margin-left:40rpx;
-  vertical-align: top;
+  margin-top:30rpx;
 }
 
-
+.jie{
+  overflow: hidden;
+}
 
 .level2 {
   text-indent: 2.3rem;
   color: #333;
-  line-height: 2.8rem;
-  height: 2.8rem;
   border-bottom: 1px dashed #eee;
   font-size: 29rpx;
   overflow: hidden;
+  line-height:70rpx;
+  height:70rpx;
   margin-left:65rpx;
   border-left: 1px #eee dashed;
 }

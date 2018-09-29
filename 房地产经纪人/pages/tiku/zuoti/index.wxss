@@ -66,11 +66,8 @@ page{
   flex-direction: column;
   padding: 40rpx;
 }
-.log-item {
-  margin: 10rpx;
-}
 .aa{
-  background-color: darkcyan;
+  background-color: #666;
 }
 
 .jiexi {

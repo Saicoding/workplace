@@ -2,7 +2,7 @@
 <page>
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
-  <view class="containers log-list" style='opacity: {{1-opacity}};' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <view class="containers log-list" hidden = "{{isLoaded}}" style='opacity: {{1-opacity}};' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
     <!-- <view class='{{daan_class}}'></view> -->
     <view class="section section_gap" style='display:none'>
       <view class="body-view">

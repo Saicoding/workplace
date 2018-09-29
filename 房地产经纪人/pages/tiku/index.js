@@ -27,6 +27,10 @@ Page({
       //设置是否有字节属性
       let zhangjie = res.data.list;
       for (let i = 0; i < zhangjie.length; i++) {
+        zhangjie[i].height = 0;//设置点击展开初始高度
+        zhangjie[i].display = true;//设置点击展开初始动画为true
+        zhangjie[i].isFolder = true;//设置展开初始值
+
         let child = zhangjie[i].zhangjie_child;
         if (child.length > 0) {
           zhangjie[i].hasChild = true;
@@ -48,41 +52,75 @@ Page({
    * 当点击章节
    */
   onTapZhangjie: function(e) {
+    let scroll = 0;
+    wx.getSystemInfo({
+      success: function (res) {
+        scroll = res.windowHeight+160;
+      },
+    })
+
+    
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie;
     let folder = zhangjie[index].isFolder //章节的展开与折叠状态
     let hasChild = zhangjie[index].hasChild //是否有子节
+    let height = zhangjie[index].height//展开高度
 
     if (!hasChild) {
       this.GOzuoti(e);
-
+      return
     }
 
     //设置章节是展开还是折叠状态
-    if (folder == undefined) {
-      zhangjie[index].isFolder = true;
-    } else if (folder) {
+    if (folder) {
       zhangjie[index].isFolder = false;
-    } else {
-      zhangjie[index].isFolder = true;
-    }
+    } 
 
+    this.step(index,height);
+    console.log(scroll)
     self.setData({
-      zhangjie: zhangjie
+      zhangjie: zhangjie,
+      scroll: scroll
     })
+    
   },
   /**
-   * 
+   * 实现展开折叠效果
    */
-  stopTap: function() {
-    return;
-  },
-  /**
-   * 点击章节后，设置该章节对应的folder状态
-   */
-  setFolder: function() {
+  step:function(index,height){
+    let self = this;
+    let display = self.data.zhangjie[index].display;//取得现在是什么状态
+    let zhangjie = self.data.zhangjie//取得章节对象
+    let num = zhangjie[index].zhangjie_child.length//取得有多少个章节
+  
+    //设置动画循环
+    let interval = setInterval(function(){
+      height = display ? (height + 10) : (height - 10);//根据折叠状态进行页面高度变化
+      zhangjie[index].height = height;
+      self.setData({
+        zhangjie: zhangjie
+      })
 
+      if (height <= 0) {
+        height = 0;
+        zhangjie[index].height = height;
+        zhangjie[index].display = true;
+        zhangjie[index].isFolder = true;
+        self.setData({
+          zhangjie: zhangjie
+        })
+        clearInterval(interval);
+      } else if (height >= 70 * num) {
+        height = 70 * num;        
+        zhangjie[index].height = height;
+        zhangjie[index].display = false;
+        self.setData({
+          zhangjie: zhangjie
+        })
+        clearInterval(interval);
+      }
+    },10)
   },
 
   /*做题 */
@@ -121,6 +159,10 @@ Page({
         let zhangjie = res.data.list //得到所有章节
 
         for (let i = 0; i < zhangjie.length; i++) {
+          zhangjie[i].height = 0;//设置点击展开初始高度
+          zhangjie[i].display = true;//设置点击展开初始动画为true
+          zhangjie[i].isFolder = true;//设置展开初始值
+
           let child = zhangjie[i].zhangjie_child;
           if (child.length > 0) {
             zhangjie[i].hasChild = true;

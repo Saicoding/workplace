@@ -35,7 +35,8 @@ Page({
       "D": "/imgs/D.png",
       "E": "/imgs/E.png",
     },
-    selectAnswer:[]//多选选中的答案
+    selectAnswer:[],//多选选中的答案
+    isLoaded:true //是否已经载入完毕
   },
   // 触摸开始事件
   touchStart: function(e) {
@@ -181,6 +182,7 @@ Page({
         answer: res.data.shiti[0].answer,
         jiexi: res.data.shiti[0].jiexi,
         hiddenjiexi: true,
+        isLoaded: false,
         px: res.data.shiti[0].px,
         //value: res.data.shiti[0].value
       })
@@ -310,7 +312,7 @@ Page({
       if (vm.data.winH > 0) {
         //清除interval 如果不清除interval会一直往上加
         clearInterval(interval)
-        vm.setData({ winH: vm.data.winH - 15, opacity: vm.data.winH / winHeight })
+        vm.setData({ winH: vm.data.winH - 20, opacity: vm.data.winH / winHeight })
         vm.hide()
       }
     }, 10);

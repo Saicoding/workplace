@@ -31,20 +31,25 @@
   </view>
 
 </view>
-
-<view style="margin-top:21rem;margin-bottom:30rpx;">
-  <block wx:for="{{zhangjie}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
-    <!-- 如果是展开状态才显示线条 -->
-    <view class="zj_block {{item.isFolder?'zj_block_side_line':''}}">
-      <view class="zj_title" data-itemIdx="{{itemIdx}}" id='{{item.id}}'  bindtap="onTapZhangjie">
-        <image class="zhang-icon" src="{{item.hasChild?(item.isFolder?'/imgs/unfolder.png':'/imgs/folder.png'):''}}"></image>
-        <view class='zj_list' id='{{item.id}}' >         
+<view style="margin-top:20rem;margin-bottom:30rpx;">
+  <scroll-view scroll-y="true" scroll-into-view="test">
+    <block wx:for="{{zhangjie}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
+      <!-- 如果是展开状态才显示线条 -->
+      <view class="zj_block">
+        <view class="zj_title" data-itemIdx="{{itemIdx}}" id='{{item.id}}' hover-start-time="50" hover-class="select" bindtap="onTapZhangjie">
+          <view class="zhang-icon-block">
+            <image class="zhang-icon" src="{{item.hasChild?(item.isFolder?'/imgs/folder.png':'/imgs/unfolder.png'):''}}"></image>
+          </view>
+          <text class='zj_list' id='{{item.id}}'>
           {{item.title}}
+        </text>
+        </view>
+        <view class="jie" style="height:{{item.height+'rpx'}};">
+          <view id="test" data-itemIdx="{{itemIdx}}" wx:for-index="jieIdx" data-jieIdx="{{jieIdx}}" bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
+            {{items.title}}
+          </view>
         </view>
       </view>
-      <view hidden="{{!item.isFolder}}" data-itemIdx="{{itemIdx}}" wx:for-index="jieIdx" data-jieIdx="{{jieIdx}}"  bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
-        {{items.title}}
-      </view>
-    </view>
-  </block>
+    </block>
+  </scroll-view>
 </view>
