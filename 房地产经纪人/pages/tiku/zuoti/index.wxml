@@ -1,7 +1,9 @@
 <!--pages/tiku/zuoti/index.wxml-->
 <page>
-  <view class="containers" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
-    <view class='{{daan_class}}'></view>
+  <!--蒙版（渐出淡去效果）-->
+  <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
+  <view class="containers log-list" style='opacity: {{1-opacity}};' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+    <!-- <view class='{{daan_class}}'></view> -->
     <view class="section section_gap" style='display:none'>
       <view class="body-view">
         <slider bindchange="slider3change" block-size="10" value="{{value}}" show-value/>
@@ -46,7 +48,6 @@
     <!--多选题-->
     <checkbox-group bindchange='checkval'>
       <view wx:if="{{TX_n ==2}}" class='checkbox-group'>
-
         <label class="checkbox">
           <checkbox hidden value="A" checked="{{checked}}" />
           <view class="answer-block">
@@ -86,14 +87,22 @@
             <text class = "answer-text">{{E}}</text>
           </view>
         </label>
+        <button class='submit_answer' bindtap="chenckChange">确认选择</button>
       </view>
-      <button class='submit_answer' bindtap="chenckChange">确认选择</button>
     </checkbox-group>
     <!--条件题-->
     <view wx:if="{{length > 5}}"> 99 </view>
 
-
     <view style='clear:both'></view>
+
+    <!-- 解析条样式 -->
+    <view class="jiexi_border" hidden = "{{hiddenjiexi}}">
+       <view class = "line"></view>
+       <text class="txt">解析</text>
+       <view class = "line"></view>
+    </view>
+
+    <!-- 解析描述 -->
     <view class='jiexi' hidden="{{hiddenjiexi}}">
       <view style="padding-top:40rpx;">{{jiexi}}</view>
     </view>

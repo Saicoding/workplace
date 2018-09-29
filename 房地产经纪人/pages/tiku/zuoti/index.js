@@ -1,5 +1,9 @@
 // pages/tiku/zuoti/index.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+
+const util = require('../../../utils/util.js')
+//把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
+const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
 var touchDot = 0; //触摸时的原点
 var time = 0; //  时间记录，用于滑动时且时间小于1s则执行左右滑动
@@ -41,6 +45,9 @@ Page({
       time++;
     }, 100);
   },
+  touchMove:function(e){
+    console.log(e);
+  },
   // 触摸结束事件
   touchEnd: function(e) {
     var touchMove = e.changedTouches[0].pageX;
@@ -56,12 +63,9 @@ Page({
       let id = wx.getStorageSync("id");
       console.log(id);
       if (touchMove - touchDot > 0) {
-        console.log("ky")
         id -= 2;
-      } else {
-      }
+      } 
       
-
       app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id).then((res) => {
         console.log(res.data.shiti)
         if (res.data.shiti.length == 0) {
@@ -89,6 +93,7 @@ Page({
         wx.setStorageSync("id", res.data.shiti[0].id);
 
         self.setData({
+          hiddenjiexi: true,
           num: num, //翻一页题目num增1
           isAnswer: false,
           srcs: { //4个选项对应的图片
@@ -108,7 +113,6 @@ Page({
           E: res.data.shiti[0].E,
           answer: res.data.shiti[0].answer,
           jiexi: res.data.shiti[0].jiexi,
-          hiddenjiexi: true,
           checked: false,
           daan_class: '',
           px: res.data.shiti[0].px,
@@ -160,6 +164,10 @@ Page({
       wx.setStorageSync("id", res.data.shiti[0].id);
 
       self.setData({
+        //设置过场动画
+        winH: wx.getSystemInfoSync().windowHeight,
+        opacity: 1,
+
         z_id: options.z_id,
         nums:options.nums,
         question: res.data.shiti[0].question,
@@ -293,7 +301,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    this.hide()
+  },
+  //核心方法，线程与setData
+  hide: function () {
+    var vm = this
+    var interval = setInterval(function () {
+      if (vm.data.winH > 0) {
+        //清除interval 如果不清除interval会一直往上加
+        clearInterval(interval)
+        vm.setData({ winH: vm.data.winH - 15, opacity: vm.data.winH / winHeight })
+        vm.hide()
+      }
+    }, 10);
   },
 
   /**
