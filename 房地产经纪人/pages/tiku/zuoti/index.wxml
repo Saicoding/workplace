@@ -2,7 +2,7 @@
 <page>
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
-  <view class="containers log-list" hidden = "{{isLoaded}}" style='opacity: {{1-opacity}};' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <view class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
     <!-- <view class='{{daan_class}}'></view> -->
     <view class="section section_gap" style='display:none'>
       <view class="body-view">
@@ -10,7 +10,14 @@
       </view>
     </view>
     <view class='question'>
-      {{px}}.( {{TX}} ). {{question}}
+      <view class = "question-block1">
+        <view style = "display:float;float:left; ">
+          <image class= "question-icon"  src="/imgs/book.png"></image>
+        </view>
+        <view class ="qustion-select">{{TX}}</view>      
+      </view>
+      <view class = "qustion-num-text">{{px}}</view>
+      {{question}}
     </view>
     <!--单选题-->
     <view wx:if="{{TX_n ==1}}">
@@ -19,28 +26,28 @@
           <radio hidden value="A" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.A}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{A}}</text>
+            <text class="answer-text">{{A}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="B" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.B}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{B}}</text>
+            <text class="answer-text">{{B}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="C" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.C}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{C}}</text>
+            <text class="answer-text">{{C}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="D" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.D}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{D}}</text>
+            <text class="answer-text">{{D}}</text>
           </view>
         </label>
       </radio-group>
@@ -52,7 +59,7 @@
           <checkbox hidden value="A" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.A}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{A}}</text>
+            <text class="answer-text">{{A}}</text>
           </view>
         </label>
 
@@ -60,7 +67,7 @@
           <checkbox hidden value="B" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.B}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{B}}</text>
+            <text class="answer-text">{{B}}</text>
           </view>
         </label>
 
@@ -68,7 +75,7 @@
           <checkbox hidden value="C" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.C}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{C}}</text>
+            <text class="answer-text">{{C}}</text>
           </view>
         </label>
 
@@ -76,7 +83,7 @@
           <checkbox hidden value="D" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.D}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{D}}</text>
+            <text class="answer-text">{{D}}</text>
           </view>
         </label>
 
@@ -84,7 +91,7 @@
           <checkbox hidden value="E" checked="{{checked}}" />
           <view class="answer-block">
             <image src="{{srcs.E}}" mod="aspectFit" class="answer-img"></image>
-            <text class = "answer-text">{{E}}</text>
+            <text class="answer-text">{{E}}</text>
           </view>
         </label>
         <button class='submit_answer' bindtap="chenckChange">确认选择</button>
@@ -96,10 +103,10 @@
     <view style='clear:both'></view>
 
     <!-- 解析条样式 -->
-    <view class="jiexi_border" hidden = "{{hiddenjiexi}}">
-       <view class = "line"></view>
-       <text class="txt">解析</text>
-       <view class = "line"></view>
+    <view class="jiexi_border" hidden="{{hiddenjiexi}}">
+      <view class="line"></view>
+      <text class="txt">解析</text>
+      <view class="line"></view>
     </view>
 
     <!-- 解析描述 -->

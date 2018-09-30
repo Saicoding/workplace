@@ -3,10 +3,35 @@ page{
   margin: 0px;
   padding:0px;
 }
+
+/******************** 提问 **********************/
 .question {
   line-height: 1.5rem;
   width: 96%;
   margin: 0.5rem auto 1rem auto;
+}
+
+.question-icon{
+  width:40rpx;
+  height:40rpx;
+  vertical-align:middle;
+}
+
+.question-block1{
+  display: float;
+  float:left;
+  vertical-align:middle;
+}
+
+.qustion-num-text{
+  display: float;
+  float:left;
+}
+
+.qustion-select{
+  vertical-align:middle;
+  display: float;
+  float:left;
 }
 
 .radio-group {
