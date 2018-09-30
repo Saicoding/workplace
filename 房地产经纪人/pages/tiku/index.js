@@ -53,19 +53,21 @@ Page({
    */
   onTapZhangjie: function(e) {
     let scroll = 0;
-    wx.getSystemInfo({
-      success: function (res) {
-        scroll = res.windowHeight+160;
-      },
-    })
 
-    
+    //判断点击展开后 字节的高度+
+
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
-    let zhangjie = self.data.zhangjie;
+    let zhangjie = self.data.zhangjie;//取得章节对象
     let folder = zhangjie[index].isFolder //章节的展开与折叠状态
     let hasChild = zhangjie[index].hasChild //是否有子节
     let height = zhangjie[index].height//展开高度
+    let windowWidth = self.data.windowWidth;
+    let num = zhangjie[index].zhangjie_child.length//取得有多少个章节
+    let jie_height = num * 70 * windowWidth /750 //获得字节高度(px),因为在定义节高度的时候用的是rpx，而滚动条位置是用px定位的，所以需要转换
+    let zhangjie_block_height = 750 * windowWidth /750 //获得章节模块距离顶部的距离,转换同上
+    scroll = index * 100 * (windowWidth / 750)
+    
 
     if (!hasChild) {
       this.GOzuoti(e);
@@ -77,29 +79,29 @@ Page({
       zhangjie[index].isFolder = false;
     } 
 
-    this.step(index,height);
-    console.log(scroll)
+    //开始动画
+    this.step(index,height,num,scroll);
+
     self.setData({
       zhangjie: zhangjie,
-      scroll: scroll
     })
     
   },
   /**
    * 实现展开折叠效果
    */
-  step:function(index,height){
+  step:function(index,height,num,scroll){
     let self = this;
     let display = self.data.zhangjie[index].display;//取得现在是什么状态
     let zhangjie = self.data.zhangjie//取得章节对象
-    let num = zhangjie[index].zhangjie_child.length//取得有多少个章节
   
     //设置动画循环
     let interval = setInterval(function(){
       height = display ? (height + 10) : (height - 10);//根据折叠状态进行页面高度变化
       zhangjie[index].height = height;
       self.setData({
-        zhangjie: zhangjie
+        zhangjie: zhangjie,
+        scroll:scroll
       })
 
       if (height <= 0) {
@@ -145,7 +147,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var self = this
+    let self = this; 
+    let windowWidth = wx.getSystemInfoSync().windowWidth;//获取窗口宽度(px)
+    let windowHeight = wx.getSystemInfoSync().windowHeight;//获取窗口高度(px)
+    windowHeight = (windowHeight * (750 / windowWidth));//转换窗口高度(rpx)
+
+    let scrollHeight = windowHeight - 720 //计算滚动框高度(rpx)
 
     //调用 app.js里的 post()方法
     app.post(API_URL, "action=SelectZj").then((res) => {
@@ -170,9 +177,11 @@ Page({
             zhangjie[i].hasChild = false;
           }
         }
-
         self.setData({
-          zhangjie: zhangjie
+          zhangjie: zhangjie,
+          windowWidth: windowWidth,//窗口宽度
+          windowHeight:windowHeight, //窗口可视高度
+          scrollHeight: scrollHeight,//滚动条高度
         })
         wx.hideLoading();
       }).catch((errMsg) => {
