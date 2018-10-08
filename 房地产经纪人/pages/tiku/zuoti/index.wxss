@@ -1,37 +1,47 @@
 /* pages/tiku/zuoti/index.wxss */
-page{
+
+page {
   margin: 0px;
-  padding:0px;
+  padding: 0px;
 }
 
 /******************** 提问 **********************/
+
 .question {
-  line-height: 1.5rem;
+  line-height: 60rpx;
   width: 96%;
-  margin: 0.5rem auto 1rem auto;
+  margin: 15rpx auto 20rpx auto;
 }
 
-.question-icon{
-  width:40rpx;
-  height:40rpx;
-  vertical-align:middle;
-}
-
-.question-block1{
+.question-block1 {
+  width: 150rpx;
+  height: 40rpx;
+  border-radius: 40rpx;
   display: float;
-  float:left;
-  vertical-align:middle;
+  float: left;
+  vertical-align: middle;
+  margin-top: 11rpx;
+  line-height: 40rpx;
 }
 
-.qustion-num-text{
+.qustion-num-text {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 40rpx;
+  color:white;
+  background: #1b9af7;
   display: float;
-  float:left;
+  float: left;
+  text-align: center;
 }
 
-.qustion-select{
-  vertical-align:middle;
+.qustion-select {
+  height: 40rpx;
+  vertical-align: middle;
+  text-align: right;
   display: float;
-  float:left;
+  float: right;
+  margin-right: 20rpx;
 }
 
 .radio-group {
@@ -67,23 +77,26 @@ page{
   line-height: 1.5rem;
   margin: 0.8rem auto;
 }
+
 /******************** 解析 **********************/
-.jiexi_border{
+
+.jiexi_border {
   height: 80rpx;
   line-height: 120rpx;
   text-align: center;
 }
 
 .jiexi_border .line {
-   display: inline-block;
-   width: 240rpx;
-   border-top: 1px solid #ccc ;
+  display: inline-block;
+  width: 240rpx;
+  border-top: 1px solid #ccc;
 }
+
 .jiexi_border .txt {
-   color: #686868;
-   margin:0 20rpx;
-   font-size:25rpx;
-   vertical-align: middle;
+  color: #686868;
+  margin: 0 20rpx;
+  font-size: 25rpx;
+  vertical-align: middle;
 }
 
 .log-list {
@@ -91,7 +104,8 @@ page{
   flex-direction: column;
   padding: 40rpx;
 }
-.aa{
+
+.aa {
   background-color: #666;
 }
 
@@ -104,7 +118,9 @@ page{
   line-height: 2rem;
   height: 2rem;
 }
+
 /******************** 提交答案 **********************/
+
 .submit_answer {
   width: 50%;
 }
@@ -124,43 +140,47 @@ page{
   height: 2rem;
   bottom: 0;
   border-top: 1px solid#f3f3f3;
-  padding-top:18rpx;
-  padding-left:-30rpx;
-  background-color:#fbf9f9;
+  padding-top: 18rpx;
+  padding-left: -30rpx;
+  background-color: #fbf9f9;
 }
 
-.bottom-text{
+.bottom-text {
   font-size: 35rpx;
   display: inline-block;
-  margin-left:30rpx;
-  padding-top:-50rpx;
+  margin-left: 30rpx;
+  padding-top: -50rpx;
 }
 
-.bottom-block{
- display: inline-block;
- margin-left:100rpx;
+.bottom-block {
+  display: inline-block;
+  margin-left: 100rpx;
 }
 
-.bottom-img{
-  width:30rpx;
-  height:30rpx;
+.bottom-img {
+  width: 30rpx;
+  height: 30rpx;
   display: inline-block;
 }
+
 /* 答案选项前面的图片 */
-.answer-img{
-  width:50rpx;
-  height:50rpx;
+
+.answer-img {
+  width: 50rpx;
+  height: 50rpx;
   display: float;
-  float:left;
+  float: left;
 }
+
 /* 答案选项的文字 */
-.answer-text{
+
+.answer-text {
   display: float;
-  float:left;
-  width:620rpx;
-  height:50rpx;
+  float: left;
+  width: 620rpx;
+  height: 50rpx;
   line-height: 45rpx;
-  margin-left:30rpx;
+  margin-left: 30rpx;
 }
 
 .containers {
@@ -173,7 +193,6 @@ page{
 page {
   height: 100%;
 }
-
 
 .daan_dui {
   position: fixed;

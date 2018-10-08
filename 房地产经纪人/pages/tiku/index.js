@@ -23,6 +23,7 @@ Page({
       scroll: 0//初始化
     })
 
+
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
       console.log(res.data); //正确返回结果
       let self = this;
@@ -106,7 +107,7 @@ Page({
 
     //设置动画循环
     let interval = setInterval(function() {
-      height = display ? (height + 10) : (height - 10); //根据折叠状态进行页面高度变化
+      height = display ? (height + 20) : (height - 20); //根据折叠状态进行页面高度变化
       zhangjie[index].height = height;
       self.setData({
         zhangjie: zhangjie,
@@ -142,7 +143,7 @@ Page({
         })
         clearInterval(interval);
       }
-    }, 10)
+    }, 5)
   },
 
   /*做题 */
@@ -175,6 +176,7 @@ Page({
     let scrollHeight = windowHeight - 720 //计算滚动框高度(rpx)
 
     //调用 app.js里的 post()方法
+
     app.post(API_URL, "action=SelectZj").then((res) => {
       self.setData({
         array: res.data.list,

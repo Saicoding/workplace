@@ -10,14 +10,11 @@
       </view>
     </view>
     <view class='question'>
-      <view class = "question-block1">
-        <view style = "display:float;float:left; ">
-          <image class= "question-icon"  src="/imgs/book.png"></image>
-        </view>
-        <view class ="qustion-select">{{TX}}</view>      
+      <view class="question-block1" style="background:linear-gradient(to bottom right, white, {{TX=='单选题'?'#1b9af7':'#a5de37'}});">
+        <view class="qustion-num-text" style = "background:{{TX == '单选题'?'#1b9af7':'#a5de37'}}">{{px}}</view>
+        <view class="qustion-select">{{TX}}</view>
       </view>
-      <view class = "qustion-num-text">{{px}}</view>
-      {{question}}
+      　{{question}}
     </view>
     <!--单选题-->
     <view wx:if="{{TX_n ==1}}">
