@@ -29,7 +29,7 @@
   width: 100%;
   border-bottom: 1px #eee solid;
   height: 450rpx;
-  padding-bottom:50rpx;
+  padding-bottom: 50rpx;
 }
 
 .t_left {
@@ -99,58 +99,106 @@
   border-bottom: 1px solid#eee;
   border-top: 0.5rem #f3f7f8 solid;
 }
+
 /***********************章节目录************************/
+
 .zj_block {
- 
+
 }
 
 .zj_title {
-  display: inline-block;
-  width:100%;
-  height:100rpx;
+  clear: both;
+  display: float;
+  float:left;
+  width: 87%;
+  height: 100rpx;
   vertical-align: middle;
+  /* border: 1px solid blue; */
 }
 
-.zj_list {
+.jie_title{
+  clear: both;
   display: float;
   float:left;
-  font-size: 30rpx;
-  height:100rpx;
-  line-height:32rpx;
-  padding-left:30rpx;
-}
-
-.zhang-icon-block{
-  display: float;
-  float:left;
-  height:100rpx;
-}
-
-.zhang-icon {
-  display:inline-block;
-  width:40rpx;
-  height:40rpx;
-  margin-left:40rpx;
-  margin-top:30rpx;
-}
-
-.jie{
-  /* hidden是为了实现点击后有动画效果 */
-  overflow: hidden;
-}
-
-.level2 {
+  width:78%;
+  /* border:1px solid red; */
   text-indent: 50rpx;
   color: #333;
   border-bottom: 1px dashed #eee;
   font-size: 29rpx;
-  overflow: hidden;
-  line-height:70rpx;
-  height:70rpx;
-  margin-left:65rpx;
+  line-height: 70rpx;
+  height: 70rpx;
+  margin-left: 65rpx;
   border-left: 1px #eee dashed;
+}
+
+.zj_list {
+  display: float;
+  float: left;
+  font-size: 30rpx;
+  height: 100rpx;
+  line-height: 33rpx;
+  padding-left: 20rpx;
+}
+
+.zhang-icon-block {
+  display: float;
+  float: left;
+  height: 100rpx;
+}
+
+.zhang-icon {
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 10rpx;
+  margin-top: 30rpx;
+}
+
+.jie {
+  /* hidden是为了实现点击后有动画效果 */
+  overflow: hidden;
+  clear:both;
+}
+
+.level2 {
+
 }
 
 .select {
   background-color: #eee;
+}
+
+/********************章节后面的数字统计*******************/
+
+.answer_number {
+  /* border:1px solid pink; */
+  display: float;
+  float:right;
+  width: 9%;
+  height:69rpx;
+  padding-top:31rpx;
+  padding-right:20rpx;
+  font-size:25rpx;
+}
+
+.answer_number_1, .answer_number_m, .answer_number_2 {
+  display: float;
+  float: right;
+}
+
+.answer_number_jie {
+  display: float;
+  float:right;
+  width: 9%;
+  height:40rpx;
+  padding-top:18rpx;
+  padding-right:20rpx;
+  font-size:25rpx;
+  /* border:1px solid yellow; */
+}
+
+.answer_number_jie_1, .answer_number_jie_m, .answer_number_jie_2 {
+  display: float;
+  float: right;
 }

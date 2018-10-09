@@ -1,8 +1,8 @@
-<view class="index-top" >
+<view class="index-top">
   <picker range="{{array}}" range-key="title" class='picker changeType' value="{{Index}}" bindchange="bindPickerChange" data-selecthx="{{array[index].title}}">
     <text class='mulu'>当前题库</text>
     <view value="{{index}}">
-      {{array[index].title}} >
+      {{array[index].title}}>
     </view>
   </picker>
 
@@ -32,7 +32,7 @@
 
 </view>
 <view style="margin-top:720rpx;">
-  <scroll-view  style="height:{{scrollHeight}}rpx;" scroll-y="true" scroll-top="{{scroll}}">
+  <scroll-view style="height:{{scrollHeight}}rpx;" scroll-y="true" scroll-top="{{scroll}}">
     <block wx:for="{{zhangjie}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
       <!-- 如果是展开状态才显示线条 -->
       <view class="zj_block">
@@ -42,11 +42,22 @@
           </view>
           <text class='zj_list' id='{{item.id}}'>
           {{item.title}}
-        </text>
+           </text>
         </view>
+        <view class="answer_number">
+          <view class="answer_number_1">{{item.nums}}</view>
+          <view class="answer_number_m">/</view>
+          <view class="answer_number_2">{{item.zhang_answer_num}}</view>
+        </view>
+
         <view class="jie" style="height:{{item.height+'rpx'}};">
           <view data-itemIdx="{{itemIdx}}" wx:for-index="jieIdx" data-jieIdx="{{jieIdx}}" bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
-            {{items.title}}
+            <view class="jie_title">{{items.title}}</view>
+            <view class="answer_number_jie">
+              <view class="answer_number_jie_1">{{items.nums}}</view>
+              <view class="answer_number_jie_m">/</view>
+              <view class="answer_number_jie_2">{{items.answer_nums}}</view>
+            </view>
           </view>
         </view>
       </view>

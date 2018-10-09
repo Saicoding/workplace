@@ -10,11 +10,11 @@
       </view>
     </view>
     <view class='question'>
-      <view class="question-block1" style="background:linear-gradient(to bottom right, white, {{TX=='单选题'?'#1b9af7':'#a5de37'}});">
-        <view class="qustion-num-text" style = "background:{{TX == '单选题'?'#1b9af7':'#a5de37'}}">{{px}}</view>
-        <view class="qustion-select">{{TX}}</view>
+      <view class="question-block1">
+        <view class="qustion-num-text" style = "background:{{num_color}}">{{go_nums}}</view>
+        <view class="qustion-select" style = "color:{{num_color}}">【{{TX}}】</view>
       </view>
-      　{{question}}
+      {{question}}{{getSelect}}
     </view>
     <!--单选题-->
     <view wx:if="{{TX_n ==1}}">
@@ -128,7 +128,7 @@
 
     <view class="bottom-block">
       <image src="/imgs/square.png" mod="aspectFit" class="bottom-img"></image>
-      <view class="bottom-text">{{px}} /</view>
+      <view class="bottom-text">{{go_nums}} /</view>
       <view class="bottom-text" style="color:#a0a0a0;">{{nums}}</view>
     </view>
   </view>

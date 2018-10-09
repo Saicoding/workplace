@@ -14,9 +14,7 @@ page {
 }
 
 .question-block1 {
-  width: 150rpx;
   height: 40rpx;
-  border-radius: 40rpx;
   display: float;
   float: left;
   vertical-align: middle;
@@ -25,14 +23,18 @@ page {
 }
 
 .qustion-num-text {
-  width: 40rpx;
-  height: 40rpx;
-  border-radius: 40rpx;
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50rpx;
   color:white;
   background: #1b9af7;
+  font-size: 28rpx;
   display: float;
   float: left;
   text-align: center;
+  margin-top:-5rpx;
+  line-height:50rpx;
+  vertical-align: middle;
 }
 
 .qustion-select {
@@ -40,8 +42,9 @@ page {
   vertical-align: middle;
   text-align: right;
   display: float;
-  float: right;
-  margin-right: 20rpx;
+  float: left;
+  letter-spacing:9rpx;
+  margin-left:10rpx;
 }
 
 .radio-group {

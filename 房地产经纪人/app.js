@@ -29,6 +29,7 @@ App({
         method: 'POST',
         header: { 'content-type': 'application/x-www-form-urlencoded' },
         success: function (res) {//服务器返回数据
+        // console.log(res)
           if (res.data.status == 1) {
             resolve(res);
           } else {
@@ -48,14 +49,18 @@ App({
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+
+    let code = "";
+    
 
     // 登录
     wx.login({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        code = res.code;
       }
     })
+
     // 获取用户信息
     wx.getSetting({
       success: res => {
@@ -78,6 +83,6 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
   }
 })
