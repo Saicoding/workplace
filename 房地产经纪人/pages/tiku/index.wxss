@@ -110,7 +110,7 @@
   clear: both;
   display: float;
   float:left;
-  width: 87%;
+  width: 85%;
   height: 100rpx;
   vertical-align: middle;
   /* border: 1px solid blue; */
@@ -120,7 +120,7 @@
   clear: both;
   display: float;
   float:left;
-  width:78%;
+  width:76%;
   /* border:1px solid red; */
   text-indent: 50rpx;
   color: #333;
@@ -175,7 +175,7 @@
   /* border:1px solid pink; */
   display: float;
   float:right;
-  width: 9%;
+  width: 11%;
   height:69rpx;
   padding-top:31rpx;
   padding-right:20rpx;
@@ -190,7 +190,7 @@
 .answer_number_jie {
   display: float;
   float:right;
-  width: 9%;
+  width: 11%;
   height:40rpx;
   padding-top:18rpx;
   padding-right:20rpx;

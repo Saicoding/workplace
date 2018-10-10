@@ -198,7 +198,6 @@ Page({
     //如果章节没有字节,将章节总题数置为做题数
     let nums = 0;
     if (zhangjie[zhangIdx].zhangjie_child.length != 0) {
-      console.log(zhangjie[zhangIdx].zhangjie_child[jieIdx])
       nums = zhangjie[zhangIdx].zhangjie_child[jieIdx].nums;
     } else {
       nums = zhangjie[zhangIdx].nums;

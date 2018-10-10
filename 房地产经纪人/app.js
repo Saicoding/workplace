@@ -51,8 +51,8 @@ App({
     logs.unshift(Date.now())
 
     let code = "";
-    
-
+    //清理缓存
+    wx.clearStorage();
     // 登录
     wx.login({
       success: res => {
