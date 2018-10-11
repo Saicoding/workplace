@@ -10,8 +10,8 @@ Page({
   data: {
     //array: [{id:0,title:'无网络'}],
     index: 0,
-    folder_object: [] ,//展开字节的对象,用于判断点击的章之前有多少个字节被展开
-    loaded:false//是否已经载入一次
+    folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
+    loaded: false //是否已经载入一次
   },
   /* 更改题库 */
   bindPickerChange: function(e) {
@@ -188,28 +188,41 @@ Page({
   /*做题 */
   GOzuoti: function(e) {
     let self = this;
-    let z_id = e.currentTarget.id;
-    let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
-    let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
+    //获取是否有登录权限
+    wx.getStorage({
+      key: 'user',
+      success: function(res) { //如果已经登陆过
+        console.log(res)
+        let z_id = e.currentTarget.id;
+        let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
+        let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
 
-    let zhangjie = self.data.zhangjie; //章节
-    let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
+        let zhangjie = self.data.zhangjie; //章节
+        let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
 
-    //如果章节没有字节,将章节总题数置为做题数
-    let nums = 0;
-    if (zhangjie[zhangIdx].zhangjie_child.length != 0) {
-      nums = zhangjie[zhangIdx].zhangjie_child[jieIdx].nums;
-    } else {
-      nums = zhangjie[zhangIdx].nums;
-    }
+        //如果章节没有字节,将章节总题数置为做题数
+        let nums = 0;
+        if (zhangjie[zhangIdx].zhangjie_child.length != 0) {
+          nums = zhangjie[zhangIdx].zhangjie_child[jieIdx].nums;
+        } else {
+          nums = zhangjie[zhangIdx].nums;
+        }
+        console.log(z_id)
+        wx.setStorage({
+            key: 'id',
+            data: "0"
+          }),
+          wx.navigateTo({
+            url: 'zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx
+          })
 
-    wx.setStorage({
-        key: 'id',
-        data: "0"
-      }),
-      wx.navigateTo({
-        url: 'zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx
-      })
+      },
+      fail: function(res) { //如果没有username就跳转到登录界面
+        wx.navigateTo({
+          url: '/pages/login1/login1',
+        })
+      }
+    })
   },
 
 
@@ -291,7 +304,7 @@ Page({
           windowWidth: windowWidth, //窗口宽度
           windowHeight: windowHeight, //窗口可视高度
           scrollHeight: scrollHeight, //滚动条高度
-          loaded:true//已经载入完毕
+          loaded: true //已经载入完毕
         })
         wx.hideLoading();
       }).catch((errMsg) => {
@@ -319,7 +332,7 @@ Page({
   onShow: function() {
     let self = this;
     let zhangjie = self.data.zhangjie;
-    if(!self.data.loaded) return //如果没有完成首次载入就什么都不作
+    if (!self.data.loaded) return //如果没有完成首次载入就什么都不作
     // 得到存储答题状态
     wx.getStorage({
       key: self.data.zhangjie_id,

@@ -50,45 +50,9 @@ Page({
   touchMove: function(e) {
 
   },
-  /**
-   * 处理如果是已经作答过的试题
-   */
-  ifAnswered: function() {
-    let self = this;
-    let zhangIdx = self.data.zhangIdx;
-    let jieIdx = self.data.jieIdx;
-    var srcs = self.data.srcs; //选项前的图标对象
-    let daan = "";
-    wx.getStorage({
-      key: self.data.zhangjie_id,
-      success: function(res) {
-        if (jieIdx != "undefined") { //章有字节
-          let jie_answer_array = res.data[zhangIdx][jieIdx]
-          for (let i = 0; i < jie_answer_array.length; i++) {
-            if (jie_answer_array[i].id == self.data.id) {
-              daan = jie_answer_array[i].daan;
-            }
-          }
-        }
-
-        //先判断是否正确
-        if (daan != self.data.answer) {
-          srcs[daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
-        }
-        srcs[self.data.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
-
-        self.setData({
-          hiddenjiexi: false,
-          srcs: srcs, //更新srcs状态
-          isAnswer: true, //设置成已经回答
-          daan: daan //选中的答案
-        })
-      },
-    })
-  },
   // 触摸结束事件
   touchEnd: function(e) {
-    // this.ifAnswered();
+    let self = this;
     var touchMove = e.changedTouches[0].pageX;
 
     // 向左滑动  
@@ -98,19 +62,38 @@ Page({
       //console.log("touchMove:" + touchMove + " touchDot:" + touchDot + " diff:" + (touchMove - touchDot));
       let self = this;
       let order = "";
-      let num = self.data.num
-      let go_nums = self.data.go_nums; //第几题
+      let num = self.data.num;
       let id = wx.getStorageSync("id");
-      if (touchMove - touchDot > 0) {
-        order = "desc";
-        go_nums--; //逆序页码减1
-      } else {
-        order = "asc"
-        go_nums++; //正序页码加1
-      }
 
+      order = touchMove - touchDot > 0 ? "desc" : "asc";
+
+      console.log(id+"||"+order)
+
+      //存储当前最后一题
+      let zhangIdx = self.data.zhangIdx;
+      let jieIdx = self.data.jieIdx;
+      let last_view_key = ""; //存储上次访问的题目的key
+      if (jieIdx != "undefined") { //如果有子节
+        last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx
+      } else { //如果没有子节
+        last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx
+      }
+      self.setData({
+        last_view_key: last_view_key
+      })
+      //本地存储最后一次访问的题目
+      wx.setStorage({
+        key: self.data.last_view_key,
+        data: {
+          'id': self.data.id,
+          'order': order
+        },
+      })
+      console.log("action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id + "&order=" + order)
       app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id + "&order=" + order).then((res) => {
-        this.reset(self.data.srcs);//重置答题状态
+        console.log(res.data.shiti[0].id + "里面")
+        console.log(res.data.shiti[0].px)
+        this.reset(self.data.srcs); //重置答题状态
         if (res.data.shiti.length == 0) {
           wx.showToast({
             title: '没有了',
@@ -135,8 +118,8 @@ Page({
 
         wx.getStorage({
           key: zhangjie_id,
-          success: function (res1) {
-            if (jieIdx != "undefined") {//章有字节
+          success: function(res1) {
+            if (jieIdx != "undefined") { //章有字节
               let jie_answer_array = res1.data[zhangIdx][jieIdx]
               for (let i = 0; i < jie_answer_array.length; i++) {
 
@@ -179,7 +162,6 @@ Page({
         self.setData({
           hiddenjiexi: true,
           id: res.data.shiti[0].id, //书的ID编号
-          go_nums: go_nums, //翻一页题目num增1
           num_color: num_color, //编号颜色
           isAnswer: false,
           srcs: { //4个选项对应的图片
@@ -190,6 +172,7 @@ Page({
             "E": "/imgs/E.png",
           },
           question: res.data.shiti[0].question,
+          px: res.data.shiti[0].px, //题编号
           TX: tx,
           TX_n: res.data.shiti[0].TX,
           A: res.data.shiti[0].A,
@@ -225,33 +208,23 @@ Page({
 
     //根据章是否有字节来定制最后一次访问的key
     let last_view_key = "";
-    let first_view_key = ""
     if (options.jieIdx != "undefined") { //如果有字节
       last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + options.jieIdx;
-      first_view_key = 'first_view' + options.zhangjie_id + options.zhangIdx + options.jieIdx;
     } else {
       last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx;
-      first_view_key = 'first_view' + options.zhangjie_id + options.zhangIdx;
     }
 
+    let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目id和顺序
+    let id = last_view.id; //最后一次浏览的题的编号
 
-    let id = wx.getStorageSync(last_view_key) - 1; //得到最后一次的题目id
-    let num_color = "";//单选,多选,材料题标识颜色
+    if (id == undefined) {
+      id = 0
+    } //如果没有这个id说明这个章节首次访问
 
-    app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + options.z_id).then((res) => {
-      if (id == -1) { //说明是首次,记录首个试题的id到本地
-        wx.setStorageSync(first_view_key, res.data.shiti[0].id)
-      }
-      wx.getStorage({
-        key: first_view_key,
-        success: function(res1) {
-          let go_nums = (res.data.shiti[0].id -res1.data)+1;
-          self.setData({
-            go_nums:go_nums
-          })
-        },
-      })
+    let order = last_view.order;
+    let num_color = ""; //单选,多选,材料题标识颜色
 
+    app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + options.z_id + "&order=" + order).then((res) => {
       //先判断是否是已经作答过的题
       let zhangIdx = options.zhangIdx;
       let jieIdx = options.jieIdx;
@@ -261,12 +234,12 @@ Page({
 
       wx.getStorage({
         key: options.zhangjie_id,
-        success: function (res1) {
-          if (jieIdx != "undefined") {//章有字节
+        success: function(res1) {
+          if (jieIdx != "undefined") { //章有字节
             let jie_answer_array = res1.data[zhangIdx][jieIdx]
             for (let i = 0; i < jie_answer_array.length; i++) {
 
-              if (jie_answer_array[i].id == res.data.shiti[0].id) {//如果是已答题目
+              if (jie_answer_array[i].id == res.data.shiti[0].id) { //如果是已答题目
                 done_daan = jie_answer_array[i].daan;
                 //先判断是否正确
                 if (done_daan != res.data.shiti[0].answer) {
@@ -286,6 +259,7 @@ Page({
           })
         },
       })
+
 
       if (res.data.shiti.length == 0) {
         wx.showToast({
@@ -317,7 +291,7 @@ Page({
         //设置过场动画
         winH: wx.getSystemInfoSync().windowHeight,
         opacity: 1,
-        go_nums: 1,
+        px: res.data.shiti[0].px,
         id: res.data.shiti[0].id, //书的ID编号
         num_color: num_color,
         z_id: options.z_id, //点击组件的id编号
@@ -350,31 +324,38 @@ Page({
    * 选择答案
    */
   radioChange: function(e) {
-    var self = this;
+    let self = this;
+    let user = wx.getStorageSync("user") //得到用户信息
     //如果已经回答了就直接返回
     if (self.data.isAnswer) return;
-    var daan = e.detail.value; //选中的答案
-    var srcs = self.data.srcs; //选项前的图标对象
+    let daan = e.detail.value; //选中的答案
+    let srcs = self.data.srcs; //选项前的图标对象
     var rightNum = self.data.rightNum; //当前正确答案数
     var wrongNum = self.data.wrongNum; //当前错误答案数
 
 
-    let acode = "test_acode"; //用户唯一码(用于向服务器存储)
-
-    let username = "test_username"; //用户姓名(用于向服务器存储)
+    let acode = user.acode; //用户唯一码(用于向服务器存储)
+    let username = user.username; //用户姓名(用于向服务器存储)
     let tid = self.data.id; //当前试题id(用于向服务器存储)
-    let flag = true; //答案是否正确(用于向服务器存储)
+    let flag = 1; //答案是否正确(用于向服务器存储)
     let answer = self.data.answer; //用户的答案(用于向服务器存储)
 
     //先判断是否正确
     if (daan != self.data.answer) {
       srcs[daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
-      flag = false;
+      flag = 0;
       wrongNum++; //错误答案数增加
     } else {
       rightNum++; //正确答案数增加
-      flag = true;
+      flag = 1;
     }
+
+    //向服务器提交做题结果
+    console.log("action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer)
+    app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer).then((res) => {
+      wx.hideLoading();
+    })
+
     srcs[self.data.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
 
     //更新所有数据
@@ -537,24 +518,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-    let self = this;
-    //存储当前最后一题
-    let zhangIdx = self.data.zhangIdx;
-    let jieIdx = self.data.jieIdx;
-    let last_view_key = ""; //存储上次访问的题目的key
-    if (jieIdx != "undefined") { //如果有子节
-      last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx
-    } else { //如果没有子节
-      last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx
-    }
-    self.setData({
-      last_view_key: last_view_key
-    })
-    //本地存储最后一次访问的题目
-    wx.setStorage({
-      key: self.data.last_view_key,
-      data: self.data.id,
-    })
+
   },
 
   /**

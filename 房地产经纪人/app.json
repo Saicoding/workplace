@@ -3,7 +3,8 @@
     "pages/tiku/index",
     "pages/logs/logs",
     "pages/index/index",
-    "pages/tiku/zuoti/index"
+    "pages/tiku/zuoti/index",
+    "pages/login1/login1"
   ],
   "window": {
     "backgroundTextStyle": "light",

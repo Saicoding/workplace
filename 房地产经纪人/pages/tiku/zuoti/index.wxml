@@ -11,7 +11,7 @@
     </view>
     <view class='question'>
       <view class="question-block1">
-        <view class="qustion-num-text" style = "background:{{num_color}}">{{go_nums}}</view>
+        <view class="qustion-num-text" style = "background:{{num_color}}">{{px}}</view>
         <view class="qustion-select" style = "color:{{num_color}}">【{{TX}}】</view>
       </view>
       {{question}}{{getSelect}}
@@ -110,7 +110,6 @@
     <view class='jiexi' hidden="{{hiddenjiexi}}">
       <view style="padding-top:40rpx;">{{jiexi}}</view>
     </view>
-
   </view>
 
 
@@ -128,7 +127,7 @@
 
     <view class="bottom-block">
       <image src="/imgs/square.png" mod="aspectFit" class="bottom-img"></image>
-      <view class="bottom-text">{{go_nums}} /</view>
+      <view class="bottom-text">{{px}} /</view>
       <view class="bottom-text" style="color:#a0a0a0;">{{nums}}</view>
     </view>
   </view>
