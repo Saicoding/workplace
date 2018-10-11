@@ -3,7 +3,6 @@ const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
 
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -23,7 +22,6 @@ Page({
       folder_object: [], //初始化
       scroll: 0 //初始化
     })
-
 
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
       // console.log(res); //正确返回结果
@@ -83,6 +81,7 @@ Page({
           })
         }
       })
+      wx.setStorageSync("tiku_id", {"id":self.data.array[e.detail.value].id,"index":self.data.index});
 
       wx.hideLoading();
     }).catch((errMsg) => {
@@ -240,12 +239,26 @@ Page({
     //调用 app.js里的 post()方法
 
     app.post(API_URL, "action=SelectZj").then((res) => {
+      //得到当前题库的缓存
+      let z_id = 0;
+      let index = 0;
+      let tiku = wx.getStorageSync("tiku_id");
+      if(tiku == ""){
+        z_id = res.data.list[0].id;
+        index = 0;
+      }else{
+        z_id = tiku.id;
+        index = tiku.index;
+      }
+          
       self.setData({
         array: res.data.list,
         zhangjie_id: res.data.list[0].id,
+        index:index
       })
 
-      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
+      app.post(API_URL, "action=SelectZj_l&z_id=" + z_id).then((res) => {
+
         //设置章是否有子节
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
