@@ -67,7 +67,7 @@ Page({
 
       order = touchMove - touchDot > 0 ? "desc" : "asc";
 
-      console.log(id+"||"+order)
+      console.log(id + "||" + order)
 
       //存储当前最后一题
       let zhangIdx = self.data.zhangIdx;
@@ -126,11 +126,30 @@ Page({
                 if (jie_answer_array[i].id == res.data.shiti[0].id) {
                   done_daan = jie_answer_array[i].daan;
                   isAnswer = true;
-                  //先判断是否正确
-                  if (done_daan != res.data.shiti[0].answer) {
-                    srcs[done_daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
+
+                  //先判断答题类型(单选、多选、材料)
+                  switch (jie_answer_array[i].select) {//根据不同题型更新状态
+                    case "单选题":
+                      if (done_daan != res.data.shiti[0].answer) {
+                        srcs[done_daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标                 
+                      }
+                      srcs[res.data.shiti[0].answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
+                      break;
+
+                    case "多选题":
+                      for (let i = 0; i < res.data.shiti[0].answer.length; i++) {
+                        srcs[res.data.shiti[0].answer[i]] = "/imgs/right_answer.png";
+                      }
+
+                      for (let i = 0; i < done_daan.length; i++) {
+                        if (res.data.shiti[0].answer.indexOf(done_daan[i]) >= 0) { //如果正确答案包含选中
+                          srcs[done_daan[i]] = "/imgs/right_answer1.png";
+                        } else {
+                          srcs[done_daan[i]] = "/imgs/wrong_answer.png";
+                        }
+                      }
+                      break;
                   }
-                  srcs[res.data.shiti[0].answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
                 }
               }
             }
@@ -241,12 +260,33 @@ Page({
 
               if (jie_answer_array[i].id == res.data.shiti[0].id) { //如果是已答题目
                 done_daan = jie_answer_array[i].daan;
-                //先判断是否正确
-                if (done_daan != res.data.shiti[0].answer) {
-                  srcs[done_daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
-                  isAnswer = true;
+                isAnswer = true;
+                //先判断答题类型(单选、多选、材料)
+                switch (jie_answer_array[i].select) {//根据不同题型更新状态
+                  case "单选题":
+                    if (done_daan != res.data.shiti[0].answer) {
+                      srcs[done_daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标                 
+                    }
+                    srcs[res.data.shiti[0].answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
+                    break;
+                  
+                  case "多选题":
+                    for (let i = 0; i < res.data.shiti[0].answer.length; i++) {
+                      srcs[res.data.shiti[0].answer[i]] = "/imgs/right_answer.png";
+                    }
+
+                    for (let i = 0; i < done_daan.length; i++) {
+                      if (res.data.shiti[0].answer.indexOf(done_daan[i]) >= 0) { //如果正确答案包含选中
+                        srcs[done_daan[i]] = "/imgs/right_answer1.png";
+                      } else {
+                        srcs[done_daan[i]] = "/imgs/wrong_answer.png";
+                      }
+                    }
+                    break;
                 }
-                srcs[res.data.shiti[0].answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
+                // //先判断是否正确
+                // console.log(done_daan)
+                // console.log(res.data.shiti[0].answer)
               }
             }
           }
@@ -367,12 +407,8 @@ Page({
       daan: daan //选中的答案
     })
 
-    // //向服务器保存试题结果
-    // app.post(API_URL, "action=saveShitiResult&acode="+acode+"&username="+username+"&tid="+tid+"&flag="+flag+"&answer="+answer).then((res) => {
-    //   console.log(res.message)
-    // })
 
-    //设置答题状态
+    //存储答题状态
     let zhangIdx = self.data.zhangIdx;
     let jieIdx = self.data.jieIdx;
     let answer_nums_array = [];
@@ -383,7 +419,8 @@ Page({
         answer_nums_array = res.data;
         let flag = {
           "id": self.data.id,
-          "daan": self.data.daan
+          "daan": self.data.daan,
+          "select": "单选题"
         }
         if (jieIdx != "undefined") {
           answer_nums_array[zhangIdx][jieIdx].push(flag)
@@ -466,7 +503,7 @@ Page({
      */
     if (answers.toString() == daan.toString()) {
       rightNum++; //如果答案正确，正确数量增加
-      flag =1;
+      flag = 1;
     } else {
       wrongNum++; //如果答案错误，错误数量增加
       flag = 0;
@@ -475,6 +512,35 @@ Page({
     //向服务器提交做题结果
     app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer).then((res) => {
       wx.hideLoading();
+    })
+
+    //存储答题状态
+    let zhangIdx = self.data.zhangIdx;
+    let jieIdx = self.data.jieIdx;
+    let answer_nums_array = [];
+    wx.getStorage({
+      key: self.data.zhangjie_id,
+      success: function(res) {
+        answer_nums_array = res.data;
+        let flag = {
+          "id": self.data.id,
+          "daan": daan,
+          "select": "多选题"
+        }
+        if (jieIdx != "undefined") {
+          answer_nums_array[zhangIdx][jieIdx].push(flag)
+        } else {
+          answer_nums_array[zhangIdx].push(flag)
+        }
+        self.setData({
+          answer_nums_array: answer_nums_array
+        })
+
+        wx.setStorage({
+          key: self.data.zhangjie_id,
+          data: self.data.answer_nums_array
+        })
+      }
     })
 
     self.setData({
