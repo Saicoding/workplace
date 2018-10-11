@@ -23,11 +23,11 @@ Page({
    * 页面的初始数据
    */
   data: {
-    rightNum: 0, //正确题数
-    wrongNum: 0, //错误题数
     num: 1, //第几题
     id: 0, //书的编号,默认为0
     isAnswer: false, //是否已经选择了答案o
+    rightNum:0,//正确答案数
+    wrongNum:0,//错误答案数
     srcs: { //5个选项对应的图片
       "A": "/imgs/A.png",
       "B": "/imgs/B.png",
@@ -236,9 +236,9 @@ Page({
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目id和顺序
     let id = last_view.id; //最后一次浏览的题的编号
 
-    if (id == undefined) {
+    if (id == undefined) {//如果没有这个id说明这个章节首次访问
       id = 0
-    } //如果没有这个id说明这个章节首次访问
+    } 
 
     let order = last_view.order;
     let num_color = ""; //单选,多选,材料题标识颜色
@@ -247,17 +247,22 @@ Page({
       //先判断是否是已经作答过的题
       let zhangIdx = options.zhangIdx;
       let jieIdx = options.jieIdx;
-      var srcs = self.data.srcs; //选项前的图标对象
+      let srcs = self.data.srcs; //选项前的图标对象
       let done_daan = "";
       let isAnswer = false;
 
       wx.getStorage({
         key: options.zhangjie_id,
         success: function(res1) {
-          if (jieIdx != "undefined") { //章有字节
-            let jie_answer_array = res1.data[zhangIdx][jieIdx]
-            for (let i = 0; i < jie_answer_array.length; i++) {
 
+          if (jieIdx != "undefined") { //章有字节
+            let jie_answer_array = res1.data[zhangIdx][jieIdx]//这个节下面所有已经回答的题
+            let rightNum = 0;
+            let wrongNum = 0;
+            for (let i = 0; i < jie_answer_array.length; i++) {
+              /**
+               * 先处理是否是已经回答的题
+               */
               if (jie_answer_array[i].id == res.data.shiti[0].id) { //如果是已答题目
                 done_daan = jie_answer_array[i].daan;
                 isAnswer = true;
@@ -284,10 +289,19 @@ Page({
                     }
                     break;
                 }
-                // //先判断是否正确
-                // console.log(done_daan)
-                // console.log(res.data.shiti[0].answer)
               }
+              /**
+               * 得到正确题数和错误题数
+               */
+              if (jie_answer_array[i].isRight == 1){//如果是答对了
+                rightNum ++;
+              }else{
+                wrongNum ++;
+              }
+              self.setData({
+                rightNum:rightNum,//设置本页面的正确题数
+                wrongNum:wrongNum//设置本页面的错误题数
+              });
             }
           }
 
@@ -299,7 +313,6 @@ Page({
           })
         },
       })
-
 
       if (res.data.shiti.length == 0) {
         wx.showToast({
@@ -370,8 +383,8 @@ Page({
     if (self.data.isAnswer) return;
     let daan = e.detail.value; //选中的答案
     let srcs = self.data.srcs; //选项前的图标对象
-    var rightNum = self.data.rightNum; //当前正确答案数
-    var wrongNum = self.data.wrongNum; //当前错误答案数
+    let rightNum = self.data.rightNum; //当前正确答案数
+    let wrongNum = self.data.wrongNum; //当前错误答案数
 
 
     let acode = user.acode; //用户唯一码(用于向服务器存储)
@@ -383,8 +396,8 @@ Page({
     //先判断是否正确
     if (daan != self.data.answer) {
       srcs[daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
-      flag = 0;
       wrongNum++; //错误答案数增加
+      flag = 0;
     } else {
       rightNum++; //正确答案数增加
       flag = 1;
@@ -417,16 +430,17 @@ Page({
       key: self.data.zhangjie_id,
       success: function(res) {
         answer_nums_array = res.data;
-        let flag = {
+        let obj = {
           "id": self.data.id,
           "daan": self.data.daan,
-          "select": "单选题"
+          "select": "单选题",
+          "isRight":flag
         }
         if (jieIdx != "undefined") {
-          answer_nums_array[zhangIdx][jieIdx].push(flag)
+          answer_nums_array[zhangIdx][jieIdx].push(obj)
 
         } else {
-          answer_nums_array[zhangIdx].push(flag)
+          answer_nums_array[zhangIdx].push(obj)
         }
         self.setData({
           answer_nums_array: answer_nums_array
@@ -522,15 +536,16 @@ Page({
       key: self.data.zhangjie_id,
       success: function(res) {
         answer_nums_array = res.data;
-        let flag = {
+        let obj = {
           "id": self.data.id,
           "daan": daan,
-          "select": "多选题"
+          "select": "多选题",
+          "isRight":flag
         }
         if (jieIdx != "undefined") {
-          answer_nums_array[zhangIdx][jieIdx].push(flag)
+          answer_nums_array[zhangIdx][jieIdx].push(obj)
         } else {
-          answer_nums_array[zhangIdx].push(flag)
+          answer_nums_array[zhangIdx].push(obj)
         }
         self.setData({
           answer_nums_array: answer_nums_array
