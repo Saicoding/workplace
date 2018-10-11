@@ -11,8 +11,8 @@
     </view>
     <view class='question'>
       <view class="question-block1">
-        <view class="qustion-num-text" style = "background:{{num_color}}">{{px}}</view>
-        <view class="qustion-select" style = "color:{{num_color}}">【{{TX}}】</view>
+        <view class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
+        <view class="qustion-select" style="color:{{num_color}}">【{{TX}}】</view>
       </view>
       {{question}}{{getSelect}}
     </view>
@@ -21,28 +21,28 @@
       <radio-group class="radio-group" bindchange="radioChange">
         <label class="radio">
           <radio hidden value="A" checked="{{checked}}" />
-          <view class="answer-block">
+          <view>
             <image src="{{srcs.A}}" mod="aspectFit" class="answer-img"></image>
             <text class="answer-text">{{A}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="B" checked="{{checked}}" />
-          <view class="answer-block">
+          <view>
             <image src="{{srcs.B}}" mod="aspectFit" class="answer-img"></image>
             <text class="answer-text">{{B}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="C" checked="{{checked}}" />
-          <view class="answer-block">
+          <view>
             <image src="{{srcs.C}}" mod="aspectFit" class="answer-img"></image>
             <text class="answer-text">{{C}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="D" checked="{{checked}}" />
-          <view class="answer-block">
+          <view>
             <image src="{{srcs.D}}" mod="aspectFit" class="answer-img"></image>
             <text class="answer-text">{{D}}</text>
           </view>

@@ -351,7 +351,6 @@ Page({
     }
 
     //向服务器提交做题结果
-    console.log("action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer)
     app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer).then((res) => {
       wx.hideLoading();
     })
@@ -434,12 +433,19 @@ Page({
   },
   chenckChange: function(e) {
     let self = this;
+    let user = wx.getStorageSync("user") //得到用户信息
     let daan = self.data.selectAnswer; //已经选择的答案
     let srcs = self.data.srcs; //图片对象
     let answers = self.data.answer.split(""); //将“ABD” 这种字符串转为字符数组
     let rightNum = self.data.rightNum; //正确答案总数量
     let wrongNum = self.data.wrongNum; //错误答案总数量
     let isAnswer = self.data.isAnswer; //是否已经回答
+
+    let acode = user.acode; //用户唯一码(用于向服务器存储)
+    let username = user.username; //用户姓名(用于向服务器存储)
+    let tid = self.data.id; //当前试题id(用于向服务器存储)
+    let flag = 1; //答案是否正确(用于向服务器存储)
+    let answer = self.data.answer; //用户的答案(用于向服务器存储)
 
     if (isAnswer) return //如果已经回答过就不作反应
 
@@ -460,9 +466,16 @@ Page({
      */
     if (answers.toString() == daan.toString()) {
       rightNum++; //如果答案正确，正确数量增加
+      flag =1;
     } else {
       wrongNum++; //如果答案错误，错误数量增加
+      flag = 0;
     }
+    console.log("action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer)
+    //向服务器提交做题结果
+    app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer).then((res) => {
+      wx.hideLoading();
+    })
 
     self.setData({
       hiddenjiexi: false,
@@ -471,12 +484,6 @@ Page({
       wrongNum: wrongNum,
       isAnswer: true
     })
-
-    let acode = "test_acode";
-    let username = "test_username";
-    let tid = ""
-
-    app.post(API_URL, "action=saveShitiResult&acode=").then((res) => {})
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

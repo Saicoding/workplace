@@ -63,14 +63,7 @@ page {
   border-top: 1px solid #ccc;
 }
 
-.radio {
-  width: 100%;
-  font-size: 0.9rem;
-  display: block;
-  float: left;
-  line-height: 1.5rem;
-  margin: 0.8rem auto;
-}
+
 
 .checkbox {
   width: 100%;
@@ -166,6 +159,7 @@ page {
   display: inline-block;
 }
 
+/******************** 答案组块 **********************/
 /* 答案选项前面的图片 */
 
 .answer-img {
@@ -181,9 +175,16 @@ page {
   display: float;
   float: left;
   width: 620rpx;
-  height: 50rpx;
   line-height: 45rpx;
   margin-left: 30rpx;
+}
+.radio {
+  width: 100%;
+  font-size: 0.9rem;
+  display: block;
+  float: left;
+  line-height: 1.5rem;
+  margin: 0.8rem auto;
 }
 
 .containers {
