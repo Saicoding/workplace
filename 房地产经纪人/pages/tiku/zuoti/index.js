@@ -36,6 +36,7 @@ Page({
       "E": "/imgs/E.png",
     },
     selectAnswer: [], //多选选中的答案
+    hiddenjiexi: true,
     isLoaded: true, //是否已经载入完毕
     isFirstLoaded: true //是否是第一次载入
   },
@@ -58,9 +59,9 @@ Page({
     // 向左滑动  
     if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
       tmpFlag = false;
+
       //执行切换页面的方法
       //console.log("touchMove:" + touchMove + " touchDot:" + touchDot + " diff:" + (touchMove - touchDot));
-      let self = this;
       let order = "";
       let num = self.data.num;
       let id = wx.getStorageSync("id");
@@ -91,6 +92,9 @@ Page({
       })
 
       app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id + "&order=" + order).then((res) => {
+        self.setData({
+          hiddenjiexi: true
+        })
         this.reset(self.data.srcs); //重置答题状态
         if (res.data.shiti.length == 0) {
           wx.showToast({
@@ -146,15 +150,15 @@ Page({
                     }
                     break;
                 }
+
+                self.setData({
+                  srcs: srcs, //更新srcs状态
+                  hiddenjiexi: false,//如果该题已经作答，就展示解析
+                  isAnswer: isAnswer, //设置成已经回答
+                  daan: done_daan //选中的答案
+                })
               }
             }
-
-            self.setData({
-              hiddenjiexi: false,
-              srcs: srcs, //更新srcs状态
-              isAnswer: isAnswer, //设置成已经回答
-              daan: done_daan //选中的答案
-            })
           },
         })
 
@@ -174,7 +178,6 @@ Page({
         wx.setStorageSync("id", res.data.shiti[0].id);
 
         self.setData({
-          hiddenjiexi: true,
           id: res.data.shiti[0].id, //书的ID编号
           num_color: num_color, //编号颜色
           isAnswer: false,
@@ -282,24 +285,24 @@ Page({
                   }
                   break;
               }
-
-              /**
-               * 得到正确题数和错误题数
-               */
-              if (jie_answer_array[i].isRight == 1) { //如果是答对了
-                rightNum++;
-              } else {
-                wrongNum++;
-              }
-              self.setData({
-                rightNum: rightNum, //设置本页面的正确题数
-                wrongNum: wrongNum //设置本页面的错误题数
-              });
             }
+
+            /**
+             * 得到正确题数和错误题数
+             */
+            console.log(jie_answer_array)
+            if (jie_answer_array[i].isRight == 1) { //如果是答对了
+              rightNum++;
+            } else {
+              wrongNum++;
+            }
+            self.setData({
+              rightNum: rightNum, //设置本页面的正确题数
+              wrongNum: wrongNum //设置本页面的错误题数
+            });
           }
 
           self.setData({
-            hiddenjiexi: false,
             srcs: srcs, //更新srcs状态
             isAnswer: isAnswer, //设置成已经回答
             daan: done_daan //选中的答案
