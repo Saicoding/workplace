@@ -11,7 +11,13 @@ var interval = ""; // 记录/清理 时间记录
 var nth = 0; // 设置活动菜单的index
 var nthMax = 1; //活动菜单的最大个数
 var tmpFlag = true; // 判断左右滑动超出
-const SRCS = { //定义初始图片对象
+const SRCS1 = { //定义初始图片对象(单选)
+  "A": "/imgs/A.png",
+  "B": "/imgs/B.png",
+  "C": "/imgs/C.png",
+  "D": "/imgs/D.png"
+}
+const SRCS2 = { //定义初始图片对象(多选)
   "A": "/imgs/A.png",
   "B": "/imgs/B.png",
   "C": "/imgs/C.png",
@@ -28,17 +34,11 @@ Page({
     isAnswer: false, //是否已经选择了答案o
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
-    srcs: { //5个选项对应的图片
-      "A": "/imgs/A.png",
-      "B": "/imgs/B.png",
-      "C": "/imgs/C.png",
-      "D": "/imgs/D.png",
-      "E": "/imgs/E.png",
-    },
     selectAnswer: [], //多选选中的答案
     hiddenjiexi: true,
     isLoaded: true, //是否已经载入完毕
-    isFirstLoaded: true //是否是第一次载入
+    isFirstLoaded: true,//是否是第一次载入
+    cl_question_hidden:false//材料题是否隐藏题目
   },
   // 触摸开始事件
   touchStart: function(e) {
@@ -68,8 +68,6 @@ Page({
 
       order = touchMove - touchDot > 0 ? "desc" : "asc";
 
-      console.log(id + "||" + order)
-
       //存储当前最后一题
       let zhangIdx = self.data.zhangIdx;
       let jieIdx = self.data.jieIdx;
@@ -91,7 +89,7 @@ Page({
         },
       })
 
-      app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id + "&order=" + order).then((res) => {
+      app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id + "&order=" + order + "&username=" + self.data.username + "&acode=" + self.data.acode).then((res) => {
         self.setData({
           hiddenjiexi: true
         })
@@ -153,7 +151,7 @@ Page({
 
                 self.setData({
                   srcs: srcs, //更新srcs状态
-                  hiddenjiexi: false,//如果该题已经作答，就展示解析
+                  hiddenjiexi: false, //如果该题已经作答，就展示解析
                   isAnswer: isAnswer, //设置成已经回答
                   daan: done_daan //选中的答案
                 })
@@ -171,7 +169,9 @@ Page({
           tx = "多选题"
           num_color = "#2ac414";
         } else {
+          let xiaoti = res.data.shiti[0].xiaoti;
           tx = "材料题";
+          console.log(xiaoti)
           num_color = "#eaa91d";
         }
 
@@ -241,13 +241,26 @@ Page({
     let order = last_view.order;
     let num_color = ""; //单选,多选,材料题标识颜色
 
-    app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + options.z_id + "&order=" + order).then((res) => {
-      //先判断是否是已经作答过的题
+    app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + options.z_id + "&order=" + order + "&username=" + options.username + "&acode=" + options.acode).then((res) => {
+      //初始化试题对象，针对不同题型给试题添加各种属性
+      this.initShiti(res.data.shiti)
+
       let zhangIdx = options.zhangIdx;
       let jieIdx = options.jieIdx;
       let srcs = self.data.srcs; //选项前的图标对象
       let done_daan = "";
       let isAnswer = false;
+      let xiao_tx = res.data.shiti[0].TX //获取试题类型
+      let xiaoti = [];
+      if (xiao_tx == 99) {
+        xiaoti = res.data.shiti[0].xiaoti
+        self.initXiaoti(xiaoti);
+        console.log(xiaoti)
+      }else if (xiao_tx ==1){
+
+      }else if (xiao_tx == 2){
+
+      }
 
       wx.getStorage({
         key: options.zhangjie_id,
@@ -255,6 +268,7 @@ Page({
           let jie_answer_array = jieIdx != "undefined" ? res1.data[zhangIdx][jieIdx] : res1.data[zhangIdx] //根据章是否有子节所有已经回答的题
           let rightNum = 0;
           let wrongNum = 0;
+
           for (let i = 0; i < jie_answer_array.length; i++) {
             /**
              * 先处理是否是已经回答的题
@@ -349,8 +363,9 @@ Page({
         jieIdx: options.jieIdx, //从哪个节导航过来的
         zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
         question: res.data.shiti[0].question, //问题
-        TX: tx,
-        TX_n: res.data.shiti[0].TX,
+        TX: tx, //试题类型
+        TX_n: res.data.shiti[0].TX, //试题类型编号
+        xiaoti: xiaoti, //材料题的小题
         A: res.data.shiti[0].A,
         B: res.data.shiti[0].B,
         C: res.data.shiti[0].C,
@@ -360,6 +375,8 @@ Page({
         jiexi: res.data.shiti[0].jiexi,
         hiddenjiexi: true,
         isLoaded: false,
+        username: options.username,
+        acode: options.acode
         //value: res.data.shiti[0].value
       })
       wx.hideLoading();
@@ -381,7 +398,6 @@ Page({
     let srcs = self.data.srcs; //选项前的图标对象
     let rightNum = self.data.rightNum; //当前正确答案数
     let wrongNum = self.data.wrongNum; //当前错误答案数
-
 
     let acode = user.acode; //用户唯一码(用于向服务器存储)
     let username = user.username; //用户姓名(用于向服务器存储)
@@ -563,6 +579,20 @@ Page({
     })
   },
   /**
+   * 材料题开始作答
+   */
+  cailiaoZuoti:function(){
+    this.setData({
+      cl_question_hidden: true
+    })
+  },
+  /**
+   * 材料题单选
+   */
+  cailiaoRadioChange:function(){
+
+  },
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
@@ -624,5 +654,114 @@ Page({
    */
   onShareAppMessage: function() {
 
+  },
+
+  /**
+   * 初始化xiaoti
+   */
+  initXiaoti: function(xiaoti) {
+    for (let i = 0; i < xiaoti.length; i++) {
+      let ti = xiaoti[i];
+      if (ti.TX == 1) {
+        ti.num_color = "#0197f6";
+        ti.TX = "单选题";
+        ti.srcs = {
+          "A": "/imgs/A.png",
+          "B": "/imgs/B.png",
+          "C": "/imgs/C.png",
+          "D": "/imgs/D.png"
+        }
+      } else if (ti.TX == 2) {
+        ti.num_color = "#2ac414";
+        ti.TX = "多选题";
+        ti.srcs = {
+          "A": "/imgs/A.png",
+          "B": "/imgs/B.png",
+          "C": "/imgs/C.png",
+          "D": "/imgs/D.png",
+          "E": "/imgs/E.png"
+        }
+      }
+    }
+  },
+  /**
+   * 单选作答
+   * param:
+   */
+  singleSelect: function (e,isAnswer, srcs, shiti ){
+  //   let self = this;
+  //   let user = wx.getStorageSync("user") //得到用户信息
+  //   //如果已经回答了就直接返回
+  //   if (isAnswer) return;
+  //   let daan = e.detail.value; //选中的答案
+  //   let srcs = self.data.srcs; //选项前的图标对象
+  //   let rightNum = self.data.rightNum; //当前正确答案数
+  //   let wrongNum = self.data.wrongNum; //当前错误答案数
+
+  //   let acode = user.acode; //用户唯一码(用于向服务器存储)
+  //   let username = user.username; //用户姓名(用于向服务器存储)
+  //   let tid = self.data.id; //当前试题id(用于向服务器存储)
+  //   let flag = 1; //答案是否正确(用于向服务器存储)
+  //   let answer = self.data.answer; //用户的答案(用于向服务器存储)
+
+  //   //先判断是否正确
+  //   if (daan != self.data.answer) {
+  //     srcs[daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
+  //     wrongNum++; //错误答案数增加
+  //     flag = 0;
+  //   } else {
+  //     rightNum++; //正确答案数增加
+  //     flag = 1;
+  //   }
+
+  //   //向服务器提交做题结果
+  //   app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + self.data.id + "&flag=" + flag + "&answer=" + answer).then((res) => {
+  //     wx.hideLoading();
+  //   })
+
+  //   srcs[self.data.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
+
+  //   //更新所有数据
+  //   self.setData({
+  //     hiddenjiexi: false,
+  //     srcs: srcs, //更新srcs状态
+  //     isAnswer: true, //设置成已经回答
+  //     rightNum: rightNum, //更新正确答案数
+  //     wrongNum: wrongNum, //更新错误答案数
+  //     daan: daan //选中的答案
+  //   })
+
+
+  //   //存储答题状态
+  //   let zhangIdx = self.data.zhangIdx;
+  //   let jieIdx = self.data.jieIdx;
+  //   let answer_nums_array = [];
+
+  //   wx.getStorage({
+  //     key: self.data.zhangjie_id,
+  //     success: function (res) {
+  //       answer_nums_array = res.data;
+  //       let obj = {
+  //         "id": self.data.id,
+  //         "daan": self.data.daan,
+  //         "select": "单选题",
+  //         "isRight": flag
+  //       }
+  //       if (jieIdx != "undefined") {
+  //         answer_nums_array[zhangIdx][jieIdx].push(obj)
+
+  //       } else {
+  //         answer_nums_array[zhangIdx].push(obj)
+  //       }
+  //       self.setData({
+  //         answer_nums_array: answer_nums_array
+  //       })
+
+  //       wx.setStorage({
+  //         key: self.data.zhangjie_id,
+  //         data: self.data.answer_nums_array
+  //       })
+  //     }
+  //   })
   }
 })

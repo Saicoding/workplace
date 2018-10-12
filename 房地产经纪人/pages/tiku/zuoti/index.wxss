@@ -13,6 +13,19 @@ page {
   margin: 15rpx auto 20rpx auto;
 }
 
+.question_cailiao1 {
+  line-height: 60rpx;
+  width: 96%;
+  margin: 15rpx auto 20rpx auto;
+}
+
+.question_cailiao2 {
+  line-height: 60rpx;
+  width: 96%;
+  height:60rpx;
+  margin: 15rpx auto 20rpx auto;
+}
+
 .question-block1 {
   height: 40rpx;
   display: float;
@@ -49,10 +62,9 @@ page {
 
 .radio-group {
   width: 96%;
-  padding: 1rem;
-  margin: 1rem auto;
-  font-size: 1rem;
-  border-top: 1px solid #ccc;
+  padding: 20rpx; 
+  margin: 20rpx auto;
+  font-size: 50rpx;
 }
 
 .checkbox-group {
@@ -160,6 +172,10 @@ page {
 }
 
 /******************** 答案组块 **********************/
+.answer-block{
+  border: 1px solid red;
+  padding-top:10rpx;
+}
 /* 答案选项前面的图片 */
 
 .answer-img {
@@ -214,4 +230,17 @@ page {
   height: 40%;
   background: url('data:image/png;base64,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') no-repeat center;
   background-size: 40%;
+}
+
+.cailiaoZuoti{
+  text-align: center;
+}
+
+.cailiaoZuoti-btn{
+  width:300rpx;
+  height:80rpx;
+  border-radius: 60rpx;
+  background: #388ff8;
+  color:white;
+  line-height: 80rpx;
 }

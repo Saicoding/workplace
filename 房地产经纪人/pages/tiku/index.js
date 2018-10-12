@@ -30,9 +30,9 @@ Page({
     app.post(API_URL, "action=SelectZj").then((res) => {
       
       this.setZhangjie(res.data.list);//得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-
+      console.log(self.data.zhangjie_id)
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {//得到上一步设置的题库下的所有章节
-
+        console.log(res)
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie,answer_nums_array)//初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
@@ -272,6 +272,8 @@ Page({
 
         let zhangjie = self.data.zhangjie; //章节
         let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
+        let username = res.data.username;//用户名
+        let acode = res.data.acode;//用户唯一码
 
         //如果章节没有字节,将章节总题数置为做题数
         let nums = 0;
@@ -286,7 +288,7 @@ Page({
             data: "0"
           }),
           wx.navigateTo({
-            url: 'zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx
+            url: 'zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx+'&username='+username+'&acode='+acode
           })
 
       },

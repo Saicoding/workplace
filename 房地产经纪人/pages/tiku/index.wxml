@@ -9,7 +9,7 @@
   <view class='shiti_index'>
     <view class='t_left'>
       <view class='ti_z1'>
-        <view class='t_text'>专项练习</view>
+        <view class='t_text'>收藏练习</view>
       </view>
       <view class='ti_z2'>
         <view class='t_text'>模拟真题</view>
