@@ -16,7 +16,8 @@ Page({
   data: {
     index: 0, //用于题库的index编号,可以得到是第几个题库
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
-    loaded: false //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
+    loaded: false ,//是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
+    zhangjie:""//章节信息
   },
 
   /**
@@ -32,28 +33,10 @@ Page({
 
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {//得到上一步设置的题库下的所有章节
 
-        //设置章是否有子节
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
+        this.initZhangjie(zhangjie,answer_nums_array)//初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
 
-        for (let i = 0; i < zhangjie.length; i++) {
-          zhangjie[i].height = 0; //设置点击展开初始高度
-          zhangjie[i].display = true; //设置点击展开初始动画为true
-          zhangjie[i].isFolder = true; //设置展开初始值
-          zhangjie[i].zhang_answer_num = 0; //初始化答题数
-          let child = zhangjie[i].zhangjie_child; //字节
-
-          answer_nums_array[i] = []; //初始化本地存储
-          if (child.length > 0) {
-            zhangjie[i].hasChild = true;
-            for (let j = 0; j < child.length; j++) {
-              answer_nums_array[i][j] = []; //初始化本地存储
-              zhangjie[i].zhangjie_child[j].answer_nums = 0; //初始化节的已作答数目
-            }
-          } else {
-            zhangjie[i].hasChild = false;
-          }
-        }
         // wx.clearStorage(self.data.zhangjie_id)
         // 得到存储答题状态
         wx.getStorage({
@@ -425,5 +408,30 @@ Page({
       zhangjie_id: z_id,
       index: index
     })
+  },
+
+  /**
+   * 
+   */
+  initZhangjie: function ( zhangjie, answer_nums_array){//初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
+    for (let i = 0; i < zhangjie.length; i++) {
+      zhangjie[i].height = 0; //设置点击展开初始高度
+      zhangjie[i].display = true; //设置点击展开初始动画为true
+      zhangjie[i].isFolder = true; //设置展开初始值
+      zhangjie[i].zhang_answer_num = 0; //初始化答题数
+      let child = zhangjie[i].zhangjie_child; //字节
+
+      answer_nums_array[i] = []; //初始化本地存储
+      if (child.length > 0) {
+        zhangjie[i].hasChild = true;
+        for (let j = 0; j < child.length; j++) {
+          answer_nums_array[i][j] = []; //初始化本地存储
+          zhangjie[i].zhangjie_child[j].answer_nums = 0; //初始化节的已作答数目
+        }
+      } else {
+        zhangjie[i].hasChild = false;
+      }
+    }
   }
+
 })
