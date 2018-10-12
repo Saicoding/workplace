@@ -11,40 +11,40 @@
     </view>
     <view class='question'>
       <view class="question-block1">
-        <view class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
-        <view class="qustion-select" style="color:{{num_color}}">【{{TX}}】</view>
+        <view class="qustion-num-text" style="background:{{shiti.num_color}}">{{shiti.px}}</view>
+        <view class="qustion-select" style="color:{{shiti.num_color}}">【{{shiti.tx}}】</view>
       </view>
-      {{question}}
+      {{shiti.question}}
     </view>
     <!--单选题-->
-    <view wx:if="{{TX_n ==1}}" >
-      <radio-group class="radio-group" bindchange="radioChange">
+    <view wx:if="{{shiti.TX == 1}}" >
+      <radio-group class="radio-group" bindchange="singleSelect">
         <label class="radio">
           <radio hidden value="A" checked="{{checked}}" />
           <view>
-            <image src="{{srcs.A}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{A}}</text>
+            <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.A}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="B" checked="{{checked}}" />
           <view>
-            <image src="{{srcs.B}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{B}}</text>
+            <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.B}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="C" checked="{{checked}}" />
           <view>
-            <image src="{{srcs.C}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{C}}</text>
+            <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.C}}</text>
           </view>
         </label>
         <label class="radio">
           <radio hidden value="D" checked="{{checked}}" />
           <view>
-            <image src="{{srcs.D}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{D}}</text>
+            <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.D}}</text>
           </view>
         </label>
       </radio-group>
@@ -100,7 +100,7 @@
       <view wx:if="{{!cl_question_hidden}}" class="cailiaoZuoti">
         <button class="cailiaoZuoti-btn" bindtap='cailiaoZuoti'>答题</button>
       </view>
-      <view wx:for="{{xiaoti}}">
+      <view wx:for="{{shiti.xiaoti}}">
         <view wx:if="{{cl_question_hidden}}">
           <view class='{{cl_question_hidden?question_cailiao1:question_cailiao2}}'>
             <view class="question-block1">
@@ -224,7 +224,7 @@
 
     <view class="bottom-block">
       <image src="/imgs/square.png" mod="aspectFit" class="bottom-img"></image>
-      <view class="bottom-text">{{px}} /</view>
+      <view class="bottom-text">{{shiti.px}} /</view>
       <view class="bottom-text" style="color:#a0a0a0;">{{nums}}</view>
     </view>
   </view>

@@ -30,9 +30,8 @@ Page({
     app.post(API_URL, "action=SelectZj").then((res) => {
       
       this.setZhangjie(res.data.list);//得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-      console.log(self.data.zhangjie_id)
+
       app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {//得到上一步设置的题库下的所有章节
-        console.log(res)
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie,answer_nums_array)//初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
@@ -265,7 +264,6 @@ Page({
     wx.getStorage({
       key: 'user',
       success: function(res) { //如果已经登陆过
-        console.log(res)
         let z_id = e.currentTarget.id;
         let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
         let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
@@ -282,7 +280,6 @@ Page({
         } else {
           nums = zhangjie[zhangIdx].nums;
         }
-        console.log(z_id)
         wx.setStorage({
             key: 'id',
             data: "0"
