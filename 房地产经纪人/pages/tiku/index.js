@@ -1,35 +1,121 @@
+/**
+ * 时间 : 2018/10/11 20:33
+ * 
+ * 说明 : 该页是首页
+ * 
+ */
+
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
-//const https = require('../../utils/util.js');
-const app = getApp();
+const app = getApp(); //获取app对象
 
 Page({
+
   /**
    * 页面的初始数据
    */
   data: {
-    //array: [{id:0,title:'无网络'}],
-    index: 0,
+    index: 0, //用于题库的index编号,可以得到是第几个题库
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
-    loaded: false //是否已经载入一次
+    loaded: false //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    let self = this;
+    this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
+
+    app.post(API_URL, "action=SelectZj").then((res) => {
+      
+      this.setZhangjie(res.data.list);//得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
+
+      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {//得到上一步设置的题库下的所有章节
+
+        //设置章是否有子节
+        let zhangjie = res.data.list //得到所有章节
+        let answer_nums_array = [] //答题数目array
+
+        for (let i = 0; i < zhangjie.length; i++) {
+          zhangjie[i].height = 0; //设置点击展开初始高度
+          zhangjie[i].display = true; //设置点击展开初始动画为true
+          zhangjie[i].isFolder = true; //设置展开初始值
+          zhangjie[i].zhang_answer_num = 0; //初始化答题数
+          let child = zhangjie[i].zhangjie_child; //字节
+
+          answer_nums_array[i] = []; //初始化本地存储
+          if (child.length > 0) {
+            zhangjie[i].hasChild = true;
+            for (let j = 0; j < child.length; j++) {
+              answer_nums_array[i][j] = []; //初始化本地存储
+              zhangjie[i].zhangjie_child[j].answer_nums = 0; //初始化节的已作答数目
+            }
+          } else {
+            zhangjie[i].hasChild = false;
+          }
+        }
+        // wx.clearStorage(self.data.zhangjie_id)
+        // 得到存储答题状态
+        wx.getStorage({
+          key: self.data.zhangjie_id,
+          success: function(res) {
+            //将每个节的已经作答的本地存储映射到组件中          
+            for (let i = 0; i < zhangjie.length; i++) {
+              let zhang_answer_num = 0; //章的总作答数
+              if (zhangjie[i].zhangjie_child == undefined) { //如果只有章，没有节
+                zhang_answer_num = res.data[i].length;
+              } else {
+                for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
+                  zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
+                  zhang_answer_num += res.data[i][j].length;
+                }
+              }
+              zhangjie[i].zhang_answer_num = zhang_answer_num;
+            }
+            //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
+            self.setData({
+              zhangjie: zhangjie
+            })
+          },
+          fail: function() { //如果没有本地存储就初始化
+            wx.setStorage({
+              key: self.data.zhangjie_id,
+              data: answer_nums_array
+            })
+          }
+        })
+
+        self.setData({
+          zhangjie: zhangjie,
+          loaded: true //已经载入完毕
+        })
+        wx.hideLoading();
+      }).catch((errMsg) => {
+        console.log(errMsg); //错误提示信息
+        wx.hideLoading();
+      });
+
+    }).catch((errMsg) => {
+      console.log(errMsg); //错误提示信息
+      wx.hideLoading();
+    });
+
   },
   /* 更改题库 */
   bindPickerChange: function(e) {
     var self = this
-    //console.log('picker发送选择改变，携带值为', self.data.array[e.detail.value].id)
+
     self.setData({
-      index: e.detail.value,
-      zhangjie_id: self.data.array[e.detail.value].id,
-      folder_object: [], //初始化
-      scroll: 0 //初始化
+      index: e.detail.value, //设置是第几个题库
+      zhangjie_id: self.data.array[e.detail.value].id, //设置章节的id编号
+      folder_object: [], //初始化展开字节的对象,因为更换章节后默认都是不展开状态
+      scroll: 0 //初始化章节的滑动条
     })
 
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
-      // console.log(res); //正确返回结果
-      let self = this;
       let answer_nums_array = [] //答题数目array
 
-      //设置是否有字节属性
-      let zhangjie = res.data.list;
+      let zhangjie = res.data.list; //该题库的所有章节
       for (let i = 0; i < zhangjie.length; i++) {
         zhangjie[i].height = 0; //设置点击展开初始高度
         zhangjie[i].display = true; //设置点击展开初始动画为true
@@ -81,7 +167,10 @@ Page({
           })
         }
       })
-      wx.setStorageSync("tiku_id", {"id":self.data.array[e.detail.value].id,"index":self.data.index});
+      wx.setStorageSync("tiku_id", {
+        "id": self.data.array[e.detail.value].id,
+        "index": self.data.index
+      });
 
       wx.hideLoading();
     }).catch((errMsg) => {
@@ -184,7 +273,9 @@ Page({
     }, 5)
   },
 
-  /*做题 */
+  /**
+   * 做题 
+   */
   GOzuoti: function(e) {
     let self = this;
     //获取是否有登录权限
@@ -222,114 +313,6 @@ Page({
         })
       }
     })
-  },
-
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    let self = this;
-    let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
-    let windowHeight = wx.getSystemInfoSync().windowHeight; //获取窗口高度(px)
-    windowHeight = (windowHeight * (750 / windowWidth)); //转换窗口高度(rpx)
-
-    let scrollHeight = windowHeight - 720 //计算滚动框高度(rpx)
-
-    //调用 app.js里的 post()方法
-
-    app.post(API_URL, "action=SelectZj").then((res) => {
-      //得到当前题库的缓存
-      let z_id = 0;
-      let index = 0;
-      let tiku = wx.getStorageSync("tiku_id");
-      if(tiku == ""){
-        z_id = res.data.list[0].id;
-        index = 0;
-      }else{
-        z_id = tiku.id;
-        index = tiku.index;
-      }
-          
-      self.setData({
-        array: res.data.list,
-        zhangjie_id: res.data.list[0].id,
-        index:index
-      })
-
-      app.post(API_URL, "action=SelectZj_l&z_id=" + z_id).then((res) => {
-
-        //设置章是否有子节
-        let zhangjie = res.data.list //得到所有章节
-        let answer_nums_array = [] //答题数目array
-
-        for (let i = 0; i < zhangjie.length; i++) {
-          zhangjie[i].height = 0; //设置点击展开初始高度
-          zhangjie[i].display = true; //设置点击展开初始动画为true
-          zhangjie[i].isFolder = true; //设置展开初始值
-          zhangjie[i].zhang_answer_num = 0; //初始化答题数
-          let child = zhangjie[i].zhangjie_child; //字节
-
-          answer_nums_array[i] = []; //初始化本地存储
-          if (child.length > 0) {
-            zhangjie[i].hasChild = true;
-            for (let j = 0; j < child.length; j++) {
-              answer_nums_array[i][j] = []; //初始化本地存储
-              zhangjie[i].zhangjie_child[j].answer_nums = 0; //初始化节的已作答数目
-            }
-          } else {
-            zhangjie[i].hasChild = false;
-          }
-        }
-        // wx.clearStorage(self.data.zhangjie_id)
-        // 得到存储答题状态
-        wx.getStorage({
-          key: self.data.zhangjie_id,
-          success: function(res) {
-            //将每个节的已经作答的本地存储映射到组件中          
-            for (let i = 0; i < zhangjie.length; i++) {
-              let zhang_answer_num = 0; //章的总作答数
-              if (zhangjie[i].zhangjie_child == undefined) { //如果只有章，没有节
-                zhang_answer_num = res.data[i].length;
-              } else {
-                for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
-                  zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
-                  zhang_answer_num += res.data[i][j].length;
-                }
-              }
-              zhangjie[i].zhang_answer_num = zhang_answer_num;
-            }
-            //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
-            self.setData({
-              zhangjie: zhangjie
-            })
-          },
-          fail: function() { //如果没有本地存储就初始化
-            wx.setStorage({
-              key: self.data.zhangjie_id,
-              data: answer_nums_array
-            })
-          }
-        })
-
-        self.setData({
-          zhangjie: zhangjie,
-          windowWidth: windowWidth, //窗口宽度
-          windowHeight: windowHeight, //窗口可视高度
-          scrollHeight: scrollHeight, //滚动条高度
-          loaded: true //已经载入完毕
-        })
-        wx.hideLoading();
-      }).catch((errMsg) => {
-        console.log(errMsg); //错误提示信息
-        wx.hideLoading();
-      });
-
-    }).catch((errMsg) => {
-      console.log(errMsg); //错误提示信息
-      wx.hideLoading();
-    });
-
   },
 
   /**
@@ -404,5 +387,43 @@ Page({
    */
   onShareAppMessage: function() {
 
+  },
+
+  /**
+   * 获取窗口高度 宽度 并计算章节滚动条的高度
+   */
+  setWindowWidthHeightScrollHeight:function(){
+    let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
+    let windowHeight = wx.getSystemInfoSync().windowHeight; //获取窗口高度(px)
+    windowHeight = (windowHeight * (750 / windowWidth)); //转换窗口高度(rpx)
+    let scrollHeight =   windowHeight - 720 //计算滚动框高度(rpx) 
+
+    this.setData({
+      windowWidth: windowWidth, //窗口宽度
+      windowHeight: windowHeight, //窗口可视高度
+      scrollHeight: scrollHeight, //滚动条高度
+    })
+  },
+
+  /**
+   * 
+   */
+  setZhangjie:function(res){
+    let z_id = 0;
+    let index = 0;
+    let tiku = wx.getStorageSync("tiku_id");
+    if (tiku == "") {
+      z_id = res[0].id;
+      index = 0;
+    } else {
+      z_id = tiku.id;
+      index = tiku.index;
+    }
+
+    this.setData({
+      array: res,
+      zhangjie_id: z_id,
+      index: index
+    })
   }
 })
