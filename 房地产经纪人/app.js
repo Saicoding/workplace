@@ -49,7 +49,7 @@ App({
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    // wx.clearStorage();
+    wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({

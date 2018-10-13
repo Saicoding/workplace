@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "markAnswer": "/components/markAnswer/markAnswer"
+  }
+}

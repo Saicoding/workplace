@@ -89,22 +89,40 @@ page {
 /******************** 解析 **********************/
 
 .jiexi_border {
-  height: 80rpx;
-  line-height: 120rpx;
-  text-align: center;
+  width: 100%;
+  height:50rpx;
+  clear:both;
+  display: block;
+  align-content: center;
+  padding-left:90rpx;
 }
 
-.jiexi_border .line {
-  display: inline-block;
+.jiexi {
+  margin: 0 auto;
+  margin-top:25rpx;
+  text-align: left;
+  clear: both;
+  width: 80%;
+  color: #666;
+  line-height: 40rpx;
+  font-size: 25rpx;
+  text-indent: 40rpx;
+}
+
+.line {
+  display: float;
+  float:left;
   width: 240rpx;
   border-top: 1px solid #ccc;
+  margin-top:20rpx;
 }
 
-.jiexi_border .txt {
+.txt {
+  display: float;
+  float:left;
   color: #686868;
   margin: 0 20rpx;
   font-size: 25rpx;
-  vertical-align: middle;
 }
 
 .log-list {
@@ -117,28 +135,11 @@ page {
   background-color: #666;
 }
 
-.jiexi {
-  margin: 0 auto;
-  text-align: center;
-  clear: both;
-  width: 80%;
-  color: #0197f6;
-  line-height: 2rem;
-  height: 2rem;
-}
 
 /******************** 提交答案 **********************/
 
 .submit_answer {
   width: 50%;
-}
-
-.jiexi view {
-  color: #666;
-  text-align: left;
-  font-size: 0.8rem;
-  line-height: 1.2rem;
-  text-indent: 2em;
 }
 
 .bottom {
@@ -173,7 +174,6 @@ page {
 
 /******************** 答案组块 **********************/
 .answer-block{
-  border: 1px solid red;
   padding-top:10rpx;
 }
 /* 答案选项前面的图片 */

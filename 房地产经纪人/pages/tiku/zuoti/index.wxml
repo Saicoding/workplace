@@ -17,8 +17,8 @@
       {{shiti.question}}
     </view>
     <!--单选题-->
-    <view wx:if="{{shiti.TX == 1}}" >
-      <radio-group class="radio-group" bindchange="singleSelect">
+    <view wx:if="{{shiti.TX == 1}}">
+      <radio-group class="radio-group" bindchange="answerSelect">
         <label class="radio">
           <radio hidden value="A" checked="{{checked}}" />
           <view>
@@ -48,50 +48,72 @@
           </view>
         </label>
       </radio-group>
+      <!-- 解析条样式 -->
+      <view class="jiexi_border" hidden="{{!shiti.isAnswer}}">
+        <view class="line"></view>
+        <text class="txt">解析</text>
+        <view class="line"></view>
+      </view>
+
+      <!-- 解析描述 -->
+      <view class='jiexi' hidden="{{!shiti.isAnswer}}">
+        {{shiti.jiexi}}
+      </view>
     </view>
     <!--多选题-->
-    <checkbox-group wx:if="{{TX_n ==2}}" bindchange='checkval'>
+    <checkbox-group wx:if="{{shiti.TX ==2}}" bindchange='checkval'>
       <view class='checkbox-group'>
         <label class="checkbox">
           <checkbox hidden value="A" checked="{{checked}}" />
           <view class="answer-block">
-            <image src="{{srcs.A}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{A}}</text>
+            <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.A}}</text>
           </view>
         </label>
 
         <label class="checkbox">
           <checkbox hidden value="B" checked="{{checked}}" />
           <view class="answer-block">
-            <image src="{{srcs.B}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{B}}</text>
+            <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.B}}</text>
           </view>
         </label>
 
         <label class="checkbox">
           <checkbox hidden value="C" checked="{{checked}}" />
           <view class="answer-block">
-            <image src="{{srcs.C}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{C}}</text>
+            <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.C}}</text>
           </view>
         </label>
 
         <label class="checkbox">
           <checkbox hidden value="D" checked="{{checked}}" />
           <view class="answer-block">
-            <image src="{{srcs.D}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{D}}</text>
+            <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.D}}</text>
           </view>
         </label>
 
         <label class="checkbox">
           <checkbox hidden value="E" checked="{{checked}}" />
           <view class="answer-block">
-            <image src="{{srcs.E}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{E}}</text>
+            <image src="{{shiti.srcs.E}}" mod="aspectFit" class="answer-img"></image>
+            <text class="answer-text">{{shiti.E}}</text>
           </view>
         </label>
-        <button class='submit_answer' bindtap="chenckChange">确认选择</button>
+        <button class='submit_answer' wx:if = "{{!shiti.isAnswer}}" bindtap="answerSelect">确认选择</button>
+      </view>
+            <!-- 解析条样式 -->
+      <view class="jiexi_border" hidden="{{!shiti.isAnswer}}">
+        <view class="line"></view>
+        <text class="txt">解析</text>
+        <view class="line"></view>
+      </view>
+
+      <!-- 解析描述 -->
+      <view class='jiexi' hidden="{{!shiti.isAnswer}}">
+        <view style="padding-top:40rpx;">{{shiti.jiexi}}</view>
       </view>
     </checkbox-group>
 
@@ -110,7 +132,7 @@
             {{item.question}}
           </view>
           <!--单选题-->
-          <view wx:if="{{item.TX =='单选题'}}" >
+          <view wx:if="{{item.TX =='单选题'}}">
             <radio-group class="radio-group" bindchange="cailiaoRadioChange">
               <label class="radio">
                 <radio hidden value="A" checked="{{checked}}" />
@@ -193,20 +215,7 @@
 
     <!--条件题-->
     <view wx:if="{{length > 5}}"> 99 </view>
-
     <view style='clear:both'></view>
-
-    <!-- 解析条样式 -->
-    <view class="jiexi_border" hidden="{{hiddenjiexi}}">
-      <view class="line"></view>
-      <text class="txt">解析</text>
-      <view class="line"></view>
-    </view>
-
-    <!-- 解析描述 -->
-    <view class='jiexi' hidden="{{hiddenjiexi}}">
-      <view style="padding-top:40rpx;">{{jiexi}}</view>
-    </view>
   </view>
 
 
@@ -222,10 +231,16 @@
       <view class="bottom-text" style="color:#e85e60;">{{wrongNum}}</view>
     </view>
 
-    <view class="bottom-block">
+    <view class="bottom-block" bindtap = "toggleMarkAnswer">
       <image src="/imgs/square.png" mod="aspectFit" class="bottom-img"></image>
       <view class="bottom-text">{{shiti.px}} /</view>
       <view class="bottom-text" style="color:#a0a0a0;">{{nums}}</view>
     </view>
   </view>
+
+  <!-- 答题板 -->
+  <markAnswer id = "markAnswer" 
+      done_answers = "{{jieDoneAnswerArray}}"
+      markAnswerItems = "{{markAnswerItems}}">
+  </markAnswer>
 </page>

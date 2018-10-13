@@ -41,13 +41,14 @@ Page({
         wx.getStorage({
           key: self.data.zhangjie_id,
           success: function(res) {
-            //将每个节的已经作答的本地存储映射到组件中          
+            //将每个节的已经作答的本地存储映射到组件中    
+            console.log(res)   
             for (let i = 0; i < zhangjie.length; i++) {
               let zhang_answer_num = 0; //章的总作答数
               if (zhangjie[i].zhangjie_child == undefined) { //如果只有章，没有节
                 zhang_answer_num = res.data[i].length;
               } else {
-                for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
+                for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {   
                   zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
                   zhang_answer_num += res.data[i][j].length;
                 }
@@ -311,6 +312,7 @@ Page({
     let self = this;
     let zhangjie = self.data.zhangjie;
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作
+
     // 得到存储答题状态
     wx.getStorage({
       key: self.data.zhangjie_id,
@@ -421,6 +423,7 @@ Page({
       let child = zhangjie[i].zhangjie_child; //字节
 
       answer_nums_array[i] = []; //初始化本地存储
+
       if (child.length > 0) {
         zhangjie[i].hasChild = true;
         for (let j = 0; j < child.length; j++) {
@@ -432,5 +435,4 @@ Page({
       }
     }
   }
-
 })
