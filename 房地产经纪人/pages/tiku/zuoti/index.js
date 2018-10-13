@@ -152,16 +152,18 @@ Page({
 
       app.post(API_URL, "action=SelectShiti&id=" + id + "&z_id=" + self.data.z_id + "&order=" + order + "&username=" + self.data.username + "&acode=" + self.data.acode).then((res) => {
         let shiti = res.data.shiti[0];
-        if (shiti == undefined && order == "desc") { //如果是逆序没有得到试题
-          console.log('这是第一题')
+
+        if (shiti == undefined && order == "asc") {
+          wx.navigateTo({
+            url: '/pages/jieAnswerAll/jieAnswerAll',
+          })
+          console.log('ok')
+          wx.hideLoading();
           return;
         }
+        console.log("haha")
 
         this.initShiti(shiti); //初始化试题对象
-        if (res.data.shiti.length == 0) {
-          console.log('最后一题')
-          return false
-        }
 
         wx.getStorage({
           key: self.data.zhangjie_id,
@@ -500,6 +502,7 @@ Page({
     } else { //如果没有子节
       last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx
     }
+    console.log(self.data.shiti.id)
     //本地存储最后一次访问的题目
     wx.setStorage({
       key: last_view_key,

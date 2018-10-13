@@ -4,7 +4,8 @@
     "pages/logs/logs",
     "pages/index/index",
     "pages/tiku/zuoti/index",
-    "pages/login1/login1"
+    "pages/login1/login1",
+    "pages/jieAnswerAll/jieAnswerAll"
   ],
   "window": {
     "backgroundTextStyle": "light",
