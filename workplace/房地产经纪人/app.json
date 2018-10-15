@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/tiku/index",
+    "pages/logs/logs",
+    "pages/index/index",
+    "pages/tiku/zuoti/index",
+    "pages/login1/login1",
+    "pages/jieAnswerAll/jieAnswerAll"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0197F6",
+    "navigationBarTitleText": "房地产经纪考试通",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/tiku/index",
+        "selectedColor": "#0197F6",
+        "color": "#333",
+        "text": "题库"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "selectedColor": "#0197F6",
+        "color": "#333",
+        "text": "视频"
+      }
+    ]
+  }
+}

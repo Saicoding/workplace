@@ -1,0 +1,8 @@
+<!--components/Dialog/dialog.wxml-->
+<view hidden="{{!isShow}}" class="container">
+  <view wx:for="{{markAnswerItems}}" wx:key="item">
+    <view data-px ="{{index+1}}" catchtap='_tapEvent' class="icon" style="background:{{item.isRight == undefined?'#f0f0f0':(item.isRight == 0?'#fa4b5c':'#90dd35')}}">
+      {{index+1}}
+    </view>
+  </view>
+</view>

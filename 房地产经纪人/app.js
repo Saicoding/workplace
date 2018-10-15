@@ -1,16 +1,16 @@
 //app.js
 App({
   /** 
-    * 自定义post函数，返回Promise
-    * +-------------------
-    * author: 武当山道士<912900700@qq.com>
-    * +-------------------
-    * @param {String}      url 接口网址
-    * @param {arrayObject} data 要传的数组对象 例如: {name: '武当山道士', age: 32}
-    * +-------------------
-    * @return {Promise}    promise 返回promise供后续操作
-    */
-  post: function (url, data) {
+   * 自定义post函数，返回Promise
+   * +-------------------
+   * author: 武当山道士<912900700@qq.com>
+   * +-------------------
+   * @param {String}      url 接口网址
+   * @param {arrayObject} data 要传的数组对象 例如: {name: '武当山道士', age: 32}
+   * +-------------------
+   * @return {Promise}    promise 返回promise供后续操作
+   */
+  post: function(url, data, ifShow) {
     var promise = new Promise((resolve, reject) => {
       //init
       var that = this;
@@ -20,36 +20,39 @@ App({
       postData.signature = that.makeSign(postData);
       */
       //网络请求
-      wx.showLoading({
-        title: '加载中...',
-      })
+      if (ifShow) {
+        wx.showLoading({
+          title: '',
+        })
+      }
       wx.request({
         url: url,
         data: postData,
         method: 'POST',
-        header: { 'content-type': 'application/x-www-form-urlencoded' },
-        success: function (res) {//服务器返回数据
-        // console.log(res)
+        header: {
+          'content-type': 'application/x-www-form-urlencoded'
+        },
+        success: function(res) { //服务器返回数据
+          // console.log(res)
           if (res.data.status == 1) {
             resolve(res);
           } else {
             reject(res.data.info);
           }
         },
-        error: function (e) {
+        error: function(e) {
           reject('网络出错');
         }
       })
-      //wx.hideLoading();
     });
     return promise;
   },
 
-  onLaunch: function () {
+  onLaunch: function() {
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    wx.clearStorage();
+    // wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({
@@ -74,6 +77,6 @@ App({
   },
   globalData: {
     userInfo: null,
-    isLogin:false,
+    isLogin: false,
   }
 })

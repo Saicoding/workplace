@@ -38,14 +38,16 @@ Page({
         code = res.code;
         //得到openId和session_key
         app.post(API_URL, "action=Login_wx&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex+"&code="+code).then((res) => {
-          console.log(res)
           let user = res.data.list[0];
+          console.log(user)
           wx.setStorage({
             key: 'user',
             data: user
           })
           // wx.hideLoading();
-          wx.navigateBack();
+          wx.redirectTo({
+            url: self.data.url,
+          })
         })
       }
     })
@@ -55,14 +57,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    console.log(decodeURIComponent(options.url))
+    this.setData({
+      url:decodeURIComponent(options.url)
+    })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
   },
 
   /**

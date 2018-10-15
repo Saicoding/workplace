@@ -16,8 +16,9 @@ Page({
   data: {
     index: 0, //用于题库的index编号,可以得到是第几个题库
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
-    loaded: false ,//是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
-    zhangjie:""//章节信息
+    loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
+    zhangjie: "", //章节信息
+    z_id: 0 //题库id
   },
 
   /**
@@ -28,13 +29,12 @@ Page({
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 
     app.post(API_URL, "action=SelectZj").then((res) => {
-      
-      this.setZhangjie(res.data.list);//得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
+      this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
-      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {//得到上一步设置的题库下的所有章节
+      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true).then((res) => { //得到上一步设置的题库下的所有章节
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
-        this.initZhangjie(zhangjie,answer_nums_array)//初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
+        this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
 
         // wx.clearStorage(self.data.zhangjie_id)
         // 得到存储答题状态
@@ -42,13 +42,13 @@ Page({
           key: self.data.zhangjie_id,
           success: function(res) {
             //将每个节的已经作答的本地存储映射到组件中    
-            console.log(res)   
+            console.log(res)
             for (let i = 0; i < zhangjie.length; i++) {
               let zhang_answer_num = 0; //章的总作答数
               if (zhangjie[i].zhangjie_child == undefined) { //如果只有章，没有节
                 zhang_answer_num = res.data[i].length;
               } else {
-                for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {   
+                for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
                   zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
                   zhang_answer_num += res.data[i][j].length;
                 }
@@ -70,6 +70,7 @@ Page({
 
         self.setData({
           zhangjie: zhangjie,
+          // z_id:res.data.list[0].z_id,
           loaded: true //已经载入完毕
         })
         wx.hideLoading();
@@ -261,38 +262,60 @@ Page({
    */
   GOzuoti: function(e) {
     let self = this;
+    let z_id = e.currentTarget.id;
+    let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
+    let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
+
+    let zhangjie = self.data.zhangjie; //章节
+    let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
+
+    //如果章节没有字节,将章节总题数置为做题数
+    let nums = 0;
+    if (zhangjie[zhangIdx].zhangjie_child.length != 0) {
+      nums = zhangjie[zhangIdx].zhangjie_child[jieIdx].nums;
+    } else {
+      nums = zhangjie[zhangIdx].nums;
+    }
+
+    let url = encodeURIComponent('/pages/tiku/zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx)
+    let url1 = '/pages/tiku/zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
       success: function(res) { //如果已经登陆过
-        let z_id = e.currentTarget.id;
-        let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
-        let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
-
-        let zhangjie = self.data.zhangjie; //章节
-        let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
-        let username = res.data.username;//用户名
-        let acode = res.data.acode;//用户唯一码
-
-        //如果章节没有字节,将章节总题数置为做题数
-        let nums = 0;
-        if (zhangjie[zhangIdx].zhangjie_child.length != 0) {
-          nums = zhangjie[zhangIdx].zhangjie_child[jieIdx].nums;
-        } else {
-          nums = zhangjie[zhangIdx].nums;
-        }
-        wx.setStorage({
-            key: 'id',
-            data: "0"
-          }),
-          wx.navigateTo({
-            url: 'zuoti/index?z_id=' + z_id + '&nums=' + nums + '&zhangjie_id=' + zhangjie_id + '&zhangIdx=' + zhangIdx + '&jieIdx=' + jieIdx+'&username='+username+'&acode='+acode
-          })
+        wx.navigateTo({
+          url: url1
+        })
 
       },
       fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1',
+          url: '/pages/login1/login1?url=' + url,
+        })
+      }
+    })
+  },
+
+  /**
+   * 
+   */
+  GOAnswerWrong: function(e) {
+    let self = this;
+    let kid = self.data.zhangjie_id;
+    let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid='+kid)
+    let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
+    wx.getStorage({
+      key: 'user',
+      success: function(res) { //如果已经登陆过
+        console.log(url)
+        wx.navigateTo({
+          url:url1
+        })
+
+      },
+      fail: function(res) { //如果没有username就跳转到登录界面
+        wx.navigateTo({
+          url: '/pages/login1/login1?url=' + url,
         })
       }
     })
@@ -376,11 +399,11 @@ Page({
   /**
    * 获取窗口高度 宽度 并计算章节滚动条的高度
    */
-  setWindowWidthHeightScrollHeight:function(){
+  setWindowWidthHeightScrollHeight: function() {
     let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
     let windowHeight = wx.getSystemInfoSync().windowHeight; //获取窗口高度(px)
     windowHeight = (windowHeight * (750 / windowWidth)); //转换窗口高度(rpx)
-    let scrollHeight =   windowHeight - 720 //计算滚动框高度(rpx) 
+    let scrollHeight = windowHeight - 720 //计算滚动框高度(rpx) 
 
     this.setData({
       windowWidth: windowWidth, //窗口宽度
@@ -392,7 +415,7 @@ Page({
   /**
    * 
    */
-  setZhangjie:function(res){
+  setZhangjie: function(res) {
     let z_id = 0;
     let index = 0;
     let tiku = wx.getStorageSync("tiku_id");
@@ -414,7 +437,7 @@ Page({
   /**
    * 
    */
-  initZhangjie: function ( zhangjie, answer_nums_array){//初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
+  initZhangjie: function(zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
     for (let i = 0; i < zhangjie.length; i++) {
       zhangjie[i].height = 0; //设置点击展开初始高度
       zhangjie[i].display = true; //设置点击展开初始动画为true

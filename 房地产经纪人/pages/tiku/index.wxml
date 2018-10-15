@@ -18,7 +18,7 @@
     <view class='t_center'></view>
     <view class='t_right'>
       <view class='ti_z3'>
-        <view class='t_text'>我的错题</view>
+        <view bindtap= "GOAnswerWrong" class='t_text'>我的错题</view>
       </view>
       <view class='ti_z4'>
         <view class='t_text'>考前押题</view>

@@ -1,0 +1,24 @@
+/* components/markAnswer/markAnswer.wxss */
+.container{
+  width:100%;
+  border:1px solid#f3f3f3;
+  position:absolute;
+  top:600rpx;
+  background: #ffffff;
+  /* margin-top:200rpx; */
+}
+
+.icon{
+  display: float;
+  float:left;
+  width:50rpx;
+  height:50rpx;
+  border:1px solid #9c9c9c;
+  border-radius: 50rpx;
+  margin-left:20rpx;
+  margin-top:20rpx;
+  font-size:25rpx;
+  text-align: center;
+  line-height: 50rpx;
+  margin-bottom:20rpx;
+}
