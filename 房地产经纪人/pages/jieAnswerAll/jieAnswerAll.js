@@ -15,6 +15,12 @@ Page({
 
   },
 
+  onUnload:function(){
+    wx.navigateBack({
+      delta: 2
+    })
+  },
+
   restart: function(options){
     let pages = getCurrentPages();
     var currPage = pages[pages.length - 1];   //当前页面
