@@ -2,7 +2,7 @@
 <page>
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
-  <view class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-120}}rpx;border:1px solid yellow' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
     <!-- <view class='{{daan_class}}'></view> -->
     <view class="section section_gap" style='display:none'>
       <view class="body-view">
@@ -118,7 +118,7 @@
     </checkbox-group>
 
     <!--材料题-->
-    <view wx:if="{{TX_n == 99}}">
+    <view wx:if="{{shiti.TX == 99}}">
       <view wx:if="{{!cl_question_hidden}}" class="cailiaoZuoti">
         <button class="cailiaoZuoti-btn" bindtap='cailiaoZuoti'>答题</button>
       </view>
@@ -216,7 +216,7 @@
     <!--条件题-->
     <view wx:if="{{length > 5}}"> 99 </view>
     <view style='clear:both'></view>
-  </view>
+  </scroll-view>
 
 
   <!--底部正确错误个数统计条-->

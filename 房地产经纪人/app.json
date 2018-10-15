@@ -5,9 +5,9 @@
     "pages/index/index",
     "pages/tiku/zuoti/index",
     "pages/login1/login1",
-    "pages/jieAnswerAll/jieAnswerAll",
+    "pages/prompt/jieAnswerAll/jieAnswerAll",
     "pages/tiku/wrong/wrong",
-    "pages/hasNoErrorShiti/hasNoErrorShiti"
+    "pages/prompt/hasNoErrorShiti/hasNoErrorShiti"
   ],
   "window": {
     "backgroundTextStyle": "light",

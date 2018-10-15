@@ -111,8 +111,20 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+    let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
+    wx.getSystemInfo({//得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success:function(res){//转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowHeight: windowHeight
+        })
+      }
+     
+    });
   },
   /**
    * touch开始事件
@@ -135,13 +147,12 @@ Page({
     let self = this;
     var touchMove = e.changedTouches[0].pageX;
     let px = self.data.shiti.px;//试题的编号
-    console.log(px)
 
     // 滑动  
     if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
       tmpFlag = false;
       touchMove - touchDot > 0 ? px-=1:px+=1
-      if(px == self.data.nums){//最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
+      if(px > self.data.nums){//最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         let jieDoneAnswerArray = self.data.jieDoneAnswerArray;
         if (jieDoneAnswerArray.length == self.data.nums) {
           wx.navigateTo({
@@ -151,12 +162,15 @@ Page({
           this.showMarkAnswer();
         }
         wx.hideLoading();
+        clearInterval(interval); // 清除setInterval
+        time = 0;
+        tmpFlag = true; // 恢复滑动事件
         return;
       }
 
       app.post(API_URL, "action=SelectShiti&z_id=" + self.data.z_id + "&px=" + px + "&username=" + self.data.username + "&acode=" + self.data.acode,true).then((res) => {
-        console.log(res)
         let shiti = res.data.shiti[0];
+        console.log(shiti)
 
         self.storeLastShiti(px); //存储最后一题的状态
 
@@ -255,7 +269,6 @@ Page({
    * 初始化xiaoti
    */
   initShiti: function(shiti,px) {
-    console.log(shiti.TX)
     let TX = shiti.TX;
 
     //给试题设置章idx 节idx 和默认已做答案等

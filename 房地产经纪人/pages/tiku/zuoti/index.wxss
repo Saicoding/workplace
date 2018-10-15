@@ -11,6 +11,7 @@ page {
   line-height: 60rpx;
   width: 96%;
   margin: 15rpx auto 20rpx auto;
+  /* border:1px solid red; */
 }
 
 .question_cailiao1 {
@@ -146,12 +147,13 @@ page {
   display: inline-block;
   width: 100%;
   position: fixed;
-  height: 2rem;
+  height: 80rpx;
   bottom: 0;
   border-top: 1px solid#f3f3f3;
   padding-top: 18rpx;
   padding-left: -30rpx;
   background-color: #fbf9f9;
+  border: 1px solid blue;
 }
 
 .bottom-text {

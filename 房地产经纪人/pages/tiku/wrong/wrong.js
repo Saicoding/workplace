@@ -42,9 +42,8 @@ Page({
       //初始化试题对象，针对不同题型给试题添加各种属性
       
       if (res.data == undefined) {
-        console.log('ok')
         wx.navigateTo({
-          url: '/pages/hasNoErrorShiti/hasNoErrorShiti',
+          url: '/pages/prompt/hasNoErrorShiti/hasNoErrorShiti',
         })
         return
       }
@@ -72,7 +71,7 @@ Page({
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
       wx.navigateTo({
-        url: '/pages/hasNoErrorShiti/hasNoErrorShiti',
+        url: '/pages/prompt/hasNoErrorShiti/hasNoErrorShiti',
       })
       wx.hideLoading();
     });
@@ -102,7 +101,6 @@ Page({
    * touch结束事件
    */
   touchEnd: function(e) {
-    console.log("ok")
     let self = this;
     var touchMove = e.changedTouches[0].pageX;
     let px = self.data.shiti.px; //试题的编号
@@ -119,7 +117,7 @@ Page({
       if (px > self.data.nums) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         if (error_done_answer_array.length == self.data.nums) {
           wx.navigateTo({
-            url: '/pages/jieAnswerAll/jieAnswerAll',
+            url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
           })
         } else {
           this.showMarkAnswer();
@@ -139,7 +137,6 @@ Page({
         tmpFlag = true; // 恢复滑动事件
         return
       }
-      console.log('okk')
 
       let shiti = allShiti[px - 1];
       this.initShiti(shiti, px); //初始化试题对象
