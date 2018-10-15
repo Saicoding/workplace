@@ -1,6 +1,6 @@
 //index.js
 //获取应用实例
-const app = getApp()
+const app = getApp()//得到app
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 
 Page({
