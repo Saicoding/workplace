@@ -110,13 +110,13 @@ Page({
     let allShiti = self.data.allShiti //所有试题
     let username = self.data.username; //用户名
     let acode = self.data.acode; //用户唯一码
+    let error_done_answer_array = self.data.error_done_answer_array; 
 
     // 滑动  
     if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
       tmpFlag = false;
       touchMove - touchDot > 0 ? px -= 1 : px += 1
       if (px > self.data.nums) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
-        let error_done_answer_array = self.data.error_done_answer_array;
         if (error_done_answer_array.length == self.data.nums) {
           wx.navigateTo({
             url: '/pages/jieAnswerAll/jieAnswerAll',
@@ -143,6 +143,20 @@ Page({
 
       let shiti = allShiti[px - 1];
       this.initShiti(shiti, px); //初始化试题对象
+
+      //先处理是否是已经回答的题    
+      for (let i = 0; i < error_done_answer_array.length; i++) {
+        if (error_done_answer_array[i].id == shiti.id) { //如果是已答题目
+          self.changeShiti(shiti, error_done_answer_array[i].done_daan, shiti.answer, shiti.tx); //根据得到的已答数组更新试题状态
+        }
+      }
+
+      //如果已答试题数目大于0才更新shiti
+      if (error_done_answer_array.length > 0) {
+        self.setData({
+          shiti: shiti
+        })
+      }
 
       self.setData({ //每滑动一下,更新试题
         shiti: shiti,
@@ -497,10 +511,24 @@ Page({
     let allShiti = self.data.allShiti;
     let px = e.detail.px;
     let kid = self.data.kid;
-
+    let error_done_answer_array = self.data.error_done_answer_array;
     let shiti = allShiti[px - 1];
 
     self.initShiti(shiti, px); //初始化试题对象
+
+    //先处理是否是已经回答的题    
+    for (let i = 0; i < error_done_answer_array.length; i++) {
+      if (error_done_answer_array[i].id == shiti.id) { //如果是已答题目
+        self.changeShiti(shiti, error_done_answer_array[i].done_daan, shiti.answer, shiti.tx); //根据得到的已答数组更新试题状态
+      }
+    }
+
+    //如果已答试题数目大于0才更新shiti
+    if (error_done_answer_array.length > 0) {
+      self.setData({
+        shiti: shiti
+      })
+    }
 
     self.setData({ //每滑动一下,更新试题
       shiti: shiti,
