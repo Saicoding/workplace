@@ -2,7 +2,7 @@
 <page>
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
-  <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-120}}rpx;border:1px solid yellow' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;border:1px solid yellow' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
     <!-- <view class='{{daan_class}}'></view> -->
     <view class="section section_gap" style='display:none'>
       <view class="body-view">
@@ -220,23 +220,13 @@
 
 
   <!--底部正确错误个数统计条-->
-  <view class='bottom'>
-    <view class="bottom-block">
-      <image src="/imgs/right.png" mod="aspectFit" class="bottom-img"></image>
-      <view class="bottom-text" style="color:#5ebded;">{{rightNum}}</view>
-    </view>
-
-    <view class="bottom-block">
-      <image src="/imgs/wrong.png" mod="aspectFit" class="bottom-img"></image>
-      <view class="bottom-text" style="color:#e85e60;">{{wrongNum}}</view>
-    </view>
-
-    <view class="bottom-block" bindtap = "toggleMarkAnswer">
-      <image src="/imgs/square.png" mod="aspectFit" class="bottom-img"></image>
-      <view class="bottom-text">{{shiti.px}} /</view>
-      <view class="bottom-text" style="color:#a0a0a0;">{{nums}}</view>
-    </view>
-  </view>
+  <count rightNum = "{{rightNum}}"
+         wrongNum = "{{wrongNum}}"
+         nums = "{{nums}}"
+         px = "{{shiti.px}}
+         isMark = "{{shiti.isMark}}"
+         class = "bottom">
+  </count>
 
   <!-- 答题板 -->
   <markAnswer id = "markAnswer" 

@@ -147,32 +147,14 @@ page {
   display: inline-block;
   width: 100%;
   position: fixed;
-  height: 80rpx;
+  height: 60rpx;
   bottom: 0;
   border-top: 1px solid#f3f3f3;
   padding-top: 18rpx;
-  padding-left: -30rpx;
   background-color: #fbf9f9;
   border: 1px solid blue;
 }
 
-.bottom-text {
-  font-size: 35rpx;
-  display: inline-block;
-  margin-left: 30rpx;
-  padding-top: -50rpx;
-}
-
-.bottom-block {
-  display: inline-block;
-  margin-left: 100rpx;
-}
-
-.bottom-img {
-  width: 30rpx;
-  height: 30rpx;
-  display: inline-block;
-}
 
 /******************** 答案组块 **********************/
 .answer-block{
