@@ -7,7 +7,8 @@
     "pages/login1/login1",
     "pages/prompt/jieAnswerAll/jieAnswerAll",
     "pages/tiku/wrong/wrong",
-    "pages/prompt/hasNoErrorShiti/hasNoErrorShiti"
+    "pages/prompt/hasNoErrorShiti/hasNoErrorShiti",
+    "pages/tiku/mark/mark"
   ],
   "window": {
     "backgroundTextStyle": "light",

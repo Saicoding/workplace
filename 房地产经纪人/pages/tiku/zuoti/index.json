@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "markAnswer": "/components/markAnswer/markAnswer",
-    "count":"/components/count/count"
+   "count": "/components/count/count",
+    "markAnswer": "/components/markAnswer/markAnswer"
   }
 }

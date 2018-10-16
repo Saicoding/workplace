@@ -217,21 +217,22 @@
     <view wx:if="{{length > 5}}"> 99 </view>
     <view style='clear:both'></view>
   </scroll-view>
-
-
-  <!--底部正确错误个数统计条-->
-  <count rightNum = "{{rightNum}}"
-         wrongNum = "{{wrongNum}}"
-         nums = "{{nums}}"
-         px = "{{shiti.px}}
-         isMark = "{{shiti.isMark}}"
-         class = "bottom">
-  </count>
-
   <!-- 答题板 -->
   <markAnswer id = "markAnswer" 
       done_answers = "{{jieDoneAnswerArray}}"
       markAnswerItems = "{{markAnswerItems}}"   
       bind:tapEvent="_tapEvent" >
   </markAnswer>
+
+  <!--底部正确错误个数统计条-->
+  <count id = "count" rightNum = "{{rightNum}}"
+         wrongNum = "{{wrongNum}}"
+         nums = "{{nums}}"
+         px = "{{shiti.px}}"
+         isMark = "{{shiti.favorite}}"
+         class = "bottom"
+         bindtoogleMark = "_toogleMark"
+         bindtoogleMarkAnswer = "_toogleMarkAnswer"
+         >
+  </count>
 </page>

@@ -30,7 +30,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     let self = this;
     let user = wx.getStorageSync('user');
     let username = user.username; //用户姓名
@@ -38,16 +38,16 @@ Page({
     let kid = options.kid; //题库编号
     let px = 1;
 
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true).then((res) => {
+    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true).then((res) => {
       //初始化试题对象，针对不同题型给试题添加各种属性
-      
+
       if (res.data == undefined) {
         wx.navigateTo({
           url: '/pages/prompt/hasNoErrorShiti/hasNoErrorShiti',
         })
         return
       }
-      
+
       let shiti = res.data.shiti[0];
 
       this.initShiti(shiti, px); //初始化试题对象
@@ -79,28 +79,28 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
   },
   /**
    * touch开始事件
    */
-  touchStart: function(e) {
+  touchStart: function (e) {
     touchDot = e.touches[0].pageX; // 获取触摸时的原点
     // 使用js计时器记录时间    
-    interval = setInterval(function() {
+    interval = setInterval(function () {
       time++;
     }, 100);
   },
   /**
    * touch移动事件
    */
-  touchMove: function(e) {},
+  touchMove: function (e) { },
   /**
    * touch结束事件
    */
-  touchEnd: function(e) {
+  touchEnd: function (e) {
     let self = this;
     var touchMove = e.changedTouches[0].pageX;
     let px = self.data.shiti.px; //试题的编号
@@ -108,7 +108,7 @@ Page({
     let allShiti = self.data.allShiti //所有试题
     let username = self.data.username; //用户名
     let acode = self.data.acode; //用户唯一码
-    let error_done_answer_array = self.data.error_done_answer_array; 
+    let error_done_answer_array = self.data.error_done_answer_array;
 
     // 滑动  
     if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
@@ -128,7 +128,7 @@ Page({
         tmpFlag = true; // 恢复滑动事件
         return;
       }
-      if(px == 0){
+      if (px == 0) {
         wx.showToast({
           title: '这是第一题',
         })
@@ -169,7 +169,7 @@ Page({
   /**
    * 作答
    */
-  answerSelect: function(e) {
+  answerSelect: function (e) {
     let self = this;
     if (self.data.shiti.isAnswer) return
 
@@ -186,7 +186,7 @@ Page({
   /**
    * 多选题选一个选项
    */
-  checkval: function(e) {
+  checkval: function (e) {
     let self = this;
     let shiti = self.data.shiti;
     let daan = e.detail.value;
@@ -206,7 +206,7 @@ Page({
   /**
    * 材料题开始作答
    */
-  cailiaoZuoti: function() {
+  cailiaoZuoti: function () {
     this.setData({
       cl_question_hidden: true
     })
@@ -214,14 +214,14 @@ Page({
   /**
    * 材料题单选
    */
-  cailiaoRadioChange: function() {
+  cailiaoRadioChange: function () {
 
   },
 
   /**
    * 初始化xiaoti
    */
-  initShiti: function(shiti, px) {
+  initShiti: function (shiti, px) {
     let TX = shiti.TX;
 
     //给试题设置章idx 节idx 和默认已做答案等
@@ -284,7 +284,7 @@ Page({
   /**
    * 初始化答题板数组
    */
-  initMarkAnswer: function(nums) {
+  initMarkAnswer: function (nums) {
     let markAnswerItems = this.data.markAnswerItems;
     for (let i = 0; i < nums; i++) {
       markAnswerItems.push({});
@@ -296,7 +296,7 @@ Page({
   /**
    * 更改选择状态
    */
-  changeSelectStatus: function(e, shiti) {
+  changeSelectStatus: function (e, shiti) {
     let self = this;
     //如果已经回答了就直接返回
 
@@ -364,7 +364,7 @@ Page({
   /**
    * 向服务器提交做题结果
    */
-  postAnswerToServer: function(acode, username, id, flag, done_daan) {
+  postAnswerToServer: function (acode, username, id, flag, done_daan) {
     //向服务器提交做题结果
     app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {
 
@@ -378,7 +378,7 @@ Page({
    *    3.answer : 该试题的正确答案
    *    4.tx : 试题的种类
    */
-  changeShiti: function(shiti, done_daan, answer, tx) {
+  changeShiti: function (shiti, done_daan, answer, tx) {
     switch (tx) {
       case "单选题":
         if (done_daan != answer) {
@@ -408,7 +408,7 @@ Page({
    * 参数:
    *    1.isRight : 试题是否正确 1 正确 0 错误
    */
-  setRightWrongNums: function(isRight, rightAndWrongObj) {
+  setRightWrongNums: function (isRight, rightAndWrongObj) {
     rightAndWrongObj.rightNum
 
     if (isRight == 1) { //如果是答对了
@@ -420,7 +420,7 @@ Page({
   /**
    * 存储答题状态,更新答题板数据
    */
-  storeAnswerStatus: function(shiti) {
+  storeAnswerStatus: function (shiti) {
     let self = this;
     let kid = self.data.kid;
     let error_done_answer_array = self.data.error_done_answer_array
@@ -441,7 +441,7 @@ Page({
   /**
    * 存储最后一题
    */
-  storeLastShiti: function(px) {
+  storeLastShiti: function (px) {
     let self = this;
     //存储当前最后一题
     let zhangIdx = self.data.zhangIdx;
@@ -464,13 +464,13 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     this.hide()
   },
   //核心方法，线程与setData
-  hide: function() {
+  hide: function () {
     var vm = this
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
       if (vm.data.winH > 0) {
         //清除interval 如果不清除interval会一直往上加
         clearInterval(interval)
@@ -485,19 +485,19 @@ Page({
   /**
    * 切换答题板
    */
-  _toogleMarkAnswer: function() {
+  _toogleMarkAnswer: function () {
     this.markAnswer.toogleDialog();
   },
   /**
    * 显示答题板
    */
-  showMarkAnswer: function() {
+  showMarkAnswer: function () {
     this.markAnswer.showDialog();
   },
   /**
    * 隐藏答题板
    */
-  hideMarkAnswer: function() {
+  hideMarkAnswer: function () {
     this.markAnswer.hideDialog();
   },
   /**
@@ -516,7 +516,7 @@ Page({
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
-  _tapEvent: function(e) {
+  _tapEvent: function (e) {
     let self = this;
     let allShiti = self.data.allShiti;
     let px = e.detail.px;
@@ -549,7 +549,7 @@ Page({
   /**
    * 映射该节已答题目，得到答题板迭代数组
    */
-  setMarkAnswerItems: function(error_done_answer_array, nums) {
+  setMarkAnswerItems: function (error_done_answer_array, nums) {
     let markAnswerItems = this.data.markAnswerItems;
     for (let i = 0; i < error_done_answer_array.length; i++) {
       let px = error_done_answer_array[i].px;

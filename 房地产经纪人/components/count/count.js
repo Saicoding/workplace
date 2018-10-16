@@ -21,8 +21,8 @@ Component({
       value:0
     },
     isMark:{
-      type:Boolean,
-      value:false
+      type:Number,
+      value:0
     } 
   },
 
@@ -37,6 +37,15 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
+    //切换是否收藏的状态
+    _toogleMark:function(){
+      this.setData({
+        isMark:!this.data.isMark
+      })
+      this.triggerEvent('toogleMark');
+    },
+    _toggleMarkAnswer:function(){
+      this.triggerEvent('toogleMarkAnswer')
+    }
   }
 })

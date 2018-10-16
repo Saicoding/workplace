@@ -297,19 +297,44 @@ Page({
   },
 
   /**
-   * 
+   * 导航到我的错题页面
    */
   GOAnswerWrong: function(e) {
     let self = this;
     let kid = self.data.zhangjie_id;
-    let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid='+kid)
+    let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
     let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
     wx.getStorage({
       key: 'user',
       success: function(res) { //如果已经登陆过
         console.log(url)
         wx.navigateTo({
-          url:url1
+          url: url1
+        })
+
+      },
+      fail: function(res) { //如果没有username就跳转到登录界面
+        wx.navigateTo({
+          url: '/pages/login1/login1?url=' + url,
+        })
+      }
+    })
+  },
+
+  /**
+   * 导航到收藏练习
+   */
+  GOMarkExercise: function(e) {
+    let self = this;
+    let kid = self.data.zhangjie_id;
+    let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
+    let url1 = '/pages/tiku/mark/mark?kid=' + kid;
+    wx.getStorage({
+      key: 'user',
+      success: function(res) { //如果已经登陆过
+        console.log(url)
+        wx.navigateTo({
+          url: url1
         })
 
       },

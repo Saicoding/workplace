@@ -1,5 +1,5 @@
-<view class="bottom-block">
-  <image src="{{isMark?'/imgs/marked.png':'/imgs/mark.png'}}" mod="aspectFit" class="bottom-img"></image>
+<view class="bottom-block" bindtap = "_toogleMark">
+  <image src="{{isMark ==0?'/imgs/mark.png':'/imgs/marked.png'}}" mod="aspectFit" class="bottom-img"></image>
   <view class="bottom-text" style="color:#666666;">收藏</view>
 </view>
 
@@ -13,7 +13,7 @@
   <view class="bottom-text" style="color:#e85e60;">{{wrongNum}}</view>
 </view>
 
-<view class="bottom-block" bindtap="toggleMarkAnswer" style = "float:right">
+<view class="bottom-block" bindtap="_toggleMarkAnswer" style = "float:right">
   <image src="/imgs/list.png" mod="aspectFit" class="bottom-img"></image>
   <view class="bottom-text" style= "width:80rpx;text-align:right;">{{px}} /</view>
   <view class="bottom-text" style="color:#a0a0a0;margin-left:10rpx;width:80rpx;">{{nums}}</view>

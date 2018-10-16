@@ -46,8 +46,9 @@ Page({
       px = 1 //如果没有这个px说明这个章节首次访问
     }
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id +  "&username=" + username + "&acode=" + acode,true).then((res) => {
-      //初始化试题对象，针对不同题型给试题添加各种属性
-      let shiti = res.data.shiti[0];
+      let shitiArray = res.data.shiti;     
+
+      let shiti = res.data.shiti[px-1];
 
       this.initShiti(shiti,px); //初始化试题对象
 
@@ -97,6 +98,7 @@ Page({
 
         nums: options.nums, //题数
         shiti: shiti, //试题对象
+        shitiArray: shitiArray,//整节的试题数组
         isLoaded: false, //是否已经载入完毕,用于控制过场动画
         username: username, //用户账号名称
         acode: acode //用户唯一码
@@ -168,45 +170,39 @@ Page({
         return;
       }
 
-      app.post(API_URL, "action=SelectShiti&z_id=" + self.data.z_id + "&px=" + px + "&username=" + self.data.username + "&acode=" + self.data.acode,true).then((res) => {
-        let shiti = res.data.shiti[0];
-        console.log(shiti)
+      let shitiArray = self.data.shitiArray;
 
-        self.storeLastShiti(px); //存储最后一题的状态
+      let shiti = shitiArray[px-1];
 
-        this.initShiti(shiti,px); //初始化试题对象
+      self.storeLastShiti(px); //存储最后一题的状态
 
-        wx.getStorage({
-          key: self.data.zhangjie_id,
-          success: function(res1) {
-            let jie_answer_array = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx] //根据章是否有子节得到所有已经回答的题
+      this.initShiti(shiti, px); //初始化试题对象
 
-            //先处理是否是已经回答的题    
-            for (let i = 0; i < jie_answer_array.length; i++) {
-              if (jie_answer_array[i].id == res.data.shiti[0].id) { //如果是已答题目
-                self.changeShiti(shiti, jie_answer_array[i].done_daan, shiti.answer, shiti.tx); //根据得到的已答数组更新试题状态
-              }
+      wx.getStorage({
+        key: self.data.zhangjie_id,
+        success: function (res1) {
+          let jie_answer_array = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx] //根据章是否有子节得到所有已经回答的题
+
+          //先处理是否是已经回答的题    
+          for (let i = 0; i < jie_answer_array.length; i++) {
+            if (jie_answer_array[i].id == shiti.id) { //如果是已答题目
+              self.changeShiti(shiti, jie_answer_array[i].done_daan, shiti.answer, shiti.tx); //根据得到的已答数组更新试题状态
             }
+          }
 
-            //如果已答试题数目大于0才更新shiti
-            if (jie_answer_array.length > 0) {
-              self.setData({
-                shiti: shiti
-              })
-            }
-          },
-        })
+          //如果已答试题数目大于0才更新shiti
+          if (jie_answer_array.length > 0) {
+            self.setData({
+              shiti: shiti
+            })
+          }
+        },
+      })
 
-        self.setData({ //每滑动一下,更新试题
-          shiti: shiti,
-          checked: false
-        })
-
-        wx.hideLoading();
-      }).catch((errMsg) => {
-        console.log(errMsg); //错误提示信息
-        wx.hideLoading();
-      });
+      self.setData({ //每滑动一下,更新试题
+        shiti: shiti,
+        checked: false
+      })
     }
     clearInterval(interval); // 清除setInterval
     time = 0;
@@ -547,7 +543,7 @@ Page({
   /**
    * 切换答题板
    */
-  toggleMarkAnswer: function() {
+  _toogleMarkAnswer: function() {
     this.markAnswer.toogleDialog();
   },
   /**
@@ -563,6 +559,19 @@ Page({
     this.markAnswer.hideDialog();
   },
   /**
+   * 切换是否收藏该试题
+   */
+  _toogleMark:function(e){
+    let self = this;
+    let username = self.data.username;
+    let acode = self.data.acode;
+    let shiti = self.data.shiti;
+    console.log("action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode)
+    app.post(API_URL, "action=FavoriteShiti&tid=" +shiti.id + "&username=" + username + "&acode=" + acode, false).then((res) => {
+      console.log(res)
+    })
+  },
+  /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
   _tapEvent: function(e) {
@@ -570,47 +579,39 @@ Page({
     let px = e.detail.px;
     let zhangIdx = self.data.zhangIdx;
     let jieIdx = self.data.jieIdx;
+    let shitiArray = self.data.shitiArray;
 
+    let shiti = shitiArray[px-1];
 
-    //本地存储最后一次访问的题目
-    app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + self.data.z_id + "&username=" + self.data.username + "&acode=" + self.data.acode, true).then((res) => {
+    self.storeLastShiti(px); //存储最后一题的状态
 
-      let shiti = res.data.shiti[0];
-      self.storeLastShiti(px); //存储最后一题的状态
+    self.initShiti(shiti, px); //初始化试题对象
 
-      self.initShiti(shiti, px); //初始化试题对象
+    wx.getStorage({
+      key: self.data.zhangjie_id,
+      success: function (res1) {
+        let jie_answer_array = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx] //根据章是否有子节所有已经回答的题
 
-      wx.getStorage({
-        key: self.data.zhangjie_id,
-        success: function (res1) {
-          let jie_answer_array = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx] //根据章是否有子节所有已经回答的题
-
-          //先处理是否是已经回答的题    
-          for (let i = 0; i < jie_answer_array.length; i++) {
-            if (jie_answer_array[i].id == res.data.shiti[0].id) { //如果是已答题目
-              self.changeShiti(shiti, jie_answer_array[i].done_daan, shiti.answer, shiti.tx); //根据得到的已答数组更新试题状态
-            }
+        //先处理是否是已经回答的题    
+        for (let i = 0; i < jie_answer_array.length; i++) {
+          if (jie_answer_array[i].id == shiti.id) { //如果是已答题目
+            self.changeShiti(shiti, jie_answer_array[i].done_daan, shiti.answer, shiti.tx); //根据得到的已答数组更新试题状态
           }
+        }
 
-          //如果已答试题数目大于0才更新shiti
-          if (jie_answer_array.length > 0) {
-            self.setData({
-              shiti: shiti
-            })
-          }
-        },
-      })
+        //如果已答试题数目大于0才更新shiti
+        if (jie_answer_array.length > 0) {
+          self.setData({
+            shiti: shiti
+          })
+        }
+      },
+    })
 
-      self.setData({ //每滑动一下,更新试题
-        shiti: shiti,
-        checked: false
-      })
-      wx.hideLoading();
-      self.markAnswer.hideDialog();
-    }).catch((errMsg) => {
-      console.log(errMsg); //错误提示信息
-      wx.hideLoading();
-    });
+    self.setData({ //每滑动一下,更新试题
+      shiti: shiti,
+      checked: false
+    })
   },
   /**
    * 映射该节已答题目，得到答题板迭代数组

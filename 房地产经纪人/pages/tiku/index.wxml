@@ -8,20 +8,28 @@
 
   <view class='shiti_index'>
     <view class='t_left'>
-      <view class='ti_z1'>
+      <view class='ti_z1' bindtap="GOMarkExercise">
+        <image class="ti_img" src="/imgs/mark_exersise.jpg" mode="aspectFit"></image>
         <view class='t_text'>收藏练习</view>
       </view>
       <view class='ti_z2'>
+        <image class="ti_img" src="/imgs/zhenti.jpg" mode="aspectFit"></image>
         <view class='t_text'>模拟真题</view>
       </view>
     </view>
-    <view class='t_center'></view>
     <view class='t_right'>
-      <view class='ti_z3'>
-        <view bindtap= "GOAnswerWrong" class='t_text'>我的错题</view>
+      <view class='ti_z3' bindtap="GOAnswerWrong">
+        <image class="ti_img" src="/imgs/my_error.jpg" mode="aspectFit"></image>
+        <view class='t_text'>我的错题</view>
       </view>
       <view class='ti_z4'>
+        <image class="ti_img" src="/imgs/yati.jpg" mode="aspectFit"></image>
         <view class='t_text'>考前押题</view>
+      </view>
+    </view>
+    <view class='t_center'>
+      <view style="margin-top:0rpx;">
+        <image style="width:100%;height:400rpx;" src="/imgs/kaoshi.jpg" mode="aspectFit"></image>
       </view>
     </view>
   </view>
@@ -31,6 +39,7 @@
   </view>
 
 </view>
+
 <view style="margin-top:720rpx;">
   <scroll-view style="height:{{scrollHeight}}rpx;" scroll-y="true" scroll-top="{{scroll}}">
     <block wx:for="{{zhangjie}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
