@@ -59,6 +59,7 @@ Page({
         key: options.zhangjie_id,
         success: function(res1) {
           let jie_answer_array = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx] //根据章是否有子节所有已经回答的题
+          
           self.setMarkAnswerItems(jie_answer_array, options.nums); //设置答题板数组
           //先处理是否是已经回答的题    
           let rightAndWrongObj = {
@@ -66,10 +67,22 @@ Page({
             "wrongNum": 0
           };
           for (let i = 0; i < jie_answer_array.length; i++) {
-            if (jie_answer_array[i].id == res.data.shiti[0].id) { //如果是已答题目
-              self.changeSelectStatus(jie_answer_array[i].done_daan, shiti)//根据得到的已答数组更新试题状态
+            if (jie_answer_array[i].id == shiti.id) { //如果是已答题目
+              switch (jie_answer_array[i].select){
+                case "单选题":
+                case "多选题":
+                  self.changeSelectStatus(jie_answer_array[i].done_daan, shiti)//根据得到的已答数组更新试题状态
+                break;
+                case "材料题":
+                  let done_daan = jie_answer_array[i].done_daan;
+                  for (let i = 0; i < done_daan.length;i++){
+                    let xiaoti = shiti.xiaoti[i];
+                    let xt_done_daan =done_daan[i];//小题的已作答的答案
+                    self.changeSelectStatus(xt_done_daan, xiaoti)//根据得到的已答数组更新试题状态
+                  }
+                break;
+              }
             }
-
             //根据已答试题库得到正确题数和错误题数
             self.setRightWrongNums(jie_answer_array[i].isRight, rightAndWrongObj);
           }
@@ -222,9 +235,11 @@ Page({
    */
   _answerSelect: function(e) {
     let self = this;
-    let done_daan = e.detail.done_daan;
+    let done_daan = "";
 
     let shiti = self.data.shiti; //本试题对象
+
+    done_daan = shiti.TX == 1 ? e.detail.done_daan:shiti.selectAnswer;//根据单选还是多选得到done_daan
 
     if (shiti.isAnswer) return;
 
@@ -243,28 +258,30 @@ Page({
     this.setMarkAnswerItems(self.data.jieDoneAnswerArray, self.data.nums); //更新答题板状态
   },
   /**
+   * 多选题点击一个选项后更新试题对象
+   */
+  changeMultiShiti: function (done_daan, shiti){
+    if (shiti.isAnswer) return //如果已经回答了 就不作反应
+
+    shiti.selectAnswer = done_daan;
+
+    for (let i = 0; i < done_daan.length; i++) {
+      shiti.srcs[done_daan[i]] = "/imgs/right_answer.png"; //将所有选中的选项置位正确图标
+    }
+  },
+  /**
    * 多选题选一个选项
    */
   _checkVal: function(e) {
-    let self = this;
-    let shiti = self.data.shiti;
-    let daan = e.detail.done_daan;
-
-    if (shiti.isAnswer) return //如果已经回答了 就不作反应
-
-    shiti.selectAnswer = daan;
-
-    for (let i = 0; i < daan.length; i++) {
-      shiti.srcs[daan[i]] = "/imgs/right_answer.png"; //将所有选中的选项置位正确图标
-    }
-
-    self.setData({
-      shiti: shiti
+    let done_daan= e.detail.done_daan;
+    let shiti = this.data.shiti;
+    this.changeMultiShiti(done_daan,shiti);
+    this.setData({
+      shiti:shiti
     })
-
   },
   /**
-   * 材料题开始作答
+   * 材料题点击开始作答按钮
    */
   CLZuoti: function() {
     this.setData({
@@ -276,9 +293,20 @@ Page({
   */
   _CLCheckVal: function (e) {
     let px = e.currentTarget.dataset.px;
-    let done_daan = e.detail.done_daan;
-    let shiti = self.data.shiti; //本试题对象
-    console.log(px+"||"+done_daan);
+    let done_daan = e.detail.done_daan ;
+    console.log(done_daan )
+    let shiti = this.data.shiti; //本试题对象
+    let xiaoti = this.data.shiti.xiaoti;//材料题下面的小题
+    for(let i=0;i<xiaoti.length;i++){
+      if(px-1 == i){//找到对应小题
+        if (xiaoti[i].isAnswer) return;
+        this.changeMultiShiti(done_daan, xiaoti[i]);
+        console.log(shiti)
+        this.setData({
+          shiti: shiti
+        })
+      }
+    }
   },
   /**
    * 材料题作答
@@ -286,24 +314,34 @@ Page({
   _CLAnswerSelect: function(e) {
 
     let px = e.currentTarget.dataset.px;
-    let done_daan = e.detail.done_daan;
+    let done_daan = "";
     let xiaoti = this.data.shiti.xiaoti;
-
     let shiti = this.data.shiti; //本试题对象
     if (shiti.isAnswer) return;
 
     for(let i = 0;i< xiaoti.length ;i++){
       if(px-1 == i){//找到对应的小题
-        console.log(xiaoti)
         if (xiaoti[i].isAnswer) return;
+        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : xiaoti[i].selectAnswer;//根据单选还是多选得到done_daan
         this.changeSelectStatus(done_daan, xiaoti[i]); //改变试题状态
-        shiti.doneAnswer.push(done_daan);
-        //标记这
+        if (xiaoti[i].flag == 1) shiti.flag = 1;//如果小题错一个,整个材料题就是错的
+        shiti.doneAnswer.push({'px':px,'done_daan':done_daan});//向本材料题的已答数组中添加已答题目px 和 答案信息
+
+        if (shiti.doneAnswer.length == xiaoti.length){//说明材料题已经全部作答
+          shiti.done_daan = shiti.doneAnswer;//设置该试题已作答的答案数组
+
+          this.changeNum(shiti.flag);//更新答题的正确和错误数量
+
+          this.postAnswerToServer(this.data.acode, this.data.username, shiti.id, shiti.flag, "测试"); //向服务器提交答题结果
+          console.log(shiti)
+          this.storeAnswerStatus(shiti); //存储答题状态
+        }
         this.setData({
           shiti: shiti
         })
       }
     }
+    console.log(shiti)
   },
 
   /**
@@ -421,26 +459,24 @@ Page({
         shiti.done_daan = done_daan; //已经做的选择
         break;
       case "多选题":
-        let daan = shiti.selectAnswer; //已经选择的答案
-        console.log(shiti.selectAnswer)
         let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
-        shiti.done_daan = daan; //已经做的选择
+        shiti.done_daan = done_daan; //已经做的选择
 
         for (let i = 0; i < answers.length; i++) {
           shiti.srcs[answers[i]] = "/imgs/right_answer.png";
         }
 
-        for (let i = 0; i < daan.length; i++) {
-          if (answers.indexOf(daan[i]) >= 0) { //如果正确答案包含选中
-            shiti.srcs[daan[i]] = "/imgs/right_answer1.png";
+        for (let i = 0; i < done_daan.length; i++) {
+          if (answers.indexOf(done_daan[i]) >= 0) { //如果正确答案包含选中
+            shiti.srcs[done_daan[i]] = "/imgs/right_answer1.png";
           } else {
-            shiti.srcs[daan[i]] = "/imgs/wrong_answer.png";
+            shiti.srcs[done_daan[i]] = "/imgs/wrong_answer.png";
           }
         }
         /**
          * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
          */
-        if (answers.toString() == daan.toString()) {
+        if (answers.toString() == done_daan.toString()) {
           flag = 0;
         } else {
           flag = 1;
@@ -456,6 +492,7 @@ Page({
    */
   postAnswerToServer: function(acode, username, id, flag, done_daan) {
     //向服务器提交做题结果
+    console.log("action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan)
     app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan,false).then((res) => {
     
     })
@@ -469,7 +506,7 @@ Page({
   setRightWrongNums: function(isRight, rightAndWrongObj) {
     rightAndWrongObj.rightNum
 
-    if (isRight == 1) { //如果是答对了
+    if (isRight == 0) { //如果是答对了
       rightAndWrongObj.rightNum++;
     } else {
       rightAndWrongObj.wrongNum++;

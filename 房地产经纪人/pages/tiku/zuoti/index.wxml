@@ -26,12 +26,12 @@
 
     <!--材料题-->
     <view wx:if="{{shiti.TX == 99}}">
-      <view wx:if="{{!cl_question_hidden}}" class="cailiaoZuoti">
+      <view wx:if="{{!cl_question_hidden&&!shiti.isAnswer}}" class="cailiaoZuoti">
         <button class="cailiaoZuoti-btn" bindtap='CLZuoti'>答题</button>
       </view>
 
-      <view wx:if="{{cl_question_hidden}}">
-        <view wx:for="{{shiti.xiaoti}}">
+      <view hidden="{{!cl_question_hidden&&!shiti.isAnswer}}">
+        <view wx:for="{{shiti.xiaoti}}" wx:key = "item">
 
           <!--问题-->
           <question class="question" num_color="{{item.num_color}}" px="{{item.px}}" tx="{{item.tx}}" question="{{item.question}}"></question>
@@ -46,19 +46,15 @@
           <!--多选题-->
           <view wx:if="{{item.TX ==2}}">
 
-            <multiSelect shiti="{{item}}" checked="{{item.checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
+            <multiSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{item.checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
 
-            <button class='submit_answer' wx:if="{{!item.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
+            <button data-px = "{{item.px}}" class='submit_answer' wx:if="{{!item.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
             <!-- 解析 -->
             <jiexi isAnswer="{{item.isAnswer}}" jiexi="{{item.jiexi}}"></jiexi>
           </view>
         </view>
       </view>
     </view>
-
-    <!--条件题-->
-    <view wx:if="{{length > 5}}"> 99 </view>
-    <view style='clear:both'></view>
   </scroll-view>
   <!-- 答题板 -->
   <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">

@@ -39,7 +39,7 @@ Page({
         //得到openId和session_key
         app.post(API_URL, "action=Login_wx&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex+"&code="+code).then((res) => {
           let user = res.data.list[0];
-          console.log(user)
+          // console.log(user)
           wx.setStorage({
             key: 'user',
             data: user
@@ -57,7 +57,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(decodeURIComponent(options.url))
     this.setData({
       url:decodeURIComponent(options.url)
     })
