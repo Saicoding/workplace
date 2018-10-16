@@ -1,6 +1,10 @@
 {
   "usingComponents": {
-   "count": "/components/count/count",
-    "markAnswer": "/components/markAnswer/markAnswer"
+    "count": "/components/count/count",
+    "markAnswer": "/components/markAnswer/markAnswer",
+    "question": "/components/question/question",
+    "singleSelect":"/components/singleSelect/singleSelect",
+    "multiSelect": "/components/multiSelect/multiSelect",
+    "jiexi": "/components/jiexi/jiexi"
   }
 }

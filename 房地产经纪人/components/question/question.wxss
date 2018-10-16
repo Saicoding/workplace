@@ -1,0 +1,33 @@
+.question-block1 {
+  height: 40rpx;
+  display: float;
+  float: left;
+  vertical-align: middle;
+  margin-top: 11rpx;
+  line-height: 40rpx;
+}
+
+.qustion-num-text {
+  width: 50rpx;
+  height: 50rpx;
+  border-radius: 50rpx;
+  color:white;
+  background: #1b9af7;
+  font-size: 28rpx;
+  display: float;
+  float: left;
+  text-align: center;
+  margin-top:-5rpx;
+  line-height:50rpx;
+  vertical-align: middle;
+}
+
+.qustion-select {
+  height: 40rpx;
+  vertical-align: middle;
+  text-align: right;
+  display: float;
+  float: left;
+  letter-spacing:9rpx;
+  margin-left:10rpx;
+}

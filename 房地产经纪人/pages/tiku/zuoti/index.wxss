@@ -27,104 +27,8 @@ page {
   margin: 15rpx auto 20rpx auto;
 }
 
-.question-block1 {
-  height: 40rpx;
-  display: float;
-  float: left;
-  vertical-align: middle;
-  margin-top: 11rpx;
-  line-height: 40rpx;
-}
-
-.qustion-num-text {
-  width: 50rpx;
-  height: 50rpx;
-  border-radius: 50rpx;
-  color:white;
-  background: #1b9af7;
-  font-size: 28rpx;
-  display: float;
-  float: left;
-  text-align: center;
-  margin-top:-5rpx;
-  line-height:50rpx;
-  vertical-align: middle;
-}
-
-.qustion-select {
-  height: 40rpx;
-  vertical-align: middle;
-  text-align: right;
-  display: float;
-  float: left;
-  letter-spacing:9rpx;
-  margin-left:10rpx;
-}
-
-.radio-group {
-  width: 96%;
-  padding: 20rpx; 
-  margin: 20rpx auto;
-  font-size: 50rpx;
-}
-
-.checkbox-group {
-  width: 96%;
-  padding: 1rem;
-  margin: 1rem auto;
-  font-size: 1rem;
-  border-top: 1px solid #ccc;
-}
-
-
-
-.checkbox {
-  width: 100%;
-  font-size: 0.9rem;
-  display: block;
-  float: left;
-  line-height: 1.5rem;
-  margin: 0.8rem auto;
-}
 
 /******************** 解析 **********************/
-
-.jiexi_border {
-  width: 100%;
-  height:50rpx;
-  clear:both;
-  display: block;
-  align-content: center;
-  padding-left:90rpx;
-}
-
-.jiexi {
-  margin: 0 auto;
-  margin-top:25rpx;
-  text-align: left;
-  clear: both;
-  width: 80%;
-  color: #666;
-  line-height: 40rpx;
-  font-size: 25rpx;
-  text-indent: 40rpx;
-}
-
-.line {
-  display: float;
-  float:left;
-  width: 240rpx;
-  border-top: 1px solid #ccc;
-  margin-top:20rpx;
-}
-
-.txt {
-  display: float;
-  float:left;
-  color: #686868;
-  margin: 0 20rpx;
-  font-size: 25rpx;
-}
 
 .log-list {
   display: flex;
@@ -157,35 +61,7 @@ page {
 
 
 /******************** 答案组块 **********************/
-.answer-block{
-  padding-top:10rpx;
-}
-/* 答案选项前面的图片 */
 
-.answer-img {
-  width: 50rpx;
-  height: 50rpx;
-  display: float;
-  float: left;
-}
-
-/* 答案选项的文字 */
-
-.answer-text {
-  display: float;
-  float: left;
-  width: 620rpx;
-  line-height: 45rpx;
-  margin-left: 30rpx;
-}
-.radio {
-  width: 100%;
-  font-size: 0.9rem;
-  display: block;
-  float: left;
-  line-height: 1.5rem;
-  margin: 0.8rem auto;
-}
 
 .containers {
   width: 100%;
