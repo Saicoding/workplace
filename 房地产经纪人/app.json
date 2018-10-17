@@ -19,7 +19,7 @@
   "tabBar": {
     "list": [
       {
-        "pagePath": "pages/tiku/index",
+        "pagePath": "pages/index/index",
         "selectedColor": "#0197F6",
         "color": "#333",
         "text": "题库"

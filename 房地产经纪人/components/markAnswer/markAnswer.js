@@ -14,6 +14,10 @@ Component({
     markAnswerItems:{
       type: Array,
       value:[]
+    },
+    windowHeight:{
+      type:Number,
+      value:[]
     }
   },
 
@@ -21,7 +25,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isShow:false
+    isShow:false,
   },
 
   /**
@@ -53,9 +57,17 @@ Component({
       //触发取消回调
       this.triggerEvent("tapEvent",{"px":px});
     },
-    setBackground(e){
-      console.log(e)
-      return "red";
+
+    //阻止事件冒泡
+    stopBubbling:function(e){
+      console.log('点了蒙版')
+    },
+
+    //点击了空地,让蒙版消失
+    tapBlank: function (e) {
+      this.setData({
+        isShow: false
+      })
     }
   }
 })

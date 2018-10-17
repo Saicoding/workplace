@@ -459,7 +459,7 @@ Page({
   },
 
   /**
-   * 
+   * 初始化章节信息
    */
   initZhangjie: function(zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
     for (let i = 0; i < zhangjie.length; i++) {

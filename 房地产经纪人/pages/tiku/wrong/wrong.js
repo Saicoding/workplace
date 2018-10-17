@@ -175,6 +175,7 @@ Page({
     let self = this;
     let done_daan = "";
 
+    let shitiArray = self.data.shitiArray;//所有试题对象
     let shiti = self.data.shiti; //本试题对象
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
