@@ -1,14 +1,14 @@
 {
   "pages": [
-    "pages/tiku/index",
-    "pages/logs/logs",
     "pages/index/index",
-    "pages/tiku/zuoti/index",
+    "pages/logs/logs",
+    "pages/tiku/zuoti/zuoti",
     "pages/login1/login1",
     "pages/prompt/jieAnswerAll/jieAnswerAll",
     "pages/tiku/wrong/wrong",
     "pages/prompt/hasNoErrorShiti/hasNoErrorShiti",
-    "pages/tiku/mark/mark"
+    "pages/tiku/mark/mark",
+    "pages/tiku/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -1,21 +1,201 @@
-/**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* pages/tiku/index.wxss */
+
+.changeType {
+  background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAaCAMAAACAXYxPAAAAA3NCSVQICAjb4U/gAAABoVBMVEX////////1///98vD65OT////4///1///2/v3/6ej/4Nj/3d753Nvo3Nr/w8T56e733uD239/4q6zkp6T52tzq1NL8ycr3xMXvwMHts7H1r67v1dP7xsnvwMHttbf3uLf4trj0sLHzm5vtmJn6RUf1q6vtpqTxjo75Sky7UlH3yMjyr67xn6HqkpTsio3YcnTVcHDHZmbkoaLzm5vtmZv7lJbvmJjykJHrjI3ueHn4cXL4srLtfIHtgoLqgYLqf4HrfHzndHbpcHHrbm7ujY7wiYn0gIHmfH3ncHDmaWnhNzfmmZjue3zudXXPenrpcHHrbm7oZWbrbm7oYGHqXFzmXl7tWVvjVlfqVFXqUlT////66ej2zs30paX3pKbwiYnyh4jpbG3paWvraGjiaGnlZmjnZWbqYmTnY2TlYmTXZWfqYGLrYGDjYWLoX2HnX2DeX1/lXV/nXF3nW1zkW1vpWlriWVrpWFnlWVjnV1jsVlblVljlVlblU1ToU1blVFXmUlLnUlLoUFHjUFLpTlDnTVDMQ0TKQkPtMjPuMTTmLC0BlVt+AAAAi3RSTlMAERERESIiIiIiIiIiIiIzMzMzM0RERERERERVVVVVZmZmZmZmd3d3d3eIiIiIiIiIiJmZmZmZmZmZmaqqu7u7u7u7u8zMzMzMzMzd3d3d3d3d7u7u7u7u7u7/////////////////////////////////////////////////////////////////Wm4FjgAAAAlwSFlzAAALEgAACxIB0t1+/AAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8wNi8xOLnuRBwAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzbovLKMAAAA6klEQVQokWNgoAqQ1PQzlEIVYnGqjPCKrHbmRhLjCS0yYWVgNSlNFIGLsXrmCTKwyrIyCOQEsMMEjcq1GNRKGnNVGeTLTGGC6f4MEnXxMQk1Qoy+qTDBDn0G++yoqKgMSwaNNphgpwGDXRJQMNmeQaUdJljlziDXGhsd16zI6FYAE/QO42DQrW6pNWbkTLGCCUpn6jEwiCmLMzCYFcrAHeoYzARhpDkgfMSXbw6mLYpFkfxpU8EFJHmrXZADhD/EA0j6hDOjBJN2rTqDTr0SatgxuDZZN9iiiTEwBnYFsaELMghnKWCIURMAAL/OKTfV2mHEAAAAAElFTkSuQmCC") no-repeat 40rpx 20rpx;
+  height: 90rpx;
+  line-height: 90rpx;
+  font-size: 35rpx;
+  text-align: right;
+  padding-right: 20rpx;
+  border-bottom: 1px #eee solid;
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.index-top {
+  position: fixed;
+  top: 0;
+  width: 750rpx;
+  z-index: 999;
+  background-color: #fff;
 }
 
-.userinfo-nickname {
-  color: #aaa;
+.changeType .mulu {
+  text-align: left;
+  display: block;
+  float: left;
+  margin-left: 120rpx;
 }
 
-.usermotto {
-  margin-top: 200px;
+.shiti_index {
+  width: 100%;
+  border-bottom: 1px #eee solid;
+  height: 450rpx;
+}
+
+.t_left {
+  display: float;
+  float:left;
+  width: 27%;
+  height: 450rpx;
+  text-align: center;
+}
+
+.t_right {
+  display: float;
+  float:right;
+  text-align: center;
+  width: 29%;
+  height: 450rpx;
+}
+
+.t_center {
+  display: float;
+  float:right;
+  width: 42%;
+  height: 450rpx;
+}
+
+.t_text {
+  width: 100%;
+  font-size: 28rpx;
+  text-align: center;
+  margin-top:20rpx;
+}
+
+.ti_z1 {
+  width: 100%;
+  background-size: 30%;
+  height: 225rpx;
+}
+
+.ti_img{
+  width:60rpx;
+  height:60rpx;
+  margin-top:40rpx;
+}
+
+.ti_z2 {
+  width: 100%;
+  height: 225rpx;
+}
+
+.ti_z3 {
+  width: 100%;
+  height: 225rpx;
+}
+
+.ti_z4 {
+  width: 100%;
+  height: 225rpx;
+}
+
+.shiti_zhangjie {
+  font-size: 0.8rem;
+}
+
+.shiti_zhangjie .zhangjie_list {
+  line-height: 3rem;
+  height: 3rem;
+  padding-left: 1rem;
+  font-size: 1rem;
+  border-bottom: 1px solid#eee;
+  border-top: 0.5rem #f3f7f8 solid;
+}
+
+/***********************章节目录************************/
+
+.zj_block {
+
+}
+
+.zj_title {
+  clear: both;
+  display: float;
+  float:left;
+  width: 85%;
+  height: 100rpx;
+  vertical-align: middle;
+  /* border: 1px solid blue; */
+}
+
+.jie_title{
+  clear: both;
+  display: float;
+  float:left;
+  width:76%;
+  /* border:1px solid red; */
+  text-indent: 50rpx;
+  color: #333;
+  border-bottom: 1px dashed #eee;
+  font-size: 29rpx;
+  line-height: 70rpx;
+  height: 70rpx;
+  margin-left: 65rpx;
+  border-left: 1px #eee dashed;
+}
+
+.zj_list {
+  display: float;
+  float: left;
+  font-size: 30rpx;
+  height: 100rpx;
+  line-height: 33rpx;
+  padding-left: 20rpx;
+}
+
+.zhang-icon-block {
+  display: float;
+  float: left;
+  height: 100rpx;
+}
+
+.zhang-icon {
+  display: inline-block;
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 10rpx;
+  margin-top: 30rpx;
+}
+
+.jie {
+  /* hidden是为了实现点击后有动画效果 */
+  overflow: hidden;
+  clear:both;
+}
+
+.select {
+  background-color: #eee;
+}
+
+/********************章节后面的数字统计*******************/
+
+.answer_number {
+  /* border:1px solid pink; */
+  display: float;
+  float:right;
+  width: 11%;
+  height:69rpx;
+  padding-top:31rpx;
+  padding-right:20rpx;
+  font-size:25rpx;
+}
+
+.answer_number_1, .answer_number_m, .answer_number_2 {
+  display: float;
+  float: right;
+}
+
+.answer_number_jie {
+  display: float;
+  float:right;
+  width: 11%;
+  height:40rpx;
+  padding-top:18rpx;
+  padding-right:20rpx;
+  font-size:25rpx;
+  /* border:1px solid yellow; */
+}
+
+.answer_number_jie_1, .answer_number_jie_m, .answer_number_jie_2 {
+  display: float;
+  float: right;
 }
