@@ -38,7 +38,7 @@
 
           <!--单选题-->
           <view wx:if="{{item.TX == 1}}">
-            <singleSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{item.checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+            <singleSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
             <!-- 解析 -->
             <jiexi isAnswer="{{item.isAnswer}}" jiexi="{{item.jiexi}}"></jiexi>
           </view>
@@ -46,7 +46,7 @@
           <!--多选题-->
           <view wx:if="{{item.TX ==2}}">
 
-            <multiSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{item.checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
+            <multiSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
 
             <button data-px = "{{item.px}}" class='submit_answer' wx:if="{{!item.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
             <!-- 解析 -->

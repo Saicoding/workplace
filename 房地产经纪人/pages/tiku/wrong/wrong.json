@@ -1,12 +1,16 @@
 {
   "usingComponents": {
-      "count": "/components/count/count",
-      "markAnswer": "/components/markAnswer/markAnswer"
+    "count": "/components/count/count",
+    "markAnswer": "/components/markAnswer/markAnswer",
+    "question": "/components/question/question",
+    "singleSelect": "/components/singleSelect/singleSelect",
+    "multiSelect": "/components/multiSelect/multiSelect",
+    "jiexi": "/components/jiexi/jiexi"
   },
-    "window": {
-      "backgroundTextStyle": "light",
-      "navigationBarBackgroundColor": "#0197F6",
-      "navigationBarTitleText": "我的错题",
-      "navigationBarTextStyle": "white"
-    }
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#0197F6",
+    "navigationBarTitleText": "我的错题",
+    "navigationBarTextStyle": "white"
+  }
 }

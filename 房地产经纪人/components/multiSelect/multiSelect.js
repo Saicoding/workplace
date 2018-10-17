@@ -26,6 +26,7 @@ Component({
    */
   methods: {
     _checkVal: function (e) {
+      console.log(e)
       let done_daan = e.detail.value;
       this.triggerEvent('checkVal', { 'done_daan': done_daan })
     }
