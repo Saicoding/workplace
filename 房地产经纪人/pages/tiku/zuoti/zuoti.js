@@ -196,6 +196,7 @@ Page({
   _answerSelect: function(e) {
     let self = this;
     let done_daan = "";
+    let shitiArray = self.data.shitiArray;
 
     let shiti = self.data.shiti; //本试题对象
 
@@ -216,6 +217,12 @@ Page({
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+
+    if (shitiArray.length == self.data.doneAnswerArray.length){//所有题都答完了
+      wx.showToast({
+        title: '所有题已经作答',
+      })
+    }
   },
 
   /**
