@@ -198,6 +198,8 @@ Page({
     common.storeAnswerArray(shiti, self) //存储已答题数组
 
     common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+
+    common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
   },
 
   /**
@@ -246,8 +248,9 @@ Page({
     let self = this;
     let px = e.currentTarget.dataset.px;
     let done_daan = "";
-    let xiaoti = this.data.shiti.xiaoti;
-    let shiti = this.data.shiti; //本试题对象
+    let xiaoti = self.data.shiti.xiaoti;
+    let shitiArray = self.data.shitiArray;
+    let shiti = self.data.shiti; //本试题对象
     if (shiti.isAnswer) return;
 
     for (let i = 0; i < xiaoti.length; i++) {
@@ -272,6 +275,8 @@ Page({
           common.storeAnswerArray(shiti, self); //存储答题状态
 
           common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+
+          common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
         }
         self.setData({
           shiti: shiti

@@ -218,11 +218,7 @@ Page({
 
     common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
 
-    if (shitiArray.length == self.data.doneAnswerArray.length){//所有题都答完了
-      wx.showToast({
-        title: '所有题已经作答',
-      })
-    }
+    common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
   },
 
   /**
@@ -269,8 +265,9 @@ Page({
     let self = this;
     let px = e.currentTarget.dataset.px;
     let done_daan = "";
-    let xiaoti = this.data.shiti.xiaoti;
-    let shiti = this.data.shiti; //本试题对象
+    let xiaoti = self.data.shiti.xiaoti;
+    let shitiArray = self.data.shitiArray
+    let shiti = self.data.shiti; //本试题对象
     if (shiti.isAnswer) return;
 
     for (let i = 0; i < xiaoti.length; i++) {
@@ -289,11 +286,13 @@ Page({
 
           common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-          common.postAnswerToServer(this.data.acode, this.data.username, shiti.id, shiti.flag, "测试", app, API_URL); //向服务器提交答题结果
+          common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, "测试", app, API_URL); //向服务器提交答题结果
 
-          common.storeAnswerStatus(shiti, this); //存储答题状态
+          common.storeAnswerStatus(shiti, self); //存储答题状态
 
           common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+
+          common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
         }
         this.setData({
           shiti: shiti

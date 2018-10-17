@@ -308,6 +308,17 @@ function storeLastShiti(px,self) {
     },
   })
 }
+/**
+ * 判断所有本节题已经做完
+ */
+function ifDoneAll(shitiArray,doneAnswerArray){
+  if (shitiArray.length == doneAnswerArray.length) {//所有题都答完了
+    wx.showToast({
+      title: '所有题已经作答',
+    })
+  }
+}
+
 
 
 module.exports = {
@@ -323,5 +334,5 @@ module.exports = {
   storeLastShiti: storeLastShiti,
   storeAnswerArray: storeAnswerArray,
   processDoneAnswer: processDoneAnswer,
-
+  ifDoneAll: ifDoneAll
 }
