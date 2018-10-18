@@ -203,6 +203,13 @@ Page({
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
 
+    if (done_daan == undefined){//说明多选没有选择选项
+      wx.showToast({
+        title: '没有任何选项',
+      })
+      return
+    }
+
     if (shiti.isAnswer) return;
 
     common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
