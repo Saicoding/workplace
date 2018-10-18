@@ -2,7 +2,7 @@
 <page>
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
-  <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;border:1px solid yellow' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd">
+  <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" catchlongtap='_toogleMark'>
 
     <!--问题-->
     <question class="question" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
@@ -57,7 +57,7 @@
     </view>
   </scroll-view>
   <!-- 答题板 -->
-  <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
+  <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight = "{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
   </markAnswer>
 
   <!--底部正确错误个数统计条-->

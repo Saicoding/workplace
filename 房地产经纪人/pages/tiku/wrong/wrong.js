@@ -37,7 +37,7 @@ Page({
     let acode = user.acode; //用户唯一码
     let kid = options.kid; //题库编号
     let px = 1;
-
+    console.log("action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode)
     app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true).then((res) => {
       if (res.data == undefined) {
         wx.navigateTo({
