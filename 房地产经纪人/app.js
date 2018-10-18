@@ -22,7 +22,7 @@ App({
       //网络请求
       if (ifShow) {
         wx.showLoading({
-          title: '',
+          title: '加载中',
         })
       }
       wx.request({

@@ -103,15 +103,11 @@
 
 /***********************章节目录************************/
 
-.zj_block {
-
-}
-
 .zj_title {
   clear: both;
   display: float;
   float:left;
-  width: 85%;
+  width: 82%;
   height: 100rpx;
   vertical-align: middle;
   /* border: 1px solid blue; */
@@ -121,7 +117,7 @@
   clear: both;
   display: float;
   float:left;
-  width:76%;
+  width:73%;
   /* border:1px solid red; */
   text-indent: 50rpx;
   color: #333;
@@ -172,10 +168,10 @@
   /* border:1px solid pink; */
   display: float;
   float:right;
-  width: 11%;
+  width: 14%;
   height:69rpx;
   padding-top:31rpx;
-  padding-right:20rpx;
+  padding-right:16rpx;
   font-size:25rpx;
 }
 
@@ -187,12 +183,11 @@
 .answer_number_jie {
   display: float;
   float:right;
-  width: 11%;
+  width: 14%;
   height:40rpx;
   padding-top:18rpx;
-  padding-right:20rpx;
+  padding-right:16rpx;
   font-size:25rpx;
-  /* border:1px solid yellow; */
 }
 
 .answer_number_jie_1, .answer_number_jie_m, .answer_number_jie_2 {

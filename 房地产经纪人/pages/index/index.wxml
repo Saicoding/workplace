@@ -49,7 +49,7 @@
           <view class="zhang-icon-block">
             <image class="zhang-icon" src="{{item.hasChild?(item.isFolder?'/imgs/folder.png':'/imgs/unfolder.png'):''}}"></image>
           </view>
-          <text class='zj_list' id='{{item.id}}'>
+          <text class='zj_list' id='{{item.id}}' style ="color:{{item.isAnswerAll?'#9D9D9D':'black'}}">
           {{item.title}}
            </text>
         </view>
@@ -61,7 +61,7 @@
 
         <view class="jie" style="height:{{item.height+'rpx'}};">
           <view data-itemIdx="{{itemIdx}}" wx:for-index="jieIdx" data-jieIdx="{{jieIdx}}" bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
-            <view class="jie_title">{{items.title}}</view>
+            <view class="jie_title" style ="color:{{items.isAnswerAll?'#9D9D9D':'black'}}">{{items.title}}</view>
             <view class="answer_number_jie">
               <view class="answer_number_jie_1">{{items.nums}}</view>
               <view class="answer_number_jie_m">/</view>

@@ -209,6 +209,12 @@ Page({
   _checkVal: function (e) {
     let done_daan = e.detail.done_daan.sort();
     let shiti = this.data.shiti;
+
+    //初始化多选的checked值
+    common.initMultiSelectChecked(shiti);
+    //遍历这个答案，根据答案设置shiti的checked属性
+    done_daan = common.changeShitiChecked(done_daan, shiti);
+
     common.changeMultiShiti(done_daan, shiti);
     this.setData({
       shiti: shiti
@@ -235,6 +241,11 @@ Page({
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - 1 == i) { //找到对应小题
         if (xiaoti[i].isAnswer) return;
+        //初始化多选的checked值
+        common.initMultiSelectChecked(xiaoti[i]);
+        //遍历这个答案，根据答案设置shiti的checked属性
+        done_daan = common.changeShitiChecked(done_daan, xiaoti[i]);
+
         common.changeMultiShiti(done_daan, xiaoti[i]);
         this.setData({
           shiti: shiti

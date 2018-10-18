@@ -28,6 +28,11 @@ function initShiti(shiti, px, self) {
       "D": "/imgs/D.png",
       "E": "/imgs/E.png"
     };
+    shiti.A_checked = false;
+    shiti.B_checked = false;
+    shiti.C_checked = false;
+    shiti.D_checked = false;
+    shiti.E_checked = false;
   } else if (TX == 99) { //材料
     shiti.num_color = "#eaa91d";
     shiti.tx = "材料题";
@@ -60,6 +65,11 @@ function initShiti(shiti, px, self) {
           "D": "/imgs/D.png",
           "E": "/imgs/E.png"
         };
+        ti.A_checked = false;
+        ti.B_checked = false;
+        ti.C_checked = false;
+        ti.D_checked = false;
+        ti.E_checked = false;
       }
     }
   }
@@ -79,6 +89,61 @@ function initMarkAnswer(nums, self) {
   self.setData({
     markAnswerItems: markAnswerItems
   })
+}
+
+/**
+ * 初始化一个多选题的checked
+ */
+function initMultiSelectChecked(shiti){
+  shiti.A_checked = false;
+  shiti.B_checked = false;
+  shiti.C_checked = false;
+  shiti.D_checked = false;
+  shiti.E_checked = false;
+}
+/**
+ * 初始化一个多选题的srcs
+ */
+function initMultiShitiSrcs(shiti){
+  shiti.srcs = { //定义初始图片对象(多选)
+    "A": "/imgs/A.png",
+    "B": "/imgs/B.png",
+    "C": "/imgs/C.png",
+    "D": "/imgs/D.png",
+    "E": "/imgs/E.png"
+  };
+}
+
+/**
+ * 根据多选答案改变试题对应答案的checked
+ */
+function changeShitiChecked(done_daan,shiti){
+  let new_done_daan = [];
+  for (let i = 0; i < done_daan.length; i++) {
+    switch (done_daan[i]) {
+      case "A":
+        shiti.A_checked = !shiti.A_checked;
+        if (shiti.A_checked) new_done_daan.push("A");
+        break;
+      case "B":
+        shiti.B_checked = !shiti.B_checked;
+        if (shiti.B_checked) new_done_daan.push("B");
+        break;
+      case "C":
+        shiti.C_checked = !shiti.C_checked;
+        if (shiti.C_checked) new_done_daan.push("C");
+        break;
+      case "D":
+        shiti.D_checked = !shiti.D_checked;
+        if (shiti.D_checked) new_done_daan.push("D");
+        break;
+      case "E":
+        shiti.E_checked = !shiti.E_checked;
+        if (shiti.E_checked) new_done_daan.push("E");
+        break;
+    }
+  }
+  return new_done_daan;
 }
 
 /**
@@ -108,7 +173,6 @@ function storeAnswerStatus(shiti,self) {
   let doneAnswerArray = self.data.doneAnswerArray
 
   let answer_nums_array = wx.getStorageSync(self.data.zhangjie_id);
-  console.log(answer_nums_array)
   let obj = {
     "id": shiti.id,
     "done_daan": shiti.done_daan,
@@ -178,8 +242,6 @@ function changeSelectStatus(done_daan, shiti,self) {
     case "多选题":
       let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
       shiti.done_daan = done_daan; //已经做的选择
-      console.log(answers)
-      console.log(shiti.done_daan)
 
       for (let i = 0; i < answers.length; i++) {
         shiti.srcs[answers[i]] = "/imgs/right_answer.png";
@@ -269,7 +331,8 @@ function changeNum(flag,self) {
  */
 function changeMultiShiti(done_daan, shiti) {
   if (shiti.isAnswer) return //如果已经回答了 就不作反应
-
+  console.log(done_daan)
+  initMultiShitiSrcs(shiti);
   shiti.selectAnswer = done_daan;
 
   for (let i = 0; i < done_daan.length; i++) {
@@ -283,7 +346,6 @@ function changeMultiShiti(done_daan, shiti) {
 function postAnswerToServer(acode, username, id, flag, done_daan,app,API_URL) {
   //向服务器提交做题结果
   app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {
-      console.log('提交了')
   })
 }
 
@@ -334,5 +396,7 @@ module.exports = {
   storeLastShiti: storeLastShiti,
   storeAnswerArray: storeAnswerArray,
   processDoneAnswer: processDoneAnswer,
-  ifDoneAll: ifDoneAll
+  ifDoneAll: ifDoneAll,
+  initMultiSelectChecked: initMultiSelectChecked,
+  changeShitiChecked: changeShitiChecked
 }

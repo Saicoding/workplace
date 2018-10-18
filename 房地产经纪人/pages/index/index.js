@@ -34,7 +34,7 @@ Page({
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
-
+        console.log(zhangjie)
         // wx.clearStorage(self.data.zhangjie_id)
         // 得到存储答题状态
         wx.getStorage({
@@ -50,9 +50,21 @@ Page({
                 for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
                   zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
                   zhang_answer_num += res.data[i][j].length;
+
+                  if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums) {
+                    zhangjie[i].zhangjie_child[j].isAnswerAll = true;
+                  } else {
+                    zhangjie[i].isAnswerAll = false;
+                  }
                 }
               }
               zhangjie[i].zhang_answer_num = zhang_answer_num;
+              if (zhangjie[i].zhang_answer_num == zhangjie[i].nums){//设置章节是否已经回答完毕
+                zhangjie[i].isAnswerAll = true;
+              }else{
+                zhangjie[i].isAnswerAll = false;
+              }
+              console.log(zhang_answer_num)
             }
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
             self.setData({
@@ -373,9 +385,20 @@ Page({
             for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
               zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
               zhang_answer_num += res.data[i][j].length;
+
+              if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums){
+                zhangjie[i].zhangjie_child[j].isAnswerAll = true;
+              }else{
+                zhangjie[i].isAnswerAll = false;
+              }
             }
           }
           zhangjie[i].zhang_answer_num = zhang_answer_num;
+          if (zhangjie[i].zhang_answer_num == zhangjie[i].nums) {//设置章节是否已经回答完毕
+            zhangjie[i].isAnswerAll = true;
+          } else {
+            zhangjie[i].isAnswerAll = false;
+          }
         }
         //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
         self.setData({
