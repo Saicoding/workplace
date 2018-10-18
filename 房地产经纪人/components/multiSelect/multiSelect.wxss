@@ -1,36 +1,37 @@
 .checkbox-group {
-  width: 96%;
-  padding: 1rem;
-  margin: 1rem auto;
-  font-size: 1rem;
-  border-top: 1px solid #ccc;
-}
-
-.checkbox {
   width: 100%;
-  font-size: 0.9rem;
-  display: block;
-  float: left;
-  line-height: 1.5rem;
-  margin: 0.8rem auto;
+  font-size: 30rpx;
+  margin-top: 50rpx;
 }
 
-.answer-block{
-  padding-top:10rpx;
+
+.img-container {
+  display: inline-flex;
+  width: 50rpx;
+}
+
+.answer-block {
+  width: 100%;
+  font-size: 35rpx;
+  padding-left: 30rpx;
+  padding-top: 25rpx;
+  padding-bottom: 25rpx;
+  vertical-align: top;
 }
 
 .answer-img {
   width: 50rpx;
   height: 50rpx;
-  display: float;
-  float: left;
 }
 
 /* 答案选项的文字 */
+
 .answer-text {
-  display: float;
-  float: left;
-  width: 620rpx;
-  line-height: 45rpx;
-  margin-left: 30rpx;
+  display: inline-flex;
+  font-size: 30rpx;
+  margin-left:40rpx;
+  line-height:50rpx;
+  width: 610rpx;
+  margin-top:-5rpx;
+  vertical-align: top;
 }

@@ -1,30 +1,40 @@
-      <radio-group class="radio-group" bindchange="_answerSelect">
-        <label class="radio">
-          <radio hidden value="A" checked="{{checked}}" />
-          <view>
-            <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.A}}</text>
-          </view>
-        </label>
-        <label class="radio">
-          <radio hidden value="B" checked="{{checked}}" />
-          <view>
-            <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.B}}</text>
-          </view>
-        </label>
-        <label class="radio">
-          <radio hidden value="C" checked="{{checked}}" />
-          <view>
-            <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.C}}</text>
-          </view>
-        </label>
-        <label class="radio">
-          <radio hidden value="D" checked="{{checked}}" />
-          <view>
-            <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.D}}</text>
-          </view>
-        </label>
-      </radio-group>
+<radio-group class="radio-group" bindchange="_answerSelect">
+  <label>
+    <radio hidden value="A" checked="{{checked}}" />
+    <view class="imgAndText">
+      <view class="img-container">
+        <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.A}}</text>
+    </view>
+  </label>
+  <label>
+    <radio hidden value="B" checked="{{checked}}" />
+    <view class="imgAndText">
+      <view class="img-container">
+        <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.B}}</text>
+    </view>
+  </label>
+  <label>
+    <radio hidden value="C" checked="{{checked}}" />
+    <view class="imgAndText">
+      <view class="img-container">
+        <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.C}}</text>
+    </view>
+  </label>
+  <label>
+    <radio hidden value="D" checked="{{checked}}" />
+    <view class="imgAndText">
+      <view class="img-container">
+        <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+
+      <text class="answer-text">{{shiti.D}}</text>
+
+    </view>
+  </label>
+</radio-group>

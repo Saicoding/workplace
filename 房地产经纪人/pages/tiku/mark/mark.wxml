@@ -5,7 +5,7 @@
   <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;' bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" catchlongtap='_toogleMark'>
 
     <!--问题-->
-    <question class="question" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
+    <question  num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
     <!--单选题-->
     <view wx:if="{{shiti.TX == 1}}">

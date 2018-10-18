@@ -23,7 +23,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     let self = this;
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 
@@ -39,7 +39,7 @@ Page({
         // 得到存储答题状态
         wx.getStorage({
           key: self.data.zhangjie_id,
-          success: function(res) {
+          success: function (res) {
             //将每个节的已经作答的本地存储映射到组件中    
             console.log(res)
             for (let i = 0; i < zhangjie.length; i++) {
@@ -59,9 +59,9 @@ Page({
                 }
               }
               zhangjie[i].zhang_answer_num = zhang_answer_num;
-              if (zhangjie[i].zhang_answer_num == zhangjie[i].nums){//设置章节是否已经回答完毕
+              if (zhangjie[i].zhang_answer_num == zhangjie[i].nums) {//设置章节是否已经回答完毕
                 zhangjie[i].isAnswerAll = true;
-              }else{
+              } else {
                 zhangjie[i].isAnswerAll = false;
               }
               console.log(zhang_answer_num)
@@ -71,7 +71,7 @@ Page({
               zhangjie: zhangjie
             })
           },
-          fail: function() { //如果没有本地存储就初始化
+          fail: function () { //如果没有本地存储就初始化
             wx.setStorage({
               key: self.data.zhangjie_id,
               data: answer_nums_array
@@ -97,7 +97,7 @@ Page({
 
   },
   /* 更改题库 */
-  bindPickerChange: function(e) {
+  bindPickerChange: function (e) {
     var self = this
 
     self.setData({
@@ -136,7 +136,7 @@ Page({
       // 得到存储答题状态
       wx.getStorage({
         key: self.data.zhangjie_id,
-        success: function(res) {
+        success: function (res) {
           //将每个节的已经作答的本地存储映射到组件中          
           for (let i = 0; i < zhangjie.length; i++) {
             let zhang_answer_num = 0; //章的总作答数
@@ -155,7 +155,7 @@ Page({
             zhangjie: zhangjie
           })
         },
-        fail: function() { //如果没有本地存储就初始化
+        fail: function () { //如果没有本地存储就初始化
           wx.setStorage({
             key: self.data.zhangjie_id,
             data: answer_nums_array
@@ -177,7 +177,7 @@ Page({
   /**
    * 当点击章节
    */
-  onTapZhangjie: function(e) {
+  onTapZhangjie: function (e) {
     //判断点击展开后 字节的高度+
 
     let self = this;
@@ -212,7 +212,7 @@ Page({
   /**
    * 实现展开折叠效果
    */
-  step: function(index, height, num, windowWidth) {
+  step: function (index, height, num, windowWidth) {
     let self = this;
     let display = self.data.zhangjie[index].display; //取得现在是什么状态
     let zhangjie = self.data.zhangjie //取得章节对象
@@ -228,7 +228,7 @@ Page({
     let scroll = (index * 100 + jie_num * 70) * (windowWidth / 750);
 
     //设置动画循环
-    let interval = setInterval(function() {
+    let interval = setInterval(function () {
       height = display ? (height + 20) : (height - 20); //根据折叠状态进行页面高度变化
       zhangjie[index].height = height;
       self.setData({
@@ -271,7 +271,7 @@ Page({
   /**
    * 做题 
    */
-  GOzuoti: function(e) {
+  GOzuoti: function (e) {
     let self = this;
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
@@ -293,13 +293,13 @@ Page({
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
+      success: function (res) { //如果已经登陆过
         wx.navigateTo({
           url: url1
         })
 
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url,
         })
@@ -310,21 +310,21 @@ Page({
   /**
    * 导航到我的错题页面
    */
-  GOAnswerWrong: function(e) {
+  GOAnswerWrong: function (e) {
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
     let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
+      success: function (res) { //如果已经登陆过
         console.log(url)
         wx.navigateTo({
           url: url1
         })
 
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url,
         })
@@ -335,21 +335,21 @@ Page({
   /**
    * 导航到收藏练习
    */
-  GOMarkExercise: function(e) {
+  GOMarkExercise: function (e) {
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
     let url1 = '/pages/tiku/mark/mark?kid=' + kid;
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
+      success: function (res) { //如果已经登陆过
         console.log(url)
         wx.navigateTo({
           url: url1
         })
 
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url,
         })
@@ -360,14 +360,14 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     let self = this;
     let zhangjie = self.data.zhangjie;
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作
@@ -375,7 +375,7 @@ Page({
     // 得到存储答题状态
     wx.getStorage({
       key: self.data.zhangjie_id,
-      success: function(res) {
+      success: function (res) {
         //将每个节的已经作答的本地存储映射到组件中          
         for (let i = 0; i < zhangjie.length; i++) {
           let zhang_answer_num = 0; //章的总作答数
@@ -386,9 +386,9 @@ Page({
               zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
               zhang_answer_num += res.data[i][j].length;
 
-              if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums){
+              if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums) {
                 zhangjie[i].zhangjie_child[j].isAnswerAll = true;
-              }else{
+              } else {
                 zhangjie[i].isAnswerAll = false;
               }
             }
@@ -411,42 +411,42 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
 
   },
 
   /**
    * 获取窗口高度 宽度 并计算章节滚动条的高度
    */
-  setWindowWidthHeightScrollHeight: function() {
+  setWindowWidthHeightScrollHeight: function () {
     let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
     let windowHeight = wx.getSystemInfoSync().windowHeight; //获取窗口高度(px)
     windowHeight = (windowHeight * (750 / windowWidth)); //转换窗口高度(rpx)
@@ -462,7 +462,7 @@ Page({
   /**
    * 
    */
-  setZhangjie: function(res) {
+  setZhangjie: function (res) {
     let z_id = 0;
     let index = 0;
     let tiku = wx.getStorageSync("tiku_id");
@@ -484,7 +484,7 @@ Page({
   /**
    * 初始化章节信息
    */
-  initZhangjie: function(zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
+  initZhangjie: function (zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
     for (let i = 0; i < zhangjie.length; i++) {
       zhangjie[i].height = 0; //设置点击展开初始高度
       zhangjie[i].display = true; //设置点击展开初始动画为true

@@ -141,7 +141,12 @@ Page({
             url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
           })
         } else {
-          this.showMarkAnswer();
+          wx.showToast({
+            title: '还有未答题目',
+          })
+          setTimeout(() => {
+            this.showMarkAnswer();
+          }, 1500)
         }
         wx.hideLoading();
         clearInterval(interval); // 清除setInterval

@@ -1,41 +1,52 @@
-  <checkbox-group class='checkbox-group' bindchange='_checkVal'>
-        <label class="checkbox">
-          <checkbox hidden value="A" checked="{{shiti.A_checked}}" />
-          <view class="answer-block" >
-            <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.A}}</text>
-          </view>
-        </label>
+<checkbox-group class='checkbox-group' bindchange='_checkVal'>
+  <label>
+    <checkbox hidden value="A" checked="{{shiti.A_checked}}" />
+    <view class="answer-block">
+      <view class="img-container">
+        <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.A}}</text>
+    </view>
+  </label>
 
-        <label class="checkbox">
-          <checkbox hidden value="B" checked="{{shiti.B_checked}}" />
-          <view class="answer-block">
-            <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.B}}</text>
-          </view>
-        </label>
+  <label>
+    <checkbox hidden value="B" checked="{{shiti.B_checked}}" />
+    <view class="answer-block">
+      <view class="img-container">
+        <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.B}}</text>
+    </view>
+  </label>
 
-        <label class="checkbox">
-          <checkbox hidden value="C" checked="{{shiti.C_checked}}" />
-          <view class="answer-block">
-            <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.C}}</text>
-          </view>
-        </label>
+  <label >
+    <checkbox hidden value="C" checked="{{shiti.C_checked}}" />
+    <view class="answer-block">
+      <view class="img-container">
+        <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.C}}</text>
+    </view>
+  </label>
 
-        <label class="checkbox">
-          <checkbox hidden value="D" checked="{{shiti.D_checked}}" />
-          <view class="answer-block">
-            <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.D}}</text>
-          </view>
-        </label>
+  <label >
+    <checkbox hidden value="D" checked="{{shiti.D_checked}}" />
+    <view class="answer-block">
+      <view class="img-container">
+        <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
+      </view>
 
-        <label class="checkbox" wx:if = "{{shiti.E==''?false:true}}">
-          <checkbox hidden value="E" checked="{{shiti.E_checked}}" />
-          <view class="answer-block">
-            <image src="{{shiti.srcs.E}}" mod="aspectFit" class="answer-img"></image>
-            <text class="answer-text">{{shiti.E}}</text>
-          </view>
-        </label>
-      </checkbox-group>
+      <text class="answer-text">{{shiti.D}}</text>
+    </view>
+  </label>
+
+  <label  wx:if="{{shiti.E==''?false:true}}">
+    <checkbox hidden value="E" checked="{{shiti.E_checked}}" />
+    <view class="answer-block">
+      <view class="img-container">
+        <image src="{{shiti.srcs.E}}" mod="aspectFit" class="answer-img"></image>
+      </view>
+      <text class="answer-text">{{shiti.E}}</text>
+    </view>
+  </label>
+</checkbox-group>
