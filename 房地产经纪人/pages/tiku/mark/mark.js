@@ -145,12 +145,7 @@ Page({
             url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
           })
         } else {
-          wx.showToast({
-            title: '还有未答题目',
-          })
-          setTimeout(() => {
-            this.showMarkAnswer();
-          }, 1500)
+          this.showMarkAnswer();
         }
         wx.hideLoading();
         clearInterval(interval); // 清除setInterval
@@ -189,13 +184,6 @@ Page({
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
 
-    if (done_daan == undefined) {//说明多选没有选择选项
-      wx.showToast({
-        title: '没有任何选项',
-      })
-      return
-    }
-
     if (shiti.isAnswer) return;
 
     common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
@@ -221,12 +209,6 @@ Page({
   _checkVal: function (e) {
     let done_daan = e.detail.done_daan.sort();
     let shiti = this.data.shiti;
-
-    //初始化多选的checked值
-    common.initMultiSelectChecked(shiti);
-    //遍历这个答案，根据答案设置shiti的checked属性
-    done_daan = common.changeShitiChecked(done_daan, shiti);
-
     common.changeMultiShiti(done_daan, shiti);
     this.setData({
       shiti: shiti
@@ -253,11 +235,6 @@ Page({
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - 1 == i) { //找到对应小题
         if (xiaoti[i].isAnswer) return;
-        //初始化多选的checked值
-        common.initMultiSelectChecked(xiaoti[i]);
-        //遍历这个答案，根据答案设置shiti的checked属性
-        done_daan = common.changeShitiChecked(done_daan, xiaoti[i]);
-
         common.changeMultiShiti(done_daan, xiaoti[i]);
         this.setData({
           shiti: shiti

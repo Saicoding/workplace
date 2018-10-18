@@ -88,20 +88,23 @@
   height: 225rpx;
 }
 
-.shiti_zhangjie {
-  font-size: 0.8rem;
-}
-
-.shiti_zhangjie .zhangjie_list {
-  line-height: 3rem;
-  height: 3rem;
-  padding-left: 1rem;
-  font-size: 1rem;
+.shiti_zhangjie  {
+  line-height: 90rpx;
+  height: 90rpx;
+  padding-left: 30rpx;
+  font-size: 35rpx;
   border-bottom: 1px solid#eee;
-  border-top: 0.5rem #f3f7f8 solid;
+  border-top: 15rpx #f3f7f8 solid;
 }
 
 /***********************章节目录************************/
+.zhangjie{
+  margin-top:670rpx;
+}
+
+.zhang_block{
+    padding-left:10rpx;
+}
 
 .zj_title {
   clear: both;
@@ -132,10 +135,13 @@
 .zj_list {
   display: float;
   float: left;
+  width:526rpx;
   font-size: 30rpx;
   height: 100rpx;
   line-height: 33rpx;
   padding-left: 20rpx;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .zhang-icon-block {
@@ -145,7 +151,8 @@
 }
 
 .zhang-icon {
-  display: inline-block;
+  display: float;
+  float:left;
   width: 40rpx;
   height: 40rpx;
   margin-left: 10rpx;

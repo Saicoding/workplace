@@ -7,6 +7,13 @@ page {
 
 /******************** 提问 **********************/
 
+.question {
+  line-height: 60rpx;
+  width: 96%;
+  margin: 15rpx auto 20rpx auto;
+  /* border:1px solid red; */
+}
+
 .question_cailiao1 {
   line-height: 60rpx;
   width: 96%;
