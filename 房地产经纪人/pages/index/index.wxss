@@ -101,7 +101,6 @@
 
 .zhangjie {
   margin-top: 670rpx;
-  border:1rpx solid red;
 }
 
 

@@ -37,6 +37,7 @@ function initShiti(shiti, px, self) {
     shiti.num_color = "#eaa91d";
     shiti.tx = "材料题";
     shiti.doneAnswer = [];
+    shiti.confirm = false;
     let xiaoti = shiti.xiaoti;
     for (let i = 0; i < xiaoti.length; i++) {
 

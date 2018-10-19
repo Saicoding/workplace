@@ -1,9 +1,21 @@
+.outContainer{
+  margin-left:20rpx;
+  margin-right:20rpx;
+  margin-top:20rpx;
+  border-radius: 20rpx;
+  box-shadow: rgb(211, 206, 206) 5rpx 5rpx 10rpx 3rpx ;
+  padding-left:20rpx;
+  padding-bottom: 20rpx;
+  padding-top:10rpx;
+}
+
 .container{
-  padding-top:15rpx;
-  padding-left:25rpx;
-  padding-right:25rpx;
+  padding-top:5rpx;
+  padding-left:15rpx;
   line-height: 45rpx;
   font-size:35rpx;
+  overflow: hidden;
+  width:94%;
 }
 
 .question-block1 {

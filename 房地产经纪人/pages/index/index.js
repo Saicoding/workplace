@@ -166,7 +166,7 @@ Page({
    */
   onTapZhangjie: function(e) {
     //判断点击展开后 字节的高度+
-    this.waterWave.containerTap(e);
+    this.waterWave.containerTap(e);//水波效果
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
@@ -212,8 +212,6 @@ Page({
 
     let scroll = (index * 100 + jie_num * 71) * (windowWidth / 750);
 
-    console.log(scroll)
-
     if (isFolder){//展开
       let spreadAnimation = wx.createAnimation({
         duration:1000,
@@ -224,6 +222,7 @@ Page({
       spreadAnimation.height(height + "rpx", 0).step({
       })
       zhangjie[index].isFolder = false;
+      zhangjie[index].height = height;
       zhangjie[index].spreadData = spreadAnimation.export()
       //添加对象到折叠数组
       folder_object.push({
@@ -233,16 +232,9 @@ Page({
 
       self.setData({
         zhangjie: zhangjie,
+        scroll:scroll,
         folder_object: folder_object
       })
-      let interval = setInterval(()=>{
-        self.setData({
-          scroll: scroll
-        })
-      },5)
-      setTimeout(()=>{
-        clearInterval(interval);
-      },1000)
 
     }else{//折叠
       let foldAnimation = wx.createAnimation({
@@ -259,9 +251,10 @@ Page({
           folder_object.splice(i, 1)
         }
       }
+      zhangjie[index].height = 0;
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
-
+      console.log(scroll)
       self.setData({
         zhangjie: zhangjie,
         scroll: scroll,
@@ -274,7 +267,7 @@ Page({
    * 做题 
    */
   GOzuoti: function(e) {
-
+    this.waterWave.containerTap(e);//点击水波效果
     let self = this;
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index

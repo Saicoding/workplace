@@ -46,19 +46,21 @@
       <!-- 如果是展开状态才显示线条 -->
       <view class="zj_block">
         <view hover-start-time="50" hover-class="select1">
-          <view data-itemIdx="{{itemIdx}}" id='{{item.id}}' bindtap="onTapZhangjie">
-            <view class="zj_title">
-              <view class="zhang-icon-block">
-                <image class="zhang-icon" src="{{item.hasChild?(item.isFolder?'/imgs/folder.png':'/imgs/unfolder.png'):''}}"></image>
-              </view>
-              <text class='zj_list' id='{{item.id}}' style="color:{{item.isAnswerAll?'#9D9D9D':'black'}}">
+          <view data-itemIdx="{{itemIdx}}" id='{{item.id}}' bindtap="onTapZhangjie" style="clear:both;">
+            <view style ="padding-left:15rpx;">
+              <view class="zj_title">
+                <view class="zhang-icon-block">
+                  <image class="zhang-icon" src="{{item.hasChild?(item.isFolder?'/imgs/folder.png':'/imgs/unfolder.png'):''}}"></image>
+                </view>
+                <text class='zj_list' id='{{item.id}}' style="color:{{item.isAnswerAll?'#9D9D9D':'black'}}">
              {{item.title}}
              </text>
-            </view>
-            <view class="answer_number">
-              <view class="answer_number_1">{{item.nums}}</view>
-              <view class="answer_number_m">/</view>
-              <view class="answer_number_2">{{item.zhang_answer_num}}</view>
+              </view>
+              <view class="answer_number">
+                <view class="answer_number_1">{{item.nums}}</view>
+                <view class="answer_number_m">/</view>
+                <view class="answer_number_2">{{item.zhang_answer_num}}</view>
+              </view>
             </view>
           </view>
         </view>
@@ -73,6 +75,7 @@
             </view>
           </view>
         </view>
+
       </view>
     </block>
   </scroll-view>

@@ -1,7 +1,9 @@
-<view class="container">
+<view class = "outContainer" style = "border:{{tx == '材料题'?'1px solid #cfcfcf':''}}">
+<scroll-view  style ="height:{{tx == '材料题'?'400rpx':'auto'}};" scroll-y ="{{tx == '材料题'?true:false}}" animation = "{{foldData}}" class="container" bindtap="toogleShow">
   <view class="question-block1">
     <view class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
     <view class="qustion-select" style="color:{{num_color}}">【{{tx}}】</view>
   </view>
   {{question}}
+</scroll-view>
 </view>

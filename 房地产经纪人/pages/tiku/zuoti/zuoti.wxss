@@ -1,9 +1,5 @@
 /* pages/tiku/zuoti/index.wxss */
 
-page {
-  margin: 0px;
-  padding: 0px;
-}
 
 /******************** 提问 **********************/
 
@@ -11,7 +7,6 @@ page {
   line-height: 60rpx;
   width: 96%;
   margin: 15rpx auto 20rpx auto;
-  /* border:1px solid red; */
 }
 
 .question_cailiao1 {
@@ -81,5 +76,6 @@ page {
   border-radius: 60rpx;
   background: #388ff8;
   color:white;
+  margin-top:40rpx;
   line-height: 80rpx;
 }
