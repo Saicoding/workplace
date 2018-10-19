@@ -49,10 +49,21 @@ Page({
                 for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
                   zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
                   zhang_answer_num += res.data[i][j].length;
+                  if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums) {
+                    zhangjie[i].zhangjie_child[j].isAnswerAll = true;
+                  } else {
+                    zhangjie[i].isAnswerAll = false;
+                  }
                 }
               }
               zhangjie[i].zhang_answer_num = zhang_answer_num;
+              if (zhangjie[i].zhang_answer_num == zhangjie[i].nums) {//设置章节是否已经回答完毕
+                zhangjie[i].isAnswerAll = true;
+              } else {
+                zhangjie[i].isAnswerAll = false;
+              }
             }
+
             //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
             self.setData({
               zhangjie: zhangjie
@@ -379,9 +390,19 @@ Page({
             for (let j = 0; j < zhangjie[i].zhangjie_child.length; j++) {
               zhangjie[i].zhangjie_child[j].answer_nums = res.data[i][j].length;
               zhang_answer_num += res.data[i][j].length;
+              if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums) {
+                zhangjie[i].zhangjie_child[j].isAnswerAll = true;
+              } else {
+                zhangjie[i].isAnswerAll = false;
+              }
             }
           }
           zhangjie[i].zhang_answer_num = zhang_answer_num;
+          if (zhangjie[i].zhang_answer_num == zhangjie[i].nums) {//设置章节是否已经回答完毕
+            zhangjie[i].isAnswerAll = true;
+          } else {
+            zhangjie[i].isAnswerAll = false;
+          }
         }
         //因为是在同步内部，最后需要更新章节信息，不更新数据不会改变
         self.setData({
