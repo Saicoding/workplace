@@ -63,7 +63,7 @@
 
         <view class="jie"  animation="{{!item.isFolder?item.spreadData:item.folderData}}">
           <view data-itemIdx="{{itemIdx}}" wx:for-index="jieIdx" data-jieIdx="{{jieIdx}}" bindtap="GOzuoti" class=' level2' wx:for="{{item.zhangjie_child}}" wx:key="navItems" wx:for-item="items" hover-start-time="50" hover-class="select" id='{{items.id}}'>
-            <view>
+            <view class = "jie_block">
               <view class="jie_title" style="color:{{items.isAnswerAll?'#9D9D9D':'black'}}">{{items.title}}</view>
               <view class="answer_number_jie">
                 <view class="answer_number_jie_1">{{items.nums}}</view>
@@ -77,3 +77,4 @@
     </block>
   </scroll-view>
 </view>
+<waterWave id = "waterWave"></waterWave>

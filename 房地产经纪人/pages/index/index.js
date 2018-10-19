@@ -41,7 +41,6 @@ Page({
           key: self.data.zhangjie_id,
           success: function(res) {
             //将每个节的已经作答的本地存储映射到组件中    
-            console.log(res)
             for (let i = 0; i < zhangjie.length; i++) {
               let zhang_answer_num = 0; //章的总作答数
               if (zhangjie[i].zhangjie_child == undefined) { //如果只有章，没有节
@@ -167,7 +166,7 @@ Page({
    */
   onTapZhangjie: function(e) {
     //判断点击展开后 字节的高度+
-
+    this.waterWave.containerTap(e);
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
@@ -184,8 +183,6 @@ Page({
       this.GOzuoti(e);
       return
     }
-
-    console.log(num)
 
     //开始动画
     this.step(index,num, windowWidth);
@@ -209,12 +206,11 @@ Page({
         jie_num += folder_object[i].num //有几个节点就加几个节点
       }
     }
-    let height = 70 * num;
+    let height = 71 * num;
 
-    let scroll = (index * 100 + jie_num * 70) * (windowWidth / 750);
+    let scroll = (index * 100 + jie_num * 71) * (windowWidth / 750);
 
     if (isFolder){//展开
-      console.log("haha")
       let spreadAnimation = wx.createAnimation({
         duration:1000,
         delay:0,
@@ -233,7 +229,8 @@ Page({
 
       self.setData({
         zhangjie: zhangjie,
-        scroll: scroll
+        scroll: scroll,
+        folder_object: folder_object
       })
     }else{//折叠
       let foldAnimation = wx.createAnimation({
@@ -255,7 +252,8 @@ Page({
 
       self.setData({
         zhangjie: zhangjie,
-        scroll: scroll
+        scroll: scroll,
+        folder_object:folder_object
       })
     }
   },
@@ -264,6 +262,7 @@ Page({
    * 做题 
    */
   GOzuoti: function(e) {
+
     let self = this;
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
@@ -310,7 +309,6 @@ Page({
     wx.getStorage({
       key: 'user',
       success: function(res) { //如果已经登陆过
-        console.log(url)
         wx.navigateTo({
           url: url1
         })
@@ -335,7 +333,6 @@ Page({
     wx.getStorage({
       key: 'user',
       success: function(res) { //如果已经登陆过
-        console.log(url)
         wx.navigateTo({
           url: url1
         })
@@ -353,7 +350,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    this.waterWave = this.selectComponent("#waterWave");
   },
 
   /**

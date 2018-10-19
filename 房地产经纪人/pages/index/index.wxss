@@ -115,6 +115,9 @@
   vertical-align: middle;
   /* border: 1px solid blue; */
 }
+.jie_block{
+  clear: both;
+}
 
 .jie_title{
   clear: both;
@@ -167,7 +170,7 @@
 }
 
 .select {
-  background-color: #eee;
+  background-color: red;
 }
 
 /********************章节后面的数字统计*******************/
