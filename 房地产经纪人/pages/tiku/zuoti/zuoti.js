@@ -200,6 +200,7 @@ Page({
     let shitiArray = self.data.shitiArray;
 
     let shiti = self.data.shiti; //本试题对象
+    console.log(shiti)
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
 

@@ -85,6 +85,7 @@ Page({
     let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
+    this.waterWave = this.selectComponent("#waterWave");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -223,7 +224,14 @@ Page({
   /**
    * 材料题点击开始作答按钮
    */
-  CLZuoti: function () {
+  CLZuoti: function (e) {
+    this.waterWave.containerTap(e);
+    let str = "#q" + this.data.shiti.px;
+    let question = this.selectComponent(str);
+    let shiti = this.data.shiti;
+
+    question.spreadAnimation();
+
     this.setData({
       cl_question_hidden: true
     })

@@ -332,7 +332,6 @@ function changeNum(flag,self) {
  */
 function changeMultiShiti(done_daan, shiti) {
   if (shiti.isAnswer) return //如果已经回答了 就不作反应
-  console.log(done_daan)
   initMultiShitiSrcs(shiti);
   shiti.selectAnswer = done_daan;
 

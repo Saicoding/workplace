@@ -22,7 +22,6 @@ Component({
         if(tx == "材料题"){
           style1 ="display:block;height:400rpx;margin-bottom:60rpx;"//占位框
           style3="position:fixed;z-index:10000";
-          console.log('hha')
           style2 = "positon:fixed;height:400rpx;left:20rpx;";//问题框
         }else{
           style1 = "display:none;";//占位框
@@ -53,32 +52,13 @@ Component({
   pageLifetimes:{
     show:function(){
       let tx = this.data.tx;
-      console.log(tx)
     }
-  },
-
-  ready:function(){
-    let tx = this.data.tx;
-    console.log(tx)
-    
-    // this.setData({
-    //   // style:
-    // })
   },
 
   /**
    * 组件的方法列表
    */
   methods: {
-    getHeight:function(){
-      let query = wx.createSelectorQuery();
-      let self = this;
-      query.select('#haha').boundingClientRect();
-      query.exec(function(res){
-          console.log(res)
-      })
-
-    },
     foldAnimation:function(){
       let qAnimation = wx.createAnimation({
         duration: 1000,
@@ -95,7 +75,6 @@ Component({
         foldData: qAnimation.export(),
         isFold: true,
       })
-      console.log('折叠')
     },
 
     spreadAnimation:function(){
@@ -115,13 +94,11 @@ Component({
         isFold:false,
         first:false
       })
-      console.log('展开')
     },
 
     toogleShow: function (){
       if (this.data.tx != "材料题" ) return ;
       let isFold = this.data.isFold;
-      console.log(isFold)
       isFold ? this.spreadAnimation() : this.foldAnimation()
     }
   }
