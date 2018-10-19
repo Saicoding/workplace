@@ -160,7 +160,7 @@ Page({
       if (px > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         if (doneAnswerArray.length == shitiArray.length) {
           wx.navigateTo({
-            url: '/pages/jieAnswerAll/jieAnswerAll',
+            url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
           })
         } else {
           this.showMarkAnswer();

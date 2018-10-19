@@ -33,7 +33,7 @@
 
 .t_left {
   display: float;
-  float:left;
+  float: left;
   width: 27%;
   height: 450rpx;
   text-align: center;
@@ -41,7 +41,7 @@
 
 .t_right {
   display: float;
-  float:right;
+  float: right;
   text-align: center;
   width: 29%;
   height: 450rpx;
@@ -49,7 +49,7 @@
 
 .t_center {
   display: float;
-  float:right;
+  float: right;
   width: 42%;
   height: 450rpx;
 }
@@ -58,7 +58,7 @@
   width: 100%;
   font-size: 28rpx;
   text-align: center;
-  margin-top:20rpx;
+  margin-top: 20rpx;
 }
 
 .ti_z1 {
@@ -67,10 +67,10 @@
   height: 225rpx;
 }
 
-.ti_img{
-  width:60rpx;
-  height:60rpx;
-  margin-top:40rpx;
+.ti_img {
+  width: 60rpx;
+  height: 60rpx;
+  margin-top: 40rpx;
 }
 
 .ti_z2 {
@@ -88,7 +88,7 @@
   height: 225rpx;
 }
 
-.shiti_zhangjie  {
+.shiti_zhangjie {
   line-height: 90rpx;
   height: 90rpx;
   padding-left: 30rpx;
@@ -98,32 +98,31 @@
 }
 
 /***********************章节目录************************/
-.zhangjie{
-  margin-top:670rpx;
+
+.zhangjie {
+  margin-top: 670rpx;
 }
 
-.zhang_block{
-    padding-left:10rpx;
-}
 
 .zj_title {
   clear: both;
   display: float;
-  float:left;
+  float: left;
   width: 82%;
   height: 100rpx;
   vertical-align: middle;
   /* border: 1px solid blue; */
 }
-.jie_block{
+
+.jie_block {
   clear: both;
 }
 
-.jie_title{
+.jie_title {
   clear: both;
   display: float;
-  float:left;
-  width:73%;
+  float: left;
+  width: 73%;
   /* border:1px solid red; */
   text-indent: 50rpx;
   color: #333;
@@ -133,12 +132,14 @@
   height: 70rpx;
   margin-left: 65rpx;
   border-left: 1px #eee dashed;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .zj_list {
   display: float;
   float: left;
-  width:526rpx;
+  width: 526rpx;
   font-size: 30rpx;
   height: 100rpx;
   line-height: 33rpx;
@@ -155,7 +156,7 @@
 
 .zhang-icon {
   display: float;
-  float:left;
+  float: left;
   width: 40rpx;
   height: 40rpx;
   margin-left: 10rpx;
@@ -164,13 +165,21 @@
 
 .jie {
   /* hidden是为了实现点击后有动画效果 */
-  height:0rpx;
+  height: 0rpx;
   overflow: hidden;
-  clear:both;
+  clear: both;
 }
 
-.select {
-  background-color: red;
+.select1 {
+  height:100rpx;
+  width:100%;
+  background-color:	#CCCCCC;
+}
+
+.select2{
+  height:70rpx;
+  width:100%;
+  background-color:	#CCCCCC;
 }
 
 /********************章节后面的数字统计*******************/
@@ -178,12 +187,12 @@
 .answer_number {
   /* border:1px solid pink; */
   display: float;
-  float:right;
+  float: right;
   width: 14%;
-  height:69rpx;
-  padding-top:31rpx;
-  padding-right:16rpx;
-  font-size:25rpx;
+  height: 69rpx;
+  padding-top: 31rpx;
+  padding-right: 16rpx;
+  font-size: 25rpx;
 }
 
 .answer_number_1, .answer_number_m, .answer_number_2 {
@@ -193,12 +202,12 @@
 
 .answer_number_jie {
   display: float;
-  float:right;
+  float: right;
   width: 14%;
-  height:40rpx;
-  padding-top:18rpx;
-  padding-right:16rpx;
-  font-size:25rpx;
+  height: 40rpx;
+  padding-top: 18rpx;
+  padding-right: 16rpx;
+  font-size: 25rpx;
 }
 
 .answer_number_jie_1, .answer_number_jie_m, .answer_number_jie_2 {
