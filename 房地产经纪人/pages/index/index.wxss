@@ -161,6 +161,7 @@
 
 .jie {
   /* hidden是为了实现点击后有动画效果 */
+  height:0rpx;
   overflow: hidden;
   clear:both;
 }

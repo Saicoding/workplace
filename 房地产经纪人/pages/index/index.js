@@ -101,8 +101,8 @@ Page({
       let zhangjie = res.data.list; //该题库的所有章节
       for (let i = 0; i < zhangjie.length; i++) {
         zhangjie[i].height = 0; //设置点击展开初始高度
-        zhangjie[i].display = true; //设置点击展开初始动画为true
-        zhangjie[i].isFolder = true; //设置展开初始值
+        zhangjie[i].isFolder = true; //设置展开初始值为已经折叠状态
+        zhangjie[i].display = false; //设置是否开始动画
         zhangjie[i].zhang_answer_num = 0; //初始化答题数为0
         answer_nums_array[i] = []; //初始化本地存储
 
@@ -171,7 +171,8 @@ Page({
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
-    let folder = zhangjie[index].isFolder //章节的展开与折叠状态
+    let isFolder = zhangjie[index].isFolder //章节的展开与折叠状态
+    let display = zhangjie[index].display//设置是否开始动画
     let hasChild = zhangjie[index].hasChild //是否有子节
     let windowWidth = self.data.windowWidth;
     let num = zhangjie[index].zhangjie_child.length //取得有多少个章节
@@ -184,10 +185,7 @@ Page({
       return
     }
 
-    //设置章节是展开还是折叠状态
-    if (folder) {
-      zhangjie[index].isFolder = false;
-    }
+    console.log(num)
 
     //开始动画
     this.step(index,num, windowWidth);
@@ -201,7 +199,7 @@ Page({
    */
   step: function(index, num, windowWidth) {
     let self = this;
-    let display = self.data.zhangjie[index].display; //取得现在是什么状态
+    let isFolder = self.data.zhangjie[index].isFolder; //取得现在是什么状态
     let zhangjie = self.data.zhangjie //取得章节对象
     let folder_object = self.data.folder_object //取得展开章节的对象
     let jie_num = 0;
@@ -215,31 +213,36 @@ Page({
 
     let scroll = (index * 100 + jie_num * 70) * (windowWidth / 750);
 
-    if (display){//展开
-    console.log('ok')
+    if (isFolder){//展开
+      console.log("haha")
       let spreadAnimation = wx.createAnimation({
-        duration:3000,
+        duration:1000,
         delay:0,
         timingFunction:"ease"
       })
 
-      spreadAnimation.height(height + "rpx", height + "rpx").step({
+      spreadAnimation.height(height + "rpx", 0).step({
       })
-
-      zhangjie[index].display = false;
+      zhangjie[index].isFolder = false;
+      zhangjie[index].spreadData = spreadAnimation.export()
+      //添加对象到折叠数组
+      folder_object.push({
+        index: index,
+        num: num
+      })
 
       self.setData({
         zhangjie: zhangjie,
-        moveData: spreadAnimation.export()
+        scroll: scroll
       })
     }else{//折叠
       let foldAnimation = wx.createAnimation({
-        duration: 3000,
+        duration: 1000,
         delay: 0,
-        timingFunction: "ease"
+        timingFunction: "ease-out"
       })
-      foldAnimation.translate(height, 0).step({
-        duration: 3000
+
+      foldAnimation.height(0, height + "rpx").step({
       })
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
@@ -247,12 +250,12 @@ Page({
           folder_object.splice(i, 1)
         }
       }
-      zhangjie[index].display = true;
       zhangjie[index].isFolder = true;
+      zhangjie[index].folderData = foldAnimation.export();
 
       self.setData({
         zhangjie: zhangjie,
-        moveData: foldAnimation.export()
+        scroll: scroll
       })
     }
   },
@@ -465,8 +468,8 @@ Page({
   initZhangjie: function(zhangjie, answer_nums_array) { //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
     for (let i = 0; i < zhangjie.length; i++) {
       zhangjie[i].height = 0; //设置点击展开初始高度
-      zhangjie[i].display = true; //设置点击展开初始动画为true
       zhangjie[i].isFolder = true; //设置展开初始值
+      zhangjie[i].display = false; //设置是否开始动画
       zhangjie[i].zhang_answer_num = 0; //初始化答题数
       let child = zhangjie[i].zhangjie_child; //字节
 
