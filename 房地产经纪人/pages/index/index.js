@@ -95,7 +95,7 @@ Page({
       scroll: 0 //初始化章节的滑动条
     })
 
-    app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id).then((res) => {
+    app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id,true).then((res) => {
       let answer_nums_array = [] //答题数目array
 
       let zhangjie = res.data.list; //该题库的所有章节
