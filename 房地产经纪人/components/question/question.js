@@ -14,13 +14,29 @@ Component({
     },
     tx:{
       type:String,
-      value:""
+      value:"",
+      observer:function(tx){
+        let style1 ="";
+        let style2 ="";
+        let style3 = "";
+        if(tx == "材料题"){
+          style1 ="display:block;height:400rpx;margin-bottom:60rpx;"//占位框
+          style3="position:fixed;z-index:10000";
+          console.log('hha')
+          style2 = "positon:fixed;height:400rpx;left:20rpx;";//问题框
+        }else{
+          style1 = "display:none;";//占位框
+          style2 = "height:auto";//问题框
+          style3 = "position:block";
+        }
+        this.setData({
+          style1:style1,
+          style2:style2,
+          style3: style3 
+        })
+      }
     },
     question:{
-      type:String,
-      value:""
-    },
-    tx:{
       type:String,
       value:""
     },
@@ -32,6 +48,22 @@ Component({
   data: {
     isFold:true,
     first:true
+  },
+
+  pageLifetimes:{
+    show:function(){
+      let tx = this.data.tx;
+      console.log(tx)
+    }
+  },
+
+  ready:function(){
+    let tx = this.data.tx;
+    console.log(tx)
+    
+    // this.setData({
+    //   // style:
+    // })
   },
 
   /**
