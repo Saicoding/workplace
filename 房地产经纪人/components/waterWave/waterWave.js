@@ -19,10 +19,8 @@ Component({
    */
   methods: {
     containerTap: function (res) {
-      console.log(res.touches[0]);
       let x = res.touches[0].pageX;
       let y = res.touches[0].pageY + 85;
-      console.log('top:' + y + 'px;left:' + x + 'px;-webkit-animation: ripple 0.4s linear;animation:ripple 0.4s linear;')
       this.setData({
         rippleStyle: 'top:' + y + 'px;left:' + x + 'px;-webkit-animation: ripple 0.4s linear;animation:ripple 0.4s linear;'
       });

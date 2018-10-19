@@ -101,6 +101,7 @@
 
 .zhangjie {
   margin-top: 670rpx;
+  border:1rpx solid red;
 }
 
 
@@ -176,11 +177,6 @@
   background-color:	#CCCCCC;
 }
 
-.select2{
-  height:70rpx;
-  width:100%;
-  background-color:	#CCCCCC;
-}
 
 /********************章节后面的数字统计*******************/
 

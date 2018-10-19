@@ -206,9 +206,13 @@ Page({
         jie_num += folder_object[i].num //有几个节点就加几个节点
       }
     }
+    
     let height = 71 * num;
+    console.log(index+"||"+jie_num)
 
     let scroll = (index * 100 + jie_num * 71) * (windowWidth / 750);
+
+    console.log(scroll)
 
     if (isFolder){//展开
       let spreadAnimation = wx.createAnimation({
@@ -229,9 +233,17 @@ Page({
 
       self.setData({
         zhangjie: zhangjie,
-        scroll: scroll,
         folder_object: folder_object
       })
+      let interval = setInterval(()=>{
+        self.setData({
+          scroll: scroll
+        })
+      },5)
+      setTimeout(()=>{
+        clearInterval(interval);
+      },1000)
+
     }else{//折叠
       let foldAnimation = wx.createAnimation({
         duration: 1000,
