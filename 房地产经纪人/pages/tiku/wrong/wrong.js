@@ -31,6 +31,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.setNavigationBarTitle({ title: '我的错题' })  //设置标题
     let self = this;
     let user = wx.getStorageSync('user');
     let username = user.username; //用户姓名

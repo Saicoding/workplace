@@ -7,11 +7,5 @@
     "multiSelect": "/components/multiSelect/multiSelect",
     "jiexi": "/components/jiexi/jiexi",
     "waterWave": "/components/waterWave/waterWave"
-  },
-  "window": {
-    "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#0197F6",
-    "navigationBarTitleText": "我的错题",
-    "navigationBarTextStyle": "white"
   }
 }

@@ -28,7 +28,7 @@
         <view class='t_text'>考前押题</view>
       </view>
     </view>
-    <view class='t_center'>
+    <view class='t_center' bindtap = "GOkaoshi">
       <view style="margin-top:0rpx;">
         <image style="width:100%;height:400rpx;" src="/imgs/kaoshi.jpg" mode="aspectFit"></image>
       </view>

@@ -363,6 +363,13 @@ Page({
   },
 
   /**
+   * 导航到模拟考试
+   */
+  GOkaoshi:function(e){
+    console.log("ok")
+  },
+
+  /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
