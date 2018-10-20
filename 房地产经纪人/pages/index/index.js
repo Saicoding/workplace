@@ -286,9 +286,17 @@ Page({
 
     let zhangjie = self.data.zhangjie; //章节
     let zhangjie_id = self.data.zhangjie_id; //当前题库的id，用来作为本地存储的key值
-    let title = zhangjie[zhangIdx].zhangjie_child[jieIdx].title
+    let title = "";
+    if(jieIdx == undefined){
+      title = zhangjie[zhangIdx].title;
+      title = title.replace(/第\S{0,2}章\s*(\S+)/g, "$1");//把第几章字样去掉
+    }else{
+      title = zhangjie[zhangIdx].zhangjie_child[jieIdx].title
+      title = title.replace(/第\S{0,2}节\s*(\S+)/g, "$1");//把第几节字样去掉
+    }
+    
 
-    title = title.replace(/第\S{0,2}节\s*(\S+)/g,"$1");//把第几章字样去掉
+   
 
     //如果章节没有字节,将章节总题数置为做题数
     let nums = 0;
