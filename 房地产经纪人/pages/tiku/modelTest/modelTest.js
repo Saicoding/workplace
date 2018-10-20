@@ -1,4 +1,4 @@
-// pages/tiku/zuoti/index.js
+// pages/tiku/modelTest/modelTest.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../common/shiti.js');
 
@@ -30,8 +30,8 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
-    wx.setNavigationBarTitle({ title: options.title })  //设置标题
+  onLoad: function (options) {
+    wx.setNavigationBarTitle({ title: '模拟考试' })  //设置标题
     let self = this;
     let user = wx.getStorageSync('user');
     let username = user.username;
@@ -57,8 +57,8 @@ Page({
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: "shiti"+options.zhangjie_id,
-        success: function(res1) {
+        key: "shiti" + options.zhangjie_id,
+        success: function (res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
           common.setMarkAnswerItems(doneAnswerArray, options.nums, self); //设置答题板数组
@@ -90,7 +90,6 @@ Page({
         zhangIdx: options.zhangIdx, //章的id号
         jieIdx: options.jieIdx, //节的id号
 
-        title:options.title,//标题
         nums: shitiArray.length, //题数
         shiti: shiti, //试题对象
         shitiArray: shitiArray, //整节的试题数组
@@ -107,13 +106,13 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.waterWave = this.selectComponent("#waterWave");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function(res) { //转换窗口高度
+      success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
@@ -126,21 +125,21 @@ Page({
   /**
    * touch开始事件
    */
-  touchStart: function(e) {
+  touchStart: function (e) {
     touchDot = e.touches[0].pageX; // 获取触摸时的原点
     // 使用js计时器记录时间    
-    interval = setInterval(function() {
+    interval = setInterval(function () {
       time++;
     }, 100);
   },
   /**
    * touch移动事件
    */
-  touchMove: function(e) {},
+  touchMove: function (e) { },
   /**
    * touch结束事件
    */
-  touchEnd: function(e) {
+  touchEnd: function (e) {
     let self = this;
     var touchMove = e.changedTouches[0].pageX;
     let px = self.data.shiti.px; //试题的编号
@@ -165,14 +164,14 @@ Page({
       if (px > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         if (doneAnswerArray.length == shitiArray.length) {
           wx.navigateTo({
-            url: '/pages/prompt/jieAnswerAll/jieAnswerAll?title='+self.data.title,
+            url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
           })
         } else {
           wx.showToast({
             title: '这是最后一题',
-            icon:'none',
-            duration:4000,
-            success:function(){
+            icon: 'none',
+            duration: 4000,
+            success: function () {
               self.showMarkAnswer();
             }
           })
@@ -205,7 +204,7 @@ Page({
   /**
    * 作答
    */
-  _answerSelect: function(e) {
+  _answerSelect: function (e) {
     let self = this;
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
@@ -236,7 +235,7 @@ Page({
   /**
    * 多选题选一个选项
    */
-  _checkVal: function(e) {
+  _checkVal: function (e) {
     let done_daan = e.detail.done_daan.sort();
     let shiti = this.data.shiti;
     //初始化多选的checked值
@@ -251,7 +250,7 @@ Page({
   /**
    * 材料题点击开始作答按钮
    */
-  CLZuoti: function(e) {
+  CLZuoti: function (e) {
     this.waterWave.containerTap(e);
     let str = "#q" + this.data.shiti.px;
     let question = this.selectComponent(str);
@@ -266,7 +265,7 @@ Page({
   /**
    * 材料题多选点击一个选项
    */
-  _CLCheckVal: function(e) {
+  _CLCheckVal: function (e) {
     let px = e.currentTarget.dataset.px;
     let done_daan = e.detail.done_daan.sort();
     let shiti = this.data.shiti; //本试题对象
@@ -289,7 +288,7 @@ Page({
   /**
    * 材料题作答
    */
-  _CLAnswerSelect: function(e) {
+  _CLAnswerSelect: function (e) {
     let self = this;
     let px = e.currentTarget.dataset.px;
     let done_daan = "";
@@ -332,7 +331,7 @@ Page({
   /**
    * 刚载入时的动画
    */
-  onShow: function(e) {
+  onShow: function (e) {
     let self = this;
 
     self.hide(); //动画效果
@@ -344,25 +343,25 @@ Page({
   /**
    * 切换答题板
    */
-  _toogleMarkAnswer: function() {
+  _toogleMarkAnswer: function () {
     this.markAnswer.toogleDialog();
   },
   /**
    * 显示答题板
    */
-  showMarkAnswer: function() {
+  showMarkAnswer: function () {
     this.markAnswer.showDialog();
   },
   /**
    * 隐藏答题板
    */
-  _hideMarkAnswer: function() {
+  _hideMarkAnswer: function () {
     this.markAnswer.hideDialog();
   },
   /**
    * 切换是否收藏该试题
    */
-  _toogleMark: function(e) {
+  _toogleMark: function (e) {
     let self = this;
     let username = self.data.username;
     let acode = self.data.acode;
@@ -378,7 +377,7 @@ Page({
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
-  _tapEvent: function(e) {
+  _tapEvent: function (e) {
     let self = this;
     let px = e.detail.px;
     let zhangIdx = self.data.zhangIdx;
@@ -404,9 +403,9 @@ Page({
   /**
    * 载入动画
    */
-  hide: function() {
+  hide: function () {
     var vm = this
-    var interval = setInterval(function() {
+    var interval = setInterval(function () {
       if (vm.data.winH > 0) {
         //清除interval 如果不清除interval会一直往上加
         clearInterval(interval)

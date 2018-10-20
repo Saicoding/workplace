@@ -1,0 +1,13 @@
+<view class="bottom-block1" bindtap = "_submit">
+  <button class="submit-text" style="color:#666666;">立即交卷</button>
+</view>
+
+<view class="bottom-block2">
+  <view class="middel-text" style="color:#5ebded;">倒计时:44:57</view>
+</view>
+
+<view class="bottom-block3" bindtap="_toggleMarkAnswer" style = "float:right">
+  <image src="/imgs/list.png" mod="aspectFit" class="bottom-img"></image>
+  <view class="bottom-text" style= "width:85rpx;text-align:right;">{{px}} /</view>
+  <view class="bottom-text" style="color:#a0a0a0;margin-left:10rpx;width:80rpx;">{{nums}}</view>
+</view>

@@ -9,7 +9,8 @@
     "pages/prompt/hasNoErrorShiti/hasNoErrorShiti",
     "pages/tiku/mark/mark",
     "pages/tiku/index",
-    "pages/prompt/markAnswerAll/markAnswerAll"
+    "pages/prompt/markAnswerAll/markAnswerAll",
+    "pages/tiku/modelTest/modelTest"
   ],
   "window": {
     "backgroundTextStyle": "light",

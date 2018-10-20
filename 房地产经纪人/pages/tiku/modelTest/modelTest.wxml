@@ -1,4 +1,4 @@
-<!--pages/tiku/mark/mark.wxml-->
+<!--pages/tiku/modelTest/modelTest.wxml-->
 
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>
@@ -66,3 +66,4 @@
 
   <!-- 点击水波 -->
   <waterWave id = "waterWave"></waterWave>
+

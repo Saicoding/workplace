@@ -1,4 +1,4 @@
-<!--pages/tiku/zuoti/index.wxml-->
+<!--pages/tiku/wrong/wrong.wxml-->
 
   <!--蒙版（渐出淡去效果）-->
   <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};'></view>

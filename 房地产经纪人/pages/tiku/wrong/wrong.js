@@ -1,4 +1,4 @@
-// pages/tiku/zuoti/index.js
+// pages/tiku/wrong/wrong.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../common/shiti.js');
 
