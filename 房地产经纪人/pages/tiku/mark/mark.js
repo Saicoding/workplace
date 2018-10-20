@@ -134,6 +134,8 @@ Page({
       if (px == 0) {
         wx.showToast({
           title: '这是第一题',
+          icon: 'none',
+          duration: 4000,
         })
         clearInterval(interval); // 清除setInterval
         time = 0;
@@ -146,7 +148,14 @@ Page({
             url: '/pages/prompt/markAnswerAll/markAnswerAll',
           })
         } else {
-          this.showMarkAnswer();
+          wx.showToast({
+            title: '这是最后一题',
+            icon: 'none',
+            duration: 4000,
+            success: function () {
+              self.showMarkAnswer();
+            }
+          })
         }
         wx.hideLoading();
         clearInterval(interval); // 清除setInterval

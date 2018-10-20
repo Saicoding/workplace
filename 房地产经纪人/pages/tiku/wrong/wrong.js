@@ -130,6 +130,8 @@ Page({
       if (px == 0) {
         wx.showToast({
           title: '这是第一题',
+          icon: 'none',
+          duration: 4000,
         })
         clearInterval(interval); // 清除setInterval
         time = 0;
@@ -143,11 +145,13 @@ Page({
           })
         } else {
           wx.showToast({
-            title: '还有未答题目',
+            title: '这是最后一题',
+            icon: 'none',
+            duration: 4000,
+            success: function () {
+              self.showMarkAnswer();
+            }
           })
-          setTimeout(() => {
-            this.showMarkAnswer();
-          }, 1500)
         }
         wx.hideLoading();
         clearInterval(interval); // 清除setInterval
