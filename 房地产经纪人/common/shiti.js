@@ -173,7 +173,8 @@ function storeAnswerStatus(shiti,self) {
   let jieIdx = self.data.jieIdx;
   let doneAnswerArray = self.data.doneAnswerArray
 
-  let answer_nums_array = wx.getStorageSync(self.data.zhangjie_id);
+  let answer_nums_array = wx.getStorageSync("shiti"+self.data.zhangjie_id);
+
   let obj = {
     "id": shiti.id,
     "done_daan": shiti.done_daan,
@@ -182,13 +183,13 @@ function storeAnswerStatus(shiti,self) {
     "px": shiti.px
   }
   //根据章是否有字节的结构来
-  console.log(jieIdx)
   if (jieIdx != "undefined") {
     console.log(shiti)
     answer_nums_array[zhangIdx][jieIdx].push(obj)
   } else {
     answer_nums_array[zhangIdx].push(obj)
   }
+
   doneAnswerArray.push(obj) //存储已经做题的状态
 
   self.setData({
@@ -196,7 +197,7 @@ function storeAnswerStatus(shiti,self) {
   })
 
   wx.setStorage({
-    key: self.data.zhangjie_id,
+    key: "shiti"+self.data.zhangjie_id,
     data: answer_nums_array,
   })
 }
@@ -382,8 +383,74 @@ function ifDoneAll(shitiArray,doneAnswerArray){
     })
   }
 }
+/**
+ * 收藏题重新开始练习
+ */
+function markRestart(self){
+  let restart = self.data.restart;
+  let shitiArray = self.data.shitiArray;
 
+  if (restart) { //如果点击了重新开始练习，就清除缓存
+    let shiti = self.data.shitiArray[0];
 
+    initShiti(shiti, 1, self); //初始化试题对象
+
+    self.setData({//先把答题板数组置空
+      markAnswerItems: []
+    })
+
+    initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+    console.log(self.data.shitiArray[0])
+
+    self.setData({
+      shiti: self.data.shitiArray[0],
+      checked:false,
+      doneAnswerArray: [], //已做答案数组
+      rightNum: 0, //正确答案数
+      wrongNum: 0, //错误答案数
+    })
+  }
+}
+
+/**
+ * 练习题重新开始做题
+ */
+
+function lianxiRestart(self){
+  let restart = self.data.restart;
+  let shitiArray = self.data.shitiArray;
+  let jieIdx = self.data.jieIdx;
+  let zhangIdx = self.data.zhangIdx;
+  console.log('ok')
+  if (restart) { //如果点击了重新开始练习，就清除缓存
+    let shiti = self.data.shitiArray[0];
+
+    initShiti(shiti, 1, self); //初始化试题对象
+
+    self.setData({//先把答题板数组置空
+      markAnswerItems: []
+    })
+
+    initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+
+    let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id);
+
+    //根据章是否有字节的结构来
+    if (jieIdx != "undefined") {
+      answer_nums_array[zhangIdx][jieIdx] = [];
+    } else {
+      answer_nums_array[zhangIdx] = [];
+    }
+    wx.setStorageSync("shiti" + self.data.zhangjie_id, answer_nums_array);//重置已答数组
+
+    self.setData({
+      shiti: self.data.shitiArray[0],
+      doneAnswerArray: [], //已做答案数组
+      rightNum: 0, //正确答案数
+      wrongNum: 0, //错误答案数
+    })
+  }
+}
 
 module.exports = {
   initShiti: initShiti,
@@ -400,5 +467,7 @@ module.exports = {
   processDoneAnswer: processDoneAnswer,
   ifDoneAll: ifDoneAll,
   initMultiSelectChecked: initMultiSelectChecked,
-  changeShitiChecked: changeShitiChecked
+  changeShitiChecked: changeShitiChecked,
+  lianxiRestart:lianxiRestart,
+  markRestart: markRestart
 }

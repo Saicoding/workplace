@@ -21,7 +21,7 @@ Page({
   //   })
   // },
 
-  restart: function(options){
+  restart: function (options) {
     let pages = getCurrentPages();
     var currPage = pages[pages.length - 1];   //当前页面
     var prevPage = pages[pages.length - 2];  //上一个页面

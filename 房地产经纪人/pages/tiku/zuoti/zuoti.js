@@ -56,10 +56,10 @@ Page({
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: options.zhangjie_id,
+        key: "shiti"+options.zhangjie_id,
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
-          let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx] 
+          let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
           common.setMarkAnswerItems(doneAnswerArray, options.nums, self); //设置答题板数组
 
           //先处理是否是已经回答的题    
@@ -219,7 +219,7 @@ Page({
 
     common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
 
-    common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
+    common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
 
   /**
@@ -242,14 +242,14 @@ Page({
    */
   CLZuoti: function(e) {
     this.waterWave.containerTap(e);
-    let str = "#q"+this.data.shiti.px;
+    let str = "#q" + this.data.shiti.px;
     let question = this.selectComponent(str);
     let shiti = this.data.shiti;
 
     question.spreadAnimation();
 
     this.setData({
-      cl_question_hidden:true
+      cl_question_hidden: true
     })
   },
   /**
@@ -309,7 +309,7 @@ Page({
 
           common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
 
-          common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
+          common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
         this.setData({
           shiti: shiti
@@ -321,9 +321,14 @@ Page({
   /**
    * 刚载入时的动画
    */
-  onShow: function() {
-    this.hide()
+  onShow: function(e) {
+    let self = this;
+
+    self.hide(); //动画效果
+
+    common.lianxiRestart(self);//重新开始作答
   },
+
 
   /**
    * 切换答题板
@@ -356,7 +361,7 @@ Page({
       shiti: shiti
     })
     app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false).then((res) => {
-      
+
     })
   },
   /**

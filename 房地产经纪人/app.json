@@ -8,7 +8,8 @@
     "pages/tiku/wrong/wrong",
     "pages/prompt/hasNoErrorShiti/hasNoErrorShiti",
     "pages/tiku/mark/mark",
-    "pages/tiku/index"
+    "pages/tiku/index",
+    "pages/prompt/markAnswerAll/markAnswerAll"
   ],
   "window": {
     "backgroundTextStyle": "light",

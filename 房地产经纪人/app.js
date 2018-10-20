@@ -11,6 +11,11 @@ App({
    * @return {Promise}    promise 返回promise供后续操作
    */
   post: function(url, data, ifShow) {
+    if (ifShow) {
+      wx.showLoading({
+        title: '加载中',
+      })
+    }
     var promise = new Promise((resolve, reject) => {
       //init
       var that = this;
@@ -20,11 +25,7 @@ App({
       postData.signature = that.makeSign(postData);
       */
       //网络请求
-      if (ifShow) {
-        wx.showLoading({
-          title: '加载中',
-        })
-      }
+
       wx.request({
         url: url,
         data: postData,
@@ -39,6 +40,7 @@ App({
           } else {
             reject(res.data.info);
           }
+          wx.hideLoading();
         },
         error: function(e) {
           reject('网络出错');

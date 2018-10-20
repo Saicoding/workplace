@@ -143,7 +143,7 @@ Page({
       if (px > self.data.nums) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         if (doneAnswerArray.length == self.data.nums) {
           wx.navigateTo({
-            url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
+            url: '/pages/prompt/markAnswerAll/markAnswerAll',
           })
         } else {
           this.showMarkAnswer();
@@ -306,17 +306,14 @@ Page({
    * 刚载入时的动画
    */
   onShow: function () {
-    this.hide()
+    let self = this;
+
+    self.hide(); //动画效果
+
+    common.markRestart(self);//重新开始作答
   },
 
 
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-    this.hide()
-  },
   /**
    * 切换答题板
    */

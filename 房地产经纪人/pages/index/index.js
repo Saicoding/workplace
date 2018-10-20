@@ -38,7 +38,7 @@ Page({
         // wx.clearStorage(self.data.zhangjie_id)
         // 得到存储答题状态
         wx.getStorage({
-          key: self.data.zhangjie_id,
+          key: "shiti"+self.data.zhangjie_id,
           success: function(res) {
             //将每个节的已经作答的本地存储映射到组件中    
             for (let i = 0; i < zhangjie.length; i++) {
@@ -71,7 +71,7 @@ Page({
           },
           fail: function() { //如果没有本地存储就初始化
             wx.setStorage({
-              key: self.data.zhangjie_id,
+              key: "shiti"+self.data.zhangjie_id,
               data: answer_nums_array
             })
           }
@@ -133,7 +133,7 @@ Page({
 
       // 得到存储答题状态
       wx.getStorage({
-        key: self.data.zhangjie_id,
+        key: "shiti"+self.data.zhangjie_id,
         success: function(res) {
           //将每个节的已经作答的本地存储映射到组件中          
           for (let i = 0; i < zhangjie.length; i++) {
@@ -379,7 +379,7 @@ Page({
 
     // 得到存储答题状态
     wx.getStorage({
-      key: self.data.zhangjie_id,
+      key: "shiti"+self.data.zhangjie_id,
       success: function(res) {
         //将每个节的已经作答的本地存储映射到组件中          
         for (let i = 0; i < zhangjie.length; i++) {
