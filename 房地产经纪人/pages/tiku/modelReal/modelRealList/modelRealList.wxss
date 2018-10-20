@@ -1,0 +1,11 @@
+/* pages/tiku/modelReal/modelRealList/modelRealList.wxss */
+.btn{
+  background:#0197f6;
+  border-radius:60rpx;
+  font-size:35rpx;
+  text-align:center;
+  width:90%;
+  height:60rpx;
+  line-height: 60rpx;
+  margin-top:50rpx;
+}

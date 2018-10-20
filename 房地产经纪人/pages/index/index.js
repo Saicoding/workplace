@@ -30,7 +30,7 @@ Page({
     app.post(API_URL, "action=SelectZj").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
-      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true).then((res) => { //得到上一步设置的题库下的所有章节
+      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true,"请稍后").then((res) => { //得到上一步设置的题库下的所有章节
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等
@@ -294,9 +294,6 @@ Page({
       title = zhangjie[zhangIdx].zhangjie_child[jieIdx].title
       title = title.replace(/第\S{0,2}节\s*(\S+)/g, "$1");//把第几节字样去掉
     }
-    
-
-   
 
     //如果章节没有字节,将章节总题数置为做题数
     let nums = 0;
@@ -330,6 +327,7 @@ Page({
    */
   GOAnswerWrong: function(e) {
     let self = this;
+    self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
     let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
@@ -354,6 +352,7 @@ Page({
    */
   GOMarkExercise: function(e) {
     let self = this;
+    self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
     let url1 = '/pages/tiku/mark/mark?kid=' + kid;
@@ -376,8 +375,51 @@ Page({
   /**
    * 导航到模拟考试
    */
-  GOkaoshi:function(e){
-    console.log("ok")
+  GOModelTest:function(e){
+    let self = this;
+    self.waterWave.containerTap(e);//水波效果
+    let kid = self.data.zhangjie_id;
+    let url = encodeURIComponent('/pages/tiku/modelTest/modelTest?kid=' + kid)
+    let url1 = '/pages/tiku/modelTest/modelTest?kid=' + kid;
+    wx.getStorage({
+      key: 'user',
+      success: function (res) { //如果已经登陆过
+        wx.navigateTo({
+          url: url1
+        })
+
+      },
+      fail: function (res) { //如果没有username就跳转到登录界面
+        wx.navigateTo({
+          url: '/pages/login1/login1?url=' + url,
+        })
+      }
+    })
+  },
+
+  /**
+   * 导航到模拟真题
+   */
+  GOModelReal:function(e){
+    let self = this;
+    self.waterWave.containerTap(e);//水波效果
+    let kid = self.data.zhangjie_id;
+    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid)
+    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid;
+    wx.getStorage({
+      key: 'user',
+      success: function (res) { //如果已经登陆过
+        wx.navigateTo({
+          url: url1
+        })
+
+      },
+      fail: function (res) { //如果没有username就跳转到登录界面
+        wx.navigateTo({
+          url: '/pages/login1/login1?url=' + url,
+        })
+      }
+    })
   },
 
   /**

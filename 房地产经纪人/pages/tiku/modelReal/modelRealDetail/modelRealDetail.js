@@ -1,8 +1,9 @@
-// pages/tiku/modelTest/modelTest.js
+// pages/tiku/modelReal/modelRealDetail/modelRealDetail.js
+// pages/tiku/zuoti/index.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
-let common = require('../../../common/shiti.js');
+let common = require('../../../../common/shiti.js');
 
-const util = require('../../../utils/util.js')
+const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
 const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
@@ -31,25 +32,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    wx.setNavigationBarTitle({ title: '模拟考试' })  //设置标题
+    wx.setNavigationBarTitle({ title: options.title })  //设置标题
     let self = this;
     let user = wx.getStorageSync('user');
     let username = user.username;
     let acode = user.acode;
 
-    //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "");
+    //根据真题定制最后一次访问的key
+    let last_view_key = 'modelReal' + options.id;
 
-
-    let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
-    let px = last_view.px; //最后一次浏览的题的编号
+    let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
+    let px = last_model_real.px; //最后一次浏览的题的编号
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
-    app.post(API_URL, "action=GetTestlist&kid=" + options.kip + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true).then((res) => {
-      let shitiArray = res.data.shiti;
+    app.post(API_URL, "action=SelectTestShow&sjid=" + 10 +  "&username=" + username + "&acode=" + acode, true, "载入中").then((res) => {
+      console.log(options)
+      let shitiArray = res.data.list;
 
-      let shiti = res.data.shiti[px - 1];
+      let shiti = res.data.list[px - 1];
 
       common.initShiti(shiti, px, self); //初始化试题对象
 
@@ -57,11 +58,11 @@ Page({
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: "shiti" + options.zhangjie_id,
+        key: "modelReal" + options.id,
         success: function (res1) {
           //根据章是否有子节所有已经回答的题
-          let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
-          common.setMarkAnswerItems(doneAnswerArray, options.nums, self); //设置答题板数组
+          let doneAnswerArray = res1.data;
+          common.setMarkAnswerItems(doneAnswerArray, shitiArray.length, self); //设置答题板数组
 
           //先处理是否是已经回答的题    
           common.processDoneAnswer(doneAnswerArray, shiti, self);
@@ -78,6 +79,12 @@ Page({
             })
           }
         },
+        fail:function(){
+          wx.setStorage({
+            key: "modelReal" + options.id,
+            data: [],
+          })
+        }
       })
 
       self.setData({
@@ -85,11 +92,12 @@ Page({
         winH: wx.getSystemInfoSync().windowHeight,
         opacity: 1,
 
-        z_id: options.z_id, //点击组件的id编号
-        zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
-        zhangIdx: options.zhangIdx, //章的id号
-        jieIdx: options.jieIdx, //节的id号
+        id:options.id,//真题编号
+        test_score: options.test_score,//上次考试分数
+        times: options.times,//考试时间
+        totalscore: options.totalscore,//总分数
 
+        title: options.title,//标题
         nums: shitiArray.length, //题数
         shiti: shiti, //试题对象
         shitiArray: shitiArray, //整节的试题数组
@@ -164,7 +172,7 @@ Page({
       if (px > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         if (doneAnswerArray.length == shitiArray.length) {
           wx.navigateTo({
-            url: '/pages/prompt/jieAnswerAll/jieAnswerAll',
+            url: '/pages/prompt/jieAnswerAll/jieAnswerAll?title=' + self.data.title,
           })
         } else {
           wx.showToast({

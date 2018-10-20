@@ -12,6 +12,7 @@
   float:left;
   height: 40rpx;
   margin-left: 40rpx;
+  margin-top:12rpx;
 }
 
 .bottom-img {
@@ -19,4 +20,11 @@
   float:left;
   width: 40rpx;
   height: 40rpx;
+}
+
+.bottom-img-list{
+  display: float;
+  float:left;
+  width: 50rpx;
+  height: 50rpx;
 }

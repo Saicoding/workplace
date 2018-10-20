@@ -8,9 +8,10 @@
     "pages/tiku/wrong/wrong",
     "pages/prompt/hasNoErrorShiti/hasNoErrorShiti",
     "pages/tiku/mark/mark",
-    "pages/tiku/index",
     "pages/prompt/markAnswerAll/markAnswerAll",
-    "pages/tiku/modelTest/modelTest"
+    "pages/tiku/modelTest/modelTest",
+    "pages/tiku/modelReal/modelRealDetail/modelRealDetail",
+    "pages/tiku/modelReal/modelRealList/modelRealList"
   ],
   "window": {
     "backgroundTextStyle": "light",

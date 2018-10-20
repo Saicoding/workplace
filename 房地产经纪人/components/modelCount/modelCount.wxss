@@ -1,0 +1,51 @@
+/* components/modelTestCount/modelTestCount.wxss */
+.container{
+  vertical-align: middle;
+}
+
+.bottom-block1, .bottom-block2 {
+  display:inline-flex;
+  height: 26rpx;
+  border-radius: 36rpx;
+  line-height: 26rpx;
+  padding: 13rpx 37rpx 13rpx 37rpx;
+  margin-top:12rpx;
+}
+
+.bottom-block1 {
+  color: white;
+  background: #0197f6;
+  letter-spacing: 5rpx;
+  font-size: 25rpx;
+  margin-left:30rpx;
+}
+
+.bottom-block2 {
+  font-size: 30rpx;
+  border:1px solid #0197f6;
+  color:#0197f6;
+  margin-left:20rpx;
+}
+
+.bottom-block3 {
+  margin-top:12rpx;
+  margin-left:12rpx;
+}
+
+.bottom-text {
+  display:float;
+  float:left;
+  font-size: 35rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  margin-left: 10rpx;
+  
+}
+
+.bottom-img {
+  display:float;
+  float:left;
+  width: 50rpx;
+  height: 50rpx;
+}
+

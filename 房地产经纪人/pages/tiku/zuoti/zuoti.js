@@ -46,7 +46,7 @@ Page({
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
-    app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true).then((res) => {
+    app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true,"载入中").then((res) => {
       let shitiArray = res.data.shiti;
 
       let shiti = res.data.shiti[px - 1];

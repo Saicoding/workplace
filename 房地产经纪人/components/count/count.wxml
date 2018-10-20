@@ -14,7 +14,8 @@
 </view>
 
 <view class="bottom-block" bindtap="_toggleMarkAnswer" style = "float:right">
-  <image src="/imgs/list.png" mod="aspectFit" class="bottom-img"></image>
-  <view class="bottom-text" style= "width:85rpx;text-align:right;">{{px}} /</view>
+  <image src="/imgs/list.png" mod="aspectFit" class="bottom-img-list" ></image>
+  <view class="bottom-text" style= "width:80rpx;text-align:right;">{{px}}</view>
+  <view class="bottom-text">/</view>
   <view class="bottom-text" style="color:#a0a0a0;margin-left:10rpx;width:80rpx;">{{nums}}</view>
 </view>

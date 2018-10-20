@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "modelTestCount": "/components/modelCount/modelCount",
+    "modelCount": "/components/modelCount/modelCount",
     "markAnswer": "/components/markAnswer/markAnswer",
     "question": "/components/question/question",
     "singleSelect": "/components/singleSelect/singleSelect",

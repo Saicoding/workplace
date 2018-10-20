@@ -46,11 +46,11 @@
   display: inline-block;
   width: 100%;
   position: fixed;
-  height: 60rpx;
-  bottom: 0;
+  height: 80rpx;
+  bottom:0rpx;
   border-top: 1px solid#f3f3f3;
-  padding-top: 18rpx;
-  background-color: #fbf9f9;
+  box-shadow: rgb(211, 206, 206) 10rpx 10rpx 10rpx 10rpx ;
+  background-color: #f0f0f0;
   z-index: 100;
 }
 
