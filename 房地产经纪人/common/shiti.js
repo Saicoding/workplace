@@ -182,7 +182,9 @@ function storeAnswerStatus(shiti,self) {
     "px": shiti.px
   }
   //根据章是否有字节的结构来
-  if (shiti.jieIdx != "undefined") {
+  console.log(jieIdx)
+  if (jieIdx != "undefined") {
+    console.log(shiti)
     answer_nums_array[zhangIdx][jieIdx].push(obj)
   } else {
     answer_nums_array[zhangIdx].push(obj)

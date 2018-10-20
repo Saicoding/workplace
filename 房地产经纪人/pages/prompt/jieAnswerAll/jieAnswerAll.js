@@ -15,11 +15,11 @@ Page({
 
   },
 
-  onUnload:function(){
-    wx.navigateBack({
-      delta: 2
-    })
-  },
+  // onUnload:function(){
+  //   wx.navigateBack({
+  //     delta: 1
+  //   })
+  // },
 
   restart: function(options){
     let pages = getCurrentPages();
