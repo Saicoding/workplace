@@ -10,11 +10,11 @@ App({
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
-  post: function(url, data, ifShow,title) {
+  post: function(url, data, ifShow,ifCanCancel,title) {
     if (ifShow) {
       wx.showLoading({
         title: title,
-        mask:true
+        mask: !ifCanCancel
       })
     }
     var promise = new Promise((resolve, reject) => {

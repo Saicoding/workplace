@@ -5,6 +5,7 @@
   height: 40rpx;
   line-height: 40rpx;
   margin-left:10rpx;
+  margin-top:10rpx;
 }
 
 .bottom-block {
@@ -18,6 +19,7 @@
 .bottom-img {
   display: float;
   float:left;
+  margin-top:9rpx;
   width: 40rpx;
   height: 40rpx;
 }
