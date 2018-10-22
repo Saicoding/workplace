@@ -453,7 +453,7 @@ Page({
               if (zhangjie[i].zhangjie_child[j].answer_nums == zhangjie[i].zhangjie_child[j].nums) {
                 zhangjie[i].zhangjie_child[j].isAnswerAll = true;
               } else {
-                zhangjie[i].isAnswerAll = false;
+                zhangjie[i].zhangjie_child[j].isAnswerAll = false;
               }
             }
           }
