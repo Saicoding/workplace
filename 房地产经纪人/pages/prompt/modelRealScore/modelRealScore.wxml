@@ -1,0 +1,37 @@
+<!--pages/prompt/modelRealScore/modelRealScore.wxml-->
+<view class="mycontainer">
+  <view class="upper">
+    <view class="upper-in">
+      <view class ="time">
+        <image src="/imgs/time.png" mode="aspectFit" class = "time-img"></image>
+        <text class = "time-text">用时 00：15</text>
+      </view>
+      <view class = "score">
+        <text class ="score-top">2</text>
+        <text class ="score-bottom">不合格</text>
+      </view>
+      <view class = "line">
+        <view class = "line-left"></view>
+        <view class = "line-middle"></view>
+        <view class = "line-right"></view>
+      </view>
+      <view>
+        <view>
+          <text></text>
+          <text></text>
+        </view>
+        <view>
+          <text></text>
+          <text></text>
+        </view>
+        <view>
+          <text></text>
+          <text></text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view class="downer">
+    下半部分
+  </view>
+</view>

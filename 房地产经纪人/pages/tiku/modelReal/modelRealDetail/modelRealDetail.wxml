@@ -60,7 +60,7 @@
   </markAnswer>
 
   <!-- 底部正确错误个数统计条 -->
-  <modelCount id="modelCount" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{shiti.px}}" isMark="{{shiti.favorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer">
+  <modelCount id="modelCount"  nums="{{nums}}" px="{{shiti.px}}"  class="bottom" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
   </modelCount>
 
   <!-- 点击水波 -->

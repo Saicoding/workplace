@@ -44,8 +44,13 @@ Component({
       })
       this.triggerEvent('toogleMark');
     },
+
     _toggleMarkAnswer: function () {
       this.triggerEvent('toogleMarkAnswer')
+    },
+
+    _submit:function(){
+      this.triggerEvent('submit')
     }
   }
 })

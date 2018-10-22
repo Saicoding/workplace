@@ -64,7 +64,6 @@ Page({
         success: function (res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
-          console.log(doneAnswerArray)
           common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           //先处理是否是已经回答的题    
@@ -252,8 +251,6 @@ Page({
       shiti: shiti
     })
 
-    console.log(shiti)
-
     common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
@@ -369,22 +366,7 @@ Page({
   _hideMarkAnswer: function () {
     this.markAnswer.hideDialog();
   },
-  /**
-   * 切换是否收藏该试题
-   */
-  _toogleMark: function (e) {
-    let self = this;
-    let username = self.data.username;
-    let acode = self.data.acode;
-    let shiti = self.data.shiti;
-    shiti.favorite = shiti.favorite == 0 ? 1 : 0;
-    this.setData({
-      shiti: shiti
-    })
-    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false).then((res) => {
 
-    })
-  },
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
@@ -408,6 +390,15 @@ Page({
       checked: false
     })
     self._hideMarkAnswer();
+  },
+  
+  /**
+   * 点击立即交卷后
+   */
+  _submit:function(){
+    wx.navigateTo({
+      url: '/pages/prompt/modelRealScore/modelRealScore',
+    })
   },
   /**
    * 载入动画

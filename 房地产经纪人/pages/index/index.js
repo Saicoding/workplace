@@ -30,7 +30,7 @@ Page({
     app.post(API_URL, "action=SelectZj").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
-      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true,false,"请稍后").then((res) => { //得到上一步设置的题库下的所有章节
+      app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true,true,"请稍后").then((res) => { //得到上一步设置的题库下的所有章节
         let zhangjie = res.data.list //得到所有章节
         let answer_nums_array = [] //答题数目array
         this.initZhangjie(zhangjie, answer_nums_array) //初始化章节信息,构造对应章节已答数目的对象，包括：1.展开初始高度 2.展开初始动画是true 3.答题数等

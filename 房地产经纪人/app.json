@@ -11,7 +11,8 @@
     "pages/prompt/markAnswerAll/markAnswerAll",
     "pages/tiku/modelTest/modelTest",
     "pages/tiku/modelReal/modelRealDetail/modelRealDetail",
-    "pages/tiku/modelReal/modelRealList/modelRealList"
+    "pages/tiku/modelReal/modelRealList/modelRealList",
+    "pages/prompt/modelRealScore/modelRealScore"
   ],
   "window": {
     "backgroundTextStyle": "light",

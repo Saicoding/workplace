@@ -157,7 +157,6 @@ function changeShitiChecked(done_daan,shiti){
  *  4.isSubmit 是否已提交试题
  */
 function setMarkAnswerItems(jie_answer_array, nums, isModelReal,isSubmit,self) {
-  console.log(jie_answer_array)
   let markAnswerItems = self.data.markAnswerItems;//得到答题板组件的已答
   for (let i = 0; i < jie_answer_array.length; i++) {
     let px = jie_answer_array[i].px;
@@ -206,7 +205,6 @@ function storeAnswerStatus(shiti,self) {
   }
   //根据章是否有字节的结构来
   if (jieIdx != "undefined") {
-    console.log(shiti)
     answer_nums_array[zhangIdx][jieIdx].push(obj)
   } else {
     answer_nums_array[zhangIdx].push(obj)
