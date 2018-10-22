@@ -13,6 +13,9 @@ Page({
    */
   onLoad: function (options) {
     wx.setNavigationBarTitle({ title: "考试成绩" })  //设置标题
+    let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
+    windowWidth = windowWidth * (750 / windowWidth);
+    console.log(windowWidth )
   },
 
   /**

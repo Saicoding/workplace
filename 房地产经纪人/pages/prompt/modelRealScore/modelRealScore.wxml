@@ -12,26 +12,28 @@
       </view>
       <view class = "line">
         <view class = "line-left"></view>
-        <view class = "line-middle"></view>
+        <view class = "line-middle" >
+          <view class ="line-middle-in"></view>
+        </view>
         <view class = "line-right"></view>
       </view>
-      <view>
-        <view>
-          <text></text>
-          <text></text>
+      <view class = "count">
+        <view class ="right">
+          <text>正确</text>
+          <text>4</text>
         </view>
-        <view>
-          <text></text>
-          <text></text>
+        <view class = "wrong">
+          <text>错误</text>
+          <text>7</text>
         </view>
-        <view>
-          <text></text>
-          <text></text>
+        <view class ="undone"> 
+          <text>未答</text>
+          <text>10</text>
         </view>
       </view>
     </view>
   </view>
   <view class="downer">
-    下半部分
+
   </view>
 </view>
