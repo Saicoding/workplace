@@ -57,7 +57,7 @@
     </view>
   </scroll-view>
   <!-- 答题板 -->
-  <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight = "{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
+  <markAnswer id="markAnswer"  windowHeight = "{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
   </markAnswer>
 
   <!-- 底部正确错误个数统计条 -->

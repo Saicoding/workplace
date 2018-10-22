@@ -7,17 +7,18 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    done_answers:{
-      type: Array,
-      value:[]
-    },
-    markAnswerItems:{
-      type: Array,
-      value:[]
-    },
     windowHeight:{
       type:Number,
-      value:[]
+      value:0
+    },
+    isModelReal:{
+      type:Boolean,
+      value:false,
+      observer:function(isModelReal){
+        this.setData({
+          isModelReal: isModelReal
+        })
+      }
     }
   },
 
@@ -25,7 +26,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isShow:false,
+    isShow:false
   },
 
   /**
@@ -46,6 +47,7 @@ Component({
     },
     //toogle展示
     toogleDialog() {
+      console.log(this.data.markAnswerItems)
       this.setData({
         isShow: !this.data.isShow
       })

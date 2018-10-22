@@ -27,6 +27,9 @@ Page({
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
+
+    isModelReal:true,//是不是真题或者押题
+    isSubmit:false //是否已提交答卷
   },
   /**
    * 生命周期函数--监听页面加载
@@ -39,15 +42,14 @@ Page({
     let acode = user.acode;
 
     //根据真题定制最后一次访问的key
-    let last_view_key = 'modelReal' + options.id;
+    let last_view_key = 'lastModelReal' + options.id;
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_model_real.px; //最后一次浏览的题的编号
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
-    app.post(API_URL, "action=SelectTestShow&sjid=" + 10 +  "&username=" + username + "&acode=" + acode, true, "载入中").then((res) => {
-      console.log(options)
+    app.post(API_URL, "action=SelectTestShow&sjid=" + 10 +  "&username=" + username + "&acode=" + acode, true, true,"载入中").then((res) => {
       let shitiArray = res.data.list;
 
       let shiti = res.data.list[px - 1];
@@ -62,20 +64,17 @@ Page({
         success: function (res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
-          common.setMarkAnswerItems(doneAnswerArray, shitiArray.length, self); //设置答题板数组
+          console.log(doneAnswerArray)
+          common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           //先处理是否是已经回答的题    
-          common.processDoneAnswer(doneAnswerArray, shiti, self);
-          //根据已答试题库得到正确题数和错误题数
-          let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
+          common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
 
           //如果已答试题数目大于0才更新shiti
           if (doneAnswerArray.length > 0) {
             self.setData({
               shiti: shiti,
               doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
-              rightNum: rightAndWrongObj.rightNum,
-              wrongNum: rightAndWrongObj.wrongNum
             })
           }
         },
@@ -192,12 +191,12 @@ Page({
 
       let shiti = shitiArray[px - 1];
 
-      common.storeLastShiti(px, self); //存储最后一题的状态
+      common.storeModelRealLastShiti(px, self); //存储最后一题的状态
 
       common.initShiti(shiti, px, self); //初始化试题对象
 
       //先处理是否是已经回答的题    
-      common.processDoneAnswer(doneAnswerArray, shiti, self);
+      common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
 
       self.setData({ //每滑动一下,更新试题
         shiti: shiti,
@@ -219,23 +218,17 @@ Page({
 
     let shiti = self.data.shiti; //本试题对象
 
-    done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
+    done_daan = shiti.TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
-    if (shiti.isAnswer) return;
-
-    common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, shiti, self); //改变试题状态
 
     this.setData({
       shiti: shiti
     })
 
-    common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
+    common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
-    common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
-
-    common.storeAnswerStatus(shiti, self); //存储答题状态
-
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit,self); //更新答题板状态
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
@@ -244,16 +237,26 @@ Page({
    * 多选题选一个选项
    */
   _checkVal: function (e) {
+    let self = this;
     let done_daan = e.detail.done_daan.sort();
-    let shiti = this.data.shiti;
+    let shiti = self.data.shiti;
     //初始化多选的checked值
     common.initMultiSelectChecked(shiti);
     //遍历这个答案，根据答案设置shiti的checked属性
     done_daan = common.changeShitiChecked(done_daan, shiti);
     common.changeMultiShiti(done_daan, shiti);
-    this.setData({
+
+    shiti.done_daan = done_daan;
+
+    self.setData({
       shiti: shiti
     })
+
+    console.log(shiti)
+
+    common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
+
+    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
   },
   /**
    * 材料题点击开始作答按钮
@@ -388,19 +391,17 @@ Page({
   _tapEvent: function (e) {
     let self = this;
     let px = e.detail.px;
-    let zhangIdx = self.data.zhangIdx;
-    let jieIdx = self.data.jieIdx;
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
 
     let shiti = shitiArray[px - 1];
 
-    common.storeLastShiti(px, self); //存储最后一题的状态
+    common.storeModelRealLastShiti(px, self); //存储最后一题的状态
 
     common.initShiti(shiti, px, self); //初始化试题对象
 
     //先处理是否是已经回答的题    
-    common.processDoneAnswer(doneAnswerArray, shiti, self);
+    common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
 
     self.setData({
       shiti: shiti,

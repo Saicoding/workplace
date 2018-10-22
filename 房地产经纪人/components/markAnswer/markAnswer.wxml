@@ -2,7 +2,7 @@
 <view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling'>
   <scroll-view scroll-y="true" class = "container-in" style='top:{{windowHeight-60-500}}rpx' bindtap = "test">
     <view wx:for="{{markAnswerItems}}" wx:key="item">
-      <view data-px="{{index+1}}" catchtap='_tapEvent' class="icon" style="background:{{item.isRight == undefined?'#f0f0f0':(item.isRight == 0?'#90dd35':'#fa4b5c')}};color:{{item.isRight == undefined?'black':'white'}}">
+      <view data-px="{{index+1}}" catchtap='_tapEvent' class="icon" style="{{item.style}}">
         {{index+1}}
       </view>
     </view>

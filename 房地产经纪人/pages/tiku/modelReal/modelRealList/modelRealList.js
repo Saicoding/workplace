@@ -26,7 +26,7 @@ Page({
     let acode = user.acode;
 
     let px = 1;
-    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + 1, true, "加载中").then((res) => {
+    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + 1, true,true, "加载中").then((res) => {
       let modelList = res.data.list;
 
       self.setData({

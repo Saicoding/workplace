@@ -16,7 +16,8 @@ function initShiti(shiti, px, self) {
       "A": "/imgs/A.png",
       "B": "/imgs/B.png",
       "C": "/imgs/C.png",
-      "D": "/imgs/D.png"
+      "D": "/imgs/D.png",
+      "E": "/imgs/E.png"
     }
   } else if (TX == 2) { //多选
     shiti.num_color = "#2ac414";
@@ -149,18 +150,39 @@ function changeShitiChecked(done_daan,shiti){
 
 /**
  * 映射该节已答题目，得到答题板迭代数组
+ * 参数：
+ *  1.jie_answer_array 已回答数组
+ *  2.nums 题的数量
+ *  3.isMOdelReal 是不是真题
+ *  4.isSubmit 是否已提交试题
  */
-function setMarkAnswerItems(jie_answer_array, nums, self) {
-  let markAnswerItems = self.data.markAnswerItems;
+function setMarkAnswerItems(jie_answer_array, nums, isModelReal,isSubmit,self) {
+  console.log(jie_answer_array)
+  let markAnswerItems = self.data.markAnswerItems;//得到答题板组件的已答
   for (let i = 0; i < jie_answer_array.length; i++) {
     let px = jie_answer_array[i].px;
+    let style = "";
+    if (isModelReal && isSubmit == false){//如果是真题或者押题
+      if (jie_answer_array[i].done_daan != ""){//如果答案不为空
+        style = "background:#0197f6;color:white;"
+      }else{//如果是空
+        style = "";
+      }
+      
+    } else if (jie_answer_array[i].isRight == 0){//如果题是正确的
+      style = "background:#90dd35;color:white;"
+    } else if (jie_answer_array[i].isRight == 1){//如果题是错误的
+      style = "background:#fa4b5c;color:white;"
+    } 
+
     markAnswerItems[px - 1] = {
       "select": jie_answer_array[i].select,
       "isRight": jie_answer_array[i].isRight,
+      "style":style
     }
   }
 
-  self.setData({
+  self.markAnswer.setData({
     markAnswerItems: markAnswerItems
   })
 }
@@ -203,6 +225,57 @@ function storeAnswerStatus(shiti,self) {
 }
 
 /**
+  * 更新存储已答试题（单选和多选）(真题，押题)
+  */
+function storeModelRealAnswerStatus(shiti, self) {
+  let id = self.data.id;
+  let doneAnswerArray = self.data.doneAnswerArray;
+
+  let answer_nums_array = wx.getStorageSync("modelReal" + id);
+
+  let flag = false;
+
+  let obj = {
+    "id": shiti.id,
+    "done_daan": shiti.done_daan,
+    "select": shiti.tx,
+    "isRight": shiti.flag,
+    "px": shiti.px
+  }
+
+  for (let i = 0; i < answer_nums_array.length;i++){
+
+    let done_shiti_local = doneAnswerArray[i];//本地已答试题
+    let done_shiti_storage = answer_nums_array[i];//已做试题（本地存储）
+    if (done_shiti_storage.id == shiti.id){//已经存储过
+      done_shiti_local.done_daan = shiti.done_daan;//用新的作答覆盖之前的回答
+      done_shiti_local.isRight = shiti.flag;
+
+      done_shiti_storage.done_daan = shiti.done_daan;//用新的作答覆盖之前的回答
+      done_shiti_storage.isRight = shiti.flag;
+      flag = true;
+      break;
+    }    
+  }
+
+  if(!flag){
+    answer_nums_array.push(obj);//本地做题状态数组
+    doneAnswerArray.push(obj); //存储已经做题的状态
+  }
+
+  self.setData({
+    doneAnswerArray: doneAnswerArray
+  })
+
+  wx.setStorage({
+    key: "modelReal" + id,
+    data: answer_nums_array,
+  })
+}
+
+
+
+/**
   * 只更新本页面的已答对象
   */
 function storeAnswerArray(shiti, self) {
@@ -224,7 +297,7 @@ function storeAnswerArray(shiti, self) {
 }
 
 /**
- * 更改选择状态
+ * 更改选择状态（练习题）
  */
 function changeSelectStatus(done_daan, shiti,self) {
   let srcs = shiti.srcs; //选项前的图标对象
@@ -273,7 +346,60 @@ function changeSelectStatus(done_daan, shiti,self) {
 }
 
 /**
- * 对已答试题进行处理
+ * 更改选择状态（真题和押题）
+ */
+function changeModelRealSelectStatus(done_daan, shiti, self) {
+  shiti.srcs = { //初始图片对象(多选)
+    "A": "/imgs/A.png",
+    "B": "/imgs/B.png",
+    "C": "/imgs/C.png",
+    "D": "/imgs/D.png",
+    "E": "/imgs/E.png",
+  }; 
+  let flag = 0; //初始化正确还是错误
+
+  switch (shiti.tx) {
+    case "单选题":
+      shiti.srcs[done_daan] = "/imgs/right_answer.png";
+      //先判断是否正确
+      if (done_daan != shiti.answer) {
+        flag = 1;
+      } else {
+        flag = 0;
+      }
+
+      shiti.done_daan = done_daan; //已经做的选择
+      break;
+    case "多选题":
+      //初始化多选的checked值
+      initMultiSelectChecked(shiti);
+      //遍历这个答案，根据答案设置shiti的checked属性
+      let new_done_daan = changeShitiChecked(done_daan, shiti);
+      changeMultiShiti(new_done_daan, shiti);
+    
+      let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
+      shiti.done_daan = new_done_daan; //已经做的选择
+
+      for (let i = 0; i < new_done_daan.length; i++) {
+        shiti.srcs[new_done_daan[i]] = "/imgs/right_answer.png";
+      }
+
+      /**
+       * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
+       */
+      if (answers.toString() == new_done_daan.toString()) {
+        flag = 0;
+      } else {
+        flag = 1;
+      }
+      break;
+  }
+  // shiti.isAnswer = true;
+  shiti.flag = flag; //答案是否正确
+}
+
+/**
+ * 对已答试题进行处理（练习题）
  */
 function processDoneAnswer(doneAnswerArray,shiti,self){
   for (let i = 0; i < doneAnswerArray.length; i++) {
@@ -295,6 +421,30 @@ function processDoneAnswer(doneAnswerArray,shiti,self){
       }
     }
   }
+}
+/**
+ * 对已答试题进行处理（真题,押题）
+ */
+function processModelRealDoneAnswer(doneAnswerArray, shiti, self){
+  for (let i = 0; i < doneAnswerArray.length; i++) {
+    if (doneAnswerArray[i].id == shiti.id) { //如果是已答题目
+      switch (doneAnswerArray[i].select) {
+        case "单选题":
+        case "多选题":
+          changeModelRealSelectStatus(doneAnswerArray[i].done_daan, shiti, self) //根据得到的已答数组更新试题状态
+          break;
+        case "材料题":
+          let done_daan = doneAnswerArray[i].done_daan;
+          for (let i = 0; i < done_daan.length; i++) {
+            let xiaoti = shiti.xiaoti[i];
+            let xt_done_daan = done_daan[i].done_daan; //小题的已作答的答案
+            changeModelRealSelectStatus(xt_done_daan, xiaoti, self) //根据得到的已答数组更新试题状态
+          }
+          shiti.isAnswer = true;
+          break;
+      }
+    }
+  } 
 }
 
 /**
@@ -353,7 +503,7 @@ function postAnswerToServer(acode, username, id, flag, done_daan,app,API_URL) {
 }
 
 /**
- * 存储最后一题
+ * 存储最后一题(练习题)
  */
 function storeLastShiti(px,self) {
   //存储当前最后一题
@@ -373,6 +523,21 @@ function storeLastShiti(px,self) {
     },
   })
 }
+/**
+ * 存储最后一题(真题，押题)
+ */
+function storeModelRealLastShiti(px, self){
+  //存储当前最后一题
+  let last_view_key = 'lastModelReal' + self.data.id;//存储上次访问的题目的key
+  //本地存储最后一次访问的题目
+  wx.setStorage({
+    key: last_view_key,
+    data: {
+      'px': px
+    },
+  })
+}
+
 /**
  * 判断所有本节题已经做完
  */
@@ -400,7 +565,6 @@ function markRestart(self){
     })
 
     initMarkAnswer(shitiArray.length, self); //初始化答题板数组
-    console.log(self.data.shitiArray[0])
 
     self.setData({
       shiti: self.data.shitiArray[0],
@@ -421,7 +585,7 @@ function lianxiRestart(self){
   let shitiArray = self.data.shitiArray;
   let jieIdx = self.data.jieIdx;
   let zhangIdx = self.data.zhangIdx;
-  console.log('ok')
+
   if (restart) { //如果点击了重新开始练习，就清除缓存
     let shiti = self.data.shitiArray[0];
 
@@ -465,9 +629,13 @@ module.exports = {
   storeLastShiti: storeLastShiti,
   storeAnswerArray: storeAnswerArray,
   processDoneAnswer: processDoneAnswer,
+  processModelRealDoneAnswer: processModelRealDoneAnswer,
   ifDoneAll: ifDoneAll,
   initMultiSelectChecked: initMultiSelectChecked,
   changeShitiChecked: changeShitiChecked,
   lianxiRestart:lianxiRestart,
-  markRestart: markRestart
+  markRestart: markRestart,
+  changeModelRealSelectStatus: changeModelRealSelectStatus,
+  storeModelRealAnswerStatus: storeModelRealAnswerStatus,
+  storeModelRealLastShiti: storeModelRealLastShiti
 }

@@ -26,6 +26,9 @@ Page({
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
+
+    isModelReal: false,//是不是真题或者押题
+    isSubmit: false //是否已提交答卷
   },
   /**
    * 生命周期函数--监听页面加载
@@ -39,7 +42,7 @@ Page({
     let kid = options.kid; //题库编号
     let px = 1;
 
-    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true).then((res) => {
+    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入收藏中").then((res) => {
       //初始化试题对象，针对不同题型给试题添加各种属性
       if (res.data == undefined) {
         wx.navigateTo({
@@ -56,6 +59,10 @@ Page({
       common.initShiti(shiti, px, self); //初始化试题对象
 
       common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+
+      self.markAnswer.setData({//答题板初始化
+        markAnswerItems: self.data.markAnswerItems
+      })
 
       self.setData({
         //设置过场动画
@@ -209,7 +216,7 @@ Page({
 
     common.storeAnswerArray(shiti, self) //存储已答题数组
 
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
   },
@@ -302,7 +309,7 @@ Page({
 
           common.storeAnswerArray(shiti, self); //存储答题状态
 
-          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray);//判断是不是所有题已经做完
         }
@@ -354,7 +361,7 @@ Page({
     this.setData({
       shiti: shiti
     })
-    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false).then((res) => {})
+    app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false,true,"").then((res) => {})
   },
   /**
   * 答题板点击编号事件,设置当前题号为点击的题号

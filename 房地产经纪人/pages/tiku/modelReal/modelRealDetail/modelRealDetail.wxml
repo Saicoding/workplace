@@ -17,9 +17,8 @@
     <!--多选题-->
     <view wx:if="{{shiti.TX ==2}}" >
 
-      <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
+      <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_answerSelect"></multiSelect>
 
-      <button class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">确认选择</button>
       <!-- 解析 -->
       <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
     </view>
@@ -57,7 +56,7 @@
     </view>
   </scroll-view>
   <!-- 答题板 -->
-  <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight = "{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
+  <markAnswer id="markAnswer"  windowHeight = "{{windowHeight}}"  bind:tapEvent="_tapEvent">
   </markAnswer>
 
   <!-- 底部正确错误个数统计条 -->

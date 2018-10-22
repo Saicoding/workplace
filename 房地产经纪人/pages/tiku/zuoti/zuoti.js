@@ -26,6 +26,9 @@ Page({
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
+
+    isModelReal: false,//是不是真题或者押题
+    isSubmit: false //是否已提交答卷
   },
   /**
    * 生命周期函数--监听页面加载
@@ -46,6 +49,7 @@ Page({
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
+    console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true,false,"载入中").then((res) => {
       let shitiArray = res.data.shiti;
 
@@ -61,7 +65,7 @@ Page({
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
-          common.setMarkAnswerItems(doneAnswerArray, options.nums, self); //设置答题板数组
+          common.setMarkAnswerItems(doneAnswerArray, options.nums,self.data.isModelReal,self.data.isSubmit, self); //设置答题板数组
 
           //先处理是否是已经回答的题    
           common.processDoneAnswer(doneAnswerArray, shiti, self);
@@ -228,7 +232,7 @@ Page({
 
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal,self.data.isSubmit,self); //更新答题板状态
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
@@ -318,7 +322,7 @@ Page({
 
           common.storeAnswerStatus(shiti, self); //存储答题状态
 
-          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
