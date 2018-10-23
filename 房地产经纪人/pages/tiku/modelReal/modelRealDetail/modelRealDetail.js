@@ -77,13 +77,24 @@ Page({
 
           common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
-          //先处理是否是已经回答的题    
-          common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
+          //映射已答题目的已作答的答案到shitiArray
+          for (let i = 0; i < doneAnswerArray.length;i++){
+            let doneAnswer = doneAnswerArray[i];
+            shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
+            if (doneAnswer.select =="材料题"){
+              for (let j = 0; j < doneAnswer.done_daan.length;j++){
+                shitiArray[doneAnswer.px - 1].xiaoti[doneAnswer.done_daan[j].px - 1].done_daan = doneAnswer.done_daan[j].done_daan;
+              }
+            }
+          }
+
+          common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
 
           //如果已答试题数目大于0才更新shiti
           if (doneAnswerArray.length > 0) {
             self.setData({
               shiti: shiti,
+              shitiArray: shitiArray,
               doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
             })
           }
@@ -206,7 +217,7 @@ Page({
       common.initShiti(shiti, px, self); //初始化试题对象
 
       //先处理是否是已经回答的题    
-      common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
+      common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
 
       self.setData({ //每滑动一下,更新试题
         shiti: shiti,
@@ -242,7 +253,7 @@ Page({
 
     common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
+    common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态(单个)
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
@@ -281,7 +292,7 @@ Page({
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
         common.changeModelRealSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
-
+        xiaoti[i].done_daan = done_daan;//设置小题的已做答案
         let isStore = false;
         console.log(xiaoti[i].answer)
         //更新小题已经作答的答案
@@ -309,7 +320,7 @@ Page({
 
         if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
 
-          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
+          common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态(单个)
 
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
@@ -365,27 +376,12 @@ Page({
     let shiti = shitiArray[px - 1];
 
     common.storeModelRealLastShiti(px, self); //存储最后一题的状态
-
-    common.initShiti(shiti, px, self); //初始化试题对象
-
-    //先处理是否是已经回答的题    
-    // common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
-    console.log(shiti)
-    console.log(shiti.answer)
-    console.log(shiti.num_color)
-    console.log(shiti.done_daan)
-    console.log(doneAnswerArray)
-
-    if (isSubmit){
-      common.changeModelRealSelectStatus(shiti.done_daan, shiti, self)//改变试题的图片状态(没有错误提示)
-    }else{
-      if (shiti.done_daan == "") {//如果没作答，就显示正确答案
-        common.changeModelRealSelectStatus(shiti.answer, shiti, self)//改变试题的图片状态(没有错误提示)
-      } else {
-        common.changeSelectStatus(shiti.done_daan, shiti, self)//改变试题的图片状态(有错误提示)
-      }
+    if (shiti.done_daan == undefined || ""){//如果没有作答过
+      common.initShiti(shiti, px, self); //初始化试题对象
     }
-
+ 
+    common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
+    
     self.setData({
       shiti: shiti,
       checked: false

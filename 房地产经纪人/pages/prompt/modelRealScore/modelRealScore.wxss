@@ -9,6 +9,8 @@
   background: #6db7fe;
   align-content: center;
   border: 1px solid #6db7fe;
+
+  
 }
 
 .upper-in {
