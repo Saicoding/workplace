@@ -26,7 +26,9 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isShow:false
+    isShow:false,
+    test1:"<span>",
+    test2:"</span>"
   },
 
   /**
@@ -47,7 +49,6 @@ Component({
     },
     //toogle展示
     toogleDialog() {
-      console.log(this.data.markAnswerItems)
       this.setData({
         isShow: !this.data.isShow
       })
@@ -62,7 +63,6 @@ Component({
 
     //阻止事件冒泡
     stopBubbling:function(e){
-      console.log('点了蒙版')
     },
 
     //点击了空地,让蒙版消失
@@ -70,6 +70,6 @@ Component({
       this.setData({
         isShow: false
       })
-    }
+    },
   }
 })

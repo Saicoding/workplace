@@ -23,6 +23,10 @@ Component({
     isMark: {
       type: Number,
       value: 0
+    },
+    text:{
+      type:String,
+      value:'立即交卷'
     }
   },
 
@@ -50,7 +54,13 @@ Component({
     },
 
     _submit:function(){
-      this.triggerEvent('submit')
+      let text = this.data.text;
+      if(text == "立即交卷"){
+        this.triggerEvent('submit');
+      }else{
+        this.triggerEvent('restart')
+      }
+      
     }
   }
 })

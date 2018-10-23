@@ -88,7 +88,7 @@ function initMarkAnswer(nums, self) {
   for (let i = 0; i < nums; i++) {
     markAnswerItems.push({});
   }
-  self.setData({
+  self.markAnswer.setData({
     markAnswerItems: markAnswerItems
   })
 }
@@ -385,6 +385,7 @@ function changeModelRealSelectStatus(done_daan, shiti, self) {
       /**
        * 比较正确答案和已经选择选项，因为都是数组，数组比较内容需要转到字符串，因为数组也是对象，对象的比较默认为变量地址
        */
+      // console.log(answers.toString() + "||" + new_done_daan.toString())
       if (answers.toString() == new_done_daan.toString()) {
         flag = 0;
       } else {
@@ -429,14 +430,22 @@ function processModelRealDoneAnswer(doneAnswerArray, shiti, self){
       switch (doneAnswerArray[i].select) {
         case "单选题":
         case "多选题":
-          changeModelRealSelectStatus(doneAnswerArray[i].done_daan, shiti, self) //根据得到的已答数组更新试题状态
+          if(!self.data.isSubmit){
+             changeModelRealSelectStatus(doneAnswerArray[i].done_daan, shiti, self) //根据得到的已答数组更新试题状态
+          }else{
+             changeSelectStatus(doneAnswerArray[i].done_daan, shiti, self) //根据得到的已答数组更新试题状态
+          }
           break;
         case "材料题":
           let done_daan = doneAnswerArray[i].done_daan;
           for (let i = 0; i < done_daan.length; i++) {
             let xiaoti = shiti.xiaoti[i];
             let xt_done_daan = done_daan[i].done_daan; //小题的已作答的答案
-            changeModelRealSelectStatus(xt_done_daan, xiaoti, self) //根据得到的已答数组更新试题状态
+            if(!self.data.isSubmit){
+              changeModelRealSelectStatus(xt_done_daan, xiaoti, self) //根据得到的已答数组更新试题状态
+            }else{
+              changeSelectStatus(xt_done_daan, xiaoti, self) //根据得到的已答数组更新试题状态
+            }
           }
           shiti.isAnswer = true;
           break;
@@ -614,6 +623,40 @@ function lianxiRestart(self){
   }
 }
 
+/**
+ * 真题重新开始练习
+ */
+
+function restartModelReal(self){
+  let shiti = self.data.shitiArray[0];
+  let shitiArray = self.data.shitiArray;
+
+  initShiti(shiti, 1, self); //初始化试题对象
+
+  self.setData({//先把答题板数组置空
+    markAnswerItems: []
+  })
+
+  initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+
+  let answer_nums_array = wx.getStorageSync("modelReal" + self.data.id);//将已答答案置空
+  wx.setStorage({
+    key: "modelReal" + self.data.id,
+    data: [],
+  })
+  wx.setStorage({
+    key: "modelRealIsSubmit" + self.data.id,
+    data: false,
+  })
+  self.setData({
+    shiti: self.data.shitiArray[0],
+    doneAnswerArray: [], //已做答案数组
+    isSubmit:false,
+    checked:false,
+    text:"立即交卷"
+  })
+}
+
 module.exports = {
   initShiti: initShiti,
   initMarkAnswer: initMarkAnswer,
@@ -635,5 +678,6 @@ module.exports = {
   markRestart: markRestart,
   changeModelRealSelectStatus: changeModelRealSelectStatus,
   storeModelRealAnswerStatus: storeModelRealAnswerStatus,
-  storeModelRealLastShiti: storeModelRealLastShiti
+  storeModelRealLastShiti: storeModelRealLastShiti,
+  restartModelReal, restartModelReal
 }

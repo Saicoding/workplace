@@ -28,14 +28,16 @@ Page({
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
 
-    isModelReal:true,//是不是真题或者押题
-    isSubmit:false //是否已提交答卷
+    isModelReal: true, //是不是真题或者押题
+    isSubmit: false //是否已提交答卷
   },
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.setNavigationBarTitle({ title: options.title })  //设置标题
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: options.title
+    }) //设置标题
     let self = this;
     let user = wx.getStorageSync('user');
     let username = user.username;
@@ -49,21 +51,30 @@ Page({
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
-    app.post(API_URL, "action=SelectTestShow&sjid=" + 10 +  "&username=" + username + "&acode=" + acode, true, true,"载入中").then((res) => {
+    app.post(API_URL, "action=SelectTestShow&sjid=" + 10 + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 
-      let shiti = res.data.list[px - 1];
+      let shiti = shitiArray[px - 1];
 
       common.initShiti(shiti, px, self); //初始化试题对象
 
       common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+      let isSubmit = wx.getStorageSync('modelRealIsSubmit' + options.id);  
 
       //对是否是已答试题做处理
       wx.getStorage({
         key: "modelReal" + options.id,
-        success: function (res1) {
+        success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
+
+          if (isSubmit == true){//说明是已经是提交过答案的题
+            self.setData({
+              text:"重新评测",
+              isSubmit:true
+            })
+          }
+
           common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           //先处理是否是已经回答的题    
@@ -77,7 +88,7 @@ Page({
             })
           }
         },
-        fail:function(){
+        fail: function() {
           wx.setStorage({
             key: "modelReal" + options.id,
             data: [],
@@ -90,12 +101,12 @@ Page({
         winH: wx.getSystemInfoSync().windowHeight,
         opacity: 1,
 
-        id:options.id,//真题编号
-        test_score: options.test_score,//上次考试分数
-        times: options.times,//考试时间
-        totalscore: options.totalscore,//总分数
+        id: options.id, //真题编号
+        times: options.times, //考试时间
+        totalscore:options.totalscore,//总分
 
-        title: options.title,//标题
+        title: options.title, //标题
+        text:"立即交卷",//按钮文字
         nums: shitiArray.length, //题数
         shiti: shiti, //试题对象
         shitiArray: shitiArray, //整节的试题数组
@@ -112,13 +123,13 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.waterWave = this.selectComponent("#waterWave");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function (res) { //转换窗口高度
+      success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
@@ -131,21 +142,21 @@ Page({
   /**
    * touch开始事件
    */
-  touchStart: function (e) {
+  touchStart: function(e) {
     touchDot = e.touches[0].pageX; // 获取触摸时的原点
     // 使用js计时器记录时间    
-    interval = setInterval(function () {
+    interval = setInterval(function() {
       time++;
     }, 100);
   },
   /**
    * touch移动事件
    */
-  touchMove: function (e) { },
+  touchMove: function(e) {},
   /**
    * touch结束事件
    */
-  touchEnd: function (e) {
+  touchEnd: function(e) {
     let self = this;
     var touchMove = e.changedTouches[0].pageX;
     let px = self.data.shiti.px; //试题的编号
@@ -177,7 +188,7 @@ Page({
             title: '这是最后一题',
             icon: 'none',
             duration: 4000,
-            success: function () {
+            success: function() {
               self.showMarkAnswer();
             }
           })
@@ -210,12 +221,16 @@ Page({
   /**
    * 作答
    */
-  _answerSelect: function (e) {
+  _answerSelect: function(e) {
     let self = this;
+
+    if (self.data.isSubmit) return
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
 
     let shiti = self.data.shiti; //本试题对象
+
+    console.log(shiti.answer);
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
@@ -227,38 +242,15 @@ Page({
 
     common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit,self); //更新答题板状态
+    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
   },
 
   /**
-   * 多选题选一个选项
-   */
-  _checkVal: function (e) {
-    let self = this;
-    let done_daan = e.detail.done_daan.sort();
-    let shiti = self.data.shiti;
-    //初始化多选的checked值
-    common.initMultiSelectChecked(shiti);
-    //遍历这个答案，根据答案设置shiti的checked属性
-    done_daan = common.changeShitiChecked(done_daan, shiti);
-    common.changeMultiShiti(done_daan, shiti);
-
-    shiti.done_daan = done_daan;
-
-    self.setData({
-      shiti: shiti
-    })
-
-    common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
-
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
-  },
-  /**
    * 材料题点击开始作答按钮
    */
-  CLZuoti: function (e) {
+  CLZuoti: function(e) {
     this.waterWave.containerTap(e);
     let str = "#q" + this.data.shiti.px;
     let question = this.selectComponent(str);
@@ -270,62 +262,54 @@ Page({
       cl_question_hidden: true
     })
   },
-  /**
-   * 材料题多选点击一个选项
-   */
-  _CLCheckVal: function (e) {
-    let px = e.currentTarget.dataset.px;
-    let done_daan = e.detail.done_daan.sort();
-    let shiti = this.data.shiti; //本试题对象
-    let xiaoti = this.data.shiti.xiaoti; //材料题下面的小题
-    for (let i = 0; i < xiaoti.length; i++) {
-      if (px - 1 == i) { //找到对应小题
-        if (xiaoti[i].isAnswer) return;
-        //初始化多选的checked值
-        common.initMultiSelectChecked(xiaoti[i]);
-        //遍历这个答案，根据答案设置shiti的checked属性
-        done_daan = common.changeShitiChecked(done_daan, xiaoti[i]);
 
-        common.changeMultiShiti(done_daan, xiaoti[i]);
-        this.setData({
-          shiti: shiti
-        })
-      }
-    }
-  },
   /**
    * 材料题作答
    */
-  _CLAnswerSelect: function (e) {
+  _CLAnswerSelect: function(e) {
     let self = this;
+
+    if (self.data.isSubmit) return;
     let px = e.currentTarget.dataset.px;
     let done_daan = "";
     let xiaoti = self.data.shiti.xiaoti;
     let shitiArray = self.data.shitiArray
     let shiti = self.data.shiti; //本试题对象
-    if (shiti.isAnswer) return;
 
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - 1 == i) { //找到对应的小题
-        if (xiaoti[i].isAnswer) return;
-        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
-        common.changeSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
+        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
+        common.changeModelRealSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
-        shiti.doneAnswer.push({
-          'px': px,
-          'done_daan': done_daan
-        }); //向本材料题的已答数组中添加已答题目px 和 答案信息
+
+        let isStore = false;
+        console.log(xiaoti[i].answer)
+        //更新小题已经作答的答案
+        for (let j = 0; j < shiti.doneAnswer.length; j++) {
+          let doneAnswer = shiti.doneAnswer[j];
+          if (doneAnswer.px == px) {
+            doneAnswer.done_daan = done_daan
+            doneAnswer.isRight = xiaoti[i].flag;
+            isStore = true;
+            break;
+          }
+        }
+
+        if (!isStore) {
+          shiti.doneAnswer.push({
+            'px': px,
+            'done_daan': done_daan,
+            'isRight': xiaoti[i].flag
+          }); //向本材料题的已答数组中添加已答题目px 和 答案信息
+        }
+
+        shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
+
+        common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
         if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
-          shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
 
-          common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
-
-          common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, "测试", app, API_URL); //向服务器提交答题结果
-
-          common.storeAnswerStatus(shiti, self); //存储答题状态
-
-          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self); //更新答题板状态
+          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
@@ -339,42 +323,44 @@ Page({
   /**
    * 刚载入时的动画
    */
-  onShow: function (e) {
+  onShow: function(e) {
     let self = this;
-
     self.hide(); //动画效果
 
-    common.lianxiRestart(self);//重新开始作答
+    if(self.data.isSubmit){
+      self._showMarkAnswer();
+    }
   },
 
 
   /**
    * 切换答题板
    */
-  _toogleMarkAnswer: function () {
+  _toogleMarkAnswer: function() {
     this.markAnswer.toogleDialog();
   },
   /**
    * 显示答题板
    */
-  showMarkAnswer: function () {
+  _showMarkAnswer: function() {
     this.markAnswer.showDialog();
   },
   /**
    * 隐藏答题板
    */
-  _hideMarkAnswer: function () {
+  _hideMarkAnswer: function() {
     this.markAnswer.hideDialog();
   },
 
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
-  _tapEvent: function (e) {
+  _tapEvent: function(e) {
     let self = this;
     let px = e.detail.px;
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
+    let isSubmit = self.data.isSubmit;
 
     let shiti = shitiArray[px - 1];
 
@@ -383,7 +369,22 @@ Page({
     common.initShiti(shiti, px, self); //初始化试题对象
 
     //先处理是否是已经回答的题    
-    common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
+    // common.processModelRealDoneAnswer(doneAnswerArray, shiti, self);
+    console.log(shiti)
+    console.log(shiti.answer)
+    console.log(shiti.num_color)
+    console.log(shiti.done_daan)
+    console.log(doneAnswerArray)
+
+    if (isSubmit){
+      common.changeModelRealSelectStatus(shiti.done_daan, shiti, self)//改变试题的图片状态(没有错误提示)
+    }else{
+      if (shiti.done_daan == "") {//如果没作答，就显示正确答案
+        common.changeModelRealSelectStatus(shiti.answer, shiti, self)//改变试题的图片状态(没有错误提示)
+      } else {
+        common.changeSelectStatus(shiti.done_daan, shiti, self)//改变试题的图片状态(有错误提示)
+      }
+    }
 
     self.setData({
       shiti: shiti,
@@ -391,21 +392,87 @@ Page({
     })
     self._hideMarkAnswer();
   },
-  
+
   /**
    * 点击立即交卷后
    */
-  _submit:function(){
+  _submit: function() {
+    let self = this;
+    let shitiArray = self.data.shitiArray; //所有试题
+    let id = self.data.id;//真题的id号
+    let doneAnswerArray = self.data.doneAnswerArray; //已经回答的试题
+    let times = self.data.times; //考试总时间
+    let totalscore = self.data.totalscore//总分
+    let rightNums = 0; //正确题数
+    let wrongNums = 0; //错误题数
+    let score = 0; //分数
+    let allNums = 0;//所有题数
+    let undone = 0;//未做题数
+
+
+    //得到试题总数
+    for (let i = 0; i < shitiArray.length; i++) {
+      let myShiti = shitiArray[i];
+      if (myShiti.TX == 1 || myShiti.TX == 2) { //单选或者多选
+        allNums += 1;
+      } else { //材料题
+        for (let j = 0; j < myShiti.xiaoti.length; j++) {
+          allNums += 1;
+        }
+      }
+    }
+
+    //得到正确数和错误数
+    for (let i = 0; i < doneAnswerArray.length; i++) {
+      let doneAnswer = doneAnswerArray[i]; //单个已经回答的试题
+      let px = doneAnswer.px;
+      switch (doneAnswer.select) {
+        case "单选题":
+        case "多选题":
+          if (doneAnswer.isRight == 0) { //正确
+            rightNums += 1;
+            score += shitiArray[px-1].score;
+          } else {
+            wrongNums += 1;
+          }
+          break;
+
+        case "材料题":
+          for (let j = 0; j < doneAnswer.done_daan.length; j++) {          
+            let daan = doneAnswer.done_daan[j];
+            if (daan.isRight == 0){
+              rightNums += 1;
+              score += shitiArray[px - 1].xiaoti[daan.px-1].score;
+            }else{
+              wrongNums += 1;
+            }
+          }
+          break;
+      }
+    }
+
+    undone = allNums - rightNums -wrongNums;//计算出未做题数
+
+    
+    console.log(score+"||"+rightNums+"||"+wrongNums+"||"+undone)
     wx.navigateTo({
-      url: '/pages/prompt/modelRealScore/modelRealScore',
+      url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone +"&totalscore="+totalscore+"&id="+ id
     })
+  },
+
+  /**
+   * 重新评测
+   */
+  _restart:function(){
+    let self = this;
+    common.restartModelReal(self);
   },
   /**
    * 载入动画
    */
-  hide: function () {
+  hide: function() {
     var vm = this
-    var interval = setInterval(function () {
+    var interval = setInterval(function() {
       if (vm.data.winH > 0) {
         //清除interval 如果不清除interval会一直往上加
         clearInterval(interval)

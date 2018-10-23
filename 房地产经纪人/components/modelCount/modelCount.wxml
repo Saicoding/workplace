@@ -1,6 +1,6 @@
 <view class = "container">
   <view class="bottom-block1" bindtap="_submit">
-    立即交卷
+    {{text}}
   </view>
 
   <view class="bottom-block2">

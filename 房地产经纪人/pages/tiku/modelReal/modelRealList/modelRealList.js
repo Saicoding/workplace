@@ -45,7 +45,7 @@ Page({
     let title = e.currentTarget.dataset.title;
     let totalscore = e.currentTarget.dataset.totalscore;
 
-    let url = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&test_score=" + test_score + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore;
+    let url = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id  + "&times=" + times + "&title=" + title+"&totalscore="+totalscore;
 
     wx.navigateTo({
       url: url,
