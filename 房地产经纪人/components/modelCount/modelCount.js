@@ -4,14 +4,6 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    rightNum: {
-      type: Number,
-      value: 0
-    },
-    wrongNum: {
-      type: Number,
-      value: 0
-    },
     px: {
       type: Number,
       value: 0

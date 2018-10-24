@@ -4,12 +4,13 @@
 }
 
 .bottom-block1, .bottom-block2 {
-  display:inline-flex;
+  display:float;
+  float:left;
   height: 26rpx;
   border-radius: 36rpx;
   line-height: 26rpx;
-  padding: 13rpx 37rpx 13rpx 37rpx;
   margin-top:12rpx;
+  text-align: center;
 }
 
 .bottom-block1 {
@@ -18,13 +19,21 @@
   letter-spacing: 5rpx;
   font-size: 25rpx;
   margin-left:30rpx;
+  text-align: center;
+  width:170rpx;
+  padding-top:15rpx;
+  padding-bottom: 15rpx;
 }
 
 .bottom-block2 {
   font-size: 30rpx;
   border:1px solid #0197f6;
   color:#0197f6;
+  width:250rpx;
   margin-left:20rpx;
+  text-align: center;
+  padding-top:13rpx;
+  padding-bottom: 13rpx;
 }
 
 .bottom-block3 {

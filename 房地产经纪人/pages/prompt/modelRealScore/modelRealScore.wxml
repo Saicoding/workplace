@@ -4,7 +4,7 @@
     <view class="upper-in">
       <view class="time">
         <image src="/imgs/time.png" mode="aspectFit" class="time-img"></image>
-        <text class="time-text">用时 00：15</text>
+        <text class="time-text">用时 {{timeStr}}</text>
       </view>
       <view class="score">
         <text class="score-top">{{score}}</text>

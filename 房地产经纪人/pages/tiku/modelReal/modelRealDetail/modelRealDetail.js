@@ -77,7 +77,6 @@ Page({
 
           common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
-          console.log(doneAnswerArray)
           //映射已答题目的已作答的答案到shitiArray
           for (let i = 0; i < doneAnswerArray.length;i++){
             let doneAnswer = doneAnswerArray[i];
@@ -103,6 +102,24 @@ Page({
         }
       })
 
+      //开始计时
+      let interval = "";
+      console.log(isSubmit)
+      if (!isSubmit){//如果没提交
+        let second = wx.getStorageSync('last_time' + options.id);
+        if (second) {
+          interval = common.startWatch(second, self);
+        } else {
+          interval = common.startWatch(options.times * 60, self);
+        }
+      }else{//如果已提交
+        let last_gone_time_str = wx.getStorageSync("last_gone_time"+options.id);
+
+        self.modelCount.setData({
+          timeStr: last_gone_time_str
+        })   
+      }
+
       self.setData({
         //设置过场动画
         winH: wx.getSystemInfoSync().windowHeight,
@@ -112,6 +129,7 @@ Page({
         times: options.times, //考试时间
         totalscore:options.totalscore,//总分
 
+        interval: interval,//计时器
         title: options.title, //标题
         text:"立即交卷",//按钮文字
         nums: shitiArray.length, //题数
@@ -121,6 +139,7 @@ Page({
         username: username, //用户账号名称
         acode: acode //用户唯一码
       });
+
       wx.hideLoading();
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
@@ -135,6 +154,8 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.waterWave = this.selectComponent("#waterWave");
+    this.modelCount = this.selectComponent("#modelCount");
+
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -339,6 +360,23 @@ Page({
     }
   },
 
+  /**
+   * 记录时间
+   */
+  onUnload:function(e){
+    let self = this;
+    let modelCount = self.modelCount;
+    let time = modelCount.data.time;
+
+    let second = time.h*3600 + time.m*60+ time.s;
+
+    clearInterval(self.data.interval);//停止计时器
+
+    wx.setStorage({
+      key: 'last_time'+self.data.id,
+      data: second,
+    })
+  },
 
   /**
    * 切换答题板
@@ -399,7 +437,13 @@ Page({
     let score = 0; //分数
     let allNums = 0;//所有题数
     let undone = 0;//未做题数
+    let time = self.modelCount.data.time;//当前时间,对象格式
+    let gone_time = 0;//花费时间
 
+    console.log(time)
+
+    //得到花费的时间
+    gone_time = times * 60 - (time.h*3600+time.m*60+time.s);
 
     //得到试题总数
     for (let i = 0; i < shitiArray.length; i++) {
@@ -447,7 +491,7 @@ Page({
     
     console.log(score+"||"+rightNums+"||"+wrongNums+"||"+undone)
     wx.navigateTo({
-      url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone +"&totalscore="+totalscore+"&id="+ id
+      url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone +"&totalscore="+totalscore+"&id="+ id+"&gone_time="+gone_time
     })
   },
 

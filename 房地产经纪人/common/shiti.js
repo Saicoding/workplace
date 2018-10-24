@@ -8,7 +8,6 @@ function initShiti(shiti, px, self) {
   shiti.isAnswer = false;
   shiti.px = px;
   if(shiti.done_daan == undefined){//如果试题没有done_daan这个属性，就初始化
-    console.log('初始化')
     shiti.done_daan = "";
   }
 
@@ -22,7 +21,6 @@ function initShiti(shiti, px, self) {
       "D": "/imgs/D.png",
       "E": "/imgs/E.png"
     }
-    console.log('我在这')
   } else if (TX == 2) { //多选
     shiti.num_color = "#2ac414";
     shiti.tx = "多选题"
@@ -638,7 +636,6 @@ function markRestart(self) {
 /**
  * 练习题重新开始做题
  */
-
 function lianxiRestart(self) {
   let restart = self.data.restart;
   let shitiArray = self.data.shitiArray;
@@ -693,6 +690,9 @@ function restartModelReal(self) {
     markAnswerItems: []
   })
 
+  clearInterval(self.data.interval);//停止计时
+  startWatch(self.data.times*60, self);//重新开始计时
+
   initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
   let answer_nums_array = wx.getStorageSync("modelReal" + self.data.id); //将已答答案置空
@@ -712,6 +712,37 @@ function restartModelReal(self) {
     checked: false,
     text: "立即交卷"
   })
+}
+
+/**
+ * 开始计时
+ */
+
+function startWatch(startTime,self){
+  let interval = setInterval(function(){
+    startTime --;
+    let h = parseInt(startTime / 3600);
+    let m = parseInt((startTime - h * 3600) / 60);
+    let s = startTime % 60;
+
+    let time = {
+      h:h,
+      m:m,
+      s:s
+    }
+    let hStr = time.h;
+    let mStr = time.m >=10?time.m:'0';
+    let sStr = time.s >= 10 ? time.s : '0';
+
+    let timeStr = "倒计时"+hStr+":"+mStr+":"+sStr;
+    self.modelCount.setData({
+      timeStr:timeStr,
+      time:time,
+      interval:interval
+    })
+  },1000)
+
+  return interval;
 }
 
 module.exports = {
@@ -737,5 +768,6 @@ module.exports = {
   storeModelRealAnswerStatus: storeModelRealAnswerStatus,
   storeModelRealLastShiti: storeModelRealLastShiti,
   restartModelReal: restartModelReal,
-  setMarkAnswer: setMarkAnswer
+  setMarkAnswer: setMarkAnswer,
+  startWatch: startWatch
 }

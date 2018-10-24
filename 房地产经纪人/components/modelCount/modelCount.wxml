@@ -4,7 +4,7 @@
   </view>
 
   <view class="bottom-block2">
-    倒计时:44:57
+    {{timeStr}}
   </view>
 
   <view class="bottom-block3" bindtap="_toggleMarkAnswer" style="float:right">

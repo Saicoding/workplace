@@ -21,11 +21,23 @@ Page({
     let pic = user.Pic;//头像
     let nickName = user.Nickname;//昵称
     let score = options.score;//得分
+    let gone_time = options.gone_time;//花费时间
     let rightNums = options.rightNums;//正确数
     let wrongNums = options.wrongNums;//错误数
     let undone = options.undone;//未做
     let totalscore = options.totalscore;//总分
     let ifGood = score >= totalscore * 60 / 100 ? '合格':'不合格';
+
+    //得到话费时间的字符串
+    let h = parseInt(gone_time / 3600);
+    let m = parseInt((gone_time - h * 3600) / 60);
+    let s = gone_time % 60;
+
+    let hStr = h == 0?"":h+"小时";
+    let mStr = (m == 0 && h ==0)?"":m+"分钟";
+    let sStr = s+"秒";
+
+    let timeStr = hStr + mStr + sStr;//时间字符串
 
 
     self.setData({
@@ -36,6 +48,7 @@ Page({
       wrongNums:wrongNums,
       undone:undone,
       id:id,
+      timeStr:timeStr,
       totalscore: totalscore,
       ifGood:ifGood
     })
@@ -59,9 +72,16 @@ Page({
     let isModelReal = prevPage.data.isModelReal;
     let shiti = prevPage.data.shiti;
 
+    clearInterval(prevPage.data.interval);
+
     wx.setStorage({
       key: 'modelRealIsSubmit'+self.data.id,
       data: true,
+    })
+
+    wx.setStorage({
+      key: "last_gone_time" + self.data.id,
+      data: "用时" + self.data.timeStr,
     })
     
     if (shiti.done_daan == ""){//如果没作答，就显示正确答案
@@ -75,6 +95,10 @@ Page({
       isSubmit:true,
       text:"重新评测",
       shiti:shiti
+    })
+
+    prevPage.modelCount.setData({//设置时间显示为花费时间
+      timeStr:"用时"+self.data.timeStr
     })
 
     wx.navigateBack({})
