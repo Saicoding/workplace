@@ -366,16 +366,19 @@ Page({
   onUnload:function(e){
     let self = this;
     let modelCount = self.modelCount;
-    let time = modelCount.data.time;
 
-    let second = time.h*3600 + time.m*60+ time.s;
+    if(!self.data.isSubmit){
+      let time = modelCount.data.time;
 
-    clearInterval(self.data.interval);//停止计时器
+      let second = time.h * 3600 + time.m * 60 + time.s;
 
-    wx.setStorage({
-      key: 'last_time'+self.data.id,
-      data: second,
-    })
+      clearInterval(self.data.interval);//停止计时器
+
+      wx.setStorage({
+        key: 'last_time' + self.data.id,
+        data: second,
+      })
+    }
   },
 
   /**

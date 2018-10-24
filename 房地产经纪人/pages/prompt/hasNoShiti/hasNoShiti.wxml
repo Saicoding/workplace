@@ -3,7 +3,7 @@
     <image src = "/imgs/jieAnswerAll.jpg" mode='aspectFit'></image>
   </view>
   <view class = "text">
-    该题库没有错题
+    {{str}}
   </view>
   <button class = "restart-btn" bindtap = "goBack" hover-class='select'>
     返回首页

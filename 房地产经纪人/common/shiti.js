@@ -7,7 +7,7 @@ function initShiti(shiti, px, self) {
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
   shiti.px = px;
-  if(shiti.done_daan == undefined){//如果试题没有done_daan这个属性，就初始化
+  if (shiti.done_daan == undefined) { //如果试题没有done_daan这个属性，就初始化
     shiti.done_daan = "";
   }
 
@@ -197,15 +197,15 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   let style = "";
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
     style = "background:#0197f6;color:white;"
-  } else if (shiti.isRight == 0) { //如果题是正确的
+  } else if (shiti.flag == 0) { //如果题是正确的
     style = "background:#90dd35;color:white;"
-  } else if (shiti.isRight == 1) { //如果题是错误的
+  } else if (shiti.flag == 1) { //如果题是错误的
     style = "background:#fa4b5c;color:white;"
   }
 
   markAnswerItems[px - 1] = {
     "select": shiti.tx,
-    "isRight": shiti.isRight,
+    "isRight": shiti.flag,
     "style": style
   }
 
@@ -341,6 +341,7 @@ function changeSelectStatus(done_daan, shiti, self) {
       }
       srcs[shiti.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
       shiti.done_daan = done_daan; //已经做的选择
+      shiti.isAnswer = true;
       break;
     case "多选题":
       let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
@@ -365,9 +366,9 @@ function changeSelectStatus(done_daan, shiti, self) {
       } else {
         flag = 1;
       }
+      shiti.isAnswer = true;
       break;
   }
-  shiti.isAnswer = true;
   shiti.flag = flag; //答案是否正确
 }
 
@@ -428,25 +429,30 @@ function changeModelRealSelectStatus(done_daan, shiti, self) {
 /**
  * 对已答试题进行处理（练习题）
  */
-function processDoneAnswer(doneAnswerArray, shiti, self) {
-  for (let i = 0; i < doneAnswerArray.length; i++) {
-    if (doneAnswerArray[i].id == shiti.id) { //如果是已答题目
-      switch (doneAnswerArray[i].select) {
-        case "单选题":
-        case "多选题":
-          changeSelectStatus(doneAnswerArray[i].done_daan, shiti, self) //根据得到的已答数组更新试题状态
-          break;
-        case "材料题":
-          let done_daan = doneAnswerArray[i].done_daan;
-          for (let i = 0; i < done_daan.length; i++) {
-            let xiaoti = shiti.xiaoti[i];
-            let xt_done_daan = done_daan[i].done_daan; //小题的已作答的答案
-            changeSelectStatus(xt_done_daan, xiaoti, self) //根据得到的已答数组更新试题状态
-          }
-          shiti.isAnswer = true;
-          break;
+function processDoneAnswer(done_daan, shiti, self) {
+  switch (shiti.tx) {
+    case "单选题":
+    case "多选题":
+      if (done_daan != "") {
+        changeSelectStatus(done_daan, shiti, self) //根据得到的已答数组更新试题状态
+        shiti.isAnswer = true;
       }
-    }
+      break;
+    case "材料题":
+      if (done_daan != "") { //如果材料题已答
+        for (let i = 0; i < shiti.xiaoti.length; i++) {
+          let ti = shiti.xiaoti[i]; //小题
+          for (let j = 0; j < done_daan.length; j++) {
+            let xt_done_daan = done_daan[j]; //小题已答答案对象
+            if (ti.px == xt_done_daan.px) { //找到对应小题
+              changeSelectStatus(xt_done_daan.done_daan, ti, self) //根据得到的已答数组更新试题状态
+              break;
+            }
+          }
+        }
+        shiti.isAnswer = true;
+      }
+      break;
   }
 }
 /**
@@ -476,7 +482,7 @@ function processModelRealDoneAnswer(done_daan, shiti, self) {
           if (done_daan == "") { //提交而且答案是空
             changeModelRealSelectStatus(ti.answer, ti, self) //根据得到的已答数组更新试题状态   
           } else {
-            let isIn = false;//已答数组中有没有这个小题，默认没有
+            let isIn = false; //已答数组中有没有这个小题，默认没有
             for (let j = 0; j < done_daan.length; j++) {
               let ti_done_daan = done_daan[j];
               if (ti.px == ti_done_daan.px) {
@@ -484,11 +490,11 @@ function processModelRealDoneAnswer(done_daan, shiti, self) {
                 changeSelectStatus(ti_done_daan.done_daan, ti, self)
               }
             }
-            if (!isIn){//如果没有作答
+            if (!isIn) { //如果没有作答
               changeModelRealSelectStatus(ti.answer, ti, self) //根据得到的已答数组更新试题状态  
             }
           }
-        } else {//如果没有提交试卷     
+        } else { //如果没有提交试卷     
           for (let j = 0; j < done_daan.length; j++) {
             let ti_done_daan = done_daan[j]
             if (ti.px == ti_done_daan.px) {
@@ -690,8 +696,8 @@ function restartModelReal(self) {
     markAnswerItems: []
   })
 
-  clearInterval(self.data.interval);//停止计时
-  startWatch(self.data.times*60, self);//重新开始计时
+  clearInterval(self.data.interval); //停止计时
+  startWatch(self.data.times * 60, self); //重新开始计时
 
   initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
@@ -718,29 +724,29 @@ function restartModelReal(self) {
  * 开始计时
  */
 
-function startWatch(startTime,self){
-  let interval = setInterval(function(){
-    startTime --;
+function startWatch(startTime, self) {
+  let interval = setInterval(function() {
+    startTime--;
     let h = parseInt(startTime / 3600);
     let m = parseInt((startTime - h * 3600) / 60);
     let s = startTime % 60;
 
     let time = {
-      h:h,
-      m:m,
-      s:s
+      h: h,
+      m: m,
+      s: s
     }
     let hStr = time.h;
-    let mStr = time.m >=10?time.m:'0';
+    let mStr = time.m >= 10 ? time.m : '0';
     let sStr = time.s >= 10 ? time.s : '0';
 
-    let timeStr = "倒计时"+hStr+":"+mStr+":"+sStr;
+    let timeStr = "倒计时" + hStr + ":" + mStr + ":" + sStr;
     self.modelCount.setData({
-      timeStr:timeStr,
-      time:time,
-      interval:interval
+      timeStr: timeStr,
+      time: time,
+      interval: interval
     })
-  },1000)
+  }, 1000)
 
   return interval;
 }

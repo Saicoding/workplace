@@ -1,6 +1,7 @@
 // pages/tiku/zuoti/index.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../common/shiti.js');
+let post = require('../../../common/post.js');
 
 const util = require('../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
@@ -49,60 +50,10 @@ Page({
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
-    console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
+
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true,false,"载入中").then((res) => {
-      let shitiArray = res.data.shiti;
+      post.zuotiOnload(options, px, res, username,acode,self)//对数据进行处理和初始化
 
-      let shiti = res.data.shiti[px - 1];
-
-      common.initShiti(shiti, px, self); //初始化试题对象
-
-      common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
-
-      //对是否是已答试题做处理
-      wx.getStorage({
-        key: "shiti"+options.zhangjie_id,
-        success: function(res1) {
-          //根据章是否有子节所有已经回答的题
-          let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
-          common.setMarkAnswerItems(doneAnswerArray, options.nums,self.data.isModelReal,self.data.isSubmit, self); //设置答题板数组
-
-          //先处理是否是已经回答的题    
-          common.processDoneAnswer(doneAnswerArray, shiti, self);
-          //根据已答试题库得到正确题数和错误题数
-          let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
-
-          //如果已答试题数目大于0才更新shiti
-          if (doneAnswerArray.length > 0) {
-            self.setData({
-              shiti: shiti,
-              doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
-              rightNum: rightAndWrongObj.rightNum,
-              wrongNum: rightAndWrongObj.wrongNum
-            })
-          }
-        },
-      })
-
-      self.setData({
-        //设置过场动画
-        winH: wx.getSystemInfoSync().windowHeight,
-        opacity: 1,
-
-        z_id: options.z_id, //点击组件的id编号
-        zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
-        zhangIdx: options.zhangIdx, //章的id号
-        jieIdx: options.jieIdx, //节的id号
-
-        title:options.title,//标题
-        nums: shitiArray.length, //题数
-        shiti: shiti, //试题对象
-        shitiArray: shitiArray, //整节的试题数组
-        isLoaded: false, //是否已经载入完毕,用于控制过场动画
-        username: username, //用户账号名称
-        acode: acode //用户唯一码
-      });
-      wx.hideLoading();
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
       wx.hideLoading();
@@ -194,7 +145,7 @@ Page({
       common.initShiti(shiti, px, self); //初始化试题对象
 
       //先处理是否是已经回答的题    
-      common.processDoneAnswer(doneAnswerArray, shiti, self);
+      common.processDoneAnswer(shiti.done_daan, shiti, self);
 
       self.setData({ //每滑动一下,更新试题
         shiti: shiti,
@@ -228,13 +179,14 @@ Page({
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-    common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结果
+    common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
 
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
-    common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal,self.data.isSubmit,self); //更新答题板状态
+    common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态
 
     common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
+
   },
 
   /**
@@ -315,6 +267,7 @@ Page({
 
         if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
           shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
+          shiti.isAnswer = true;
 
           common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
@@ -322,7 +275,7 @@ Page({
 
           common.storeAnswerStatus(shiti, self); //存储答题状态
 
-          common.setMarkAnswerItems(self.data.doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
+          common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态
 
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
@@ -397,7 +350,7 @@ Page({
     common.initShiti(shiti, px, self); //初始化试题对象
 
     //先处理是否是已经回答的题    
-    common.processDoneAnswer(doneAnswerArray, shiti, self);
+    common.processDoneAnswer(shiti.done_daan, shiti, self);
 
     self.setData({
       shiti: shiti,
