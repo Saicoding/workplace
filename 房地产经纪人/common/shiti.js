@@ -744,7 +744,10 @@ function startWatch(startTime, self) {
     self.modelCount.setData({
       timeStr: timeStr,
       time: time,
-      interval: interval
+    })
+
+    self.setData({
+      interval:interval
     })
   }, 1000)
 

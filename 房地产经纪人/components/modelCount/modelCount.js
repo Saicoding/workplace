@@ -19,7 +19,12 @@ Component({
     text:{
       type:String,
       value:'立即交卷'
+    },
+    hidden:{
+      type:Boolean,
+      value:true
     }
+
   },
 
   /**

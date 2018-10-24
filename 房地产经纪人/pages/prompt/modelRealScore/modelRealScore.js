@@ -72,6 +72,8 @@ Page({
     let isModelReal = prevPage.data.isModelReal;
     let shiti = prevPage.data.shiti;
 
+    console.log(prevPage.data.interval)
+
     clearInterval(prevPage.data.interval);
 
     wx.setStorage({

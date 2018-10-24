@@ -58,7 +58,7 @@
   </markAnswer>
 
   <!-- 底部正确错误个数统计条 -->
-  <modelCount text ="{{text}}" id="modelCount"  nums="{{nums}}" px="{{shiti.px}}"  class="bottom" bindrestart ="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
+  <modelCount hidden="{{isLoaded}}" text ="{{text}}" id="modelCount"  nums="{{nums}}" px="{{shiti.px}}"  class="bottom" bindrestart ="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
   </modelCount>
 
   <!-- 点击水波 -->
