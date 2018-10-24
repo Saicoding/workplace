@@ -42,6 +42,8 @@ Page({
     let user = wx.getStorageSync('user');
     let username = user.username;
     let acode = user.acode;
+    let tiType = options.tiType;
+    let tiTypeStr = tiType == 1?"model":"yati";
 
     //根据真题定制最后一次访问的key
     let last_view_key = 'lastModelReal' + options.id;
@@ -56,14 +58,28 @@ Page({
 
       let shiti = shitiArray[px - 1];
 
+
+      //得到试题总数
+      let nums = 0;
+      for (let i = 0; i < shitiArray.length; i++) {
+        let myShiti = shitiArray[i];
+        if (myShiti.TX == 1 || myShiti.TX == 2) { //单选或者多选
+          nums += 1;
+        } else { //材料题
+          for (let j = 0; j < myShiti.xiaoti.length; j++) {
+            nums += 1;
+          }
+        }
+      }
+
       common.initShiti(shiti, px, self); //初始化试题对象
 
       common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
-      let isSubmit = wx.getStorageSync('modelRealIsSubmit' + options.id);  
+      let isSubmit = wx.getStorageSync(tiTypeStr+'modelRealIsSubmit' + options.id);  
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: "modelReal" + options.id,
+        key: tiTypeStr+"modelReal" + options.id,
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
@@ -96,7 +112,7 @@ Page({
         },
         fail: function() {
           wx.setStorage({
-            key: "modelReal" + options.id,
+            key: tiTypeStr+"modelReal" + options.id,
             data: [],
           })
         }
@@ -104,16 +120,15 @@ Page({
 
       //开始计时
       let interval = "";
-      console.log(isSubmit)
       if (!isSubmit){//如果没提交
-        let second = wx.getStorageSync('last_time' + options.id);
+        let second = wx.getStorageSync(tiTypeStr+'last_time' + options.id);
         if (second) {
           interval = common.startWatch(second, self);
         } else {
           interval = common.startWatch(options.times * 60, self);
         }
       }else{//如果已提交
-        let last_gone_time_str = wx.getStorageSync("last_gone_time"+options.id);
+        let last_gone_time_str = wx.getStorageSync(tiTypeStr+"last_gone_time"+options.id);
 
         self.modelCount.setData({
           timeStr: last_gone_time_str
@@ -128,11 +143,12 @@ Page({
         id: options.id, //真题编号
         times: options.times, //考试时间
         totalscore:options.totalscore,//总分
+        tiTypeStr: tiTypeStr,//题的类型字符串
 
         interval: interval,//计时器
         title: options.title, //标题
         text:"立即交卷",//按钮文字
-        nums: shitiArray.length, //题数
+        nums: nums, //题数
         shiti: shiti, //试题对象
         shitiArray: shitiArray, //整节的试题数组
         isLoaded: false, //是否已经载入完毕,用于控制过场动画
@@ -375,7 +391,7 @@ Page({
       clearInterval(self.data.interval);//停止计时器
 
       wx.setStorage({
-        key: 'last_time' + self.data.id,
+        key: self.data.tiTypeStr+'last_time' + self.data.id,
         data: second,
       })
     }
@@ -435,10 +451,10 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray; //已经回答的试题
     let times = self.data.times; //考试总时间
     let totalscore = self.data.totalscore//总分
+    let allNums = self.data.nums;//题的总数
     let rightNums = 0; //正确题数
     let wrongNums = 0; //错误题数
     let score = 0; //分数
-    let allNums = 0;//所有题数
     let undone = 0;//未做题数
     let time = self.modelCount.data.time;//当前时间,对象格式
     let gone_time = 0;//花费时间
@@ -447,18 +463,6 @@ Page({
 
     //得到花费的时间
     gone_time = times * 60 - (time.h*3600+time.m*60+time.s);
-
-    //得到试题总数
-    for (let i = 0; i < shitiArray.length; i++) {
-      let myShiti = shitiArray[i];
-      if (myShiti.TX == 1 || myShiti.TX == 2) { //单选或者多选
-        allNums += 1;
-      } else { //材料题
-        for (let j = 0; j < myShiti.xiaoti.length; j++) {
-          allNums += 1;
-        }
-      }
-    }
 
     //得到正确数和错误数
     for (let i = 0; i < doneAnswerArray.length; i++) {

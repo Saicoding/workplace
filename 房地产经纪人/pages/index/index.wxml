@@ -13,7 +13,7 @@
         <image class="ti_img" src="/imgs/mark_exersise.jpg" mode="aspectFit"></image>
         <view class='t_text'>收藏练习</view>
       </view>
-      <view class='ti_z2' bindtap = "GOModelReal" >
+      <view class='ti_z2' data-ti = "model" bindtap = "GOModelReal" >
         <image class="ti_img" src="/imgs/zhenti.jpg" mode="aspectFit"></image>
         <view class='t_text'>模拟真题</view>
       </view>
@@ -24,7 +24,7 @@
         <view class='t_text'>我的错题</view>
       </view>
       <view class='ti_z4'>
-        <image class="ti_img" src="/imgs/yati.jpg" mode="aspectFit"></image>
+        <image class="ti_img" data-ti = "yati" bindtap = "GOModelReal" src="/imgs/yati.jpg" mode="aspectFit"></image>
         <view class='t_text'>考前押题</view>
       </view>
     </view>

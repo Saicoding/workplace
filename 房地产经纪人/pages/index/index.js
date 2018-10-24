@@ -402,10 +402,12 @@ Page({
    */
   GOModelReal:function(e){
     let self = this;
+    let ti = e.currentTarget.dataset.ti;//题型(押题,真题)
+
     self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
-    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid)
-    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid;
+    let url = encodeURIComponent('/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid+"&ti="+ti)
+    let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过

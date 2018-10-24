@@ -1,6 +1,17 @@
 <!--pages/tiku/modelReal/modelRealList/modelRealList.wxml-->
-<view wx:for = "{{modelList}}" wx:for-item = "model" wx:key = "in">
-  <button bindtap = "GOModelRealDetail" class = "btn" data-id = "{{model.id}}" data-times = "{{model.times}}" data-totalscore = "{{model.totalscore}}" data-test_score = "{{model.test_score}}" data-title = "{{model.title}}">{{model.title}}{{in}}</button>
+<view wx:for="{{modelList}}" wx:for-item="model" wx:key="in" wx:for-index="index">
+  <view class="item" bindtap="GOModelRealDetail" data-id="{{model.id}}" data-times="{{model.times}}" data-totalscore="{{model.totalscore}}" data-test_score="{{model.test_score}}" data-title="{{model.title}}">
+    <view class="circle" style="background:{{model.bgColor}}"></view>
+    <view class="title">{{model.title}}</view>
+    <view class="num-img-container">
+      <image class="num-img" src="/imgs/num.png" mode="aspectFit"></image>
+    </view>
+    <view class="score">
+      <text wx:if="{{model.ifDone}}" class="socre-text" style="color:{{model.scoreColor}}"></text>
+      <image wx:if="{{!model.ifDone}}" class="score-img" src="/imgs/pen.png" mode="aspectFit"></image>
+    </view>
+  </view>
 </view>
- <!-- 点击水波 -->
-  <waterWave id = "waterWave"></waterWave>
+
+  <!-- 点击水波 -->
+  <waterWave id="waterWave"></waterWave>

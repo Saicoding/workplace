@@ -257,7 +257,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   let id = self.data.id;
   let doneAnswerArray = self.data.doneAnswerArray;
 
-  let answer_nums_array = wx.getStorageSync("modelReal" + id);
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr +"modelReal" + id);
 
   let flag = false;
 
@@ -294,7 +294,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: "modelReal" + id,
+    key: self.data.tiTypeStr +"modelReal" + id,
     data: answer_nums_array,
   })
 }
@@ -591,7 +591,7 @@ function storeLastShiti(px, self) {
  */
 function storeModelRealLastShiti(px, self) {
   //存储当前最后一题
-  let last_view_key = 'lastModelReal' + self.data.id; //存储上次访问的题目的key
+  let last_view_key = self.data.tiTypeStr +'lastModelReal' + self.data.id; //存储上次访问的题目的key
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -701,13 +701,13 @@ function restartModelReal(self) {
 
   initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-  let answer_nums_array = wx.getStorageSync("modelReal" + self.data.id); //将已答答案置空
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr +"modelReal" + self.data.id); //将已答答案置空
   wx.setStorage({
-    key: "modelReal" + self.data.id,
+    key: self.data.tiTypeStr +"modelReal" + self.data.id,
     data: [],
   })
   wx.setStorage({
-    key: "modelRealIsSubmit" + self.data.id,
+    key: self.data.tiTypeStr +"modelRealIsSubmit" + self.data.id,
     data: false,
   })
   self.setData({
