@@ -77,15 +77,11 @@ Page({
 
           common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
+          console.log(doneAnswerArray)
           //映射已答题目的已作答的答案到shitiArray
           for (let i = 0; i < doneAnswerArray.length;i++){
             let doneAnswer = doneAnswerArray[i];
             shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
-            if (doneAnswer.select =="材料题"){
-              for (let j = 0; j < doneAnswer.done_daan.length;j++){
-                shitiArray[doneAnswer.px - 1].xiaoti[doneAnswer.done_daan[j].px - 1].done_daan = doneAnswer.done_daan[j].done_daan;
-              }
-            }
           }
 
           common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
@@ -376,12 +372,11 @@ Page({
     let shiti = shitiArray[px - 1];
 
     common.storeModelRealLastShiti(px, self); //存储最后一题的状态
-    if (shiti.done_daan == undefined || ""){//如果没有作答过
-      common.initShiti(shiti, px, self); //初始化试题对象
-    }
- 
+
+    common.initShiti(shiti, px, self); //初始化试题对象
+  
     common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
-    
+ 
     self.setData({
       shiti: shiti,
       checked: false

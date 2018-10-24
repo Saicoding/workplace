@@ -7,6 +7,10 @@ function initShiti(shiti, px, self) {
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
   shiti.px = px;
+  if(shiti.done_daan == undefined){//如果试题没有done_daan这个属性，就初始化
+    console.log('初始化')
+    shiti.done_daan = "";
+  }
 
   if (TX == 1) { //单选
     shiti.num_color = "#0197f6";
@@ -18,6 +22,7 @@ function initShiti(shiti, px, self) {
       "D": "/imgs/D.png",
       "E": "/imgs/E.png"
     }
+    console.log('我在这')
   } else if (TX == 2) { //多选
     shiti.num_color = "#2ac414";
     shiti.tx = "多选题"
@@ -38,11 +43,11 @@ function initShiti(shiti, px, self) {
     shiti.tx = "材料题";
     shiti.doneAnswer = [];
     shiti.confirm = false;
+
     let xiaoti = shiti.xiaoti;
     for (let i = 0; i < xiaoti.length; i++) {
-
       let ti = xiaoti[i];
-      ti.px = i + 1; //小题编号
+      ti.px = i + 1; //小题编号 
       ti.isAnswer = false; //默认不回答
 
       if (ti.TX == 1) {
@@ -465,28 +470,31 @@ function processModelRealDoneAnswer(done_daan, shiti, self) {
       }
       break;
     case "材料题":
-      let xiaotiArray = shiti.xiaoti;
-      for (let i = 0; i < xiaotiArray.length; i++) {
-        let xiaoti = xiaotiArray[i];
+      let xiaoti = shiti.xiaoti;
+      for (let i = 0; i < xiaoti.length; i++) {
+        let ti = xiaoti[i];
 
-        if (self.data.isSubmit) { //提交了
+        if (self.data.isSubmit) { //提交了试卷
           if (done_daan == "") { //提交而且答案是空
-            changeModelRealSelectStatus(xiaoti.answer, xiaoti, self) //根据得到的已答数组更新试题状态   
+            changeModelRealSelectStatus(ti.answer, ti, self) //根据得到的已答数组更新试题状态   
           } else {
+            let isIn = false;//已答数组中有没有这个小题，默认没有
             for (let j = 0; j < done_daan.length; j++) {
-              xiao_done_daan = done_daan[j];
-              if (xiaoti.px = xiao_done_daan.px) {
-                xiaoti.done_daan = xiao_done_daan.done_daan
-                changeSelectStatus(xiaoti.done_daan, xiaoti, self)
-                break;
+              let ti_done_daan = done_daan[j];
+              if (ti.px == ti_done_daan.px) {
+                isIn = true;
+                changeSelectStatus(ti_done_daan.done_daan, ti, self)
               }
             }
+            if (!isIn){//如果没有作答
+              changeModelRealSelectStatus(ti.answer, ti, self) //根据得到的已答数组更新试题状态  
+            }
           }
-        } else {
-          
+        } else {//如果没有提交试卷     
           for (let j = 0; j < done_daan.length; j++) {
-            if (xiaoti.px = xiao_done_daan.px) {
-              changeModelRealSelectStatus(xiaoti.done_daan, xiaoti, self) //根据得到的已答数组更新试题状态
+            let ti_done_daan = done_daan[j]
+            if (ti.px == ti_done_daan.px) {
+              changeModelRealSelectStatus(ti_done_daan.done_daan, ti, self) //根据得到的已答数组更新试题状态
               break;
             }
           }
