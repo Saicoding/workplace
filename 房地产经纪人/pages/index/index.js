@@ -97,7 +97,7 @@ Page({
   /* 更改题库 */
   bindPickerChange: function(e) {
     var self = this
-
+    self.foldAll();
     self.setData({
       index: e.detail.value, //设置是第几个题库
       zhangjie_id: self.data.array[e.detail.value].id, //设置章节的id编号
@@ -203,6 +203,41 @@ Page({
     })
   },
   /**
+   * 关闭所有展开
+   */
+  foldAll:function(){
+    let self = this;
+    let zhangjie = self.data.zhangjie //取得章节对象
+    for (let i = 0; i < zhangjie.length;i++){
+      let isFolder = zhangjie[i].isFolder; //取得现在是什么状态
+      let jie_num = zhangjie[i].zhangjie_child.length;
+
+      let height = 71 * jie_num;
+
+      let scroll = 0;
+
+      if (!isFolder) {
+        let foldAnimation = wx.createAnimation({
+          duration: 1000,
+          delay: 0,
+          timingFunction: "ease-out"
+        })
+
+        foldAnimation.height(0, height + "rpx").step({
+        })
+
+        zhangjie[i].height = 0;
+        zhangjie[i].isFolder = true;
+        zhangjie[i].folderData = foldAnimation.export();
+        self.setData({
+          zhangjie: zhangjie,
+          scroll: scroll,
+        })
+      }
+    }
+  },
+
+  /**
    * 实现展开折叠效果
    */
   step: function(index, num, windowWidth) {
@@ -219,7 +254,6 @@ Page({
     }
     
     let height = 71 * num;
-    console.log(index+"||"+jie_num)
 
     let scroll = (index * 100 + jie_num * 71) * (windowWidth / 750);
 
