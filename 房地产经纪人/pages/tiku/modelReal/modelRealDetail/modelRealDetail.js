@@ -47,9 +47,11 @@ Page({
     let tiTypeStr = tiType == 1?"model":"yati";
 
     //根据真题定制最后一次访问的key
-    let last_view_key = 'lastModelReal' + options.id;
+    let last_view_key = tiTypeStr+'lastModelReal' + options.id;
+    
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
+    console.log(last_model_real )
     let px = last_model_real.px; //最后一次浏览的题的编号
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
@@ -57,9 +59,7 @@ Page({
     app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 
-      common.initShitiPx(shitiArray)
-
-      console.log(shitiArray)
+      common.setModelRealCLShitiPx(shitiArray)
 
       let newShitiArray = common.getNewShitiArray(shitiArray);      
 
@@ -100,8 +100,8 @@ Page({
               isSubmit:true
             })
           }
-
-          common.setMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
+          console.log(doneAnswerArray)
+          common.setModelRealMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
 
           //映射已答题目的已作答的答案到shitiArray
           for (let i = 0; i < doneAnswerArray.length;i++){
@@ -119,8 +119,6 @@ Page({
               }
             }
           }
-
-          console.log(shitiArray)
 
           common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
 
@@ -227,15 +225,17 @@ Page({
   touchEnd: function(e) {
     let self = this;
     var touchMove = e.changedTouches[0].pageX;
-    let px = self.data.shiti.px; //试题的编号
     let shitiArray = self.data.shitiArray;
+    let shiti = self.data.shiti;
+    let px = shiti.px;
     let doneAnswerArray = self.data.doneAnswerArray;
+    let shitiIndex = shitiArray.indexOf(shiti)+1;
 
     // 滑动  
     if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
       tmpFlag = false;
-      touchMove - touchDot > 0 ? px -= 1 : px += 1
-      if (px == 0) {
+      touchMove - touchDot > 0 ? shitiIndex -= 1 : shitiIndex += 1
+      if (shitiIndex  == 0) {
         wx.showToast({
           title: '这是第一题',
           icon: 'none',
@@ -246,7 +246,7 @@ Page({
         tmpFlag = true; // 恢复滑动事件
         return;
       }
-      if (px > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
+      if (shitiIndex > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
         if (doneAnswerArray.length == shitiArray.length) {
           wx.navigateTo({
             url: '/pages/prompt/jieAnswerAll/jieAnswerAll?title=' + self.data.title,
@@ -257,7 +257,7 @@ Page({
             icon: 'none',
             duration: 4000,
             success: function() {
-              self.showMarkAnswer();
+              self._showMarkAnswer();
             }
           })
         }
@@ -267,11 +267,12 @@ Page({
         return;
       }
 
-      let shiti = shitiArray[px - 1];
+      let shiti = shitiArray[shitiIndex - 1];
 
-      common.storeModelRealLastShiti(px, self); //存储最后一题的状态
+      common.storeModelRealLastShiti(shiti.px, self); //存储最后一题的状态
 
-      common.initShiti(shiti, px, self); //初始化试题对象
+      common.initShiti(shiti, shiti.px, self); //初始化试题对象
+
 
       //先处理是否是已经回答的题    
       common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
@@ -344,10 +345,14 @@ Page({
     let shiti = self.data.shiti; //本试题对象
     let xiaoti = shiti.xiaoti;
 
+    console.log(shiti.clpx)
+    console.log(px)
+
     for (let i = 0; i < xiaoti.length; i++) {
-      if (px - 1 == i) { //找到对应的小题
+      if (px - shiti.clpx == i) { //找到对应的小题
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
         common.changeModelRealSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
+        common.setMarkAnswer(xiaoti[i], self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态(单个)
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
         xiaoti[i].done_daan = done_daan;//设置小题的已做答案
         let isStore = false;
@@ -376,8 +381,6 @@ Page({
         common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
         if (shiti.doneAnswer.length == xiaoti.length) { //说明材料题已经全部作答
-
-          common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态(单个)
 
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
@@ -453,7 +456,6 @@ Page({
     let isSubmit = self.data.isSubmit;
     let shiti = "";
 
-    console.log(cl)
     if(cl == undefined){//如果不是材料题
       shiti = shitiArray[px - 1];
     }else{
