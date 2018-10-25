@@ -7,6 +7,8 @@ function zuotiOnload(options, px, res, username, acode,self){
 
   let shiti = res.data.shiti[px - 1];
 
+  common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
+
   common.initShiti(shiti, px, self); //初始化试题对象
 
   common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组

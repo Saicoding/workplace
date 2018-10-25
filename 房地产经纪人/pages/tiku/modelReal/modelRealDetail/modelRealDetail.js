@@ -43,6 +43,7 @@ Page({
     let username = user.username;
     let acode = user.acode;
     let tiType = options.tiType;
+    let id = options.id;
     let tiTypeStr = tiType == 1?"model":"yati";
 
     //根据真题定制最后一次访问的key
@@ -53,7 +54,7 @@ Page({
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
     }
-    app.post(API_URL, "action=SelectTestShow&sjid=" + 10 + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
+    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 
       let shiti = shitiArray[px - 1];
@@ -72,7 +73,9 @@ Page({
         }
       }
 
-      common.initShiti(shiti, px, self); //初始化试题对象
+      common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
+
+      common.initShiti(shiti, px, self); //初始化试题对象,不包括已答答案
 
       common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
       let isSubmit = wx.getStorageSync(tiTypeStr+'modelRealIsSubmit' + options.id);  
@@ -97,7 +100,20 @@ Page({
           for (let i = 0; i < doneAnswerArray.length;i++){
             let doneAnswer = doneAnswerArray[i];
             shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
+            if(doneAnswer.select == "材料题"){
+              let daan = doneAnswer.done_daan;
+              for (let j = 0; j < shitiArray[doneAnswer.px - 1].xiaoti.length;j++){
+                for(let k = 0 ; k < daan.length ;k++){
+                  let ti = shitiArray[doneAnswer.px - 1].xiaoti[j];
+                  if (j == daan[k].px - 1) {
+                    ti.done_daan = daan[k].done_daan;
+                  }
+                }
+              }
+            }
           }
+
+          console.log(shitiArray)
 
           common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
 
@@ -135,6 +151,7 @@ Page({
         })   
       }
 
+      console.log(shitiArray)
       self.setData({
         //设置过场动画
         winH: wx.getSystemInfoSync().windowHeight,
@@ -316,9 +333,9 @@ Page({
     if (self.data.isSubmit) return;
     let px = e.currentTarget.dataset.px;
     let done_daan = "";
-    let xiaoti = self.data.shiti.xiaoti;
     let shitiArray = self.data.shitiArray
     let shiti = self.data.shiti; //本试题对象
+    let xiaoti = shiti.xiaoti;
 
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - 1 == i) { //找到对应的小题
@@ -358,7 +375,8 @@ Page({
           common.ifDoneAll(shitiArray, self.data.doneAnswerArray); //判断是不是所有题已经做完
         }
         this.setData({
-          shiti: shiti
+          shiti: shiti,
+          shitiArray:shitiArray
         })
       }
     }
@@ -458,8 +476,12 @@ Page({
     let undone = 0;//未做题数
     let time = self.modelCount.data.time;//当前时间,对象格式
     let gone_time = 0;//花费时间
+    let username = self.data.username;
+    let acode = self.data.acode;
+    let sjid = self.data.id;
 
-    console.log(time)
+    let doneUserAnswer = common.getDoneAnswers(shitiArray);
+    console.log(doneUserAnswer)
 
     //得到花费的时间
     gone_time = times * 60 - (time.h*3600+time.m*60+time.s);
@@ -495,11 +517,13 @@ Page({
 
     undone = allNums - rightNums -wrongNums;//计算出未做题数
 
-    
-    console.log(score+"||"+rightNums+"||"+wrongNums+"||"+undone)
+    // app.post(API_URL, "action=SaveTestResult&sjid=" + 10 + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
+    // })
     wx.navigateTo({
       url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone +"&totalscore="+totalscore+"&id="+ id+"&gone_time="+gone_time
     })
+
+    
   },
 
   /**

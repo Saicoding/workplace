@@ -9,25 +9,27 @@
 .circle{
   display: float;
   float:left;
-  width:40rpx;
-  height:40rpx;
-  border-radius: 40rpx;
-  margin-top:40rpx;
+  width:35rpx;
+  height:35rpx;
+  border-radius: 35rpx;
+  margin-top:46rpx;
 }
 
 .title{
   display: float;
   float:left;
-  font-size:30rpx;
-  width:65%;
+  font-size:35rpx;
+  width:73%;
   margin-top:40rpx;
   margin-left:30rpx;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .num-img-container{
   display: float;
-  float:left;
-    margin-top:40rpx;
+  float:right;
+  margin-top:40rpx;
   margin-left:30rpx;
 }
 
@@ -48,6 +50,6 @@
 }
 
 .score-img{
-  width:50rpx;
-  height:50rpx;
+  width:60rpx;
+  height:60rpx;
 }

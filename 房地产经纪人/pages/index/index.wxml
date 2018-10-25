@@ -30,7 +30,7 @@
     </view>
     <view class='t_center' bindtap = "GOModelTest">
       <view style="margin-top:0rpx;">
-        <image style="width:100%;height:400rpx;" src="/imgs/kaoshi.jpg" mode="aspectFit"></image>
+        <image style="width:100%;height:400rpx;" src="/imgs/miji.jpg" mode="aspectFit"></image>
       </view>
     </view>
   </view>

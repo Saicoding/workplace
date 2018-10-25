@@ -7,9 +7,6 @@ function initShiti(shiti, px, self) {
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
   shiti.px = px;
-  if (shiti.done_daan == undefined) { //如果试题没有done_daan这个属性，就初始化
-    shiti.done_daan = "";
-  }
 
   if (TX == 1) { //单选
     shiti.num_color = "#0197f6";
@@ -257,7 +254,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   let id = self.data.id;
   let doneAnswerArray = self.data.doneAnswerArray;
 
-  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr +"modelReal" + id);
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + id);
 
   let flag = false;
 
@@ -294,7 +291,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: self.data.tiTypeStr +"modelReal" + id,
+    key: self.data.tiTypeStr + "modelReal" + id,
     data: answer_nums_array,
   })
 }
@@ -591,7 +588,7 @@ function storeLastShiti(px, self) {
  */
 function storeModelRealLastShiti(px, self) {
   //存储当前最后一题
-  let last_view_key = self.data.tiTypeStr +'lastModelReal' + self.data.id; //存储上次访问的题目的key
+  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id; //存储上次访问的题目的key
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -678,6 +675,28 @@ function lianxiRestart(self) {
   }
 }
 
+function initShitiArrayDoneAnswer(shitiArray) {
+  for (let i = 0; i < shitiArray.length; i++) {
+
+    switch (shitiArray[i].TX) {
+      case 1:
+        shitiArray[i].done_daan = "";
+      case 2:
+        shitiArray[i].done_daan = [];
+      case 99:
+        shitiArray[i].done_daan = [];
+        for (let j = 0; j < shitiArray[i].xiaoti.length; j++) {
+          let ti = shitiArray[i].xiaoti[j];
+          if (ti.TX == 1) {
+            ti.done_daan = "";
+          } else {
+            ti.done_daan = [];
+          }
+        }
+    }
+  }
+}
+
 /**
  * 真题重新开始练习
  */
@@ -686,9 +705,7 @@ function restartModelReal(self) {
   let shiti = self.data.shitiArray[0];
   let shitiArray = self.data.shitiArray;
 
-  for (let i = 0; i < shitiArray.length; i++) {
-    shitiArray[i].done_daan = "";
-  }
+  initShitiArrayDoneAnswer(shitiArray); //将所有问题已答置空
 
   initShiti(shiti, 1, self); //初始化试题对象
 
@@ -701,13 +718,13 @@ function restartModelReal(self) {
 
   initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr +"modelReal" + self.data.id); //将已答答案置空
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + self.data.id); //将已答答案置空
   wx.setStorage({
-    key: self.data.tiTypeStr +"modelReal" + self.data.id,
+    key: self.data.tiTypeStr + "modelReal" + self.data.id,
     data: [],
   })
   wx.setStorage({
-    key: self.data.tiTypeStr +"modelRealIsSubmit" + self.data.id,
+    key: self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id,
     data: false,
   })
   self.setData({
@@ -747,11 +764,65 @@ function startWatch(startTime, self) {
     })
 
     self.setData({
-      interval:interval
+      interval: interval
     })
   }, 1000)
 
   return interval;
+}
+
+/**
+ * 得到用户所得答案
+ */
+function getDoneAnswers(shitiArray) {
+  let userAnswer1 = "";
+  let userAnswer2 = "";
+  let userAnswer99 = "";
+
+  for (let i = 0; i < shitiArray.length; i++) {
+    let myShiti = shitiArray[i];
+    let done_daan = myShiti.done_daan; //试题答案["A","B","C"]   
+    switch (myShiti.TX) {
+      case 1:
+        userAnswer1 += done_daan + ","; //拼接字符串
+        break;
+      case 2:
+        let str_done_daan = ""; //试题字符串答案"ABC"
+
+        for (let j = 0; j < done_daan.length; j++) {
+          let single = done_daan[j]; //多选单个字符串
+          str_done_daan += single;
+        }
+        userAnswer2 += str_done_daan + ","; //拼接字符串
+        break;
+      case 99:
+        let xiaoti = myShiti.xiaoti;
+
+        for (let k = 0; k < xiaoti.length; k++) {
+          let ti = xiaoti[k]; //材料题的每个小题
+
+          if (ti.TX == 1) {
+            userAnswer99 += ti.done_daan + ","; //拼接字符串
+          } else if (ti.TX == 2) {
+            let xt_done_daan = ti.done_daan; //试题答案["A","B","C"]
+            let str_done_daan = ""; //试题字符串答案"ABC"
+
+            for (let m = 0; m < xt_done_daan.length; m++) {
+              let single = xt_done_daan[m];
+              str_done_daan += single;
+            }
+            userAnswer99 += str_done_daan + ","; //拼接字符串  
+          }
+        }
+        break;
+    }
+  }
+  userAnswer1 = userAnswer1.substring(0, userAnswer1.length - 1);
+  userAnswer2 = userAnswer2.substring(0, userAnswer2.length - 1);
+  userAnswer99 = userAnswer99.substring(0, userAnswer99.length - 1);
+
+  let doneUserAnswer = [userAnswer1, userAnswer2, userAnswer99];
+  return doneUserAnswer;
 }
 
 module.exports = {
@@ -778,5 +849,7 @@ module.exports = {
   storeModelRealLastShiti: storeModelRealLastShiti,
   restartModelReal: restartModelReal,
   setMarkAnswer: setMarkAnswer,
-  startWatch: startWatch
+  startWatch: startWatch,
+  getDoneAnswers: getDoneAnswers,
+  initShitiArrayDoneAnswer: initShitiArrayDoneAnswer
 }
