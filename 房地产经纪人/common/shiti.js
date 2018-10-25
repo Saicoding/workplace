@@ -770,6 +770,14 @@ function startWatch(startTime, self) {
 
   return interval;
 }
+/**
+ * 去除最后一个字符
+ */
+function delLastStr(str){
+  str = str.substring(0, str.length - 1);
+  return str;
+}
+
 
 /**
  * 得到用户所得答案
@@ -778,6 +786,15 @@ function getDoneAnswers(shitiArray) {
   let userAnswer1 = "";
   let userAnswer2 = "";
   let userAnswer99 = "";
+  let tid1="";
+  let tid2="";
+  let tid99="";
+  let rightAnswer1 ="";
+  let rightAnswer2 = "";
+  let rightAnswer99 = "";
+  let TrueTid = "";
+
+
 
   for (let i = 0; i < shitiArray.length; i++) {
     let myShiti = shitiArray[i];
@@ -785,6 +802,13 @@ function getDoneAnswers(shitiArray) {
     switch (myShiti.TX) {
       case 1:
         userAnswer1 += done_daan + ","; //拼接字符串
+        tid1 += myShiti.id+",";
+
+        if(myShiti.flag ==0){//答对
+          TrueTid += myShiti.id + ",";
+        }
+
+        rightAnswer1 += myShiti.answer +',';
         break;
       case 2:
         let str_done_daan = ""; //试题字符串答案"ABC"
@@ -794,6 +818,12 @@ function getDoneAnswers(shitiArray) {
           str_done_daan += single;
         }
         userAnswer2 += str_done_daan + ","; //拼接字符串
+        tid2 += myShiti.id + ",";
+
+        if (myShiti.flag == 0) {//答对
+          TrueTid += myShiti.id + ",";
+        }
+        rightAnswer2 += myShiti.answer + ',';
         break;
       case 99:
         let xiaoti = myShiti.xiaoti;
@@ -813,15 +843,38 @@ function getDoneAnswers(shitiArray) {
             }
             userAnswer99 += str_done_daan + ","; //拼接字符串  
           }
+          tid99 += ti.id + ",";
+          if (ti.flag == 0) {//答对
+            TrueTid += ti.id + ",";
+          }
+          rightAnswer99 += ti.answer + ',';
         }
         break;
     }
   }
-  userAnswer1 = userAnswer1.substring(0, userAnswer1.length - 1);
-  userAnswer2 = userAnswer2.substring(0, userAnswer2.length - 1);
-  userAnswer99 = userAnswer99.substring(0, userAnswer99.length - 1);
+  userAnswer1 = delLastStr(userAnswer1);
+  userAnswer2 = delLastStr(userAnswer2);
+  userAnswer99 = delLastStr(userAnswer99);
+  tid1 = delLastStr(tid1);
+  tid2 = delLastStr(tid2);
+  tid99 = delLastStr(tid99);
+  rightAnswer1 = delLastStr(rightAnswer1);
+  rightAnswer2 = delLastStr(rightAnswer2);
+  rightAnswer99 = delLastStr(rightAnswer99);
+  TrueTid = delLastStr(TrueTid);
 
-  let doneUserAnswer = [userAnswer1, userAnswer2, userAnswer99];
+  let doneUserAnswer = {
+    'userAnswer1': userAnswer1,
+    'userAnswer2': userAnswer2,
+    'userAnswer99': userAnswer99,
+    'tid1':tid1,
+    'tid2': tid2,
+    'tid99': tid99,
+    'rightAnswer1': rightAnswer1,
+    'rightAnswer2': rightAnswer2,
+    'rightAnswer99': rightAnswer99,
+    'TrueTid': TrueTid
+  }
   return doneUserAnswer;
 }
 

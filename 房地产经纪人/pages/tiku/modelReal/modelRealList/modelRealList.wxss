@@ -46,7 +46,7 @@
 }
 
 .socre-text{
-
+  font-size:35rpx;
 }
 
 .score-img{

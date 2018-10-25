@@ -44,17 +44,17 @@ page {
 
 .submit_answer {
   width: 50%;
+  margin-top:50rpx;
 }
 
 .bottom {
   display: inline-block;
   width: 100%;
   position: fixed;
-  height: 80rpx;
+  height: 90rpx;
   bottom:0rpx;
-  border-top: 1px solid#f3f3f3;
-  box-shadow: rgb(211, 206, 206) 10rpx 10rpx 10rpx 10rpx ;
-  background-color: #f0f0f0;
+  border-top: 1px solid#d8d8d8;
+  background-color: #f5f5f5;
   z-index: 100;
 }
 
@@ -65,6 +65,7 @@ page {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: #ebebeb;
 }
 
 page {

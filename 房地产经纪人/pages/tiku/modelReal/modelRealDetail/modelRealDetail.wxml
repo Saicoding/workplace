@@ -53,9 +53,6 @@
       </view>
     </view>
   </scroll-view>
-  <!-- 答题板 -->
-  <markAnswer id="markAnswer"  windowHeight = "{{windowHeight}}"  bind:tapEvent="_tapEvent">
-  </markAnswer>
 
   <!-- 底部正确错误个数统计条 -->
   <modelCount hidden="{{isLoaded}}" text ="{{text}}" id="modelCount"  nums="{{nums}}" px="{{shiti.px}}"  class="bottom" bindrestart ="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
@@ -63,5 +60,8 @@
 
   <!-- 点击水波 -->
   <waterWave id = "waterWave"></waterWave>
+    <!-- 答题板 -->
+  <markAnswer style = "background:'#ebebeb'" id="markAnswer"  windowHeight = "{{windowHeight}}"  bind:tapEvent="_tapEvent">
+  </markAnswer>
 
 

@@ -1,6 +1,5 @@
 /* components/modelTestCount/modelTestCount.wxss */
 .container{
-  vertical-align: middle;
 }
 
 .bottom-block1, .bottom-block2 {
@@ -9,7 +8,7 @@
   height: 26rpx;
   border-radius: 36rpx;
   line-height: 26rpx;
-  margin-top:12rpx;
+  margin-top:19rpx;
   text-align: center;
 }
 
@@ -37,7 +36,7 @@
 }
 
 .bottom-block3 {
-  margin-top:12rpx;
+  margin-top:19rpx;
   margin-left:12rpx;
 }
 

@@ -13,7 +13,7 @@
   float:left;
   height: 40rpx;
   margin-left: 40rpx;
-  margin-top:12rpx;
+  margin-top:19rpx;
 }
 
 .bottom-img {

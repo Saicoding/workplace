@@ -4,7 +4,7 @@
     <view class="circle" style="background:{{model.bgColor}}"></view>
     <view class="title">{{model.title}}</view>
     <view class="score">
-      <text wx:if="{{model.ifDone}}" class="socre-text" style="color:{{model.scoreColor}}"></text>
+      <text wx:if="{{model.ifDone}}" class="socre-text" style="color:{{model.scoreColor}}">{{model.test_score}}分</text>
       <image wx:if="{{!model.ifDone}}" class="score-img" src="/imgs/pen.png" mode="aspectFit"></image>
     </view>
   </view>

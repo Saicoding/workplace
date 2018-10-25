@@ -1,3 +1,10 @@
+.container{
+  background: #ffffff;
+  width:94%;
+  margin: 0 auto;
+  box-shadow: rgb(211, 206, 206) 5rpx 5rpx 10rpx 3rpx ;
+  border-radius: 10rpx;
+}
 .radio-group {
   width: 100%;
   font-size: 30rpx;
@@ -32,7 +39,7 @@
   font-size: 30rpx;
   margin-left:40rpx;
   line-height:50rpx;
-  width: 610rpx;
+  width: 543rpx;
   margin-top:-5rpx;
   vertical-align: top;
 }

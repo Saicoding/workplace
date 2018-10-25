@@ -28,9 +28,10 @@ Page({
     }) //设置标题
 
     let px = 1;
-    console.log("action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType)
+
     app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, true, true, "加载中").then((res) => {
       let modelList = res.data.list;
+      console.log(modelList)
       if(modelList.length == 0){//如果没有题库
         console.log(modelList)
         wx.navigateTo({
@@ -87,7 +88,7 @@ Page({
     let totalscore = e.currentTarget.dataset.totalscore;
     let tiType = self.data.tiType;
 
-    let url = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType;
+    let url = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score;
 
     wx.navigateTo({
       url: url,

@@ -40,7 +40,7 @@
       </view>
       <view class = "info-text-container">
         <text class = "info-text"  style = "font-size:40rpx;line-height:59rpx;  letter-spacing: 4rpx;">{{nickName}}</text>
-        <text class = "info-text" style = "font-size:30rpx;letter-spacing:3rpx">本次测试打败了全国80%的用户</text>
+        <text class = "info-text" style = "font-size:30rpx;letter-spacing:3rpx">本次测试打败了全国{{jibai}}%的用户</text>
       </view>
     </view>
     <view class = "downer-middle">

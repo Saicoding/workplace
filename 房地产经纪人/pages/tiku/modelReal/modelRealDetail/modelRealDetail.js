@@ -43,6 +43,7 @@ Page({
     let username = user.username;
     let acode = user.acode;
     let tiType = options.tiType;
+    let test_score = options.test_score;
     let id = options.id;
     let tiTypeStr = tiType == 1?"model":"yati";
 
@@ -151,7 +152,6 @@ Page({
         })   
       }
 
-      console.log(shitiArray)
       self.setData({
         //设置过场动画
         winH: wx.getSystemInfoSync().windowHeight,
@@ -161,6 +161,7 @@ Page({
         times: options.times, //考试时间
         totalscore:options.totalscore,//总分
         tiTypeStr: tiTypeStr,//题的类型字符串
+        test_score:test_score,//最高分
 
         interval: interval,//计时器
         title: options.title, //标题
@@ -479,9 +480,7 @@ Page({
     let username = self.data.username;
     let acode = self.data.acode;
     let sjid = self.data.id;
-
     let doneUserAnswer = common.getDoneAnswers(shitiArray);
-    console.log(doneUserAnswer)
 
     //得到花费的时间
     gone_time = times * 60 - (time.h*3600+time.m*60+time.s);
@@ -516,14 +515,52 @@ Page({
     }
 
     undone = allNums - rightNums -wrongNums;//计算出未做题数
+    
+    //提交结果
+    app.post(API_URL, "action=SaveTestResult" + 
+    "&username=" + username + 
+    "&acode=" + acode+
+    "&sjid=" + id+
+      "&userAnswer1=" + doneUserAnswer.userAnswer1+
+      "&userAnswer2=" + doneUserAnswer.userAnswer2 +
+      "&userAnswer99=" + doneUserAnswer.userAnswer99 +
+      "&tid1=" + doneUserAnswer.tid1 +
+      "&tid2=" + doneUserAnswer.tid2 +
+      "&tid99=" + doneUserAnswer.tid99 +
+      "&rightAnswer1=" + doneUserAnswer.rightAnswer1 +
+      "&rightAnswer2=" + doneUserAnswer.rightAnswer2 +
+      "&rightAnswer99=" + doneUserAnswer.rightAnswer99 +
+      "&testTime=" + gone_time+
+      "&testScore=" + score+
+      "&TrueTid=" + doneUserAnswer.TrueTid, true, true, "计算中").then((res) => {
+        
+        if (score > self.data.test_score) {//如果比历史分数高就更新
+          let pages = getCurrentPages();
+          let prevPage = pages[pages.length - 2];  //上一个页面
+          let modelList = prevPage.data.modelList;
+          for (let i = 0; i < modelList.length; i++) {
+            let model = modelList[i];
+            if (id == model.id) {
+              model.test_score = score;
+              prevPage.setData({
+                modelList: modelList
+              })
+            }
+          }
+        }
 
-    // app.post(API_URL, "action=SaveTestResult&sjid=" + 10 + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
-    // })
-    wx.navigateTo({
-      url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone +"&totalscore="+totalscore+"&id="+ id+"&gone_time="+gone_time
+        //设置已经提交
+        wx.setStorage({
+          key: self.data.tiTypeStr+'modelRealIsSubmit' + self.data.id,
+          data: true,
+        })
+        
+        let jibai = res.data.jibai;
+        wx.navigateTo({
+          url: '/pages/prompt/modelRealScore/modelRealScore?score=' + score + "&rightNums=" + rightNums + "&wrongNums=" + wrongNums + "&undone=" + undone + "&totalscore=" + totalscore + "&id=" + id + "&gone_time=" + gone_time + "&jibai="+jibai
+        })
     })
 
-    
   },
 
   /**

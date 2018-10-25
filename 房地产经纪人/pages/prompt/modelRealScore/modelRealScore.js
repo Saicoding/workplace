@@ -27,6 +27,7 @@ Page({
     let undone = options.undone;//未做
     let totalscore = options.totalscore;//总分
     let ifGood = score >= totalscore * 60 / 100 ? '合格':'不合格';
+    let jibai = options.jibai;//击败用户
 
     //得到花费时间的字符串
     let h = parseInt(gone_time / 3600);
@@ -50,7 +51,8 @@ Page({
       id:id,
       timeStr:timeStr,
       totalscore: totalscore,
-      ifGood:ifGood
+      ifGood:ifGood,
+      jibai:jibai
     })
   },
 
@@ -75,16 +77,6 @@ Page({
     console.log(prevPage.data.interval)
 
     clearInterval(prevPage.data.interval);
-
-    wx.setStorage({
-      key: 'modelRealIsSubmit'+self.data.id,
-      data: true,
-    })
-
-    wx.setStorage({
-      key: "last_gone_time" + self.data.id,
-      data: "用时" + self.data.timeStr,
-    })
     
     if (shiti.done_daan == ""){//如果没作答，就显示正确答案
       common.changeModelRealSelectStatus(shiti.answer, shiti, prevPage)//改变试题的图片状态(有错误提示)
@@ -97,6 +89,12 @@ Page({
       isSubmit:true,
       text:"重新评测",
       shiti:shiti
+    })
+
+    //设置用时
+    wx.setStorage({
+      key: prevPage.data.tiTypeStr + "last_gone_time" + self.data.id,
+      data: "用时" + self.data.timeStr,
     })
 
     prevPage.modelCount.setData({//设置时间显示为花费时间
