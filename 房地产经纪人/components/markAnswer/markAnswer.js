@@ -57,8 +57,9 @@ Component({
     //点击编号事件
     _tapEvent(e) {
       let px = e.currentTarget.dataset.px;
+      let cl = e.currentTarget.dataset.cl;
       //触发取消回调
-      this.triggerEvent("tapEvent",{"px":px});
+      this.triggerEvent("tapEvent",{"px":px,"cl":cl});
     },
 
     //阻止事件冒泡

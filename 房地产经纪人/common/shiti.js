@@ -1,12 +1,11 @@
 /**
  * 初始化试题
  */
-function initShiti(shiti, px, self) {
+function initShiti(shiti, self) {
   let TX = shiti.TX;
 
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
-  shiti.px = px;
 
   if (TX == 1) { //单选
     shiti.num_color = "#0197f6";
@@ -42,7 +41,6 @@ function initShiti(shiti, px, self) {
     let xiaoti = shiti.xiaoti;
     for (let i = 0; i < xiaoti.length; i++) {
       let ti = xiaoti[i];
-      ti.px = i + 1; //小题编号 
       ti.isAnswer = false; //默认不回答
 
       if (ti.TX == 1) {
@@ -80,6 +78,38 @@ function initShiti(shiti, px, self) {
 }
 
 /**
+ * 初始化所有试题编号
+ */
+function initModelRealShitiPx(shitiArray){
+  let num = 0;
+  for(let i = 0;i< shitiArray.length;i++){
+    num ++;
+    let shiti = shitiArray[i];
+    shiti.px = num;
+    //试题编号加上中间如果有材料题的数量
+    if(shiti.TX == 99 ){//如果是材料题
+      shiti.startNum = i+num;
+      for (let j = 0; j < shiti.xiaoti.length;j++){
+        let ti = shiti.xiaoti[j];
+        ti.px = num;
+        num++;
+      }
+    }    
+  }
+}
+
+/**
+ * 初始化所有试题编号
+ */
+function initShitiPx(shitiArray) {
+  let num = 0;
+  for (let i = 0; i < shitiArray.length; i++) {
+    let shiti = shitiArray[i];
+    shiti.px = i+1;
+  }
+}
+
+/**
  * 初始化答题板数组
  */
 function initMarkAnswer(nums, self) {
@@ -90,6 +120,51 @@ function initMarkAnswer(nums, self) {
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems
   })
+}
+
+/**
+ * 初始化modelReal答题板数组
+ */
+function initModelRealMarkAnswer(newShitiArray, self){
+  let markAnswerItems = self.data.markAnswerItems;
+  for(let i = 0 ; i < newShitiArray.length;i++){
+    let newShiti = newShitiArray[i];
+    if(newShiti.cl == undefined){//如果有cl这个属性
+      markAnswerItems.push({});
+    }else{
+      markAnswerItems.push({ 'cl': newShiti.cl });
+    }
+  }
+
+  console.log(markAnswerItems)
+  self.markAnswer.setData({
+    markAnswerItems: markAnswerItems
+  })
+}
+
+/**
+ * 
+ */
+
+/**
+ * 初始化modelReal答题板数组
+ */
+function getNewShitiArray(shitiArray){
+  let newShitiArray = [];//新的试题数组
+  for(let i = 0 ;i < shitiArray.length;i++){
+    let shiti = shitiArray[i];//原试题
+
+    if(shiti.TX == 1 || shiti.TX == 2){
+      newShitiArray.push(shiti);
+    }else{
+      for(let j = 0 ; j < shiti.xiaoti.length;j++){
+        let ti = shiti.xiaoti[j];//小题
+        ti.cl = i+1;
+        newShitiArray.push(ti);
+      }
+    }
+  }
+  return newShitiArray;
 }
 
 /**
@@ -904,5 +979,9 @@ module.exports = {
   setMarkAnswer: setMarkAnswer,
   startWatch: startWatch,
   getDoneAnswers: getDoneAnswers,
-  initShitiArrayDoneAnswer: initShitiArrayDoneAnswer
+  initShitiArrayDoneAnswer: initShitiArrayDoneAnswer,
+  getNewShitiArray: getNewShitiArray,
+  initModelRealMarkAnswer: initModelRealMarkAnswer,
+  initShitiPx: initShitiPx,
+  initModelRealShitiPx: initModelRealShitiPx
 }

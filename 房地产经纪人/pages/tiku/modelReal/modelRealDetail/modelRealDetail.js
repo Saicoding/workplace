@@ -27,7 +27,6 @@ Page({
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
-
     isModelReal: true, //是不是真题或者押题
     isSubmit: false //是否已提交答卷
   },
@@ -58,6 +57,12 @@ Page({
     app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 
+      common.initShitiPx(shitiArray)
+
+      console.log(shitiArray)
+
+      let newShitiArray = common.getNewShitiArray(shitiArray);      
+
       let shiti = shitiArray[px - 1];
 
 
@@ -78,7 +83,8 @@ Page({
 
       common.initShiti(shiti, px, self); //初始化试题对象,不包括已答答案
 
-      common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+      common.initModelRealMarkAnswer(newShitiArray, self); //初始化答题板数组
+
       let isSubmit = wx.getStorageSync(tiTypeStr+'modelRealIsSubmit' + options.id);  
 
       //对是否是已答试题做处理
@@ -441,11 +447,19 @@ Page({
   _tapEvent: function(e) {
     let self = this;
     let px = e.detail.px;
+    let cl = e.detail.cl;
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
     let isSubmit = self.data.isSubmit;
+    let shiti = "";
 
-    let shiti = shitiArray[px - 1];
+    console.log(cl)
+    if(cl == undefined){//如果不是材料题
+      shiti = shitiArray[px - 1];
+    }else{
+      shiti = shitiArray[cl-1];
+    }
+    
 
     common.storeModelRealLastShiti(px, self); //存储最后一题的状态
 

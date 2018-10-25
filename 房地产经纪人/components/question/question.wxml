@@ -1,7 +1,7 @@
 <view class = "outContainer" style ="{{style3}}" >
 <scroll-view  style ="{{style2}}" scroll-y ="{{tx == '材料题'?true:false}}" animation = "{{foldData}}" class="container" bindtap="toogleShow">
   <view class="question-block1">
-    <view class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
+    <view wx:if = "{{tx != '材料题'}}" class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
     <view class="qustion-select" style="color:{{num_color}}">【{{tx}}】</view>
   </view>
   <span is="wxParse">{{question}}</span>

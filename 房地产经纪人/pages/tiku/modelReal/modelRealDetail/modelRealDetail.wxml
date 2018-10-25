@@ -33,11 +33,11 @@
         <view wx:for="{{shiti.xiaoti}}" wx:key = "item">
 
           <!--问题-->
-          <question  class="question" num_color="{{item.num_color}}" px="{{item.px}}" tx="{{item.tx}}" question="{{item.question}}"></question>
+          <question  class="question" num_color="{{item.num_color}}" px="{{shiti.startNum+index}}" tx="{{item.tx}}" question="{{item.question}}"></question>
 
           <!--单选题-->
           <view wx:if="{{item.TX == 1}}">
-            <singleSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+            <singleSelect  shiti="{{item}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
             <!-- 解析 -->
             <!-- <jiexi isAnswer="{{item.isAnswer}}" jiexi="{{item.jiexi}}"></jiexi> -->
           </view>
@@ -45,7 +45,7 @@
           <!--多选题-->
           <view wx:if="{{item.TX ==2}}">
 
-            <multiSelect data-px = "{{item.px}}" shiti="{{item}}" checked="{{checked}}" bindcheckVal="_CLAnswerSelect"></multiSelect>
+            <multiSelect  shiti="{{item}}" checked="{{checked}}" bindcheckVal="_CLAnswerSelect"></multiSelect>
             <!-- 解析 -->
             <!-- <jiexi isAnswer="{{item.isAnswer}}" jiexi="{{item.jiexi}}"></jiexi> -->
           </view>
