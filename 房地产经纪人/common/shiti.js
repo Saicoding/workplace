@@ -737,8 +737,8 @@ function startWatch(startTime, self) {
       s: s
     }
     let hStr = time.h;
-    let mStr = time.m >= 10 ? time.m : '0';
-    let sStr = time.s >= 10 ? time.s : '0';
+    let mStr = time.m >= 10 ? time.m : '0' + time.m;
+    let sStr = time.s >= 10 ? time.s : '0' + time.s;
 
     let timeStr = "倒计时" + hStr + ":" + mStr + ":" + sStr;
     self.modelCount.setData({

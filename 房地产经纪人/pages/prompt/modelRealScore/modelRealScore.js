@@ -28,7 +28,7 @@ Page({
     let totalscore = options.totalscore;//总分
     let ifGood = score >= totalscore * 60 / 100 ? '合格':'不合格';
 
-    //得到话费时间的字符串
+    //得到花费时间的字符串
     let h = parseInt(gone_time / 3600);
     let m = parseInt((gone_time - h * 3600) / 60);
     let s = gone_time % 60;
