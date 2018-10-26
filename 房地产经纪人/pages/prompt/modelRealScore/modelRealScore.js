@@ -74,8 +74,6 @@ Page({
     let isModelReal = prevPage.data.isModelReal;
     let shiti = prevPage.data.shiti;
 
-    console.log(prevPage.data.interval)
-
     clearInterval(prevPage.data.interval);
     
     if (shiti.done_daan == ""){//如果没作答，就显示正确答案
@@ -83,7 +81,10 @@ Page({
     }else{
       common.changeSelectStatus(shiti.done_daan, shiti, prevPage)//改变试题的图片状态(有错误提示)
     }
-    common.setMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage)//设置答题板状态
+
+    common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态
+
+    console.log(prevPage.markAnswer.data.markAnswerItems)
 
     prevPage.setData({
       isSubmit:true,

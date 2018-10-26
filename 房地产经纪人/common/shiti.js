@@ -86,7 +86,7 @@ function setModelRealCLShitiPx(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     num++;
     let shiti = shitiArray[i];
-    shiti.px = i+1;
+    shiti.px = i + 1;
     //试题编号加上中间如果有材料题的数量
     if (shiti.TX == 99) { //如果是材料题
       shiti.clpx = num;
@@ -225,6 +225,7 @@ function changeShitiChecked(done_daan, shiti) {
  */
 function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self) {
   let markAnswerItems = self.data.markAnswerItems; //得到答题板组件的已答
+  console.log(jie_answer_array)
   for (let i = 0; i < jie_answer_array.length; i++) {
     let px = jie_answer_array[i].px;
     let select = jie_answer_array[i].select;
@@ -247,11 +248,11 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
       markAnswerItems[px - 1] = {
         "select": jie_answer_array[i].select,
         "isRight": jie_answer_array[i].isRight,
-        "style": style
+        "style": style,
       }
-    }else{
-      let done_daan = jie_answer_array[i].done_daan;//多选题答案
-      for (let j = 0; j < done_daan.length ;j++){
+    } else {
+      let done_daan = jie_answer_array[i].done_daan; //多选题答案
+      for (let j = 0; j < done_daan.length; j++) {
         let daan = done_daan[j];
         let tiPx = daan.px;
         if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
@@ -270,9 +271,10 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
         markAnswerItems[daan.px - 1] = {
           "select": "材料题",
           "isRight": daan.isRight,
-          "style": style
+          "style": style,
+          "cl": jie_answer_array[i].px
         }
-      } 
+      }
     }
   }
 
@@ -281,10 +283,11 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
   })
 }
 /**
- * 真题押题设置答题板
+ * 设置答题板
  */
 function setMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self) {
   let markAnswerItems = self.data.markAnswerItems; //得到答题板组件的已答
+
   for (let i = 0; i < jie_answer_array.length; i++) {
     let px = jie_answer_array[i].px;
     let style = "";
@@ -331,9 +334,36 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   markAnswerItems[px - 1] = {
     "select": shiti.tx,
     "isRight": shiti.flag,
-    "style": style
+    "style": style,
+  }
+  self.markAnswer.setData({
+    markAnswerItems: markAnswerItems
+  })
+}
+
+/**
+ * 材料题设置单个答题板
+ */
+
+function setCLMarkAnswer(shiti,isSubmit,shitiPx,self){
+  let markAnswerItems = self.markAnswer.data.markAnswerItems; //得到答题板组件的已答
+  let px = shiti.px;
+  let style = "";
+
+  if (isSubmit == false) { //如果是真题或者押题
+    style = "background:#0197f6;color:white;"
+  } else if (shiti.flag == 0) { //如果题是正确的
+    style = "background:#90dd35;color:white;"
+  } else if (shiti.flag == 1) { //如果题是错误的
+    style = "background:#fa4b5c;color:white;"
   }
 
+  markAnswerItems[px - 1] = {
+    "select": shiti.tx,
+    "isRight": shiti.flag,
+    "style": style,
+    "cl":shitiPx
+  }
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems
   })
@@ -386,13 +416,28 @@ function storeModelRealAnswerStatus(shiti, self) {
 
   let flag = false;
 
-  let obj = {
-    "id": shiti.id,
-    "done_daan": shiti.done_daan,
-    "select": shiti.tx,
-    "isRight": shiti.flag,
-    "px": shiti.px
+  let obj = {};
+
+  if (shiti.TX == 99) {
+    obj = {
+      "id": shiti.id,
+      "done_daan": shiti.done_daan,
+      "select": shiti.tx,
+      "isRight": shiti.flag,
+      "px": shiti.px,
+      "clpx": shiti.clpx
+    }
+  } else {
+    obj = {
+      "id": shiti.id,
+      "done_daan": shiti.done_daan,
+      "select": shiti.tx,
+      "isRight": shiti.flag,
+      "px": shiti.px,
+    }
   }
+
+
 
   for (let i = 0; i < answer_nums_array.length; i++) {
 
@@ -401,7 +446,6 @@ function storeModelRealAnswerStatus(shiti, self) {
     if (done_shiti_storage.id == shiti.id) { //已经存储过
       done_shiti_local.done_daan = shiti.done_daan; //用新的作答覆盖之前的回答
       done_shiti_local.isRight = shiti.flag;
-
       done_shiti_storage.done_daan = shiti.done_daan; //用新的作答覆盖之前的回答
       done_shiti_storage.isRight = shiti.flag;
       flag = true;
@@ -1037,5 +1081,6 @@ module.exports = {
   initShitiArrayDoneAnswer: initShitiArrayDoneAnswer,
   getNewShitiArray: getNewShitiArray,
   initModelRealMarkAnswer: initModelRealMarkAnswer,
-  setModelRealCLShitiPx: setModelRealCLShitiPx
+  setModelRealCLShitiPx: setModelRealCLShitiPx,
+  setCLMarkAnswer: setCLMarkAnswer
 }

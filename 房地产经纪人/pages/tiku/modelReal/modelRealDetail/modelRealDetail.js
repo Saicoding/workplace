@@ -48,10 +48,9 @@ Page({
 
     //根据真题定制最后一次访问的key
     let last_view_key = tiTypeStr+'lastModelReal' + options.id;
-    
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
-    console.log(last_model_real )
+
     let px = last_model_real.px; //最后一次浏览的题的编号
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
@@ -100,15 +99,17 @@ Page({
               isSubmit:true
             })
           }
+
           console.log(doneAnswerArray)
           common.setModelRealMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
-
+          console.log(self.markAnswer.data.markAnswerItems)
           //映射已答题目的已作答的答案到shitiArray
           for (let i = 0; i < doneAnswerArray.length;i++){
             let doneAnswer = doneAnswerArray[i];
             shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
             if(doneAnswer.select == "材料题"){
               let daan = doneAnswer.done_daan;
+              shitiArray[doneAnswer.px - 1].doneAnswer = daan;//设置该材料题的doneAnswer
               for (let j = 0; j < shitiArray[doneAnswer.px - 1].xiaoti.length;j++){
                 for(let k = 0 ; k < daan.length ;k++){
                   let ti = shitiArray[doneAnswer.px - 1].xiaoti[j];
@@ -351,31 +352,43 @@ Page({
 
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - shiti.clpx == i) { //找到对应的小题
+
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
+
         common.changeModelRealSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
-        common.setMarkAnswer(xiaoti[i], self.data.isModelReal, self.data.isSubmit, self)//更新答题板状态(单个)
+
+        common.setCLMarkAnswer(xiaoti[i], self.data.isSubmit, shiti.px, self)//更新答题板状态(单个)
+
+
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
         xiaoti[i].done_daan = done_daan;//设置小题的已做答案
         let isStore = false;
+
         console.log(xiaoti[i].answer)
+
         //更新小题已经作答的答案
         for (let j = 0; j < shiti.doneAnswer.length; j++) {
           let doneAnswer = shiti.doneAnswer[j];
           if (doneAnswer.px == px) {
             doneAnswer.done_daan = done_daan
             doneAnswer.isRight = xiaoti[i].flag;
+            doneAnswer.clpx = shiti.clpx
             isStore = true;
             break;
           }
         }
+        
 
         if (!isStore) {
           shiti.doneAnswer.push({
             'px': px,
             'done_daan': done_daan,
-            'isRight': xiaoti[i].flag
+            'isRight': xiaoti[i].flag,
+            'clpx':shiti.clpx
           }); //向本材料题的已答数组中添加已答题目px 和 答案信息
         }
+
+        console.log(shiti.doneAnswer)
 
         shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
 
@@ -457,13 +470,15 @@ Page({
     let isSubmit = self.data.isSubmit;
     let shiti = "";
 
+    console.log(self.markAnswer.data.markAnswerItems)
+
     if(cl == undefined){//如果不是材料题
       shiti = shitiArray[px - 1];
     }else{
       shiti = shitiArray[cl-1];
     }
-    
-
+    console.log(cl)
+    console.log(shiti.px)
     common.storeModelRealLastShiti(shiti.px, self); //存储最后一题的状态
 
     common.initShiti(shiti, shiti.px, self); //初始化试题对象
@@ -506,6 +521,7 @@ Page({
     for (let i = 0; i < doneAnswerArray.length; i++) {
       let doneAnswer = doneAnswerArray[i]; //单个已经回答的试题
       let px = doneAnswer.px;
+
       switch (doneAnswer.select) {
         case "单选题":
         case "多选题":
@@ -518,11 +534,15 @@ Page({
           break;
 
         case "材料题":
-          for (let j = 0; j < doneAnswer.done_daan.length; j++) {          
+          console.log(doneAnswer)
+          for (let j = 0; j < doneAnswer.done_daan.length; j++) {  
             let daan = doneAnswer.done_daan[j];
             if (daan.isRight == 0){
               rightNums += 1;
-              score += shitiArray[px - 1].xiaoti[daan.px-1].score;
+              console.log(shitiArray[px - 1])
+              console.log(doneAnswer[j])
+
+              score += shitiArray[px - 1].xiaoti[daan.px - shitiArray[px - 1].clpx].score;
             }else{
               wrongNums += 1;
             }
