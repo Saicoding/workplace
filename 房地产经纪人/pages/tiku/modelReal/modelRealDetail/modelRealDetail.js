@@ -7,7 +7,8 @@ const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
 const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
-var touchDot = 0; //触摸时的原点
+let touchDotX = 0; //触摸时的X原点
+let touchDotY = 0; //触摸时的Y原点
 var time = 0; //  时间记录，用于滑动时且时间小于1s则执行左右滑动
 var interval = ""; // 记录/清理 时间记录
 var nth = 0; // 设置活动菜单的index
@@ -100,9 +101,8 @@ Page({
             })
           }
 
-          console.log(doneAnswerArray)
           common.setModelRealMarkAnswerItems(doneAnswerArray, self.data.nums, self.data.isModelReal, self.data.isSubmit, self); //更新答题板状态
-          console.log(self.markAnswer.data.markAnswerItems)
+
           //映射已答题目的已作答的答案到shitiArray
           for (let i = 0; i < doneAnswerArray.length;i++){
             let doneAnswer = doneAnswerArray[i];
@@ -211,7 +211,8 @@ Page({
    * touch开始事件
    */
   touchStart: function(e) {
-    touchDot = e.touches[0].pageX; // 获取触摸时的原点
+    touchDotX = e.touches[0].pageX; // 获取触摸时的原点
+    touchDotY = e.touches[0].pageY;
     // 使用js计时器记录时间    
     interval = setInterval(function() {
       time++;
@@ -226,17 +227,19 @@ Page({
    */
   touchEnd: function(e) {
     let self = this;
-    var touchMove = e.changedTouches[0].pageX;
+    let touchMoveX = e.changedTouches[0].pageX;
+    let touchMoveY = e.changedTouches[0].pageY;
     let shitiArray = self.data.shitiArray;
     let shiti = self.data.shiti;
     let px = shiti.px;
     let doneAnswerArray = self.data.doneAnswerArray;
     let shitiIndex = shitiArray.indexOf(shiti)+1;
 
+    let result = (Math.abs(touchMoveX - touchDotX)) / (Math.abs(touchMoveY - touchDotY));
     // 滑动  
-    if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
+    if (Math.abs(touchMoveX - touchDotX) >= 40 && time < 10 && tmpFlag == true && result > 1) {
       tmpFlag = false;
-      touchMove - touchDot > 0 ? shitiIndex -= 1 : shitiIndex += 1
+      touchMoveX - touchDotX > 0 ? shitiIndex -= 1 : shitiIndex += 1
       if (shitiIndex  == 0) {
         wx.showToast({
           title: '这是第一题',
@@ -301,8 +304,6 @@ Page({
 
     let shiti = self.data.shiti; //本试题对象
 
-    console.log(shiti.answer);
-
     done_daan = shiti.TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
     common.changeModelRealSelectStatus(done_daan, shiti, self); //改变试题状态
@@ -347,9 +348,6 @@ Page({
     let shiti = self.data.shiti; //本试题对象
     let xiaoti = shiti.xiaoti;
 
-    console.log(shiti.clpx)
-    console.log(px)
-
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - shiti.clpx == i) { //找到对应的小题
 
@@ -363,8 +361,6 @@ Page({
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
         xiaoti[i].done_daan = done_daan;//设置小题的已做答案
         let isStore = false;
-
-        console.log(xiaoti[i].answer)
 
         //更新小题已经作答的答案
         for (let j = 0; j < shiti.doneAnswer.length; j++) {
@@ -387,8 +383,6 @@ Page({
             'clpx':shiti.clpx
           }); //向本材料题的已答数组中添加已答题目px 和 答案信息
         }
-
-        console.log(shiti.doneAnswer)
 
         shiti.done_daan = shiti.doneAnswer; //设置该试题已作答的答案数组
 
@@ -470,15 +464,12 @@ Page({
     let isSubmit = self.data.isSubmit;
     let shiti = "";
 
-    console.log(self.markAnswer.data.markAnswerItems)
-
     if(cl == undefined){//如果不是材料题
       shiti = shitiArray[px - 1];
     }else{
       shiti = shitiArray[cl-1];
     }
-    console.log(cl)
-    console.log(shiti.px)
+
     common.storeModelRealLastShiti(shiti.px, self); //存储最后一题的状态
 
     common.initShiti(shiti, shiti.px, self); //初始化试题对象
@@ -514,6 +505,8 @@ Page({
     let sjid = self.data.id;
     let doneUserAnswer = common.getDoneAnswers(shitiArray);
 
+    console.log(self.markAnswer.data.markAnswerItems)
+
     //得到花费的时间
     gone_time = times * 60 - (time.h*3600+time.m*60+time.s);
 
@@ -534,13 +527,10 @@ Page({
           break;
 
         case "材料题":
-          console.log(doneAnswer)
           for (let j = 0; j < doneAnswer.done_daan.length; j++) {  
             let daan = doneAnswer.done_daan[j];
             if (daan.isRight == 0){
               rightNums += 1;
-              console.log(shitiArray[px - 1])
-              console.log(doneAnswer[j])
 
               score += shitiArray[px - 1].xiaoti[daan.px - shitiArray[px - 1].clpx].score;
             }else{
