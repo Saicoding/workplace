@@ -7,12 +7,13 @@ const util = require('../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
 const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
-var touchDot = 0; //触摸时的原点
-var time = 0; //  时间记录，用于滑动时且时间小于1s则执行左右滑动
-var interval = ""; // 记录/清理 时间记录
-var nth = 0; // 设置活动菜单的index
-var nthMax = 1; //活动菜单的最大个数
-var tmpFlag = true; // 判断左右滑动超出
+let touchDotX = 0; //触摸时的X原点
+let touchDotY = 0; //触摸时的Y原点
+let time = 0; //  时间记录，用于滑动时且时间小于1s则执行左右滑动
+let interval = ""; // 记录/清理 时间记录
+let nth = 0; // 设置活动菜单的index
+let nthMax = 1; //活动菜单的最大个数
+let tmpFlag = true; // 判断左右滑动超出
 
 Page({
   /**
@@ -76,7 +77,8 @@ Page({
    * touch开始事件
    */
   touchStart: function (e) {
-    touchDot = e.touches[0].pageX; // 获取触摸时的原点
+    touchDotX = e.touches[0].pageX; // 获取触摸时的原点
+    touchDotY = e.touches[0].pageY;
     // 使用js计时器记录时间    
     interval = setInterval(function () {
       time++;
@@ -91,7 +93,8 @@ Page({
    */
   touchEnd: function (e) {
     let self = this;
-    var touchMove = e.changedTouches[0].pageX;
+    let touchMoveX = e.changedTouches[0].pageX;
+    let touchMoveY = e.changedTouches[0].pageY;
     let px = self.data.shiti.px; //试题的编号
     let shitiArray = self.data.shitiArray //所有试题
 
@@ -102,10 +105,11 @@ Page({
     let acode = self.data.acode; //用户唯一码
     let doneAnswerArray = self.data.doneAnswerArray;
 
+    let result = (Math.abs(touchMoveX - touchDotX)) / (Math.abs(touchMoveY - touchDotY));
     // 滑动  
-    if (Math.abs(touchMove - touchDot) >= 40 && time < 10 && tmpFlag == true) {
+    if (Math.abs(touchMoveX - touchDotX) >= 40 && time < 10 && tmpFlag == true && result > 1) {
       tmpFlag = false;
-      touchMove - touchDot > 0 ? px -= 1 : px += 1
+      touchMoveX - touchDotX > 0 ? px -= 1 : px += 1
       if (px == 0) {
         wx.showToast({
           title: '这是第一题',
@@ -229,6 +233,7 @@ Page({
     let done_daan = e.detail.done_daan.sort();
     let shiti = this.data.shiti; //本试题对象
     let xiaoti = this.data.shiti.xiaoti; //材料题下面的小题
+
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - 1 == i) { //找到对应小题
         if (xiaoti[i].isAnswer) return;

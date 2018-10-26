@@ -613,7 +613,7 @@ function processDoneAnswer(done_daan, shiti, self) {
           let ti = shiti.xiaoti[i]; //小题
           for (let j = 0; j < done_daan.length; j++) {
             let xt_done_daan = done_daan[j]; //小题已答答案对象
-            if (ti.px == xt_done_daan.px) { //找到对应小题
+            if (i+1 == xt_done_daan.px) { //找到对应小题
               changeSelectStatus(xt_done_daan.done_daan, ti, self) //根据得到的已答数组更新试题状态
               break;
             }

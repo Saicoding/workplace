@@ -9,7 +9,7 @@
 
 .text{
   margin-top:100rpx;
-  font-size:60rpx;
+  font-size:40rpx;
   color:#959595;
 }
 

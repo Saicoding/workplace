@@ -29,9 +29,9 @@ Page({
   },
 
   onUnload:function(){
-    wx.navigateBack({
-      delta: this.data.delta
-    })
+    // wx.navigateBack({
+    //   delta: this.data.delta
+    // })
   },
 
   onShow:function(){

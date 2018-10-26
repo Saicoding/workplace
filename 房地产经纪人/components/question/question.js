@@ -12,6 +12,10 @@ Component({
       type:Number,
       value:1
     },
+    isModelReal:{
+      type:Boolean,
+      value:false
+    },
     tx:{
       type:String,
       value:"",

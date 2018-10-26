@@ -39,11 +39,15 @@ Page({
         code = res.code;
         //得到openId和session_key
         app.post(API_URL, "action=Login_wx&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex+"&code="+code).then((res) => {
+          
           let user = res.data.list[0];
-          // console.log(user)
           wx.setStorage({
             key: 'user',
             data: user
+          })
+          wx.setStorage({//存储随机数
+            key: 'login_random',
+            data: user.login_random,
           })
           // wx.hideLoading();
           wx.redirectTo({

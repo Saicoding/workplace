@@ -132,6 +132,11 @@ Page({
           key: 'user',
           data: user
         })
+
+        wx.setStorage({//存储随机数
+          key: 'login_random',
+          data: user.login_random,
+        })
         // wx.hideLoading();
         wx.redirectTo({
           url: self.data.url,

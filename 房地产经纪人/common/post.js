@@ -3,8 +3,6 @@ let common = require('shiti.js');
 function zuotiOnload(options, px, res, username, acode,self){
   let shitiArray = res.data.shiti;
 
-  console.log(shitiArray)
-
   let shiti = res.data.shiti[px - 1];
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
@@ -22,13 +20,17 @@ function zuotiOnload(options, px, res, username, acode,self){
       let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
       common.setMarkAnswerItems(doneAnswerArray, options.nums, self.data.isModelReal, self.data.isSubmit, self); //设置答题板数组
 
+      
+
       //映射已答题目的已作答的答案到shitiArray
       for (let i = 0; i < doneAnswerArray.length; i++) {
         let doneAnswer = doneAnswerArray[i];
         shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
       }
+
       //先处理是否是已经回答的题    
       common.processDoneAnswer(shiti.done_daan, shiti, self);
+      console.log(shiti)
       //根据已答试题库得到正确题数和错误题数
       let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
 
