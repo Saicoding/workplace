@@ -12,7 +12,10 @@
     "pages/tiku/modelTest/modelTest",
     "pages/tiku/modelReal/modelRealDetail/modelRealDetail",
     "pages/tiku/modelReal/modelRealList/modelRealList",
-    "pages/prompt/modelRealScore/modelRealScore"
+    "pages/prompt/modelRealScore/modelRealScore",
+    "pages/video/video",
+    "pages/esoterica/esoterica",
+    "pages/mine/mine"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -21,18 +24,40 @@
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
+    "selectedColor": "#2592ff",
+    "color": "#333",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "selectedColor": "#0197F6",
+        "selectedColor": "#2592ff",
+        "iconPath": "/imgs/menu_ico1.png",
+        "selectedIconPath": "/imgs/menu_ico1_sel.png",
         "color": "#333",
         "text": "题库"
       },
       {
-        "pagePath": "pages/logs/logs",
-        "selectedColor": "#0197F6",
+        "pagePath": "pages/video/video",
+        "selectedColor": "#2592ff",
+        "iconPath": "/imgs/menu_ico2.png",
+        "selectedIconPath": "/imgs/menu_ico2_sel.png",
         "color": "#333",
         "text": "视频"
+      },
+      {
+        "pagePath": "pages/esoterica/esoterica",
+        "selectedColor": "#2592ff",
+        "iconPath": "/imgs/menu_ico3.png",
+        "selectedIconPath": "/imgs/menu_ico3_sel.png",
+        "color": "#333",
+        "text": "秘笈"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "iconPath": "/imgs/menu_ico4.png",
+        "selectedIconPath": "/imgs/menu_ico4_sel.png",
+        "selectedColor": "#2592ff",
+        "color": "#333",
+        "text": "我的"
       }
     ]
   }

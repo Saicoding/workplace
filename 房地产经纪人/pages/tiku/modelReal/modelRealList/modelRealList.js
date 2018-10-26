@@ -35,7 +35,7 @@ Page({
       if(modelList.length == 0){//如果没有题库
         console.log(modelList)
         wx.navigateTo({
-          url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有' + title + '题库',
+          url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有' + title + '题库&title=' + title +"&delta=1",
         })
       }
 

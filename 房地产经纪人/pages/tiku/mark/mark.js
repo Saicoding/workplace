@@ -48,7 +48,7 @@ Page({
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
       wx.navigateTo({
-        url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有收藏题库',
+        url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有收藏题库&title=收藏练习&delta=1',
       })
       wx.hideLoading();
     });
