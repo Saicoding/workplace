@@ -55,7 +55,7 @@
   </scroll-view>
 
   <!-- 底部正确错误个数统计条 -->
-  <modelCount hidden="{{isLoaded}}" text ="{{text}}" id="modelCount"  nums="{{nums}}" px="{{shiti.px}}"  class="bottom" bindrestart ="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
+  <modelCount hidden="{{isLoaded}}" text ="{{text}}" id="modelCount"  nums="{{nums}}" px="{{shiti.TX == 99?shiti.clpx:shiti.px}}"  class="bottom" bindrestart ="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
   </modelCount>
 
   <!-- 点击水波 -->

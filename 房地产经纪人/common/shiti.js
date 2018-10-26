@@ -86,10 +86,10 @@ function setModelRealCLShitiPx(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     num++;
     let shiti = shitiArray[i];
-    shiti.px = num;
+    shiti.px = i+1;
     //试题编号加上中间如果有材料题的数量
     if (shiti.TX == 99) { //如果是材料题
-      shiti.clpx = i + 1;
+      shiti.clpx = num;
       num--;
       for (let j = 0; j < shiti.xiaoti.length; j++) {
         let ti = shiti.xiaoti[j];
@@ -845,7 +845,7 @@ function restartModelReal(self) {
   clearInterval(self.data.interval); //停止计时
   startWatch(self.data.times * 60, self); //重新开始计时
 
-  initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+  initModelRealMarkAnswer(self.data.newShitiArray, self); //初始化答题板数组
 
   let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + self.data.id); //将已答答案置空
   wx.setStorage({

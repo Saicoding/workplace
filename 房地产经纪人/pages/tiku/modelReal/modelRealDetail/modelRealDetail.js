@@ -64,7 +64,7 @@ Page({
       let newShitiArray = common.getNewShitiArray(shitiArray);      
 
       let shiti = shitiArray[px - 1];
-
+     
 
       //得到试题总数
       let nums = 0;
@@ -173,6 +173,7 @@ Page({
         nums: nums, //题数
         shiti: shiti, //试题对象
         shitiArray: shitiArray, //整节的试题数组
+        newShitiArray: newShitiArray,//新的试题数组
         isLoaded: false, //是否已经载入完毕,用于控制过场动画
         username: username, //用户账号名称
         acode: acode //用户唯一码
@@ -463,9 +464,9 @@ Page({
     }
     
 
-    common.storeModelRealLastShiti(px, self); //存储最后一题的状态
+    common.storeModelRealLastShiti(shiti.px, self); //存储最后一题的状态
 
-    common.initShiti(shiti, px, self); //初始化试题对象
+    common.initShiti(shiti, shiti.px, self); //初始化试题对象
   
     common.processModelRealDoneAnswer(shiti.done_daan, shiti, self);
  
