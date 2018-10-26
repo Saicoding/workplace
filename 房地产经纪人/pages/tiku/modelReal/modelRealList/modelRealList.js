@@ -31,9 +31,7 @@ Page({
 
     app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, true, true, "加载中").then((res) => {
       let modelList = res.data.list;
-      console.log(modelList)
       if(modelList.length == 0){//如果没有题库
-        console.log(modelList)
         wx.navigateTo({
           url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有' + title + '题库&title=' + title +"&delta=1",
         })

@@ -15,7 +15,8 @@
     "pages/prompt/modelRealScore/modelRealScore",
     "pages/video/video",
     "pages/esoterica/esoterica",
-    "pages/mine/mine"
+    "pages/mine/mine",
+    "pages/phoneLogin/phoneLogin"
   ],
   "window": {
     "backgroundTextStyle": "light",

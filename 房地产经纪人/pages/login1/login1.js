@@ -13,14 +13,15 @@ Page({
    * 用户密码登录
    */
   userPwdLogin: function() {
-    console.log("用户密码登录")
+    wx.navigateTo({
+      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1,
+    })
   },
 
   /**
    * 微信授权登录
    */
   wxLogin: function(e) {
-    console.log(e)
     let self = this;
     let code = "";
     let iv = e.detail.iv; //偏移量
@@ -58,7 +59,8 @@ Page({
    */
   onLoad: function(options) {
     this.setData({
-      url:decodeURIComponent(options.url)
+      url:decodeURIComponent(options.url),
+      url1:options.url
     })
   },
 
