@@ -7,13 +7,6 @@ const util = require('../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
 const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
-let touchDotX = 0; //触摸时的X原点
-let touchDotY = 0; //触摸时的Y原点
-let time = 0; //  时间记录，用于滑动时且时间小于1s则执行左右滑动
-let interval = ""; // 记录/清理 时间记录
-let nth = 0; // 设置活动菜单的index
-let nthMax = 1; //活动菜单的最大个数
-let tmpFlag = true; // 判断左右滑动超出
 
 Page({
   /**
@@ -43,7 +36,7 @@ Page({
     let acode = user.acode; //用户唯一码
     let kid = options.kid; //题库编号
     let px = 1;
-    console.log("action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode)
+    
     app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入错题中").then((res) => {
       post.wrongAndMarkOnload(options, px, res, username, acode, self);
 

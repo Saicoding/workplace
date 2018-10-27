@@ -50,7 +50,7 @@
         "iconPath": "/imgs/menu_ico3.png",
         "selectedIconPath": "/imgs/menu_ico3_sel.png",
         "color": "#333",
-        "text": "秘笈"
+        "text": "考点"
       },
       {
         "pagePath": "pages/mine/mine",

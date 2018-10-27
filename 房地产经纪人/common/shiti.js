@@ -1,12 +1,11 @@
 /**
  * 初始化试题
  */
-function initShiti(shiti, px, self) {
+function initShiti(shiti,self) {
   let TX = shiti.TX;
 
   //给试题设置章idx 节idx 和默认已做答案等
   shiti.isAnswer = false;
-  shiti.px = px;
 
   if (TX == 1) { //单选
     shiti.num_color = "#0197f6";
@@ -73,9 +72,6 @@ function initShiti(shiti, px, self) {
       }
     }
   }
-  self.setData({
-    shiti: shiti
-  })
 }
 
 /**
@@ -850,7 +846,7 @@ function lianxiRestart(self) {
 
 function initShitiArrayDoneAnswer(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
-
+    shitiArray[i].px = i + 1;//设置每个试题的px号
     switch (shitiArray[i].TX) {
       case 1:
         shitiArray[i].done_daan = "";
@@ -1050,6 +1046,7 @@ function getDoneAnswers(shitiArray) {
   }
   return doneUserAnswer;
 }
+
 
 module.exports = {
   initShiti: initShiti,
