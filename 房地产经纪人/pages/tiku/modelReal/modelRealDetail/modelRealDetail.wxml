@@ -8,14 +8,14 @@
     <question isModelReal="true"  tx = "{{shiti.tx}}"  id ="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
     <!--单选题-->
-    <view wx:if="{{shiti.TX == 1}}">
+    <view style ="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
       <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
       <!-- 解析 -->
       <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
     </view>
 
     <!--多选题-->
-    <view wx:if="{{shiti.TX ==2}}" >
+    <view style ="margin-botoom:50rpx;" wx:if="{{shiti.TX ==2}}" >
 
       <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_answerSelect"></multiSelect>
 
@@ -24,7 +24,7 @@
     </view>
 
     <!--材料题-->
-    <view wx:if="{{shiti.TX == 99}}">
+    <view style ="margin-botoom:50rpx;" wx:if="{{shiti.TX == 99}}">
       <view wx:if="{{!cl_question_hidden&&!shiti.isAnswer}}" class="cailiaoZuoti">
         <button class="cailiaoZuoti-btn" bindtap='CLZuoti'>答题</button>
       </view>
