@@ -9,7 +9,7 @@
   margin-right:20rpx;
   margin-top:20rpx;
   border-radius: 20rpx;
-  box-shadow: rgb(211, 206, 206) 5rpx 5rpx 10rpx 3rpx ;
+  box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx ;
   padding-left:20rpx;
   padding-bottom: 20rpx;
   padding-top:10rpx;

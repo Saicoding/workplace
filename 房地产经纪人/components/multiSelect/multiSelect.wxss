@@ -2,7 +2,6 @@
     background: #ffffff;
   width:94%;
   margin: 0 auto;
-  box-shadow: rgb(211, 206, 206) 5rpx 5rpx 10rpx 3rpx ;
   border-radius: 10rpx;
 }
 
