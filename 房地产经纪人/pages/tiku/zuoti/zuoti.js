@@ -86,6 +86,7 @@ Page({
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
 
+    //判断滑动方向
     if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)){//左滑
       direction = "左滑";
     } else {
@@ -125,6 +126,7 @@ Page({
       return;
     }
 
+    //每次滑动结束后初始化前一题和后一题
     if(direction == "左滑"){
       if(px < shitiArray.length){//如果还有下一题
         let nextShiti = shitiArray[px];
@@ -143,21 +145,29 @@ Page({
 
     common.storeLastShiti(px, self); //存储最后一题的状态
 
-    console.log(current +"||"+lastSliderIndex)
-    let sliderShitiArray = [];
-    if (px != 1 || px != shitiArray.length) {
-      sliderShitiArray = shitiArray.slice(px - 2, px+1)
-    } else if (px == 1) {
-      sliderShitiArray = shitiArray.slice(px-1, px+1)
-    } else {
-      sliderShitiArray = shitiArray.slice(px - 2, px)
-    }
-    console.log(sliderShitiArray)
-    let temp = sliderShitiArray[2];
-    sliderShitiArray[2] = sliderShitiArray[1];
-    sliderShitiArray[1] = sliderShitiArray[0];
-    sliderShitiArray[0] = temp;
 
+    //滑动结束后,更新滑动试题数组
+    let sliderShitiArray=[];
+    let preShiti = shitiArray[px-2];//前一题
+    let midShiti = shitiArray[px-1];//中间题
+    let nextShiti = shitiArray[px];//后一题
+
+    if(current == 1){
+      sliderShitiArray[2] = nextShiti;
+      sliderShitiArray[1] = midShiti;
+      sliderShitiArray[0] = preShiti;
+    }else if(current == 2){
+      sliderShitiArray[0] = nextShiti;
+      sliderShitiArray[2] = midShiti;
+      sliderShitiArray[1] = preShiti;
+    }else{
+      sliderShitiArray[1] = nextShiti;
+      sliderShitiArray[0] = midShiti;
+      sliderShitiArray[2] = preShiti;
+    }
+    
+    
+   
 
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
