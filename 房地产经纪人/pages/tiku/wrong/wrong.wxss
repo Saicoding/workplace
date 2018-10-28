@@ -1,9 +1,5 @@
-/* pages/tiku/wrong/wrong.wxss */
+/* pages/tiku/zuoti/index.wxss */
 
-page {
-  margin: 0px;
-  padding: 0px;
-}
 
 /******************** 提问 **********************/
 
@@ -39,12 +35,27 @@ page {
   background-color: #666;
 }
 
+.swiper{
+  width: 100%;
+  height:100%;
+}
+
+.swiper-xiaoti{
+  width: 100%;
+  height:500rpx;
+}
+
 
 /******************** 提交答案 **********************/
 
 .submit_answer {
   width: 50%;
   margin-top:50rpx;
+  height:80rpx;
+  border-radius: 60rpx;
+  background: #388ff8;
+  color:white;
+  line-height: 80rpx;
 }
 
 .bottom {
@@ -80,5 +91,6 @@ page {
   border-radius: 60rpx;
   background: #388ff8;
   color:white;
+  margin-top:40rpx;
   line-height: 80rpx;
 }

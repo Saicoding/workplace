@@ -1,14 +1,14 @@
 <!--pages/tiku/zuoti/index.wxml-->
 <!--蒙版（渐出淡去效果）-->
-<view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};' ></view>
-<swiper  class = "swiper" current = "{{px-1}}" bindchange="sliderChange">
-  <block wx:for="{{shitiArray}}" wx:for-item = "shiti" wx:key = "ti">
+<!-- <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};' ></view> -->
+<swiper circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
+  <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
-      
-      <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;'  catchlongtap='_toogleMarkAnswer'>
-      <!-- bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" -->
+
+      <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;' catchlongtap='_toogleMarkAnswer'>
+        <!-- bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" -->
         <!--问题-->
-        <question tx="{{shiti.tx}}" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
+        <question  id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
         <!--单选题-->
         <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
@@ -32,39 +32,38 @@
           <view wx:if="{{!cl_question_hidden&&!shiti.isAnswer}}" class="cailiaoZuoti">
             <button class="cailiaoZuoti-btn" bindtap='CLZuoti'>答题</button>
           </view>
-
+          <!-- 材料题小题的滑动框 -->
           <view hidden="{{!cl_question_hidden&&!shiti.isAnswer}}">
-            <view wx:for="{{shiti.xiaoti}}" wx:key="item">
+            <swiper indicator-dots vertical="true"  skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-280}}rpx" bindchange="xiaotiSliderChange" indicator-active-color="#1d9bf7">
+              <block wx:for="{{shiti.xiaoti}}" wx:for-item="xiaoti" wx:key="ti">
+                <swiper-item>
+                  <!--问题-->
+                  <question class="question" num_color="{{xiaoti.num_color}}" px="{{index+1}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
 
-              <!--问题-->
-              <question class="question" num_color="{{item.num_color}}" px="{{index+1}}" tx="{{item.tx}}" question="{{item.question}}"></question>
+                  <!--单选题-->
+                  <view wx:if="{{xiaoti.TX == 1}}">
+                    <singleSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+                  </view>
+                  <!--多选题-->
+                  <view wx:if="{{xiaoti.TX ==2}}">
 
-              <!--单选题-->
-              <view wx:if="{{item.TX == 1}}">
-                <singleSelect data-px="{{index+1}}" shiti="{{item}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
-                <!-- 解析 -->
-                <!-- <jiexi isAnswer="{{item.isAnswer}}" jiexi="{{item.jiexi}}"></jiexi> -->
-              </view>
+                    <multiSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
 
-              <!--多选题-->
-              <view wx:if="{{item.TX ==2}}">
+                    <button data-px="{{index+1}}" class='submit_answer' wx:if="{{!xiaoti.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
 
-                <multiSelect data-px="{{index+1}}" shiti="{{item}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
-
-                <button data-px="{{index+1}}" class='submit_answer' wx:if="{{!item.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
-                <!-- 解析 -->
-                <!-- <jiexi isAnswer="{{item.isAnswer}}" jiexi="{{item.jiexi}}"></jiexi> -->
-              </view>
-            </view>
+                  </view>
+                </swiper-item>
+              </block>
+            </swiper>
           </view>
         </view>
       </scroll-view>
     </swiper-item>
   </block>
 </swiper>
-      <!-- 底部正确错误个数统计条 -->
-      <count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{shiti.favorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer">
-      </count>
+<!-- 底部正确错误个数统计条 -->
+<count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{shiti.favorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer">
+</count>
 <!-- 答题板 -->
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>

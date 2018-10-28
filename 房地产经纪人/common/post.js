@@ -66,10 +66,6 @@ function zuotiOnload(options, px, res, username, acode,self){
   if (preShiti != undefined) sliderShitiArray[2] = preShiti;
 
   self.setData({
-    //设置过场动画
-    winH: wx.getSystemInfoSync().windowHeight,
-    opacity: 1,
-
     z_id: options.z_id, //点击组件的id编号
     zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
     zhangIdx: options.zhangIdx, //章的id号
@@ -92,29 +88,50 @@ function wrongAndMarkOnload(options, px, res, username, acode, self){
 
   let shitiArray = res.data.shiti;
 
-  let shiti = shitiArray[0];
+  common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
-  // common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
+  common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-  common.initShiti(shiti, self); //初始化试题对象
+  //得到swiper数组
+  let preShiti = undefined;//前一题
+  let nextShiti = undefined;//后一题
+  let midShiti = shitiArray[px - 1];//中间题
+  let sliderShitiArray = [];
 
-  self.markAnswer.setData({//答题板初始化
-    markAnswerItems: self.data.markAnswerItems
-  })
+  common.initShiti(midShiti, self); //初始化试题对象
+  if (px != 1 && px != shitiArray.length) {//如果不是第一题也是不是最后一题
+    preShiti = shitiArray[px - 2];
+    common.initShiti(preShiti, self); //初始化试题对象
+    nextShiti = shitiArray[px];
+    common.initShiti(nextShiti, self); //初始化试题对象
+  } else if (px == 1) {//如果是第一题
+    nextShiti = shitiArray[px];
+    common.initShiti(nextShiti, self); //初始化试题对象
+  } else {
+    preShiti = shitiArray[px - 2];
+    common.initShiti(preShiti, self); //初始化试题对象
+  }
+
+  if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+  sliderShitiArray[0] = midShiti;
+  if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+
 
   self.setData({
     //设置过场动画
     winH: wx.getSystemInfoSync().windowHeight,
     opacity: 1,
 
-    shitiArray: res.data.shiti,
-    kid: options.kid, //点击组件的id编号
-    nums: res.data.shiti.length, //题数
-    shiti: shiti, //试题对象
+    px: px,
+    nums: shitiArray.length, //题数
+    shitiArray: shitiArray, //整节的试题数组
+    sliderShitiArray: sliderShitiArray,//滑动数组
+    lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: false, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
     acode: acode //用户唯一码
   });
+  
   wx.hideLoading();
 }
 

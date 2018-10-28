@@ -1,4 +1,6 @@
-/* pages/tiku/modelReal/modelRealDetail/modelRealDetail.wxss */
+/* pages/tiku/zuoti/index.wxss */
+
+
 /******************** 提问 **********************/
 
 .question {
@@ -33,11 +35,28 @@
   background-color: #666;
 }
 
+.swiper{
+  width: 100%;
+  height:100%;
+}
+
+.swiper-xiaoti{
+  width: 100%;
+  height:500rpx;
+}
+
 
 /******************** 提交答案 **********************/
 
 .submit_answer {
   width: 50%;
+  margin-top:50rpx;
+  height:80rpx;
+  border-radius: 60rpx;
+  background: #388ff8;
+  color:white;
+  line-height: 80rpx;
+  border:none; 
 }
 
 .bottom {

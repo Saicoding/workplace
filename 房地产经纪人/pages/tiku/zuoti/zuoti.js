@@ -16,6 +16,7 @@ Page({
     id: 0, //书的编号,默认为0
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
+
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
     cl_question_hidden: false, //材料题是否隐藏题目
     checked: false, //选项框是否被选择
@@ -33,7 +34,9 @@ Page({
     wx.setNavigationBarTitle({
       title: options.title
     }) //设置标题
+
     let self = this;
+
     let user = wx.getStorageSync('user');
     let username = user.username;
     let acode = user.acode;
@@ -194,6 +197,7 @@ Page({
     let px = self.data.px;
     let done_daan = "";
     let shitiArray = self.data.shitiArray;
+    
     let sliderShitiArray = self.data.sliderShitiArray;
     let current = self.data.lastSliderIndex//当前滑动编号
     let currentShiti = sliderShitiArray[current];
@@ -430,6 +434,7 @@ Page({
       common.processDoneAnswer(preShiti.done_daan, preShiti, self);
       nextShiti = shitiArray[px];
       common.initShiti(nextShiti, self); //初始化试题对象
+      common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
     } else if (px == 1) {//如果是第一题
       nextShiti = shitiArray[px];
       common.initShiti(nextShiti, self); //初始化试题对象

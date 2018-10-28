@@ -72,7 +72,9 @@ Page({
     let doneAnswerArray = prevPage.data.doneAnswerArray;
     let nums = prevPage.data.nums;
     let isModelReal = prevPage.data.isModelReal;
-    let shiti = prevPage.data.shiti;
+    let px = prevPage.data.px;
+    let shitiArray = prevPage.data.shitiArray;
+    let shiti = shitiArray[px-1];
 
     clearInterval(prevPage.data.interval);
     
@@ -83,8 +85,6 @@ Page({
     }
 
     common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态 
-
-    console.log(prevPage.markAnswer.data.markAnswerItems)
 
     prevPage.setData({
       isSubmit:true,

@@ -125,7 +125,6 @@ function initModelRealMarkAnswer(newShitiArray, self) {
     }
   }
 
-  console.log(markAnswerItems)
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems
   })
@@ -221,7 +220,7 @@ function changeShitiChecked(done_daan, shiti) {
  */
 function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self) {
   let markAnswerItems = self.data.markAnswerItems; //得到答题板组件的已答
-  console.log(jie_answer_array)
+
   for (let i = 0; i < jie_answer_array.length; i++) {
     let px = jie_answer_array[i].px;
     let select = jie_answer_array[i].select;
@@ -230,15 +229,15 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
     if (select != "材料题") {
       if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
         if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-          style = "background:#0197f6;color:white;"
+          style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
         } else { //如果是空
-          style = "";
+          style = "border:1px solid #9c9c9c;width:50rpx; height: 50rpx;border-radius: 50rpx;line-height:50rpx;";
         }
 
       } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
-        style = "background:#90dd35;color:white;"
+        style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
       } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
-        style = "background:#fa4b5c;color:white;"
+        style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
       }
 
       markAnswerItems[px - 1] = {
@@ -253,15 +252,15 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
         let tiPx = daan.px;
         if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
           if (daan.done_daan != "") { //如果答案不为空
-            style = "background:#0197f6;color:white;"
+            style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
           } else { //如果是空
-            style = "";
+            style = "border:1px solid #9c9c9c;width:50rpx; height: 50rpx;border-radius: 50rpx;line-height:50rpx;";
           }
 
         } else if (daan.isRight == 0) { //如果题是正确的
-          style = "background:#90dd35;color:white;"
+          style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
         } else if (daan.isRight == 1) { //如果题是错误的
-          style = "background:#fa4b5c;color:white;"
+          style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
         }
 
         markAnswerItems[daan.px - 1] = {
@@ -289,15 +288,15 @@ function setMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self)
     let style = "";
     if (isModelReal && isSubmit == false) { //如果是真题或者押题
       if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-        style = "background:#0197f6;color:white;"
+        style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
       } else { //如果是空
-        style = "";
+        style = "border:1px solid #9c9c9c;width:50rpx; height: 50rpx;border-radius: 50rpx;line-height:50rpx;";
       }
 
     } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
-      style = "background:#90dd35;color:white;"
+      style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
     } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
-      style = "background:#fa4b5c;color:white;"
+      style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
     }
 
     markAnswerItems[px - 1] = {
@@ -320,11 +319,11 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   let px = shiti.px;
   let style = "";
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
-    style = "background:#0197f6;color:white;"
+    style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 0) { //如果题是正确的
-    style = "background:#90dd35;color:white;"
+    style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 1) { //如果题是错误的
-    style = "background:#fa4b5c;color:white;"
+    style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   }
 
   markAnswerItems[px - 1] = {
@@ -347,11 +346,11 @@ function setCLMarkAnswer(shiti,isSubmit,shitiPx,self){
   let style = "";
 
   if (isSubmit == false) { //如果是真题或者押题
-    style = "background:#0197f6;color:white;"
+    style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 0) { //如果题是正确的
-    style = "background:#90dd35;color:white;"
+    style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 1) { //如果题是错误的
-    style = "background:#fa4b5c;color:white;"
+    style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   }
 
   markAnswerItems[px - 1] = {
@@ -496,15 +495,16 @@ function changeSelectStatus(done_daan, shiti, self) {
 
   switch (shiti.tx) {
     case "单选题":
-      srcs[shiti.answer] = "/imgs/right_answer.png";
+      srcs[shiti.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
       //先判断是否正确
       if (done_daan != shiti.answer) {
         srcs[done_daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
         flag = 1;
       } else {
+        srcs[done_daan] = "/imgs/right1_answer.png";
         flag = 0;
       }
-      srcs[shiti.answer] = "/imgs/right_answer.png" //将正确答案的图标变为正确图标
+     
       shiti.done_daan = done_daan; //已经做的选择
       shiti.isAnswer = true;
       break;
@@ -871,15 +871,27 @@ function initShitiArrayDoneAnswer(shitiArray) {
  */
 
 function restartModelReal(self) {
-  let shiti = self.data.shitiArray[0];
   let shitiArray = self.data.shitiArray;
 
   initShitiArrayDoneAnswer(shitiArray); //将所有问题已答置空
 
-  initShiti(shiti, 1, self); //初始化试题对象
+  //得到swiper数组
+  let midShiti = shitiArray[0];//中间题
+  let nextShiti = shitiArray[1];//后一题
+  initShiti(midShiti, self); //初始化试题对象
+  initShiti(nextShiti, self); //初始化试题对象
+
+  let sliderShitiArray = [];
+
+  sliderShitiArray[0] = midShiti;
+  sliderShitiArray[1] = nextShiti;
+
 
   self.setData({ //先把答题板数组置空
-    markAnswerItems: []
+    myCurrent:0,
+    markAnswerItems: [],
+    sliderShitiArray: sliderShitiArray,
+    px:1
   })
 
   clearInterval(self.data.interval); //停止计时

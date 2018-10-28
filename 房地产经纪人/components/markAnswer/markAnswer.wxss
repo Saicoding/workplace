@@ -23,7 +23,7 @@
   float:left;
   width:50rpx;
   height:50rpx;
-  border:1px solid #9c9c9c;
+  border:1rpx solid #9c9c9c;
   border-radius: 50rpx;
   margin-left:20rpx;
   margin-top:20rpx;
