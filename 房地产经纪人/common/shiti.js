@@ -501,7 +501,7 @@ function changeSelectStatus(done_daan, shiti, self) {
         srcs[done_daan] = "/imgs/wrong_answer.png" //如果答错就把当前图标变为错误图标
         flag = 1;
       } else {
-        srcs[done_daan] = "/imgs/right1_answer.png";
+        srcs[done_daan] = "/imgs/right_answer1.png";
         flag = 0;
       }
      
@@ -774,6 +774,7 @@ function ifDoneAll(shitiArray, doneAnswerArray) {
   if (shitiArray.length == doneAnswerArray.length) { //所有题都答完了
     wx.showToast({
       title: '所有题已经作答',
+      duration: 4000
     })
   }
 }

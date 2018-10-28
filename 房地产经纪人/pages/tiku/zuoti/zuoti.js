@@ -107,15 +107,7 @@ Page({
       px--;
     }
 
-    // 滑动  
-    if (px == 0) {
-      wx.showToast({
-        title: '这是第一题',
-        icon: 'none',
-        duration: 4000,
-      })
-      return;
-    }
+
     if (px > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
       if (doneAnswerArray.length == shitiArray.length) {
         wx.navigateTo({
