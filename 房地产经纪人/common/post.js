@@ -3,13 +3,29 @@ let common = require('shiti.js');
 function zuotiOnload(options, px, res, username, acode,self){
   let shitiArray = res.data.shiti;
 
-  let shiti = shitiArray[px-1];
-
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
-  common.initShiti(shiti, self); //初始化试题对象
-
   common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+
+  //得到swiper数组
+  let preShiti = undefined;//前一题
+  let nextShiti = undefined;//后一题
+  let midShiti = shitiArray[px - 1];//中间题
+  let sliderShitiArray = [];
+
+  common.initShiti(midShiti, self); //初始化试题对象
+  if(px != 1 && px !=shitiArray.length){//如果不是第一题也是不是最后一题
+    preShiti = shitiArray[px-2];
+    common.initShiti(preShiti, self); //初始化试题对象
+    nextShiti = shitiArray[px];
+    common.initShiti(nextShiti, self); //初始化试题对象
+  }else if(px == 1){//如果是第一题
+    nextShiti = shitiArray[px];
+    common.initShiti(nextShiti, self); //初始化试题对象
+  }else{
+    preShiti = shitiArray[px-2];
+    common.initShiti(preShiti, self); //初始化试题对象
+  }
 
 
   //对是否是已答试题做处理
@@ -26,8 +42,10 @@ function zuotiOnload(options, px, res, username, acode,self){
         shitiArray[doneAnswer.px - 1].done_daan = doneAnswer.done_daan;//设置已答试题的答案
       }
       
-      //先处理是否是已经回答的题 
-      common.processDoneAnswer(shiti.done_daan, shiti, self);
+      //先处理是否是已经回答的题,渲染3个
+      if (preShiti != undefined) common.processDoneAnswer(preShiti.done_daan, preShiti, self);
+      common.processDoneAnswer(midShiti.done_daan, midShiti, self);
+      if (nextShiti != undefined) common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
      
       //根据已答试题库得到正确题数和错误题数
       let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
@@ -43,14 +61,9 @@ function zuotiOnload(options, px, res, username, acode,self){
     },
   })
 
-  let sliderShitiArray = [];
-  if(px != 1 && px != shitiArray.length){
-    sliderShitiArray =  shitiArray.slice(px - 2, 3)
-  }else if(px == 1){
-    sliderShitiArray = shitiArray.slice(0, 2)
-  }else{
-    sliderShitiArray = shitiArray.slice(px-2, 2)
-  }
+  if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+  sliderShitiArray[0] = midShiti;
+  if (preShiti != undefined) sliderShitiArray[2] = preShiti;
 
   self.setData({
     //设置过场动画

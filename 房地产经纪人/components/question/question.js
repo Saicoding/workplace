@@ -24,7 +24,7 @@ Component({
         let style2 ="";
         let style3 = "";
         if(tx == "材料题"){
-          style1 ="display:block;height:400rpx;margin-bottom:60rpx;"//占位框
+          style1 ="display:block;height:400rpx;margin-bottom:30rpx;"//占位框
           style3="position:fixed;z-index:10000";
           style2 = "positon:fixed;height:400rpx;left:20rpx;";//问题框
         }else{
@@ -71,7 +71,7 @@ Component({
         transformOrigin:"50%,50%"
       })
 
-      qAnimation.height("400rpx", "100rpx").step({
+      qAnimation.height("400rpx", "90rpx").step({
         duration: 1000,
       })
 
@@ -90,7 +90,7 @@ Component({
         transformOrigin: "50%,50%"
       })
 
-      qAnimation.height("100rpx", "400rpx").step({
+      qAnimation.height("90rpx", "400rpx").step({
       })
 
       this.setData({
