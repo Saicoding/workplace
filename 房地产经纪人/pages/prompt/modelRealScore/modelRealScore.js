@@ -10,27 +10,6 @@ Page({
 
   },
 
-  onShareAppMessage:function(res) {
-    if (res.from === 'button') {
-      console.log("来自页面内转发按钮");
-      console.log(res.target);
-    }
-    else {
-      console.log("来自右上角转发菜单")
-    }
-    return {
-      title: '房地产',
-      path: '/pages/index/index?id=123',
-      imageUrl: "/images/1.jpg",
-      success: (res) => {
-        console.log("转发成功", res);
-      },
-      fail: (res) => {
-        console.log("转发失败", res);
-      }
-    }
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
@@ -75,6 +54,30 @@ Page({
       ifGood:ifGood,
       jibai:jibai
     })
+  },
+
+  onShareAppMessage: function (res1) {
+    console.log(res1)
+    if(res1.from === 'button'){
+      console.log("来自页面内转发按钮");
+    } else {
+      console.log("来自右上角转发菜单")
+    }
+
+    return {
+      title: '房地产经纪考试通',
+      path: '/pages/index/index', //这里设定都是以"/page"开头,并拼接好传递的参数
+      imageUrl:'/imgs/login1.png',
+      success: (res)=> {
+        // 转发成功
+        console.log(res);
+        console.log("转发成功:" + JSON.stringify(res));
+      },
+      fail:(res)=>{
+        // 转发失败
+        console.log("转发失败:" + JSON.stringify(res));
+      }
+    }
   },
 
   restart:function(){
@@ -127,10 +130,4 @@ Page({
   
   },
 
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })
