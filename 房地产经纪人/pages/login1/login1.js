@@ -14,7 +14,7 @@ Page({
    */
   userPwdLogin: function() {
     wx.navigateTo({
-      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1,
+      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1+'&ifGoBack='+this.data.ifGoBack,
     })
   },
 
@@ -31,6 +31,7 @@ Page({
     let sex = e.detail.userInfo.gender == 1 ? "男" : "女"; //性别
     let wxid = ""; //openId
     let session_key = ""; //
+    let ifGoBack = self.data.ifGoBack//是否返回上一级菜单
 
     // 登录
     wx.login({
@@ -50,9 +51,13 @@ Page({
             data: user.login_random,
           })
           // wx.hideLoading();
-          wx.redirectTo({
-            url: self.data.url,
-          })
+          if(ifGoBack == 'true'){
+            wx.navigateBack({})
+          }else{
+            wx.redirectTo({
+              url: self.data.url,
+            })
+          }
         })
       }
     })
@@ -64,7 +69,8 @@ Page({
   onLoad: function(options) {
     this.setData({
       url:decodeURIComponent(options.url),
-      url1:options.url
+      url1:options.url,
+      ifGoBack:options.ifGoBack
     })
   },
 

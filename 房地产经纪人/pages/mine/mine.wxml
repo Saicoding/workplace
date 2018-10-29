@@ -1,8 +1,11 @@
-<view class = "container">
-  <view class = "container-img">
-    <image src = "/imgs/jieAnswerAll.jpg" mode='aspectFit'></image>
+<view class="mycontainer">
+  <view class="up">
+    <view class="pic-container">
+      <image class="pic" src="{{user.Pic}}" mode="aspectFit"></image>
+    </view>
+    <view class="nickname">{{user.Nickname}}</view>
   </view>
-  <view class = "text">
-    {{str}}
+  <view class='radarContainer'>
+    <canvas class='radarCanvas' canvas-id='radarCanvas'></canvas>
   </view>
 </view>

@@ -20,7 +20,8 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      url: decodeURIComponent(options.url)
+      url: decodeURIComponent(options.url),
+      ifGoBack:options.ifGoBack
     })
   },
 
@@ -122,6 +123,7 @@ Page({
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
+    let ifGoBack = self.data.ifGoBack;
 
     if(code == identifyCode){//如果相等
       //开始登录
@@ -138,9 +140,15 @@ Page({
           data: user.login_random,
         })
         // wx.hideLoading();
-        wx.redirectTo({
-          url: self.data.url,
-        })
+        if(ifGoBack == "true"){
+          wx.navigateBack({
+            delta:2
+          })
+        }else{
+          wx.redirectTo({
+            url: self.data.url,
+          })
+        }
       })
     }else{
       wx.showToast({
