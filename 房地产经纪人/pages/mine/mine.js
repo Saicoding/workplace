@@ -103,7 +103,7 @@ Page({
     this.drawEdge()
     this.drawLinePoint()
     //设置数据
-    this.drawRegion(sourceData, 'rgba(30, 144, 255, 0.3)') //第一个人的
+    this.drawRegion(sourceData, 'rgba(255, 0, 0, 0.4)') //第一个人的
     //设置文本数据
     this.drawTextCans(sourceData)
     //设置节点
@@ -114,7 +114,7 @@ Page({
   // 绘制5条边
   drawEdge: function () {
     radCtx.setStrokeStyle("#d6d6d6")
-    radCtx.setLineWidth(2)  //设置线宽
+    radCtx.setLineWidth(1)  //设置线宽
     for (let i = 0; i < numSlot; i++) {
       //计算半径
       radCtx.beginPath()
