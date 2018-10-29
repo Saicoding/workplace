@@ -47,7 +47,7 @@
       <button class = "view-wrong" bindtap = "viewWrong">查看错题</button>
       <button class = "restart" bindtap = "restart">重新测评</button>
     </view>
-    <button open-type='share' class = "share">
+    <button open-type='share' class = "share" data-name="pageShare" id="share" >
       分享成绩
     </button>
   </view>

@@ -200,8 +200,10 @@ Page({
     })
   },
   ifIsLast:function(e){
-    console.log(this.data.px)
-    console.log(e)
+    let px = this.data.px;
+    let nums = this.data.nums;
+
+    
   },
 
   /**

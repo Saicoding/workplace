@@ -10,6 +10,27 @@ Page({
 
   },
 
+  onShareAppMessage:function(res) {
+    if (res.from === 'button') {
+      console.log("来自页面内转发按钮");
+      console.log(res.target);
+    }
+    else {
+      console.log("来自右上角转发菜单")
+    }
+    return {
+      title: '房地产',
+      path: '/pages/index/index?id=123',
+      imageUrl: "/images/1.jpg",
+      success: (res) => {
+        console.log("转发成功", res);
+      },
+      fail: (res) => {
+        console.log("转发失败", res);
+      }
+    }
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
