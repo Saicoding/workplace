@@ -2,6 +2,7 @@
 // pages/tiku/zuoti/index.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../../common/shiti.js');
+let time1 = require('../../../../common/time.js');
 
 const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
@@ -245,7 +246,7 @@ Page({
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
     let source = e.detail.source;
-    if (source != "touch") return;
+    if( source != "touch") return;
     let px = self.data.px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
@@ -297,38 +298,36 @@ Page({
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray = [];
 
-
-    if (current == 1) {
-      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
-      sliderShitiArray[1] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[0] = preShiti;
-    } else if (current == 2) {
-      if (px != 1 && px != shitiArray.length) {
+    if (px != 1 && px != shitiArray.length) {
+      if (current == 1) {
+        if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
+        sliderShitiArray[1] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[0] = preShiti;
+      } else if (current == 2) {
         if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
         sliderShitiArray[2] = midShiti;
         if (preShiti != undefined) sliderShitiArray[1] = preShiti;
-      } else if(px == 1) {
-        sliderShitiArray[0] = midShiti;
-        sliderShitiArray[1] = nextShiti;
-        current = 0;
-        self.setData({
-          myCurrent: 0
-        })
-      }else if(px == shitiArray.length){
-        sliderShitiArray[0] = preShiti;
-        sliderShitiArray[1] = midShiti;
-        current = 1;
-        self.setData({
-          myCurrent: 1
-        })
-      }
-    } else {
-      if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
-      sliderShitiArray[0] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[2] = preShiti;
-    }
 
-    console.log(sliderShitiArray)
+      } else {
+        if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+        sliderShitiArray[0] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      }
+    }else if(px==1){
+      sliderShitiArray[0] = midShiti;
+      sliderShitiArray[1] = nextShiti;
+      current = 0;
+      self.setData({
+        myCurrent: 0
+      })
+    } else if (px == shitiArray.length) {
+      sliderShitiArray[0] = preShiti;
+      sliderShitiArray[1] = midShiti;
+      current = 1;
+      self.setData({
+        myCurrent: 1
+      })
+    }
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
@@ -552,6 +551,7 @@ Page({
     let shiti = "";
     let xiaotiCurrent = 0;
     let shitiNum = px;
+    let circular = self.data.circular;
 
     let current = self.data.lastSliderIndex; //当前swiper的index
 
@@ -568,10 +568,6 @@ Page({
       px = cl;
     }
 
-
-
-    console.log(xiaotiCurrent)
-
     let sliderShitiArray = [];
 
     common.initShiti(midShiti, self); //初始化试题对象
@@ -584,7 +580,6 @@ Page({
       nextShiti = shitiArray[px];
       common.initShiti(nextShiti, self); //初始化试题对象
       common.processModelRealDoneAnswer(nextShiti.done_daan, nextShiti, self);
-      console.log('haha')
     } else if (px == 1) { //如果是第一题
       nextShiti = shitiArray[px];
       common.initShiti(nextShiti, self); //初始化试题对象
@@ -599,25 +594,46 @@ Page({
 
     //点击结束后,更新滑动试题数组
 
-    if (current == 1) {
-      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
-      sliderShitiArray[1] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[0] = preShiti;
-    } else if (current == 2) {
-      if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
-      sliderShitiArray[2] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[1] = preShiti;
-    } else {
-      if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+    if (px != 1 && px != shitiArray.length) {
+      if (current == 1) {
+        if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
+        sliderShitiArray[1] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[0] = preShiti;
+      } else if (current == 2) {
+        if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
+        sliderShitiArray[2] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+
+      } else {
+        if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+        sliderShitiArray[0] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      }
+    } else if (px == 1) {
       sliderShitiArray[0] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      sliderShitiArray[1] = nextShiti;
+      current = 0;
+      self.setData({
+        myCurrent: 0
+      })
+    } else if (px == shitiArray.length) {
+      sliderShitiArray[0] = preShiti;
+      sliderShitiArray[1] = midShiti;
+      current = 1;
+      self.setData({
+        myCurrent: 1
+      })
     }
+
+    circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
     self.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
       px: px,
       shitiNum: shitiNum,
+      circular: circular,
+      lastSliderIndex: current,
       xiaotiCurrent: xiaotiCurrent,
       checked: false
     })
@@ -645,6 +661,7 @@ Page({
     let acode = self.data.acode;
     let sjid = self.data.id;
     let doneUserAnswer = common.getDoneAnswers(shitiArray);
+
 
     //得到花费的时间
     gone_time = times * 60 - (time.h * 3600 + time.m * 60 + time.s);
@@ -679,6 +696,8 @@ Page({
           break;
       }
     }
+
+    clearInterval(self.data.interval); //停止计时
 
     undone = allNums - rightNums - wrongNums; //计算出未做题数
 
@@ -716,9 +735,23 @@ Page({
       }
 
       //设置已经提交
+      self.setData({
+        isSubmit: true,
+        text: "重新评测",
+      })
       wx.setStorage({
         key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id,
         data: true,
+      })
+
+      //设置用时
+      wx.setStorage({
+        key: self.data.tiTypeStr + "last_gone_time" + self.data.id,
+        data: "用时" + time1.getGoneTimeStr(gone_time)
+      })
+      //设置答题板的显示文字
+      self.modelCount.setData({ //设置时间显示为花费时间
+        timeStr: "用时" + time1.getGoneTimeStr(gone_time)
       })
 
       let jibai = res.data.jibai;

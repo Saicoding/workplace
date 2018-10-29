@@ -109,25 +109,6 @@ Page({
       px--;
     }
 
-
-    if (px > shitiArray.length) { //最后一题时如果都答题完毕，就导航到答题完毕窗口，否则打开答题板
-      if (doneAnswerArray.length == shitiArray.length) {
-        wx.navigateTo({
-          url: '/pages/prompt/jieAnswerAll/jieAnswerAll?title=' + self.data.title,
-        })
-      } else {
-        wx.showToast({
-          title: '这是最后一题',
-          icon: 'none',
-          duration: 4000,
-          success: function() {
-            self.showMarkAnswer();
-          }
-        })
-      }
-      return;
-    }
-
     let preShiti = undefined;//前一题
     let nextShiti = undefined;//后一题
     let midShiti = shitiArray[px - 1];//中间题
@@ -156,36 +137,36 @@ Page({
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray=[];
-    if (current == 1) {
-      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
-      sliderShitiArray[1] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[0] = preShiti;
-    } else if (current == 2) {
-      if (px != 1 && px != shitiArray.length) {
+
+    if (px != 1 && px != shitiArray.length) {
+      if (current == 1) {
+        if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
+        sliderShitiArray[1] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[0] = preShiti;
+      } else if (current == 2) {
         if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
         sliderShitiArray[2] = midShiti;
         if (preShiti != undefined) sliderShitiArray[1] = preShiti;
-      } else if (px == 1) {
+
+      } else {
+        if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
         sliderShitiArray[0] = midShiti;
-        sliderShitiArray[1] = nextShiti;
-        current = 0;
-        self.setData({
-          myCurrent: 0
-        })
-      } else if (px == shitiArray.length) {
-        console.log('最后一题')
-        sliderShitiArray[0] = preShiti;
-        sliderShitiArray[1] = midShiti;
-        console.log(current)
-        current = 1;
-        self.setData({
-          myCurrent: 1
-        })
+        if (preShiti != undefined) sliderShitiArray[2] = preShiti;
       }
-    } else {
-      if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+    } else if (px == 1) {
       sliderShitiArray[0] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      sliderShitiArray[1] = nextShiti;
+      current = 0;
+      self.setData({
+        myCurrent: 0
+      })
+    } else if (px == shitiArray.length) {
+      sliderShitiArray[0] = preShiti;
+      sliderShitiArray[1] = midShiti;
+      current = 1;
+      self.setData({
+        myCurrent: 1
+      })
     }
     
     circular = px == 1 || px == shitiArray.length ? false : true//如果滑动后编号是1,或者最后一个就禁止循环滑动
@@ -199,11 +180,10 @@ Page({
       checked: false
     })
   },
+
   ifIsLast:function(e){
     let px = this.data.px;
     let nums = this.data.nums;
-
-    
   },
 
   /**
@@ -436,15 +416,21 @@ Page({
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
     let current = self.data.lastSliderIndex;//当前swiper的index
+    let circular = self.data.circular;
 
     //得到swiper数组
     let preShiti = undefined;//前一题
     let nextShiti = undefined;//后一题
     let midShiti = shitiArray[px - 1];//中间题
+
     let sliderShitiArray = [];
+
+    console.log(px)
+    console.log(midShiti )
 
     common.initShiti(midShiti, self); //初始化试题对象
     common.processDoneAnswer(midShiti.done_daan, midShiti, self);
+    
     if (px != 1 && px != shitiArray.length) {//如果不是第一题也是不是最后一题
       preShiti = shitiArray[px - 2];
       common.initShiti(preShiti, self); //初始化试题对象
@@ -465,25 +451,46 @@ Page({
     common.storeLastShiti(px, self); //存储最后一题的状态
 
     //点击结束后,更新滑动试题数组
+    if (px != 1 && px != shitiArray.length) {
+      if (current == 1) {
+        if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
+        sliderShitiArray[1] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[0] = preShiti;
+      } else if (current == 2) {
+        if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
+        sliderShitiArray[2] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[1] = preShiti;
 
-    if (current == 1) {
-      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
-      sliderShitiArray[1] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[0] = preShiti;
-    } else if (current == 2) {
-      if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
-      sliderShitiArray[2] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[1] = preShiti;
-    } else {
-      if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+      } else {
+        if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+        sliderShitiArray[0] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      }
+    } else if (px == 1) {
       sliderShitiArray[0] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      sliderShitiArray[1] = nextShiti;
+      current = 0;
+      self.setData({
+        myCurrent: 0
+      })
+    } else if (px == shitiArray.length) {
+      sliderShitiArray[0] = preShiti;
+      sliderShitiArray[1] = midShiti;
+      current = 1;
+      self.setData({
+        myCurrent: 1
+      })
     }
+    console.log(sliderShitiArray)
+
+    circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
     self.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
       px:px,
+      circular: circular,
+      lastSliderIndex: current,
       checked: false
     })
     self._hideMarkAnswer();

@@ -1,5 +1,6 @@
 // pages/prompt/modelRealScore/modelRealScore.js
 let common = require('../../../common/shiti.js');
+let time = require('../../../common/time.js');
 
 Page({
 
@@ -29,16 +30,7 @@ Page({
     let ifGood = score >= totalscore * 60 / 100 ? '合格':'不合格';
     let jibai = options.jibai;//击败用户
 
-    //得到花费时间的字符串
-    let h = parseInt(gone_time / 3600);
-    let m = parseInt((gone_time - h * 3600) / 60);
-    let s = gone_time % 60;
-
-    let hStr = h == 0?"":h+"小时";
-    let mStr = (m == 0 && h ==0)?"":m+"分钟";
-    let sStr = s+"秒";
-
-    let timeStr = hStr + mStr + sStr;//时间字符串
+    let timeStr = time.getGoneTimeStr(gone_time);//时间字符串
 
 
     self.setData({
@@ -102,7 +94,6 @@ Page({
     let shitiArray = prevPage.data.shitiArray;
     let shiti = shitiArray[px-1];
 
-    clearInterval(prevPage.data.interval);
     
     if (shiti.done_daan == ""){//如果没作答，就显示正确答案
       common.changeModelRealSelectStatus(shiti.answer, shiti, prevPage)//改变试题的图片状态(有错误提示)
@@ -111,22 +102,6 @@ Page({
     }
 
     common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态 
-
-    prevPage.setData({
-      isSubmit:true,
-      text:"重新评测",
-      shiti:shiti
-    })
-
-    //设置用时
-    wx.setStorage({
-      key: prevPage.data.tiTypeStr + "last_gone_time" + self.data.id,
-      data: "用时" + self.data.timeStr,
-    })
-
-    prevPage.modelCount.setData({//设置时间显示为花费时间
-      timeStr:"用时"+self.data.timeStr
-    })
 
     wx.navigateBack({})
   

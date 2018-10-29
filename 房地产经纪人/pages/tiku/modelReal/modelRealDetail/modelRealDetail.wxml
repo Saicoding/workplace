@@ -12,7 +12,7 @@
         <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
           <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
           <!-- 解析 -->
-          <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
+          <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
         </view>
 
         <!--多选题-->
@@ -20,7 +20,7 @@
 
           <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_answerSelect"></multiSelect>
           <!-- 解析 -->
-          <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
+          <jiexi isAnswer="{{isSubmit}}" jiexi="{{shiti.jiexi}}"></jiexi>
         </view>
 
         <!--材料题-->
@@ -49,8 +49,7 @@
             </swiper>
           </view>
         </view>
-      </scroll-view>
-      
+      </scroll-view>   
     </swiper-item>
   </block>
 </swiper>
