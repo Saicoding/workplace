@@ -88,6 +88,8 @@ Page({
     let self = this;
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
+    let source = e.detail.source;
+    if (source != "touch") return;//如果不是手动的就不执行
     let px = self.data.px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
@@ -154,16 +156,33 @@ Page({
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray=[];
-
-    if(current == 1){
-      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;   
+    if (current == 1) {
+      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
       sliderShitiArray[1] = midShiti;
       if (preShiti != undefined) sliderShitiArray[0] = preShiti;
-    }else if(current == 2){
-      if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
-      sliderShitiArray[2] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[1] = preShiti;
-    }else{
+    } else if (current == 2) {
+      if (px != 1 && px != shitiArray.length) {
+        if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
+        sliderShitiArray[2] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+      } else if (px == 1) {
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+        current = 0;
+        self.setData({
+          myCurrent: 0
+        })
+      } else if (px == shitiArray.length) {
+        console.log('最后一题')
+        sliderShitiArray[0] = preShiti;
+        sliderShitiArray[1] = midShiti;
+        console.log(current)
+        current = 1;
+        self.setData({
+          myCurrent: 1
+        })
+      }
+    } else {
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
       if (preShiti != undefined) sliderShitiArray[2] = preShiti;
@@ -179,6 +198,10 @@ Page({
       px: px,
       checked: false
     })
+  },
+  ifIsLast:function(e){
+    console.log(this.data.px)
+    console.log(e)
   },
 
   /**

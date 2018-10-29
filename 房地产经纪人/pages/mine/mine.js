@@ -168,7 +168,7 @@ Page({
        //通过不同的位置，调整文本的显示位置
       switch(n){
         case 0:
-          radCtx.fillText(mData[0][0], x +5, y + 5);//右上
+          radCtx.fillText(mData[0][0], x +5, y - 5);//右上
         break;
         case 1:
           radCtx.fillText(mData[1][0], x, y + 15);//右下
@@ -177,10 +177,34 @@ Page({
           radCtx.fillText(mData[2][0], x - radCtx.measureText(mData[2][0]).width, y+15);//左下
           break;
         case 3:
-          radCtx.fillText(mData[3][0], x - radCtx.measureText(mData[3][0]).width-5, y + 5);//左上
+          radCtx.fillText(mData[3][0], x - radCtx.measureText(mData[3][0]).width-5, y - 5);//左上
           break;
         case 4:
-          radCtx.fillText(mData[4][0], x - (radCtx.measureText(mData[4][0]).width) / 2, y -5);//上
+          radCtx.fillText(mData[4][0], x - (radCtx.measureText(mData[4][0]).width) / 2, y -20);//上
+          break;
+      }
+    }
+
+    radCtx.font = '10px cursive' //设置字体
+    for (let n = 0; n < numCount; n++) {
+      let x = mCenter + mRadius * Math.cos(mAngle * n - 18 * Math.PI / 180);
+      let y = mCenter + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
+      //通过不同的位置，调整文本的显示位置
+      switch (n) {
+        case 0:
+          radCtx.fillText(mData[0][1]+"%", x + 25, y + 11);//右上
+          break;
+        case 1:
+          radCtx.fillText(mData[1][1] + "%", x+10, y + 30);//右下
+          break;
+        case 2:
+          radCtx.fillText(mData[2][1] + "%", x - radCtx.measureText(mData[2][0]).width-5, y + 30);//左下
+          break;
+        case 3:
+          radCtx.fillText(mData[3][1] + "%", x - radCtx.measureText(mData[3][0]).width - 15, y + 11);//左上
+          break;
+        case 4:
+          radCtx.fillText(mData[4][1] + "%", x - (radCtx.measureText(mData[4][0]).width) / 2, y - 5);//上
           break;
       }
     }

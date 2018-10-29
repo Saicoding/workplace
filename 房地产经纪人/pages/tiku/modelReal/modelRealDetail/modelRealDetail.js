@@ -74,7 +74,7 @@ Page({
       let nextShiti = undefined; //后一题
       let midShiti = shitiArray[px - 1]; //中间题
 
-      if (midShiti.TX == 99) shitiNum = midShiti.clpx;
+      if (midShiti.TX == 99) shitiNum = midShiti.clpx; //刚载入进来时编号用clpx
 
       let sliderShitiArray = [];
 
@@ -152,7 +152,7 @@ Page({
             self.setData({
               sliderShitiArray: sliderShitiArray, //滑动数组
               doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
-              shitiNum:shitiNum
+              shitiNum: shitiNum
             })
           }
         },
@@ -244,8 +244,9 @@ Page({
     let self = this;
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
+    let source = e.detail.source;
+    if (source != "touch") return;
     let px = self.data.px;
-    let shitiNum = px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
@@ -264,6 +265,7 @@ Page({
       px--;
     }
 
+    let shitiNum = px;
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
@@ -294,22 +296,39 @@ Page({
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray = [];
-    console.log(current)
+
 
     if (current == 1) {
       if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
       sliderShitiArray[1] = midShiti;
       if (preShiti != undefined) sliderShitiArray[0] = preShiti;
     } else if (current == 2) {
-
-      if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
-      sliderShitiArray[2] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+      if (px != 1 && px != shitiArray.length) {
+        if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
+        sliderShitiArray[2] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+      } else if(px == 1) {
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+        current = 0;
+        self.setData({
+          myCurrent: 0
+        })
+      }else if(px == shitiArray.length){
+        sliderShitiArray[0] = preShiti;
+        sliderShitiArray[1] = midShiti;
+        current = 1;
+        self.setData({
+          myCurrent: 1
+        })
+      }
     } else {
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
       if (preShiti != undefined) sliderShitiArray[2] = preShiti;
     }
+
+    console.log(sliderShitiArray)
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
@@ -331,12 +350,12 @@ Page({
     let px = self.data.px;
     let current = e.detail.current;
     let shitiArray = self.data.shitiArray;
-    let shiti = shitiArray[px-1];
+    let shiti = shitiArray[px - 1];
     let clpx = shiti.clpx;
 
     let shitiNum = current + shiti.clpx;
     self.setData({
-      shitiNum:shitiNum
+      shitiNum: shitiNum
     })
   },
 

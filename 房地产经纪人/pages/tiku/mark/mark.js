@@ -75,6 +75,8 @@ Page({
     let self = this;
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
+    let source = e.detail.source;
+    if (source != "touch") return;
     let px = self.data.px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
@@ -155,9 +157,25 @@ Page({
       sliderShitiArray[1] = midShiti;
       if (preShiti != undefined) sliderShitiArray[0] = preShiti;
     } else if (current == 2) {
-      if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
-      sliderShitiArray[2] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+      if (px != 1 && px != shitiArray.length) {
+        if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
+        sliderShitiArray[2] = midShiti;
+        if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+      } else if (px == 1) {
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+        current = 0;
+        self.setData({
+          myCurrent: 0
+        })
+      } else if (px == shitiArray.length) {
+        sliderShitiArray[0] = preShiti;
+        sliderShitiArray[1] = midShiti;
+        current = 1;
+        self.setData({
+          myCurrent: 1
+        })
+      }
     } else {
       if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
       sliderShitiArray[0] = midShiti;
