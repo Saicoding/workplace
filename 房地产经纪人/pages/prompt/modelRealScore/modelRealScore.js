@@ -55,7 +55,9 @@ Page({
       jibai:jibai
     })
   },
-
+  /**
+   * 当点击分享按钮
+   */
   onShareAppMessage: function (res1) {
     console.log(res1)
     if(res1.from === 'button'){
