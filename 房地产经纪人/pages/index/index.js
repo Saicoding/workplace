@@ -6,6 +6,7 @@
  */
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
+let validate = require('../../common/validate.js');
 
 Page({
 
@@ -343,14 +344,15 @@ Page({
     wx.getStorage({
       key: 'user',
       success: function(res) { //如果已经登陆过
-        wx.navigateTo({
-          url: url1
-        })
-
+        let user = res.data;
+        let zcode = user.zcode;
+        let LoginRandom = user.login_random;
+        let pwd = user.pwd
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)//验证重复登录
       },
       fail: function(res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url,
+          url: '/pages/login1/login1?url=' + url+"&ifGoBack=false",
         })
       }
     })
@@ -365,17 +367,19 @@ Page({
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
     let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
+    //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
-        wx.navigateTo({
-          url: url1
-        })
-
+      success: function (res) { //如果已经登陆过
+        let user = res.data;
+        let zcode = user.zcode;
+        let LoginRandom = user.login_random;
+        let pwd = user.pwd
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url,
+          url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
         })
       }
     })
@@ -390,17 +394,19 @@ Page({
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
     let url1 = '/pages/tiku/mark/mark?kid=' + kid;
+    //获取是否有登录权限
     wx.getStorage({
       key: 'user',
-      success: function(res) { //如果已经登陆过
-        wx.navigateTo({
-          url: url1
-        })
-
+      success: function (res) { //如果已经登陆过
+        let user = res.data;
+        let zcode = user.zcode;
+        let LoginRandom = user.login_random;
+        let pwd = user.pwd
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
-      fail: function(res) { //如果没有username就跳转到登录界面
+      fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url,
+          url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
         })
       }
     })
@@ -418,17 +424,19 @@ Page({
     let url = encodeURIComponent('/pages/prompt/hasNoShiti/hasNoShiti?str=' + str + "&title=" + title +"&delta=1")
     let url1 = '/pages/prompt/hasNoShiti/hasNoShiti?str=' + str + "&title=" + title + "&delta=1";
     
+    //获取是否有登录权限
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过
-        wx.navigateTo({
-          url: url1
-        })
-
+        let user = res.data;
+        let zcode = user.zcode;
+        let LoginRandom = user.login_random;
+        let pwd = user.pwd
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url,
+          url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
         })
       }
     })
@@ -445,19 +453,9 @@ Page({
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid+"&ti="+ti)
     let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
-    wx.getStorage({
-      key: 'user',
-      success: function (res) { //如果已经登陆过
-        wx.navigateTo({
-          url: url1
-        })
 
-      },
-      fail: function (res) { //如果没有username就跳转到登录界面
-        wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url,
-        })
-      }
+    wx.navigateTo({
+      url:url1
     })
   },
 

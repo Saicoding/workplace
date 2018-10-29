@@ -78,7 +78,7 @@ Page({
 
       //雷达图
       self.drawRadar(chanelArray)
-
+      console.log(rate)
       self.setData({
         chanelArray: chanelArray
       })

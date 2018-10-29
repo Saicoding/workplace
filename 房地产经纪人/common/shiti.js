@@ -1,3 +1,5 @@
+const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
+const app = getApp();
 /**
  * 初始化试题
  */
@@ -1061,6 +1063,8 @@ function getDoneAnswers(shitiArray) {
 }
 
 
+
+
 module.exports = {
   initShiti: initShiti,
   initMarkAnswer: initMarkAnswer,
@@ -1092,5 +1096,5 @@ module.exports = {
   getNewShitiArray: getNewShitiArray,
   initModelRealMarkAnswer: initModelRealMarkAnswer,
   setModelRealCLShitiPx: setModelRealCLShitiPx,
-  setCLMarkAnswer: setCLMarkAnswer
+  setCLMarkAnswer: setCLMarkAnswer,
 }
