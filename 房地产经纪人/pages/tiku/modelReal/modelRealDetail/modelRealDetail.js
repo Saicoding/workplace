@@ -10,6 +10,7 @@ const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
 
 
+
 Page({
   /**
    * 页面的初始数据
@@ -62,6 +63,7 @@ Page({
     }
 
     let shitiNum = px;
+
     app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 
@@ -230,6 +232,10 @@ Page({
     this.waterWave = this.selectComponent("#waterWave");
     this.modelCount = this.selectComponent("#modelCount");
 
+    this.modelCount.setData({
+      time: time1.getTime(self.data.times)
+    })
+
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -334,10 +340,6 @@ Page({
     }
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
-
-    console.log(sliderShitiArray)
-    console.log(circular)
-    console.log(self.data.myCurrent)
 
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
@@ -512,6 +514,8 @@ Page({
   onUnload: function(e) {
     let self = this;
     let modelCount = self.modelCount;
+    let pages = getCurrentPages();
+    let prevPage = pages[pages.length - 2];  //上一个页面
 
     if (!self.data.isSubmit) {
       let time = modelCount.data.time;

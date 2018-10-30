@@ -15,6 +15,23 @@ function getGoneTimeStr(goneTime){
   return hStr + mStr + sStr;//时间字符串
 }
 
+/**
+ * 得到时间对象
+ * {h:18,m:16:s15}
+ */
+function getTime(t) {
+  let h = parseInt(t / 3600);
+  let m = parseInt((t - h * 3600) / 60);
+  let s = t % 60;
+  let time = {
+    h: h,
+    m: m,
+    s: s
+  }
+  return time;
+}
+
 module.exports = {
-  getGoneTimeStr: getGoneTimeStr
+  getGoneTimeStr: getGoneTimeStr,
+  getTime: getTime
 }

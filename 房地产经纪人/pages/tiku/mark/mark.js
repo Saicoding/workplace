@@ -26,6 +26,7 @@ Page({
     isSubmit: false,//是否已提交答卷
     circular: false,//默认slwiper不可以循环滚动
     myFavorite: 0,//默认收藏按钮是0
+    isHasShiti:true//默认有试题
     
   },
   /**
@@ -46,8 +47,9 @@ Page({
       post.wrongAndMarkOnload(options, px, circular, myFavorite,true, res, username, acode, self)
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
-      wx.navigateTo({
-        url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有收藏题库&title=收藏练习&delta=1',
+      console.log('ok')
+      self.setData({
+        isHasShiti:false
       })
       wx.hideLoading();
     });

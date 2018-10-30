@@ -140,6 +140,8 @@ Page({
                 delta: 2
               })
             } else {
+              wx.navigateBack({})//先返回一层
+              console.log(self.data.url)
               wx.redirectTo({
                 url: self.data.url,
               })
@@ -149,7 +151,6 @@ Page({
             console.log('存储失败')
           }
         })
-        // wx.hideLoading();
 
       })
     }else{

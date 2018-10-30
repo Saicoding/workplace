@@ -1,5 +1,6 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
+let myTime = require('time.js');
 /**
  * 初始化试题
  */
@@ -759,7 +760,6 @@ function storeLastShiti(px, self) {
 function storeModelRealLastShiti(px, self) {
   //存储当前最后一题
   let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id; //存储上次访问的题目的key
-  console.log(last_view_key)
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -929,15 +929,7 @@ function restartModelReal(self) {
 function startWatch(startTime, self) {
   let interval = setInterval(function() {
     startTime--;
-    let h = parseInt(startTime / 3600);
-    let m = parseInt((startTime - h * 3600) / 60);
-    let s = startTime % 60;
-
-    let time = {
-      h: h,
-      m: m,
-      s: s
-    }
+    let time = myTime.getTime(startTime);
     let hStr = time.h;
     let mStr = time.m >= 10 ? time.m : '0' + time.m;
     let sStr = time.s >= 10 ? time.s : '0' + time.s;
@@ -1103,5 +1095,5 @@ module.exports = {
   initModelRealMarkAnswer: initModelRealMarkAnswer,
   setModelRealCLShitiPx: setModelRealCLShitiPx,
   setCLMarkAnswer: setCLMarkAnswer,
-  setMarkedAll: setMarkedAll
+  setMarkedAll: setMarkedAll,
 }

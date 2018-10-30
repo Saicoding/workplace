@@ -11,7 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    isHasShiti: true//默认有试题
   },
 
   /**
@@ -33,9 +33,11 @@ Page({
     app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, true, true, "加载中").then((res) => {
       let modelList = res.data.list;
       if(modelList.length == 0){//如果没有题库
-        wx.navigateTo({
-          url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有' + title + '题库&title=' + title +"&delta=1",
+        self.setData({
+          title:title,
+          isHasShiti: false
         })
+        return;
       }
 
       for (let i = 0; i < modelList.length; i++) { 
@@ -69,8 +71,9 @@ Page({
       })
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
-      wx.navigateTo({
-        url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有'+title+'题库',
+      self.setData({
+        title: title,
+        isHasShiti:false
       })
       wx.hideLoading();
     });
@@ -96,14 +99,12 @@ Page({
       key: 'user',
       success: function (res) { //如果已经登陆过
         let user = res.data;
-        console.log(user)
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
-        console.log(res)
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
         })

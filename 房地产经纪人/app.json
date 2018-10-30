@@ -16,7 +16,8 @@
     "pages/video/video",
     "pages/esoterica/esoterica",
     "pages/mine/mine",
-    "pages/phoneLogin/phoneLogin"
+    "pages/phoneLogin/phoneLogin",
+    "pages/tiku/kaoqianmiji/kaoqianmiji"
   ],
   "window": {
     "backgroundTextStyle": "light",

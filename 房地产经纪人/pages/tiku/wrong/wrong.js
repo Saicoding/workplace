@@ -23,9 +23,10 @@ Page({
     markAnswerItems: [], //设置一个空数组
 
     isModelReal: false,//是不是真题或者押题
+    isHasShiti: true,//默认有试题,
     isSubmit: false,//是否已提交答卷
     circular: false,//默认slwiper不可以循环滚动
-     myFavorite: 0,//默认收藏按钮是0
+    myFavorite: 0,//默认收藏按钮是0
   },
   /**
    * 生命周期函数--监听页面加载
@@ -46,8 +47,8 @@ Page({
 
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
-      wx.navigateTo({
-        url: '/pages/prompt/hasNoShiti/hasNoShiti?str=没有错题题库&title=我的错题&delta=1',
+      self.setData({
+        isHasShiti:false
       })
       wx.hideLoading();
     });

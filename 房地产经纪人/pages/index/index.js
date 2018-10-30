@@ -415,14 +415,14 @@ Page({
   /**
    * 导航到模拟考试
    */
-  GOModelTest:function(e){
+  GOkaoqianmiji:function(e){
     let self = this;
     self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let str = "当前没有考题,考前10天上线";
     let title = "考前秘笈";
-    let url = encodeURIComponent('/pages/prompt/hasNoShiti/hasNoShiti?str=' + str + "&title=" + title +"&delta=1")
-    let url1 = '/pages/prompt/hasNoShiti/hasNoShiti?str=' + str + "&title=" + title + "&delta=1";
+    let url = encodeURIComponent('/pages/tiku/kaoqianmiji/kaoqianmiji')
+    let url1 = '/pages/tiku/kaoqianmiji/kaoqianmiji';
     
     //获取是否有登录权限
     wx.getStorage({

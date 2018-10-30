@@ -23,6 +23,7 @@ Page({
   data: {
     stepText: 5,
     chanelArray: [["章节题库", 0], ["视频学习", 0], ["套卷练习", 0],  ["考前秘籍", 0] ,["考点学习", 0]],
+
   },
 
   /**
@@ -46,7 +47,6 @@ Page({
         url: '/pages/login1/login1?url=' + url+'&ifGoBack=true',
       })
     }
-
   },
 
   onReady:function(){
@@ -67,7 +67,7 @@ Page({
   getStudyRate(user){
     let self = this;
     console.log("action=MyLearningPro&username=" + user.username + "&acode=" + user.acode)
-    app.post(API_URL,"action=MyLearningPro&username="+user.username+"&acode="+user.acode,true,false,"").then((res)=>{
+    app.post(API_URL,"action=MyLearningPro&username="+user.username+"&acode="+user.acode,false,false,"").then((res)=>{
       let chanelArray = self.data.chanelArray;
       let rate= res.data.data[0];
       chanelArray[0][1] = rate.zhangjie;
@@ -90,6 +90,7 @@ Page({
    */
   onShow:function(){
     let user = wx.getStorageSync('user');
+    if (user) this.getStudyRate(user)
     this.setData({
       user:user
     })
