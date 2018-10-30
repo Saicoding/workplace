@@ -50,12 +50,14 @@
 
 .submit_answer {
   width: 50%;
-  margin-top:50rpx;
+  margin:50rpx auto;
   height:80rpx;
   border-radius: 60rpx;
   background: #388ff8;
   color:white;
   line-height: 80rpx;
+  border:1rpx solid white;
+  text-align: center;
 }
 
 .bottom {

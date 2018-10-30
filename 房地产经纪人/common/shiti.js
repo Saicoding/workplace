@@ -232,15 +232,15 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
     if (select != "材料题") {
       if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
         if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-          style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
+          style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
         } else { //如果是空
-          style = "border:1px solid #9c9c9c;width:50rpx; height: 50rpx;border-radius: 50rpx;line-height:50rpx;";
+          style = "border:1rpx solid #9c9c9c;"
         }
 
       } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
-        style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
+        style = "background:#90dd35;color:white;border:1rpx solid #90dd35 "
       } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
-        style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
+        style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c"
       }
 
       markAnswerItems[px - 1] = {
@@ -255,15 +255,15 @@ function setModelRealMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubm
         let tiPx = daan.px;
         if (isModelReal && isSubmit == false) { //如果是真题或者押题并且没有提交
           if (daan.done_daan != "") { //如果答案不为空
-            style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
+            style = "background:#0197f6;color:white;border:1rpx solid #0197f6"
           } else { //如果是空
-            style = "border:1px solid #9c9c9c;width:50rpx; height: 50rpx;border-radius: 50rpx;line-height:50rpx;";
+            style = "border:1rpx solid #9c9c9c;"
           }
 
         } else if (daan.isRight == 0) { //如果题是正确的
-          style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
+          style = "background:#90dd35;color:white;border:1rpx solid #90dd35"
         } else if (daan.isRight == 1) { //如果题是错误的
-          style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;"
+          style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c;"
         }
 
         markAnswerItems[daan.px - 1] = {
@@ -291,15 +291,15 @@ function setMarkAnswerItems(jie_answer_array, nums, isModelReal, isSubmit, self)
     let style = "";
     if (isModelReal && isSubmit == false) { //如果是真题或者押题
       if (jie_answer_array[i].done_daan != "") { //如果答案不为空
-        style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+        style = "background:#0197f6;color:white;border:1rpx solid #0197f6;"
       } else { //如果是空
-        style = "border:1px solid #9c9c9c;width:50rpx; height: 50rpx;border-radius: 50rpx;line-height:50rpx;";
+        style = "border:1rpx solid #9c9c9c;";
       }
 
     } else if (jie_answer_array[i].isRight == 0) { //如果题是正确的
-      style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+      style = "background:#90dd35;color:white;border:1rpx solid #90dd35"
     } else if (jie_answer_array[i].isRight == 1) { //如果题是错误的
-      style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+      style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c"
     }
 
     markAnswerItems[px - 1] = {

@@ -20,7 +20,7 @@
 
           <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
 
-          <button class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">确认选择</button>
+          <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">确认选择</view>
           <!-- 解析 -->
           <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
         </view>

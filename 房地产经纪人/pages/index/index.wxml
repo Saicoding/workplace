@@ -38,6 +38,7 @@
   <view class='shiti_zhangjie'>
     章节目录
   </view>
+  <button bindtap='test'>测试</button>
 
 </view>
 

@@ -17,7 +17,8 @@
     "pages/esoterica/esoterica",
     "pages/mine/mine",
     "pages/phoneLogin/phoneLogin",
-    "pages/tiku/kaoqianmiji/kaoqianmiji"
+    "pages/tiku/kaoqianmiji/kaoqianmiji",
+    "pages/pay/pay"
   ],
   "window": {
     "backgroundTextStyle": "light",
