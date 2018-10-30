@@ -39,8 +39,7 @@ Page({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
         //得到openId和session_key
-        app.post(API_URL, "action=Login_wx&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex+"&code="+code,true,false,"登录中").then((res) => {
-          
+        app.post(API_URL, "action=Login_wx&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex+"&code="+code,true,false,"登录中").then((res) => {      
           let user = res.data.list[0];
           console.log(user)
           wx.setStorage({

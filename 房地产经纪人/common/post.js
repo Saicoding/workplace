@@ -1,6 +1,6 @@
 let common = require('shiti.js');
 
-function zuotiOnload(options, px, res, username, acode,self){
+function zuotiOnload(options, px, circular, myFavorite, res, username, acode, self){
   let shitiArray = res.data.shiti;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
@@ -26,7 +26,6 @@ function zuotiOnload(options, px, res, username, acode,self){
     preShiti = shitiArray[px-2];
     common.initShiti(preShiti, self); //初始化试题对象
   }
-
 
   //对是否是已答试题做处理
   wx.getStorage({
@@ -61,6 +60,9 @@ function zuotiOnload(options, px, res, username, acode,self){
     },
   })
 
+  circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+  myFavorite = midShiti.favorite;
+  
   if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
   sliderShitiArray[0] = midShiti;
   if (preShiti != undefined) sliderShitiArray[2] = preShiti;
@@ -73,6 +75,8 @@ function zuotiOnload(options, px, res, username, acode,self){
 
     px:px,
     title: options.title,//标题
+    circular:circular,
+    myFavorite: myFavorite,//是否收藏
     nums: shitiArray.length, //题数
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
@@ -84,11 +88,13 @@ function zuotiOnload(options, px, res, username, acode,self){
   wx.hideLoading();
 }
 
-function wrongAndMarkOnload(options, px, res, username, acode, self){
+function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, username, acode, self){
 
   let shitiArray = res.data.shiti;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
+
+  if (isMark) common.setMarkedAll(shitiArray);
 
   common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
@@ -112,6 +118,9 @@ function wrongAndMarkOnload(options, px, res, username, acode, self){
     common.initShiti(preShiti, self); //初始化试题对象
   }
 
+  circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+  myFavorite = midShiti.favorite;
+
   if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
   sliderShitiArray[0] = midShiti;
   if (preShiti != undefined) sliderShitiArray[2] = preShiti;
@@ -126,6 +135,8 @@ function wrongAndMarkOnload(options, px, res, username, acode, self){
     nums: shitiArray.length, //题数
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
+    circular: circular,
+    myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: false, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称

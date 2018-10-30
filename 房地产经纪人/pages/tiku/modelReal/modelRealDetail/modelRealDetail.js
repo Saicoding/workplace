@@ -46,6 +46,7 @@ Page({
     let test_score = options.test_score;
     let id = options.id;
     let tiTypeStr = tiType == 1 ? "model" : "yati";
+    let circular = false;
 
     //根据真题定制最后一次访问的key
     let last_view_key = tiTypeStr + 'lastModelReal' + options.id;
@@ -92,6 +93,8 @@ Page({
         preShiti = shitiArray[px - 2];
         common.initShiti(preShiti, self); //初始化试题对象
       }
+
+      circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
       //得到试题总数
       let nums = 0;
@@ -200,6 +203,7 @@ Page({
         shitiArray: shitiArray, //整节的试题数组
         px: px,
         shitiNum: shitiNum,
+        circular: circular,//是否循环
 
         sliderShitiArray: sliderShitiArray, //滑动数组
         lastSliderIndex: 0, //默认滑动条一开始是0
@@ -330,6 +334,10 @@ Page({
     }
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+
+    console.log(sliderShitiArray)
+    console.log(circular)
+    console.log(self.data.myCurrent)
 
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
@@ -551,8 +559,8 @@ Page({
     let shiti = "";
     let xiaotiCurrent = 0;
     let shitiNum = px;
+    
     let circular = self.data.circular;
-
     let current = self.data.lastSliderIndex; //当前swiper的index
 
     //得到swiper数组

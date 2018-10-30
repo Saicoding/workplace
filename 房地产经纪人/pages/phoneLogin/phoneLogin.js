@@ -129,26 +129,28 @@ Page({
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
-        // console.log(user)
+        console.log(user)
+
         wx.setStorage({
           key: 'user',
-          data: user
-        })
-
-        wx.setStorage({//存储随机数
-          key: 'login_random',
-          data: user.login_random,
+          data: user,
+          success:function(){
+            if (ifGoBack == "true") {
+              wx.navigateBack({
+                delta: 2
+              })
+            } else {
+              wx.redirectTo({
+                url: self.data.url,
+              })
+            }
+          },
+          fail:function(){
+            console.log('存储失败')
+          }
         })
         // wx.hideLoading();
-        if(ifGoBack == "true"){
-          wx.navigateBack({
-            delta:2
-          })
-        }else{
-          wx.redirectTo({
-            url: self.data.url,
-          })
-        }
+
       })
     }else{
       wx.showToast({

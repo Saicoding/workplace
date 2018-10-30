@@ -346,7 +346,7 @@ Page({
       success: function(res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
-        let LoginRandom = user.login_random;
+        let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)//验证重复登录
       },
@@ -373,7 +373,7 @@ Page({
       success: function (res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
-        let LoginRandom = user.login_random;
+        let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
@@ -400,7 +400,7 @@ Page({
       success: function (res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
-        let LoginRandom = user.login_random;
+        let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
@@ -430,7 +430,7 @@ Page({
       success: function (res) { //如果已经登陆过
         let user = res.data;
         let zcode = user.zcode;
-        let LoginRandom = user.login_random;
+        let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },

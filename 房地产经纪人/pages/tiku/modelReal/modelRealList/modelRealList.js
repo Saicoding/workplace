@@ -90,17 +90,20 @@ Page({
     let url = encodeURIComponent('/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score);
     let url1 = '/pages/tiku/modelReal/modelRealDetail/modelRealDetail?id=' + id + "&times=" + times + "&title=" + title + "&totalscore=" + totalscore + "&tiType=" + tiType + "&test_score=" + test_score;
 
+
     //获取是否有登录权限
     wx.getStorage({
       key: 'user',
       success: function (res) { //如果已经登陆过
         let user = res.data;
+        console.log(user)
         let zcode = user.zcode;
-        let LoginRandom = user.login_random;
+        let LoginRandom = user.Login_random;
         let pwd = user.pwd
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
+        console.log(res)
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
         })

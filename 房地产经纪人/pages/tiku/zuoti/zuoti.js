@@ -26,6 +26,7 @@ Page({
     isModelReal: false, //是不是真题或者押题
     isSubmit: false ,//是否已提交答卷
     circular: true,//默认slwiper可以循环滚动
+    myFavorite:0,//默认收藏按钮是0
   },
   /**
    * 生命周期函数--监听页面加载
@@ -40,6 +41,8 @@ Page({
     let user = wx.getStorageSync('user');
     let username = user.username;
     let acode = user.acode;
+    let circular = false;
+    let myFavorite = 0;
 
     //根据章是否有字节来定制最后一次访问的key
     let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "");
@@ -48,13 +51,11 @@ Page({
     let px = last_view.px; //最后一次浏览的题的编号
     if (px == undefined) {
       px = 1 //如果没有这个px说明这个章节首次访问
-      self.setData({
-        circular:false
-      })
+      circular:false
     }
 
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true, false, "载入中").then((res) => {
-      post.zuotiOnload(options, px, res, username, acode, self) //对数据进行处理和初始化
+      post.zuotiOnload(options, px, circular,myFavorite,res, username, acode, self) //对数据进行处理和初始化
 
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
@@ -89,7 +90,10 @@ Page({
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
     let source = e.detail.source;
-    if (source != "touch") return;//如果不是手动的就不执行
+    let myFavorite = 0;
+
+    if (source != "touch") return;
+
     let px = self.data.px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
@@ -112,6 +116,7 @@ Page({
     let preShiti = undefined;//前一题
     let nextShiti = undefined;//后一题
     let midShiti = shitiArray[px - 1];//中间题
+    myFavorite = midShiti.favorite;
 
     //每次滑动结束后初始化前一题和后一题
     if(direction == "左滑"){
@@ -168,23 +173,28 @@ Page({
         myCurrent: 1
       })
     }
+
     
     circular = px == 1 || px == shitiArray.length ? false : true//如果滑动后编号是1,或者最后一个就禁止循环滑动
+    console.log(sliderShitiArray)  
+    console.log(circular)
+    console.log(self.data.myCurrent)
  
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       lastSliderIndex:current,
+      myFavorite: myFavorite,
       px: px,
       checked: false
     })
   },
 
-  ifIsLast:function(e){
-    let px = this.data.px;
-    let nums = this.data.nums;
-  },
+  // ifIsLast:function(e){
+  //   let px = this.data.px;
+  //   let nums = this.data.nums;
+  // },
 
   /**
    * 作答
@@ -395,10 +405,17 @@ Page({
     let self = this;
     let username = self.data.username;
     let acode = self.data.acode;
-    let shiti = self.data.shiti;
-    shiti.favorite = shiti.favorite == 0 ? 1 : 0;
+    let myFavorite = self.data.myFavorite;
+    let px = self.data.px;
+    let shitiArray = self.data.shitiArray;
+    let shiti = shitiArray[px-1];
+
+
+    shiti.favorite = shiti.favorite == 0?1:0;
+
     this.setData({
-      shiti: shiti
+      myFavorite: shiti.favorite,
+      shitiArray: shitiArray
     })
     app.post(API_URL, "action=FavoriteShiti&tid=" + shiti.id + "&username=" + username + "&acode=" + acode, false).then((res) => {
 
@@ -417,11 +434,13 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray;
     let current = self.data.lastSliderIndex;//当前swiper的index
     let circular = self.data.circular;
+    let myFavorite = 0;
 
     //得到swiper数组
     let preShiti = undefined;//前一题
     let nextShiti = undefined;//后一题
     let midShiti = shitiArray[px - 1];//中间题
+    myFavorite = midShiti.favorite;
 
     let sliderShitiArray = [];
 
@@ -490,6 +509,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       px:px,
       circular: circular,
+      myFavorite: myFavorite,
       lastSliderIndex: current,
       checked: false
     })

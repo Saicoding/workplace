@@ -1063,7 +1063,12 @@ function getDoneAnswers(shitiArray) {
   return doneUserAnswer;
 }
 
-
+function setMarkedAll(shitiArray){
+  for(let i = 0 ;i<shitiArray.length;i++){
+    let shiti = shitiArray[i];
+    shiti.favorite = 1;
+  }
+}
 
 
 module.exports = {
@@ -1098,4 +1103,5 @@ module.exports = {
   initModelRealMarkAnswer: initModelRealMarkAnswer,
   setModelRealCLShitiPx: setModelRealCLShitiPx,
   setCLMarkAnswer: setCLMarkAnswer,
+  setMarkedAll: setMarkedAll
 }
