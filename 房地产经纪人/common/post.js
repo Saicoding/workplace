@@ -89,7 +89,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
 }
 
 function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, username, acode, self){
-
   let shitiArray = res.data.shiti;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
@@ -110,7 +109,6 @@ function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, userna
     common.initShiti(nextShiti, self); //初始化试题对象
   }
 
-
   circular =  false //如果滑动后编号是1,或者最后一个就禁止循环滑动
   myFavorite = midShiti.favorite;
 
@@ -122,7 +120,6 @@ function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, userna
     //设置过场动画
     winH: wx.getSystemInfoSync().windowHeight,
     opacity: 1,
-
     px: px,
     nums: shitiArray.length, //题数
     shitiArray: shitiArray, //整节的试题数组

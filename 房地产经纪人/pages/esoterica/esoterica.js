@@ -25,6 +25,7 @@ Page({
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
       app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, true, true, "获取考点...").then((res) => {
         let kdList = res.data.list;//考点列表
+
         self.setData({
           kdList: kdList
         })
@@ -65,9 +66,10 @@ Page({
 
   GOkaodianDetail:function(e){
     let kdid = e.currentTarget.dataset.kdid;
+    let kdList = this.data.kdList
 
     let url = encodeURIComponent('/pages/kaodianDetail/kaodianDetail?kdid=' + kdid );
-    let url1 =  '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid;
+    let url1 = '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid;
 
     //获取是否有登录权限
     wx.getStorage({

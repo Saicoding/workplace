@@ -47,6 +47,7 @@ App({
               url: '/pages/login1/login1?url=' + pageUrl + "&ifGoBack=false",
             })
           } else if (status == -1){//没有试题
+          console.log('哈哈')
             self.setData({
               isHasShiti:false
             })

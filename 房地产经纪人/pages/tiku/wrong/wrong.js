@@ -42,7 +42,7 @@ Page({
     let circular =false;
     let myFavorite = 0;
     
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入错题中").then((res) => {
+    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入错题中",self).then((res) => {
       post.wrongAndMarkOnload(options, px, circular, myFavorite,false, res, username, acode, self);
 
     }).catch((errMsg) => {
@@ -106,6 +106,7 @@ Page({
     let preShiti = undefined;//前一题
     let nextShiti = undefined;//后一题
     let midShiti = shitiArray[px - 1];//中间题
+
     myFavorite = midShiti.favorite;
 
     //每次滑动结束后初始化前一题和后一题
@@ -162,9 +163,6 @@ Page({
     }
 
     circular = px == 1 || px == shitiArray.length ? false : true//如果滑动后编号是1,或者最后一个就禁止循环滑动
-    console.log(sliderShitiArray)
-    console.log(circular)
-    console.log(self.data.myCurrent)
 
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
