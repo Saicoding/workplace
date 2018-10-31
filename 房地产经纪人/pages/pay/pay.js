@@ -14,73 +14,71 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
 
   },
 
   /**
-   * 
+   * 购买套餐
    */
-  buy1:function(e){
+  buy: function(e) {
+    let product = e.currentTarget.dataset.product;
     wx.getStorage({
       key: 'user',
       success: function(res) {
         let user = res.data;
-        let Login_random = user.Login_random;//用户登录随机值
-        let zcode = user.zcode;//客户端id号
-        let product = "jjr";//经纪人套餐jjr
+        let Login_random = user.Login_random; //用户登录随机值
+        let zcode = user.zcode; //客户端id号
 
-        app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random+"&zcode="+zcode+"&product="+product).then((res)=>{
-            let status = res.data.status;          
-            console.log(res)
-            if(status == 1){
-              let timestamp = Date.parse(new Date());
-              timestamp = timestamp / 1000;
-              timestamp = timestamp.toString();
-              let nonceStr = "TEST";
-              let prepay_id = res.data.prepay_id;
-              let appId = "wxf90a298a65cfaca8";
-              let myPackage = "prepay_id=" + prepay_id;
-              let key ="e625b97ae82c3622af5f5a56d1118825";
+        app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中").then((res) => {
+          let status = res.data.status;
 
-              let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage+"&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
-              let paySign = md5.md5(str).toUpperCase();
- 
-              let myObject = {
-                'timeStamp': timestamp,
-                'nonceStr': nonceStr,
-                'package': myPackage,
-                'paySign': paySign,
-                'signType':"MD5",
-                success:function(res){
-                  if (res.errMsg.requestPayment == "ok"){
-                    console.log('支付成功')
-                  }
-                },
-                fail:function(res){
-                  console.log(res)
+          if (status == 1) {
+            let timestamp = Date.parse(new Date());
+            timestamp = timestamp / 1000;
+            timestamp = timestamp.toString();
+            let nonceStr = "TEST";
+            let prepay_id = res.data.prepay_id;
+            let appId = "wxf90a298a65cfaca8";
+            let myPackage = "prepay_id=" + prepay_id;
+            let key = "e625b97ae82c3622af5f5a56d1118825";
+
+            let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
+            let paySign = md5.md5(str).toUpperCase();
+
+            let myObject = {
+              'timeStamp': timestamp,
+              'nonceStr': nonceStr,
+              'package': myPackage,
+              'paySign': paySign,
+              'signType': "MD5",
+              success: function(res) {
+                if (res.errMsg == "requestPayment:ok") { //成功付款后
+                  console.log("action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
+                  app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中").then((res) => {
+                    wx.navigateBack({
+                      delta: 2
+                    })
+                  })
                 }
+              },
+              fail: function(res) {
+                console.log(res)
               }
-
-              wx.requestPayment(myObject)
             }
+
+            wx.requestPayment(myObject)
+          }
         })
       },
     })
-    
-  },
 
-  /**
-   * 
-   */
-  buy2:function(e){
-    console.log(e);
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
 
   },
@@ -88,7 +86,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 

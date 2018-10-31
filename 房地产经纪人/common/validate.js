@@ -5,7 +5,6 @@ const app = getApp();
  * 验证重复登录或密码修改
  */
 function validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1,url) {
-  console.log(LoginRandom+"||"+pwd)
   app.post(API_URL, "action=CheckAccount&zcode=" + zcode + "&LoginRandom=" + LoginRandom + "&pwd=" + pwd, false, false, "").then((res) => {
     let status = res.data.status;
     if(status == 1){//验证成功

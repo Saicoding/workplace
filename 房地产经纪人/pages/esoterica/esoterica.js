@@ -15,8 +15,6 @@ Page({
     wx.setNavigationBarTitle({
       title: "秘笈"
     }) //设置标题
-    this.setData({
-      str: "开发中，即将上线"
-    })
+    
   },
 })

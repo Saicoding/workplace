@@ -20,11 +20,11 @@ Page({
     zhangjie: "", //章节信息
     z_id: 0 //题库id
   },
-  test:function(){
-    wx.navigateTo({
-      url: '/pages/pay/pay',
-    })
-  },
+  // test:function(){
+  //   wx.navigateTo({
+  //     url: '/pages/pay/pay',
+  //   })
+  // },
 
   /**
    * 生命周期函数--监听页面加载

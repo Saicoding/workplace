@@ -63,7 +63,7 @@ Page({
     }
 
     let shitiNum = px;
-
+    
     app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 
@@ -218,7 +218,7 @@ Page({
 
       wx.hideLoading();
     }).catch((errMsg) => {
-      console.log(errMsg); //错误提示信息
+      console.log(errMsg)
       wx.hideLoading();
     });
   },

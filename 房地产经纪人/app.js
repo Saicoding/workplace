@@ -38,8 +38,10 @@ App({
           // console.log(res)
           if (res.data.status == 1) {
             resolve(res);
-          } else {
-            reject(res.data.info);
+          } else if(res.data.status == -2){//没有权限
+            wx.navigateTo({
+              url: '/pages/pay/pay',
+            })
           }
           wx.hideLoading();
         },
