@@ -1,4 +1,4 @@
 <!--pages/kaodianDetail/kaodianDetail.wxml-->
 <view class = "mycontent">
-<rich-text class = "img" nodes="{{content}}"></rich-text>
+<rich-text  nodes="{{content}}"></rich-text>
 </view>
