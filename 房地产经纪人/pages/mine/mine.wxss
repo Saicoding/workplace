@@ -15,7 +15,6 @@
   height:200rpx;
   border-radius: 200rpx;
   margin: 0 auto;
-  border:1px solid green;
 }
 
 .pic{
