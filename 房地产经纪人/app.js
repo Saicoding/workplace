@@ -10,7 +10,7 @@ App({
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
-  post: function(url, data, ifShow,ifCanCancel,title,pageUrl) {
+  post: function(url, data, ifShow,ifCanCancel,title,pageUrl,self) {
     if (ifShow) {
       wx.showLoading({
         title: title,
@@ -45,6 +45,10 @@ App({
           } else if(status == -5){//重复登录
             wx.navigateTo({
               url: '/pages/login1/login1?url=' + pageUrl + "&ifGoBack=false",
+            })
+          } else if (status == -1){//没有试题
+            self.setData({
+              isHasShiti:false
             })
           }
           wx.hideLoading();

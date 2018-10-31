@@ -43,14 +43,10 @@ Page({
     let circular = false;
     let myFavorite = 0;
 
-    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入收藏中").then((res) => {
+    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入收藏中","",self).then((res) => {
       post.wrongAndMarkOnload(options, px, circular, myFavorite,true, res, username, acode, self)
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
-      console.log('ok')
-      self.setData({
-        isHasShiti:false
-      })
       wx.hideLoading();
     });
   },

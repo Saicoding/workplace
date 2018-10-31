@@ -99,31 +99,23 @@ function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, userna
   common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
   //得到swiper数组
-  let preShiti = undefined;//前一题
   let nextShiti = undefined;//后一题
-  let midShiti = shitiArray[px - 1];//中间题
+  let midShiti = shitiArray[0];//中间题
   let sliderShitiArray = [];
 
   common.initShiti(midShiti, self); //初始化试题对象
-  if (px != 1 && px != shitiArray.length) {//如果不是第一题也是不是最后一题
-    preShiti = shitiArray[px - 2];
-    common.initShiti(preShiti, self); //初始化试题对象
-    nextShiti = shitiArray[px];
+  
+  if(shitiArray.length !=1){
+    nextShiti = shitiArray[1];
     common.initShiti(nextShiti, self); //初始化试题对象
-  } else if (px == 1) {//如果是第一题
-    nextShiti = shitiArray[px];
-    common.initShiti(nextShiti, self); //初始化试题对象
-  } else {
-    preShiti = shitiArray[px - 2];
-    common.initShiti(preShiti, self); //初始化试题对象
   }
 
-  circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+
+  circular =  false //如果滑动后编号是1,或者最后一个就禁止循环滑动
   myFavorite = midShiti.favorite;
 
   if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
   sliderShitiArray[0] = midShiti;
-  if (preShiti != undefined) sliderShitiArray[2] = preShiti;
 
 
   self.setData({
