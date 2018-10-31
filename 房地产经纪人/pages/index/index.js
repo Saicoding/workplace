@@ -306,7 +306,7 @@ Page({
       zhangjie[index].height = 0;
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
-      console.log(scroll)
+
       self.setData({
         zhangjie: zhangjie,
         scroll: scroll,

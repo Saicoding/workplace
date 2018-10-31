@@ -63,7 +63,7 @@ Page({
     }
 
     let shitiNum = px;
-    
+ 
     app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中").then((res) => {
       let shitiArray = res.data.list;
 

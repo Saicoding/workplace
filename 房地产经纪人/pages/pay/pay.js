@@ -90,4 +90,15 @@ Page({
 
   },
 
+  /**
+   * 点击返回按钮
+   */
+  onUnload:function(){
+    let pages = getCurrentPages();
+    console.log(pages)
+    wx.navigateBack({
+      delta:1
+    })
+  }
+
 })
