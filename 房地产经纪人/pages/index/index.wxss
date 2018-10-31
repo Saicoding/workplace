@@ -14,7 +14,7 @@
   text-align: left;
   float: left;
   margin-left: 20rpx;
-  letter-spacing: 8rpx;
+  letter-spacing: 6rpx;
 }
 
 .dingwei{

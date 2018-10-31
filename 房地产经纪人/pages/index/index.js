@@ -83,6 +83,7 @@ Page({
           }
         })
 
+
         self.setData({
           zhangjie: zhangjie,
           // z_id:res.data.list[0].z_id,
@@ -566,7 +567,7 @@ Page({
   },
 
   /**
-   * 
+   * 得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
    */
   setZhangjie: function(res) {
     let z_id = 0;

@@ -5,17 +5,13 @@ const app = getApp();
  * 验证重复登录或密码修改
  */
 function validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1,url) {
-  app.post(API_URL, "action=CheckAccount&zcode=" + zcode + "&LoginRandom=" + LoginRandom + "&pwd=" + pwd, false, false, "").then((res) => {
-    let status = res.data.status;
-    if(status == 1){//验证成功
+
+  app.post(API_URL, "action=CheckAccount&zcode=" + zcode + "&LoginRandom=" + LoginRandom + "&pwd=" + pwd, false, false,"",url).then((res) => {
       wx.navigateTo({
         url: url1
       })
-    }
   }).catch((errMsg) => {
-    wx.navigateTo({
-      url: '/pages/login1/login1?url=' + url+"&ifGoBack=false",
-    })
+    console.log(errMsg)
   });
 }
 

@@ -18,7 +18,8 @@
     "pages/mine/mine",
     "pages/phoneLogin/phoneLogin",
     "pages/tiku/kaoqianmiji/kaoqianmiji",
-    "pages/pay/pay"
+    "pages/pay/pay",
+    "pages/kaodianDetail/kaodianDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -10,7 +10,7 @@ App({
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
-  post: function(url, data, ifShow,ifCanCancel,title) {
+  post: function(url, data, ifShow,ifCanCancel,title,pageUrl) {
     if (ifShow) {
       wx.showLoading({
         title: title,
@@ -35,12 +35,16 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
-          // console.log(res)
-          if (res.data.status == 1) {
+          let status = res.data.status;
+          if (status == 1) {//请求成功
             resolve(res);
-          } else if(res.data.status == -2){//没有权限
+          } else if(status == -2){//没有权限
             wx.navigateTo({
               url: '/pages/pay/pay',
+            })
+          } else if(status == -5){//重复登录
+            wx.navigateTo({
+              url: '/pages/login1/login1?url=' + pageUrl + "&ifGoBack=false",
             })
           }
           wx.hideLoading();
