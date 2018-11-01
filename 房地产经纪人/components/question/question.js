@@ -16,6 +16,10 @@ Component({
       type:Boolean,
       value:false
     },
+    isFold:{
+      type:Boolean,
+      value:true
+    },
     tx:{
       type:String,
       value:"",
@@ -49,7 +53,6 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isFold:true,
     first:true
   },
 
@@ -96,14 +99,18 @@ Component({
       this.setData({
         foldData: qAnimation.export(),
         isFold:false,
-        first:false
       })
     },
 
     toogleShow: function (){
       if (this.data.tx != "材料题" ) return ;
       let isFold = this.data.isFold;
-      isFold ? this.spreadAnimation() : this.foldAnimation()
+
+      if(isFold){
+        this.triggerEvent('spreadAnimation')
+      }else{
+        this.triggerEvent('foldAnimation')
+      }
     }
   }
 })

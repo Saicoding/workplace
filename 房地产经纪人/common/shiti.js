@@ -39,7 +39,6 @@ function initShiti(shiti,self) {
     shiti.num_color = "#eaa91d";
     shiti.tx = "材料题";
     shiti.doneAnswer = [];
-    shiti.confirm = false;
 
     let xiaoti = shiti.xiaoti;
     for (let i = 0; i < xiaoti.length; i++) {
@@ -850,6 +849,7 @@ function lianxiRestart(self) {
 function initShitiArrayDoneAnswer(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     shitiArray[i].px = i + 1;//设置每个试题的px号
+    shitiArray[i].isFold = true;
     switch (shitiArray[i].TX) {
       case 1:
         shitiArray[i].done_daan = "";
@@ -857,6 +857,7 @@ function initShitiArrayDoneAnswer(shitiArray) {
         shitiArray[i].done_daan = [];
       case 99:
         shitiArray[i].done_daan = [];
+        shitiArray[i].confirm = false;
         for (let j = 0; j < shitiArray[i].xiaoti.length; j++) {
           let ti = shitiArray[i].xiaoti[j];
           if (ti.TX == 1) {

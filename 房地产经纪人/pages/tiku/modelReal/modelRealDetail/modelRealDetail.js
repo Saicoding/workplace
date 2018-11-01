@@ -20,7 +20,6 @@ Page({
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
     isLoaded: true, //是否已经载入完毕,用于控制过场动画
-    cl_question_hidden: false, //材料题是否隐藏题目
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
@@ -280,6 +279,7 @@ Page({
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
+    console.log(midShiti.confirm)
 
     if (midShiti.TX == 99) shitiNum = midShiti.clpx;
 
@@ -303,7 +303,6 @@ Page({
     }
 
     common.storeLastShiti(px, self); //存储最后一题的状态
-
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray = [];
@@ -409,17 +408,105 @@ Page({
   CLZuoti: function(e) {
     let self = this;
     self.waterWave.containerTap(e);
+
     let str = "#q" + self.data.px;
     let question = self.selectComponent(str);
 
     let px = self.data.px;
+    let lastSliderIndex = self.data.lastSliderIndex;
     let shitiArray = self.data.shitiArray;
+    let sliderShitiArray = self.data.sliderShitiArray;
     let shiti = shitiArray[px - 1];
+    let sliderShiti = sliderShitiArray[lastSliderIndex];
+    shiti.confirm = true;
+    sliderShiti.confirm = true;
 
     question.spreadAnimation();
 
     self.setData({
-      cl_question_hidden: true
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
+    })
+  },
+
+/**
+ * 展开
+ */
+
+  _spreadAnimation: function (e) {
+    console.log('展开')
+    let self = this;
+
+    let px = self.data.px;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let shitiArray = self.data.shitiArray;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let shiti = shitiArray[px - 1];
+    let sliderShiti = sliderShitiArray[lastSliderIndex];
+
+    self.waterWave.containerTap(e);
+
+    let str = "#q" + self.data.px;
+    let question = self.selectComponent(str);
+
+    let qAnimation = wx.createAnimation({
+      duration: 1000,
+      delay: 0,
+      timingFunction: "ease-in",
+      transformOrigin: "50%,50%"
+    })
+
+    qAnimation.height("400rpx", "90rpx").step({
+      duration: 1000,
+    })
+
+    shiti.isFold = true;
+    sliderShiti.isFold = true;
+
+    question.setData({
+      foldData: qAnimation.export(),
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
+    })
+  },
+
+ /**
+ * 折叠
+ */
+
+  _foldAnimation: function (e) {
+    console.log('折叠')
+    let self = this;
+
+    let px = self.data.px;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let shitiArray = self.data.shitiArray;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let shiti = shitiArray[px - 1];
+    let sliderShiti = sliderShitiArray[lastSliderIndex];
+
+    self.waterWave.containerTap(e);
+
+    let str = "#q" + self.data.px;
+    let question = self.selectComponent(str);
+
+    shiti.isFold = false;
+    sliderShiti.isFold = false;
+
+    let qAnimation = wx.createAnimation({
+      duration: 1000,
+      delay: 0,
+      timingFunction: "ease-out",
+      transformOrigin: "50%,50%"
+    })
+
+    qAnimation.height("90rpx", "400rpx").step({
+    })
+
+    question.setData({
+      foldData: qAnimation.export(),
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
     })
   },
 
