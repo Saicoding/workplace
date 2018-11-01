@@ -425,8 +425,6 @@ Page({
     let self = this;
     self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
-    let str = "当前没有考题,考前10天上线";
-    let title = "考前秘笈";
     let url = encodeURIComponent('/pages/tiku/kaoqianmiji/kaoqianmiji')
     let url1 = '/pages/tiku/kaoqianmiji/kaoqianmiji';
     

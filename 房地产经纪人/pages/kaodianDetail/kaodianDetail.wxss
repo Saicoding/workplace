@@ -1,6 +1,7 @@
 /* pages/kaodianDetail/kaodianDetail.wxss */
 .mycontent{
-  padding: 30rpx 30rpx 130rpx 30rpx;
+  padding: 30rpx 30rpx 0rpx 30rpx;
+  width:92.5%;
 }
 
 .bottom{
@@ -9,7 +10,6 @@
   background: #ffffff;
   height:100rpx;
   width:100%;
-  border-top:2rpx solid #e4e4e4;
   padding-left:20rpx;
 }
 

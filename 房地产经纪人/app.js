@@ -43,6 +43,7 @@ App({
               url: '/pages/pay/pay',
             })
           } else if(status == -5){//重复登录
+          console.log('重复登录')
             wx.navigateTo({
               url: '/pages/login1/login1?url=' + pageUrl + "&ifGoBack=false",
             })
@@ -66,7 +67,7 @@ App({
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    wx.clearStorage();
+    // wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({

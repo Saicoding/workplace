@@ -68,8 +68,8 @@
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
 
-<view>
-  <hasNoPage wx:if = "!isHasShiti" str = "当前题库没有错题"></hasNoPage>
+<view wx:if = "!isHasShiti">
+  <hasNoPage  str = "当前题库没有错题"></hasNoPage>
 </view>
 <!-- 点击水波 -->
 <waterWave id="waterWave"></waterWave>

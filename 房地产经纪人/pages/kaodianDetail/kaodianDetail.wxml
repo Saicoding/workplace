@@ -1,16 +1,13 @@
 <!--pages/kaodianDetail/kaodianDetail.wxml-->
-<view class="mycontent" style = "font-size:{{fontSize}}rpx;background:{{day?'#ffffff':'#323232'}};color:{{day?'#7e7e7e':'#9b9b9b'}};  line-height:{{fontSize*1.6}}rpx">
+<scroll-view enable-back-to-top scroll-with-animation bindscrolltolower="scrollToBottom" scroll-y scroll-top ="{{scroll}}" class="mycontent" style = "font-size:{{fontSize}}rpx;background:{{day?'#ffffff':'#323232'}};color:{{day?'black':'#9b9b9b'}};  line-height:{{fontSize*1.8}}rpx;height:{{windowHeight-125}}rpx;">
   <rich-text nodes="{{content}}"></rich-text>
-</view>
+</scroll-view>
 
-<view class="bottom" style = "background:{{day?'#ffffff':'#323232'}}">
+<view class="bottom" style = "background:{{day?'#ffffff':'#323232'}};  border-top:2rpx solid {{day?'#e4e4e4':'#1f1f1f'}};">
   <view class="select" data-preNext="0" bindtap='select'>
     <view class="select-img-container">
       <image class="select-img" src="{{day?'/imgs/next.png':'/imgs/next-night.png'}}" style="width:48rpx;height:48rpx;transform:rotateY(180deg)" mode="aspectFit"></image>
     </view>
-    <!-- <view class="select-text">
-      上一章
-    </view> -->
   </view>
 
   <view class="slider">
@@ -26,7 +23,7 @@
 
     <view class="day-night" bindtap='toogleDay'>
       <view class="day-img-container">
-        <image style="width:50rpx;height:50rpx;" src="{{day?'/imgs/moon.png':'/imgs/sun.png'}}" mode="aspectFit"></image>
+        <image style="width:50rpx;height:50rpx;transform:rotateY(180deg);" src="{{day?'/imgs/moon.png':'/imgs/sun.png'}}" mode="aspectFit"></image>
       </view>
       <view class="day-night-text" style = "color:#848484;">{{!day?'白天':'夜间'}}</view>
     </view>
@@ -36,9 +33,5 @@
     <view class="select-img-container">
       <image style="width:48rpx;height:48rpx;" src="{{day?'/imgs/next.png':'/imgs/next-night.png'}}" mode="aspectFit"></image>
     </view>
-    <!-- <view class="select-text">
-      下一章
-    </view> -->
   </view>
-
 </view>

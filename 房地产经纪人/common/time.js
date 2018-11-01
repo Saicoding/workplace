@@ -31,7 +31,30 @@ function getTime(t) {
   return time;
 }
 
+/**
+ * 开始计时
+ */
+function start(myinterval,mytime){
+  myinterval.interval = setInterval(function(){
+    mytime.second++;
+  },1000)
+}
+
+/**
+ * 重新开始计时
+ */
+function restart(myinterval,mytime){
+  clearInterval(myinterval.interval);
+  mytime.second = 0;
+  myinterval.interval = setInterval(function () {
+    mytime.second++;
+  }, 1000)
+}
+
+
 module.exports = {
   getGoneTimeStr: getGoneTimeStr,
-  getTime: getTime
+  getTime: getTime,
+  start: start,
+  restart: restart
 }

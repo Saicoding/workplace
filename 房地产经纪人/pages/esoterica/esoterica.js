@@ -15,17 +15,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
-    wx.setNavigationBarTitle({
-      title: "秘笈"
-    }) //设置标题
+    wx.setNavigationBarTitle({//设置标题
+      title: "房地产经纪考试通"
+    }) 
 
     //先执行onload方法，如果没有登录信息就先进入登录界面，登录成功后又执行一次该方法，这时可以获取user值，
     let self = this;
+    let user = wx.getStorageSync('user');
+    let username = user.username == undefined?"":user.username;
+    let acode = user.acode == undefined ? "" : user.acode;
+  
     app.post(API_URL, "action=SelectZj").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, true, true, "获取考点...").then((res) => {
+      
+      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, true, true, "获取考点...").then((res) => {
         let kdList = res.data.list;//考点列表
 
+        console.log(res)
+ 
         self.setData({
           kdList: kdList
         })
@@ -67,9 +74,11 @@ Page({
   GOkaodianDetail:function(e){
     let kdid = e.currentTarget.dataset.kdid;
     let kdList = this.data.kdList
+    let title = e.currentTarget.dataset.title
+    // title = title.replace(/第\S{0,2}章\s*(\S+)/g, "$1");//把第几章字样去掉
 
-    let url = encodeURIComponent('/pages/kaodianDetail/kaodianDetail?kdid=' + kdid );
-    let url1 = '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid;
+    let url = encodeURIComponent('/pages/kaodianDetail/kaodianDetail?kdid=' + kdid+"&title="+title);
+    let url1 = '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid+"&title=" + title;
 
     //获取是否有登录权限
     wx.getStorage({

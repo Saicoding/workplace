@@ -30,6 +30,7 @@ Page({
         let Login_random = user.Login_random; //用户登录随机值
         let zcode = user.zcode; //客户端id号
 
+        console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
         app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中").then((res) => {
           let status = res.data.status;
 
@@ -55,7 +56,7 @@ Page({
               success: function(res) {
                 if (res.errMsg == "requestPayment:ok") { //成功付款后
                   console.log("action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
-                  app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中").then((res) => {
+                  app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中",).then((res) => {
                     wx.navigateBack({
                       delta: 2
                     })
