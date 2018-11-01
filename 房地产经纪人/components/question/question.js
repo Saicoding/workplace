@@ -28,9 +28,15 @@ Component({
         let style2 ="";
         let style3 = "";
         if(tx == "材料题"){
-          style1 ="display:block;height:400rpx;margin-bottom:30rpx;"//占位框
-          style3="position:fixed;z-index:10000";
-          style2 = "positon:fixed;height:400rpx;left:20rpx;";//问题框
+          if(this.data.isFold){
+            style1 = "display:block;height:90rpx;margin-bottom:30rpx;"//占位框
+            style2 = "positon:fixed;height:90rpx;left:20rpx;";//问题框
+          }else{
+            style1 = "display:block;height:400rpx;margin-bottom:30rpx;"//占位框
+            style2 = "positon:fixed;height:400rpx;left:20rpx;";//问题框
+          }
+
+          style3 = "position:fixed;z-index:10000";
         }else{
           style1 = "display:none;";//占位框
           style2 = "height:auto";//问题框
@@ -105,12 +111,23 @@ Component({
     toogleShow: function (){
       if (this.data.tx != "材料题" ) return ;
       let isFold = this.data.isFold;
+      this.triggerEvent('toogleAnimation')
+    },
 
-      if(isFold){
-        this.triggerEvent('spreadAnimation')
-      }else{
-        this.triggerEvent('foldAnimation')
+    toogleStyle:function(isFold){
+      let style1 = "";
+      let style2 = "";
+      if (isFold) {
+        style1 = "display:block;height:90rpx;margin-bottom:30rpx;"//占位框
+        style2 = "positon:fixed;height:90rpx;left:20rpx;";//问题框
+      } else {
+        style1 = "display:block;height:400rpx;margin-bottom:30rpx;"//占位框
+        style2 = "positon:fixed;height:400rpx;left:20rpx;";//问题框
       }
+      this.setData({
+        style1: style1,
+        style2: style2,
+      })
     }
   }
 })
