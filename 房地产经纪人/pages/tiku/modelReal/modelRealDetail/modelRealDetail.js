@@ -6,12 +6,12 @@ let time1 = require('../../../../common/time.js');
 let animate = require('../../../../common/animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
+let isFold = true; //默认都是折叠的
 
 const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
 const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
-
 
 
 Page({
@@ -222,13 +222,12 @@ Page({
       if (midShiti.TX == 99) {
         let str = "#q" + px;
         let question = self.selectComponent(str);
-        let isFold = midShiti.isFold; //当前试题是否是折叠状态,如果是折叠状态才展开
 
         let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
         question.setData({
           foldData: foldData
         })
-        midShiti.isFold = false;
+        isFold = false;
         self.setData({
           shitiArray: shitiArray,
           sliderShitiArray: sliderShitiArray,
@@ -282,27 +281,20 @@ Page({
     let shiti = shitiArray[px - 1]; //当前试题
     let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
 
-    let isFold = shiti.isFold; //当前试题是否是折叠状态,如果是折叠状态才展开
-
     let foldData = undefined; //动画
 
+    console.log(isFold)
+
     if (isFold) {
-      foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
-      shiti.isFold = false;
-      sliderShiti.isFold = false;
+      foldData = animate.foldAnimation(easeOutAnimation, 400, 90);
+      isFold = false;
     } else {
-      foldData = animate.foldAnimation(easeInAnimation, 90, 400)
-      shiti.isFold = true;
-      sliderShiti.isFold = true;
+      foldData = animate.foldAnimation(easeInAnimation, 90, 400);
+      isFold = true;
     }
 
     question.setData({
       foldData: foldData
-    })
-
-    self.setData({
-      shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray,
     })
   },
 
@@ -321,6 +313,8 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray;
     let circular = self.data.circular;
 
+    isFold = true;
+
     //判断滑动方向
     if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)) { //左滑
       direction = "左滑";
@@ -333,9 +327,6 @@ Page({
     } else {
       px--;
     }
-
-    let str = "#q" + px;
-    let question = self.selectComponent(str);
 
     let shitiNum = px;
     let preShiti = undefined; //前一题
@@ -411,21 +402,26 @@ Page({
       checked: false
     })
 
+    if (direction == "左滑") {
+      let str = "#q" + (px - 1);
+      let question1 = self.selectComponent(str);
+      question1.toogleStyle(true);
+    } else {
+      let str = "#q" + (px + 1);
+      let question2 = self.selectComponent(str);
+      question2.toogleStyle(true);
+    }
+
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
-      let isFold = midShiti.isFold; //当前试题是否是折叠状态,如果是折叠状态才展开
-      console.log(isFold)
-      if (isFold) {
-        let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
-        question.setData({
-          foldData: foldData
-        })
-        midShiti.isFold = false;
-        self.setData({
-          shitiArray: shitiArray,
-          sliderShitiArray: sliderShitiArray,
-        })
-      }
+      let str = "#q" + px;
+      let question = self.selectComponent(str);
+      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+
+      question.setData({
+        foldData: foldData
+      })
+      isFold = false;
     }
   },
   /**
@@ -495,19 +491,17 @@ Page({
     let shitiArray = self.data.shitiArray;
     let sliderShitiArray = self.data.sliderShitiArray;
     let shiti = shitiArray[px - 1];
-    let isFold = shiti.isFold;
+
     let sliderShiti = sliderShitiArray[lastSliderIndex];
     shiti.confirm = true;
     sliderShiti.confirm = true;
 
     if (!isFold) {
+      isFold = true;
       let foldData = animate.foldAnimation(easeOutAnimation, 90, 400)
-
       question.setData({
         foldData: foldData
       })
-      shiti.isFold = true;
-      sliderShiti.isFold = true;
     }
 
     self.setData({
@@ -655,6 +649,7 @@ Page({
     let shiti = "";
     let xiaotiCurrent = 0;
     let shitiNum = px;
+    isFold = true;
 
     let circular = self.data.circular;
     let current = self.data.lastSliderIndex; //当前swiper的index
@@ -743,27 +738,17 @@ Page({
     })
     self._hideMarkAnswer();
 
-    let isFold = midShiti.isFold; //当前试题是否是折叠状态,如果是折叠状态才展开
-
     let foldData = undefined; //动画
 
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
       let question = self.selectComponent(str);
-      let isFold = midShiti.isFold; //当前试题是否是折叠状态,如果是折叠状态才展开
-      console.log(isFold)
-      if (isFold) {
-        let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
-        question.setData({
-          foldData: foldData
-        })
-        midShiti.isFold = false;
-        self.setData({
-          shitiArray: shitiArray,
-          sliderShitiArray: sliderShitiArray,
-        })
-      }
+
+      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+      question.setData({
+        foldData: foldData
+      })
     }
   },
 

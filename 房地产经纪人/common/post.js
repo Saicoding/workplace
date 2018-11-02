@@ -1,4 +1,7 @@
 let common = require('shiti.js');
+let animate = require('animate.js')
+let easeOutAnimation = animate.easeOutAnimation();
+let easeInAnimation = animate.easeInAnimation();
 
 function zuotiOnload(options, px, circular, myFavorite, res, username, acode, self){
   let shitiArray = res.data.shiti;
@@ -85,6 +88,24 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
     username: username, //用户账号名称
     acode: acode //用户唯一码
   });
+
+
+  //如果是材料题就有动画
+  if (midShiti.TX == 99) {
+    let str = "#q" + px;
+    let question = self.selectComponent(str);
+
+    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    question.setData({
+      foldData: foldData
+    })
+
+    self.setData({
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray,
+    })
+  }
+
   wx.hideLoading();
 }
 
@@ -115,7 +136,6 @@ function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, userna
   if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
   sliderShitiArray[0] = midShiti;
 
-
   self.setData({
     //设置过场动画
     winH: wx.getSystemInfoSync().windowHeight,
@@ -131,6 +151,24 @@ function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, userna
     username: username, //用户账号名称
     acode: acode //用户唯一码
   });
+
+  //如果是材料题就有动画
+  if (midShiti.TX == 99) {
+    let str = "#q" + px;
+    let question = self.selectComponent(str);
+
+    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    question.setData({
+      foldData: foldData
+    })
+
+    self.setData({
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray,
+    })
+  }
+
+  console.log(self.data.sliderShitiArray)
   
   wx.hideLoading();
 }

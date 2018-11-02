@@ -2,15 +2,14 @@
 <!--蒙版（渐出淡去效果）-->
 <!-- <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};' ></view> -->
 <!-- 如果没有试题就不显示 -->
-
 <swiper wx:if="{{isHasShiti}}" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
-
-      <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='opacity: {{1-opacity}};height:{{windowHeight-90}}rpx;' catchlongtap='_toogleMarkAnswer'>
+    
+      <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='height:{{windowHeight-90}}rpx;' catchlongtap='_toogleMarkAnswer'>
         <!-- bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" -->
         <!--问题-->
-        <question id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
+        <question bindtoogleAnimation ="_toogleAnimation" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
         <!--单选题-->
         <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
@@ -31,11 +30,11 @@
 
         <!--材料题-->
         <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 99}}">
-          <view wx:if="{{!cl_question_hidden&&!shiti.isAnswer}}" class="cailiaoZuoti">
+          <view wx:if="{{!shiti.confirm&&!shiti.isAnswer}}" class="cailiaoZuoti">
             <button class="cailiaoZuoti-btn" bindtap='CLZuoti'>答题</button>
           </view>
           <!-- 材料题小题的滑动框 -->
-          <view hidden="{{!cl_question_hidden&&!shiti.isAnswer}}">
+          <view wx:if="{{shiti.confirm || shiti.isAnswer}}">
             <swiper indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-280}}rpx" bindchange="xiaotiSliderChange" indicator-active-color="#1d9bf7">
               <block wx:for="{{shiti.xiaoti}}" wx:for-item="xiaoti" wx:key="ti">
                 <swiper-item>

@@ -849,7 +849,6 @@ function lianxiRestart(self) {
 function initShitiArrayDoneAnswer(shitiArray) {
   for (let i = 0; i < shitiArray.length; i++) {
     shitiArray[i].px = i + 1;//设置每个试题的px号
-    shitiArray[i].isFold = true;
     switch (shitiArray[i].TX) {
       case 1:
         shitiArray[i].done_daan = "";

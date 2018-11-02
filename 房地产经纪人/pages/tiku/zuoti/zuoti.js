@@ -1,6 +1,10 @@
 // pages/tiku/zuoti/index.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../common/shiti.js');
+let animate = require('../../../common/animate.js')
+let easeOutAnimation = animate.easeOutAnimation();
+let easeInAnimation = animate.easeInAnimation();
+let isFold = true; //默认都是折叠的
 let post = require('../../../common/post.js');
 
 const util = require('../../../utils/util.js')
@@ -56,7 +60,7 @@ Page({
 
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true, false, "载入中").then((res) => {
       post.zuotiOnload(options, px, circular,myFavorite,res, username, acode, self) //对数据进行处理和初始化
-
+      isFold = false;
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
       wx.hideLoading();
@@ -81,6 +85,37 @@ Page({
       }
     });
   },
+
+  /**
+  * 切换问题的动画
+  */
+  _toogleAnimation: function () {
+    let self = this;
+
+    let px = self.data.px; //当前px
+    let str = "#q" + px; //当前问题组件id
+    let question = self.selectComponent(str); //当前问题组件
+
+    let lastSliderIndex = self.data.lastSliderIndex; //当前滑块index
+    let shitiArray = self.data.shitiArray; //当前试题数组
+    let sliderShitiArray = self.data.sliderShitiArray; //当前滑块试题数组
+    let shiti = shitiArray[px - 1]; //当前试题
+    let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
+
+    let foldData = undefined; //动画
+
+    if (isFold) {
+      foldData = animate.foldAnimation(easeOutAnimation, 400, 90);
+      isFold = false;
+    } else {
+      foldData = animate.foldAnimation(easeInAnimation, 90, 400);
+      isFold = true;
+    }
+
+    question.setData({
+      foldData: foldData
+    })
+  },
  
   /**
    * slider改变事件
@@ -99,6 +134,8 @@ Page({
     let shitiArray = self.data.shitiArray;
     let doneAnswerArray = self.data.doneAnswerArray;
     let circular = self.data.circular;
+
+    isFold = true;
 
     //判断滑动方向
     if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)){//左滑
@@ -176,9 +213,6 @@ Page({
 
     
     circular = px == 1 || px == shitiArray.length ? false : true//如果滑动后编号是1,或者最后一个就禁止循环滑动
-    console.log(sliderShitiArray)  
-    console.log(circular)
-    console.log(self.data.myCurrent)
  
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
@@ -189,12 +223,30 @@ Page({
       px: px,
       checked: false
     })
+
+    if (direction == "左滑") {
+      let str = "#q" + (px - 1);
+      let question1 = self.selectComponent(str);
+      question1.toogleStyle(true);
+    } else {
+      let str = "#q" + (px + 1);
+      let question2 = self.selectComponent(str);
+      question2.toogleStyle(true);
+    }
+
+    //如果是材料题就判断是否动画
+    if (midShiti.TX == 99) {
+      let str = "#q" + px;
+      let question = self.selectComponent(str);
+      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+
+      question.setData({
+        foldData: foldData
+      })
+      isFold = false;
+    }
   },
 
-  // ifIsLast:function(e){
-  //   let px = this.data.px;
-  //   let nums = this.data.nums;
-  // },
 
   /**
    * 作答
@@ -267,17 +319,31 @@ Page({
   CLZuoti: function(e) {
     let self = this;
     self.waterWave.containerTap(e);
+
     let str = "#q" + self.data.px;
     let question = self.selectComponent(str);
 
     let px = self.data.px;
+    let lastSliderIndex = self.data.lastSliderIndex;
     let shitiArray = self.data.shitiArray;
-    let shiti = shitiArray[px-1];
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let shiti = shitiArray[px - 1];
 
-    question.spreadAnimation();
+    let sliderShiti = sliderShitiArray[lastSliderIndex];
+    shiti.confirm = true;
+    sliderShiti.confirm = true;
+
+    if (!isFold) {
+      isFold = true;
+      let foldData = animate.foldAnimation(easeOutAnimation, 90, 400)
+      question.setData({
+        foldData: foldData
+      })
+    }
 
     self.setData({
-      cl_question_hidden: true
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray
     })
   },
   /**
@@ -374,8 +440,6 @@ Page({
   onShow: function(e) {
     let self = this;
 
-    self.hide(); //动画效果
-
     common.lianxiRestart(self); //重新开始作答
   },
 
@@ -410,7 +474,6 @@ Page({
     let shitiArray = self.data.shitiArray;
     let shiti = shitiArray[px-1];
 
-
     shiti.favorite = shiti.favorite == 0?1:0;
 
     this.setData({
@@ -435,6 +498,7 @@ Page({
     let current = self.data.lastSliderIndex;//当前swiper的index
     let circular = self.data.circular;
     let myFavorite = 0;
+    isFold = true;
 
     //得到swiper数组
     let preShiti = undefined;//前一题
@@ -444,8 +508,7 @@ Page({
 
     let sliderShitiArray = [];
 
-    console.log(px)
-    console.log(midShiti )
+   
 
     common.initShiti(midShiti, self); //初始化试题对象
     common.processDoneAnswer(midShiti.done_daan, midShiti, self);
@@ -500,7 +563,6 @@ Page({
         myCurrent: 1
       })
     }
-    console.log(sliderShitiArray)
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
@@ -514,22 +576,18 @@ Page({
       checked: false
     })
     self._hideMarkAnswer();
-  },
-  /**
-   * 载入动画
-   */
-  hide: function() {
-    var vm = this
-    var interval = setInterval(function() {
-      if (vm.data.winH > 0) {
-        //清除interval 如果不清除interval会一直往上加
-        clearInterval(interval)
-        vm.setData({
-          winH: vm.data.winH - 20,
-          opacity: vm.data.winH / winHeight
-        })
-        vm.hide()
-      }
-    }, 10);
+
+    let foldData = undefined; //动画
+
+    //如果是材料题就判断是否动画
+    if (midShiti.TX == 99) {
+      let str = "#q" + px;
+      let question = self.selectComponent(str);
+
+      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+      question.setData({
+        foldData: foldData
+      })
+    }
   },
 })
