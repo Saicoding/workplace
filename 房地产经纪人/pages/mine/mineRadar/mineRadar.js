@@ -36,13 +36,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: options.title,
+    })
     //获取是否有登录权限
     let self = this;
-    let kid = options.kid
+    let kmid = options.kmid
 
     let user = wx.getStorageSync('user');
 
-    self.getStudyRate(user,kid);
+    self.getStudyRate(user,kmid);
 
     self.setData({
       user: user
@@ -67,9 +70,12 @@ Page({
 
   getStudyRate(user,kmid) {
     let self = this;
-    app.post(API_URL, "action=MyLearningPro&username=" + user.username + "&acode=" + user.acode+"&kmid="+kmid, false, false, "").then((res) => {
+    console.log("action=MyLearningPro&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid)
+    app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode+"&kmid="+kmid, false, false, "").then((res) => {
+      
       let chanelArray = self.data.chanelArray;
       let rate = res.data.data[0];
+      console.log(rate)
       chanelArray[0][1] = rate.zhangjie;
       chanelArray[1][1] = rate.shipin;
       chanelArray[2][1] = rate.shijuan;

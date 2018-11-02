@@ -28,8 +28,14 @@ function foldAnimation(myAnimation,max,min){
   return myAnimation.export();
 }
 
+function rotateAnimation(myAnimation,angle){
+  myAnimation.rotateZ(angle);
+  return myAnimation.export();
+}
+
 module.exports = {
   easeOutAnimation: easeOutAnimation,
   easeInAnimation: easeInAnimation,
   foldAnimation: foldAnimation,
+  rotateAnimation: rotateAnimation
 }

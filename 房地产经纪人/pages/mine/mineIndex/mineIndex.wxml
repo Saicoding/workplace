@@ -1,101 +1,89 @@
 <view class="mycontainer">
   <view class="up">
-    <view class="pic-container">
-      <image class="pic" src="{{user.Pic}}" mode="aspectFit"></image>
-    </view>
+
+    <image class="pic" src="{{user.Pic}}" mode="aspectFit"></image>
+
     <view class="nickname">{{user.Nickname}}</view>
   </view>
+  <scroll-view scroll-y style="height:{{windowHeight-350}}rpx">
+    <view class='rate'>
+      <view class="jjr">
+        <view data-rate="jjr" class="jjr-block" bindtap="toogleShow">
+          <!-- 标题 -->
+          <image class = "rate-img" src="/imgs/blue-rate.png" mode="aspectFit" style=" transform:rotate({{-jjrAngle}}deg)"></image>
 
-  <view class='rate'>
-    <view class="jjr">
-      <view class="rate-img-container">
-        <image src="/imgs/blue-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view class="jjr-title">《房地产经纪人》 学习进度</view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
-    <view class="xl">
-      <view class="rate-img-container">
-        <image src="/imgs/green2-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view>《房地产经纪人协理》学习进度</view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
+          <view class="mytitle">《房地产经纪人》 学习进度</view>
 
-    <view class="block" bindtap="GOradar">
-      <view class="rate-img-container">
-        <image src="/imgs/blue-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view class="mytext">房地产交易制度政策 </view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
+          <image class = "right-img1" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>
 
-    <view class="block">
-      <view class="rate-img-container">
-        <image src="/imgs/orange-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view class="mytext">房地产经纪职业导论 </view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
+        </view>
 
-    <view class="block">
-      <view class="rate-img-container">
-        <image src="/imgs/green-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view class="mytext">房地产经纪职业导论 </view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
+        <!-- 菜单 -->
+        <view class="jie" animation="{{jjrFoldData}}">
+          <view data-title="房地产交易制度政策" data-kmid="257" class=" block " bindtap="GOradar">
+            <view class="mytext ">《房地产交易制度政策》 </view>
 
-    <view class="block" style="border-bottom:none;">
-      <view class="rate-img-container">
-        <image src="/imgs/red-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view class="mytext">房地产业务操作 学习进度 </view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
+            <image class="right-img" src="/imgs/view.png " mode="aspectFit "></image>
 
-    <view style="width:120%;border-bottom:10rpx solid #ebebeb;margin-left:-60rpx;"></view>
+          </view>
 
-    <view class="block">
-      <view class="rate-img-container">
-        <image src="/imgs/green2-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
+          <view data-title="房地产经纪职业导论" data-kmid="258" class="block " bindtap="GOradar">
+            <view class="mytext ">《房地产经纪职业导论》 </view>
+
+            <image class="right-img" src="/imgs/view.png " mode="aspectFit "></image>
+
+          </view>
+
+          <view data-title="房地产经纪专业基础" data-kmid="260" class="block " bindtap="GOradar">
+            <view class="mytext ">《房地产经纪专业基础》 </view>
+
+            <image class="right-img" src="/imgs/view.png " mode="aspectFit "></image>
+
+          </view>
+
+          <view data-title="房地产业务操作" data-kmid="259" class="block " bindtap="GOradar">
+            <view class="mytext ">《房地产业务操作》 </view>
+
+            <image class="right-img" src="/imgs/view.png " mode="aspectFit "></image>
+
+          </view>
+        </view>
       </view>
-      <view class="mytext">经纪操作实务 </view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
+
+
+      <view class="xl">
+        <view data-rate="xl" class="xl-block" bindtap='toogleShow' style="border:none;">
+          <!-- 标题 -->
+          <image class = "rate-img" src="/imgs/orange-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx; transform:rotate({{-xlAngle}}deg);"></image>
+
+          <view class="mytitle">《房地产经纪人协理》 学习进度</view>
+          <image class ="right-img1" src="/imgs/right-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;transform:rotate({{xlAngle}}deg)"></image>
+        </view>
+
+        <!-- 菜单 -->
+        <view class="jie" animation="{{xlFoldData}}">
+          <view data-title="经纪操作实务" data-kmid="263" class=" block" bindtap="GOradar">
+            <view class="mytext ">《经纪操作实务》 </view>
+            <image class="right-img" src="/imgs/view.png " mode="aspectFit "></image>
+          </view>
+
+          <view data-title="经纪综合能力" data-kmid="262" class="block" bindtap="GOradar">
+            <view class="mytext ">《经纪综合能力》 </view>
+            <image class="right-img" src="/imgs/view.png " mode="aspectFit "></image>
+          </view>
+        </view>
       </view>
     </view>
 
-    <view class="block">
-      <view class="rate-img-container">
-        <image src="/imgs/pink-rate.png" mode="aspectFit" style="width:50rpx;height:50rpx;"></image>
-      </view>
-      <view class="mytext">经纪综合能力 </view>
-      <view class="right-img-container">
-        <image src="/imgs/right-rate.png" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
-      </view>
-    </view>
-  </view>
-  <!-- 最底下关于房地产经纪人考试通 -->
+    <!-- 最底下关于房地产经纪人考试通 -->
 
-  <view class="bottom">
-    <view class="logo-img-container">
-      <image src="/imgs/my_error.jpg" mode="aspectFit" style="width:40rpx;height:40rpx;"></image>
+    <view class="bottom ">
+
+      <image class="logo-img-container " src="/imgs/my_error.jpg " mode="aspectFit"></image>
+
+      <view class="about ">
+        关于房地产经纪人考试通
+      </view>
     </view>
-    <view class="about">
-      关于房地产经纪人考试通
-    </view>
-  </view>
+  </scroll-view>
 </view>
