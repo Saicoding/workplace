@@ -84,7 +84,7 @@ Page({
           jjrFoldData: jjrFoldData,
         })
       }else{
-        let jjrFoldData = animate.foldAnimation(easeOutAnimation, 0,380);
+        let jjrFoldData = animate.foldAnimation(easeInAnimation, 0,380);
         jjrIsFold = true;
         let interval = setInterval(function () {
           jjrAngle -= 3;
