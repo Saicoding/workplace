@@ -15,11 +15,12 @@
     "pages/prompt/modelRealScore/modelRealScore",
     "pages/video/video",
     "pages/esoterica/esoterica",
-    "pages/mine/mine",
+    "pages/mine/mineIndex/mineIndex",
     "pages/phoneLogin/phoneLogin",
     "pages/tiku/kaoqianmiji/kaoqianmiji",
     "pages/pay/pay",
-    "pages/kaodianDetail/kaodianDetail"
+    "pages/kaodianDetail/kaodianDetail",
+    "pages/mine/mineRadar/mineRadar"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -56,7 +57,7 @@
         "text": "考点"
       },
       {
-        "pagePath": "pages/mine/mine",
+        "pagePath": "pages/mine/mineIndex/mineIndex",
         "iconPath": "/imgs/menu_ico4.png",
         "selectedIconPath": "/imgs/menu_ico4_sel.png",
         "selectedColor": "#2592ff",

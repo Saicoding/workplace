@@ -321,11 +321,11 @@ function setMarkAnswer(shiti, isModelReal, isSubmit, self) {
   let px = shiti.px;
   let style = "";
   if (isModelReal && isSubmit == false) { //如果是真题或者押题
-    style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+    style = "background:#0197f6;color:white;border:1rpx solid #0197f6; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 0) { //如果题是正确的
-    style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+    style = "background:#90dd35;color:white;border:1rpx solid #90dd35; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 1) { //如果题是错误的
-    style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+    style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   }
 
   markAnswerItems[px - 1] = {
@@ -348,11 +348,11 @@ function setCLMarkAnswer(shiti,isSubmit,shitiPx,self){
   let style = "";
 
   if (isSubmit == false) { //如果是真题或者押题
-    style = "background:#0197f6;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+    style = "background:#0197f6;color:white;border:1rpx solid #0197f6; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 0) { //如果题是正确的
-    style = "background:#90dd35;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+    style = "background:#90dd35;color:white;border:1rpx solid #90dd35; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   } else if (shiti.flag == 1) { //如果题是错误的
-    style = "background:#fa4b5c;color:white;border:none; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
+    style = "background:#fa4b5c;color:white;border:1rpx solid #fa4b5c; width:54rpx; height: 54rpx;border-radius: 54rpx;line-height:54rpx;"
   }
 
   markAnswerItems[px - 1] = {

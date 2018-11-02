@@ -1,0 +1,92 @@
+.mycontainer{
+
+}
+
+.up{
+  background: #0197f6;
+  width:100%;
+  height:350rpx;
+  color:white;
+  padding-top:30rpx;
+}
+
+.pic-container{
+  width:200rpx;
+  height:200rpx;
+  border-radius: 200rpx;
+  margin: 0 auto;
+}
+
+.pic{
+  width:200rpx;
+  height:200rpx;
+  border-radius: 200rpx;
+}
+
+.nickname{
+  font-size:50rpx;
+  width:100%;
+  text-align: center;
+  margin-top:25rpx;
+  letter-spacing: 8rpx;
+}
+
+.rate{
+  border-top:30rpx solid #ebebeb;
+  padding-left:40rpx;
+  padding-right:40rpx;
+  padding-top:20rpx;
+}
+
+.jjr,.xl{
+  display: inline-flex;
+  height:65rpx;
+  width:100%;
+  border-bottom:1rpx solid #ebebeb;
+  vertical-align: middle;
+}
+
+.block{
+  display: inline-flex;
+  height:65rpx;
+  width:100%;
+  border-bottom:1rpx solid #ebebeb;
+  vertical-align: middle;
+  margin-top:20rpx;
+  border:1px solid red;
+}
+
+.rate-img-container{
+  width:50rpx;
+
+}
+
+.right-img-container{
+  width:40rpx;
+  margin-left:50rpx;
+}
+
+.mytext{
+  font-size:33rpx;
+  width:500rpx;
+  margin-left:20rpx;
+}
+
+.bottom{
+  display: inline-flex;
+  border-top:30rpx solid #ebebeb;
+  border-bottom:30rpx solid #ebebeb;
+  vertical-align: bottom;
+  width:100%;
+  height:80rpx;
+  padding-left:48rpx;
+  padding-right:40rpx;
+  padding-top:20rpx;
+}
+
+.about{
+  font-size:33rpx;
+  margin-left:40rpx;
+}
+
+

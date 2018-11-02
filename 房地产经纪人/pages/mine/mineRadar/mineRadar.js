@@ -4,14 +4,14 @@ const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
 
 // start雷达图初始化数据
-let numCount = 5;  //元素个数
-let numSlot = 5;  //一条线上的总节点数
+let numCount = 5; //元素个数
+let numSlot = 5; //一条线上的总节点数
 let windowWidth = wx.getSystemInfoSync().windowWidth; //窗口高度
-let mW = wx.getSystemInfoSync().windowWidth;  //Canvas的宽度
+let mW = wx.getSystemInfoSync().windowWidth; //Canvas的宽度
 
 let mCenter = mW / 2; //中心点
 let mAngle = Math.PI * 2 / numCount; //角度
-let mRadius = mCenter - 40*(750/windowWidth); //半径(减去的值用于给绘制的文本留空间)
+let mRadius = mCenter - 40 * (750 / windowWidth); //半径(减去的值用于给绘制的文本留空间)
 //获取指定的Canvas
 let radCtx = wx.createCanvasContext("radarCanvas")
 
@@ -22,54 +22,54 @@ Page({
    */
   data: {
     stepText: 5,
-    chanelArray: [["章节题库", 0], ["视频学习", 0], ["套卷练习", 0],  ["考前秘籍", 0] ,["考点学习", 0]],
+    chanelArray: [
+      ["章节题库", 0],
+      ["视频学习", 0],
+      ["套卷练习", 0],
+      ["考前秘籍", 0],
+      ["考点学习", 0]
+    ],
 
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
+  onLoad: function(options) {
     //获取是否有登录权限
     let self = this;
-
-    let url = encodeURIComponent('/pages/mine/mine');
+    let kid = options.kid
 
     let user = wx.getStorageSync('user');
 
-    if(user){
-      self.getStudyRate(user);
-      self.setData({
-        user:user
-      })
-    }else{
-      wx.navigateTo({
-        url: '/pages/login1/login1?url=' + url+'&ifGoBack=true',
-      })
-    }
+    self.getStudyRate(user,kid);
+
+    self.setData({
+      user: user
+    })
+
   },
 
-  onReady:function(){
+  onReady: function() {
     let self = this;
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function (res) { //转换窗口高度
+      success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowHeight: windowHeight,
-          windowWidth:windowWidth,
+          windowWidth: windowWidth,
         })
       }
     });
   },
 
-  getStudyRate(user){
+  getStudyRate(user,kmid) {
     let self = this;
-    console.log("action=MyLearningPro&username=" + user.username + "&acode=" + user.acode)
-    app.post(API_URL,"action=MyLearningPro&username="+user.username+"&acode="+user.acode,false,false,"").then((res)=>{
+    app.post(API_URL, "action=MyLearningPro&username=" + user.username + "&acode=" + user.acode+"&kmid="+kmid, false, false, "").then((res) => {
       let chanelArray = self.data.chanelArray;
-      let rate= res.data.data[0];
+      let rate = res.data.data[0];
       chanelArray[0][1] = rate.zhangjie;
       chanelArray[1][1] = rate.shipin;
       chanelArray[2][1] = rate.shijuan;
@@ -88,16 +88,12 @@ Page({
   /**
    * 在返回页面的时候
    */
-  onShow:function(){
-    let user = wx.getStorageSync('user');
-    if (user) this.getStudyRate(user)
-    this.setData({
-      user:user
-    })
+  onShow: function() {
+
   },
 
   // 雷达图
-  drawRadar: function (chanelArray) {
+  drawRadar: function(chanelArray) {
     let sourceData = chanelArray
 
     //调用
@@ -113,9 +109,9 @@ Page({
     radCtx.draw()
   },
   // 绘制5条边
-  drawEdge: function () {
+  drawEdge: function() {
     radCtx.setStrokeStyle("#d6d6d6")
-    radCtx.setLineWidth(1)  //设置线宽
+    radCtx.setLineWidth(1) //设置线宽
     for (let i = 0; i < numSlot; i++) {
       //计算半径
       radCtx.beginPath()
@@ -132,7 +128,7 @@ Page({
     }
   },
   // 绘制连接点
-  drawLinePoint: function () {
+  drawLinePoint: function() {
     radCtx.beginPath();
     for (let k = 0; k < numCount; k++) {
       let x = mCenter + mRadius * Math.cos(mAngle * k - 18 * Math.PI / 180);
@@ -144,7 +140,7 @@ Page({
     radCtx.stroke();
   },
   //绘制数据区域(数据和填充颜色)
-  drawRegion: function (mData, color) {
+  drawRegion: function(mData, color) {
 
     radCtx.beginPath();
     for (let m = 0; m < numCount; m++) {
@@ -159,29 +155,29 @@ Page({
   },
 
   //绘制文字
-  drawTextCans: function (mData) {
+  drawTextCans: function(mData) {
 
     radCtx.setFillStyle("black")
     radCtx.font = '16px cursive' //设置字体
     for (let n = 0; n < numCount; n++) {
       let x = mCenter + mRadius * Math.cos(mAngle * n - 18 * Math.PI / 180);
       let y = mCenter + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
-       //通过不同的位置，调整文本的显示位置
-      switch(n){
+      //通过不同的位置，调整文本的显示位置
+      switch (n) {
         case 0:
-          radCtx.fillText(mData[0][0], x +5, y - 5);//右上
-        break;
+          radCtx.fillText(mData[0][0], x + 5, y - 5); //右上
+          break;
         case 1:
-          radCtx.fillText(mData[1][0], x, y + 15);//右下
+          radCtx.fillText(mData[1][0], x, y + 15); //右下
           break;
         case 2:
-          radCtx.fillText(mData[2][0], x - radCtx.measureText(mData[2][0]).width, y+15);//左下
+          radCtx.fillText(mData[2][0], x - radCtx.measureText(mData[2][0]).width, y + 15); //左下
           break;
         case 3:
-          radCtx.fillText(mData[3][0], x - radCtx.measureText(mData[3][0]).width-5, y - 5);//左上
+          radCtx.fillText(mData[3][0], x - radCtx.measureText(mData[3][0]).width - 5, y - 5); //左上
           break;
         case 4:
-          radCtx.fillText(mData[4][0], x - (radCtx.measureText(mData[4][0]).width) / 2, y -20);//上
+          radCtx.fillText(mData[4][0], x - (radCtx.measureText(mData[4][0]).width) / 2, y - 20); //上
           break;
       }
     }
@@ -193,25 +189,25 @@ Page({
       //通过不同的位置，调整文本的显示位置
       switch (n) {
         case 0:
-          radCtx.fillText(mData[0][1]+"%", x + 25, y + 11);//右上
+          radCtx.fillText(mData[0][1] + "%", x + 25, y + 11); //右上
           break;
         case 1:
-          radCtx.fillText(mData[1][1] + "%", x+10, y + 30);//右下
+          radCtx.fillText(mData[1][1] + "%", x + 10, y + 30); //右下
           break;
         case 2:
-          radCtx.fillText(mData[2][1] + "%", x - radCtx.measureText(mData[2][0]).width-5, y + 30);//左下
+          radCtx.fillText(mData[2][1] + "%", x - radCtx.measureText(mData[2][0]).width - 5, y + 30); //左下
           break;
         case 3:
-          radCtx.fillText(mData[3][1] + "%", x - radCtx.measureText(mData[3][0]).width - 15, y + 11);//左上
+          radCtx.fillText(mData[3][1] + "%", x - radCtx.measureText(mData[3][0]).width - 15, y + 11); //左上
           break;
         case 4:
-          radCtx.fillText(mData[4][1] + "%", x - (radCtx.measureText(mData[4][0]).width) / 2, y - 5);//上
+          radCtx.fillText(mData[4][1] + "%", x - (radCtx.measureText(mData[4][0]).width) / 2, y - 5); //上
           break;
       }
     }
   },
   //画点
-  drawCircle: function (mData, color) {
+  drawCircle: function(mData, color) {
     let r = 3; //设置节点小圆点的半径
     for (let i = 0; i < numCount; i++) {
       let x = mCenter + mRadius * Math.cos(mAngle * i - 18 * Math.PI / 180) * mData[i][1] / 100;
