@@ -30,6 +30,7 @@ Page({
    */
   data: {
     stepText: 5,
+    nums:0,
     chanelArray: [
       ["章节题库", 0],
       ["视频学习", 0],
@@ -67,7 +68,7 @@ Page({
 
     if (rate == "jjr") { //如果点击的是经纪人
       if (jjrIsFold){//如果是折叠状态
-        let jjrFoldData = animate.foldAnimation(easeOutAnimation, 380, 0);
+        let jjrFoldData = animate.foldAnimation(easeInAnimation, 380, 0);
         jjrIsFold  = false;
         let interval = setInterval(function(){
           jjrAngle += 3 ;
@@ -84,7 +85,7 @@ Page({
           jjrFoldData: jjrFoldData,
         })
       }else{
-        let jjrFoldData = animate.foldAnimation(easeInAnimation, 0,380);
+        let jjrFoldData = animate.foldAnimation(easeOutAnimation, 0,380);
         jjrIsFold = true;
         let interval = setInterval(function () {
           jjrAngle -= 3;
@@ -103,7 +104,7 @@ Page({
       }
     }else{
       if (xlIsFold) {//如果是折叠状态
-        let xlFoldData = animate.foldAnimation(easeOutAnimation, 200, 0);
+        let xlFoldData = animate.foldAnimation(easeInAnimation, 200, 0);
         xlIsFold = false;
         let interval = setInterval(function () {
           xlAngle += 3;
@@ -155,8 +156,23 @@ Page({
         })
       }
     });
+
+    let user = wx.getStorageSync('user');
+    if (user != "") {
+      let LoginRandom = user.Login_random;
+      let zcode = user.zcode;
+      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "").then((res) => {
+        let nums = res.data.nums;
+        self.setData({
+          nums: nums
+        })
+      })
+    }
   },
 
+  /**
+   * 导航到雷达页面
+   */
   GOradar:function(e) {
     let kmid = e.currentTarget.dataset.kmid;
     let title = e.currentTarget.dataset.title;
@@ -167,10 +183,20 @@ Page({
   },
 
   /**
+   * 导航到消息页面
+   */
+  GOmessage:function(){
+    wx.navigateTo({
+      url: '/pages/mine/message/message',
+    })
+  },
+  /**
    * 在返回页面的时候
    */
   onShow: function() {
+    let self = this;
     let user = wx.getStorageSync('user');
+
     this.setData({
       user: user
     })

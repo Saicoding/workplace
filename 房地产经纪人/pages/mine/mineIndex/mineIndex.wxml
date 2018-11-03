@@ -4,9 +4,9 @@
 
     <image class="pic" src="{{user.Pic}}" mode="aspectFit"></image>
 
-    <view class="message">
+    <view class="message" bindtap='GOmessage'>
       <image class="xin" src="/imgs/message.png" mode="aspectFit"></image>
-      <view class="num">2</view>
+      <view wx:if ="{{nums != 0}}" class="num" >{{nums}}</view>
     </view>
     <view class="nickname">{{user.Nickname}}</view>
   </view>
@@ -18,7 +18,7 @@
       <view data-rate="jjr" class="block" bindtap="toogleShow">
         <image class="left-img" src="/imgs/blue-rate.png" mode="aspectFit" style=" transform:rotate({{-jjrAngle}}deg)"></image>
 
-        <view class="mytext">《房地产经纪人》 学习进度</view>
+        <view class="mytext">【房地产经纪人】 学习进度</view>
 
         <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>
 
@@ -60,7 +60,7 @@
 
         <image class="left-img" src="/imgs/orange-rate.png" mode="aspectFit" style="transform:rotate({{-xlAngle}}deg);"></image>
 
-        <view class="mytext">《房地产经纪人协理》 学习进度</view>
+        <view class="mytext">【房地产经纪人协理】 学习进度</view>
         <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style="transform:rotate({{xlAngle}}deg)"></image>
       </view>
 

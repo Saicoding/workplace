@@ -20,8 +20,8 @@
 
 .message{
   position: absolute;
-  left:437rpx;
-  top:12rpx;
+  left:637rpx;
+  top:23rpx;
 }
 
 .xin{
@@ -37,7 +37,7 @@
   height:33rpx;
   border-radius: 25rpx;
   text-align: center;
-  background: rgb(248, 64, 32);
+   background:rgb(248, 64, 32);
   font-size:25rpx;
   line-height: 33rpx;
   z-index: 201;
@@ -110,7 +110,7 @@
 
 .right-img{
   width:50rpx;
-  height:35rpx;
+  height:50rpx;
   margin-top:28rpx;
 }
 

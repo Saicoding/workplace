@@ -20,7 +20,8 @@
     "pages/tiku/kaoqianmiji/kaoqianmiji",
     "pages/pay/pay",
     "pages/kaodianDetail/kaodianDetail",
-    "pages/mine/mineRadar/mineRadar"
+    "pages/mine/mineRadar/mineRadar",
+    "pages/mine/message/message"
   ],
   "window": {
     "backgroundTextStyle": "light",
