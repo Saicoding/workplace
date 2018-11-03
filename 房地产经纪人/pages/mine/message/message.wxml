@@ -1,2 +1,17 @@
-<!--pages/mine/message/message.wxml-->
-<text>pages/mine/message/message.wxml</text>
+<view class="body-container">
+  <scroll-view class="myscroll" scroll-y style="height:{{windowHeight-100}}rpx;" lower-threshold = "100" bindscrolltolower = "scrolltolower">
+    <view wx:for="{{messages}}" wx:for-item="message" wx:key="m">
+      <view class="block">
+        <view class="left-dot" style="background:{{message.flag == 0?'red':'#c9c9c9'}}">
+        </view>
+        <view class="mytext">
+          {{message.title}}
+        </view>
+        <view class="time">
+          {{message.time}}
+        </view>
+        <image class="right-img" src="/imgs/down.png" mode="aspectFit"></image>
+      </view>
+    </view>
+  </scroll-view>
+</view>
