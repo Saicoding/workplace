@@ -32,6 +32,7 @@ Page({
 
         console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
         app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中").then((res) => {
+          console.log('可以')
           let status = res.data.status;
 
           if (status == 1) {

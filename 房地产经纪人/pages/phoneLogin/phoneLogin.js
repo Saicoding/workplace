@@ -21,7 +21,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       url: decodeURIComponent(options.url),
-      ifGoBack:options.ifGoBack
+      ifGoPage:options.ifGoPage
     })
   },
 
@@ -132,11 +132,10 @@ Page({
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
-    let ifGoBack = self.data.ifGoBack;
+    let ifGoPage = self.data.ifGoPage;
+    let url = self.data.url;
 
-    console.log(code)
     if(code == identifyCode && code !=undefined){//如果相等
-    console.log('ok')
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
@@ -146,15 +145,13 @@ Page({
           key: 'user',
           data: user,
           success:function(){
-            if (ifGoBack == "true") {
-              wx.navigateBack({
-                delta: 2
-              })
-            } else {
-              wx.navigateBack({})//先返回一层
-              console.log(self.data.url)
-              wx.redirectTo({
-                url: self.data.url,
+            wx.navigateBack({
+              delta: 2
+            })
+
+            if (ifGoPage == "true") {
+              wx.navigateTo({
+                url: url,
               })
             }
           },
@@ -162,7 +159,6 @@ Page({
             console.log('存储失败')
           }
         })
-
       })
     } else if (code == undefined){
       wx.showToast({
@@ -178,53 +174,4 @@ Page({
       });
     }
   },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
 })

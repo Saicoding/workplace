@@ -1,4 +1,4 @@
-<view class="body-container">
+<view wx:if="{{isHasShiti}}" class="body-container">
   <scroll-view class="myscroll" scroll-y style="height:{{windowHeight-100}}rpx;" lower-threshold = "100" bindscrolltolower = "scrolltolower">
     <view wx:for="{{messages}}" wx:for-item="message" wx:key="m">
       <!-- 标题 -->
@@ -19,4 +19,8 @@
       </view>
     </view>
   </scroll-view>
+</view>
+
+<view wx:if="{{!isHasShiti}}">
+  <hasNoPage str="当前没有消息"></hasNoPage>
 </view>

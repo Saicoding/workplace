@@ -50,15 +50,11 @@ Page({
     let circular = false;
     let myFavorite = 0;
 
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true, true, "载入错题中", self).then((res) => {
+    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true, true, "载入错题中",true,self).then((res) => {
       post.wrongOnload(options, px, circular, myFavorite,  res, username, acode, self);
       isFold = false;
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
-      console.log('heihei')
-      self.setData({
-        isHasShiti: false
-      })
       wx.hideLoading();
     });
   },

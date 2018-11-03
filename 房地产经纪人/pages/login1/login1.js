@@ -16,11 +16,21 @@ Page({
     encryptedData: ''
   },
   /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function(options) {
+    this.setData({
+      url: decodeURIComponent(options.url),
+      url1: options.url,
+      ifGoPage:options.ifGoPage
+    })
+  },
+  /**
    * 用户密码登录
    */
   userPwdLogin: function() {
     wx.navigateTo({
-      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1 + '&ifGoBack=' + this.data.ifGoBack,
+      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1 + '&ifGoPage=' + this.data.ifGoPage,
     })
   },
 
@@ -31,14 +41,15 @@ Page({
     let self = this;
     let code = "";
     let iv = e.detail.iv; //偏移量
-    let encryptedData = e.detail.encryptedData;//
+    let encryptedData = e.detail.encryptedData; //
     let signature = e.detail.signature; //签名
     let nickname = e.detail.userInfo.nickName; //昵称
     let headurl = e.detail.userInfo.avatarUrl; //头像
-    let sex = e.detail.userInfo.gender//性别
+    let sex = e.detail.userInfo.gender //性别
     let wxid = ""; //openId
     let session_key = ""; //
-    let ifGoBack = self.data.ifGoBack //是否返回上一级菜单
+    let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
+    let url = self.data.url;//需要导航的url
 
     // 登录
     wx.login({
@@ -53,11 +64,11 @@ Page({
 
           //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
           let pc = new WXBizDataCrypt(appId, sesstion_key);
-          let data = pc.decryptData(encryptedData,iv);
+          let data = pc.decryptData(encryptedData, iv);
           let unionId = data.unionId;
 
           console.log("action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
-          app.post(API_URL, "action=Login_wx&unionId="+unionId+"&openid="+openid+"&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex , true, false, "登录中").then((res) => {
+          app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
             console.log(res)
             let user = res.data.list[0];
             console.log(user)
@@ -66,75 +77,16 @@ Page({
               data: user
             })
 
-            // wx.hideLoading();
-            if (ifGoBack == 'true') {
-              wx.navigateBack({})
-            } else {
-              wx.redirectTo({
-                url: self.data.url,
+            wx.navigateBack({}) //先回到登录前的页面
+
+            if (ifGoPage == 'true') {
+              wx.navigateTo({
+                url: url,
               })
-            }
+            } 
           })
         })
       }
     })
   },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function(options) {
-    this.setData({
-      url: decodeURIComponent(options.url),
-      url1: options.url,
-      ifGoBack: options.ifGoBack
-    })
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function() {},
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function() {
-
-  }
 })

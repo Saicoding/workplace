@@ -66,9 +66,10 @@ Page({
 
     let shitiNum = px;
 
-    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中","",self).then((res) => {
-      console.log(shitiArray)
+    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中","",true,self).then((res) => {
+
       let shitiArray = res.data.list;
+      console.log(shitiArray)
 
       common.setModelRealCLShitiPx(shitiArray)
 

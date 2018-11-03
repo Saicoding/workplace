@@ -54,7 +54,7 @@ Page({
       })
     } else {
       wx.navigateTo({
-        url: '/pages/login1/login1?url=' + url + '&ifGoBack=true',
+        url: '/pages/login1/login1?url=' + url + '&ifGoPage=false',
       })
     }
   },
@@ -145,8 +145,10 @@ Page({
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
+        console.log(windowHeight)
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
+        console.log(windowHeight)
         self.setData({
           windowHeight: windowHeight,
           windowWidth: windowWidth,
@@ -181,7 +183,7 @@ Page({
     let LoginRandom = user.Login_random;
     let pwd = user.pwd
 
-    validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)//验证重复登录
+    validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url,true)//验证重复登录
 
   },
   /**

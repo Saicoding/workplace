@@ -13,6 +13,7 @@ Page({
    */
   data: {
     page:1, //默认请求页是1
+    isHasShiti: true//是否有消息
   },
 
   /**
@@ -29,7 +30,8 @@ Page({
     let zcode = user.zcode;
     let page = self.data.page;
     let pagesize = 15;
-    app.post(API_URL,"action=GetNotices&LoginRandom="+LoginRandom+"&zcode="+zcode+"&pagesize="+pagesize+"&page="+page,true,false,"载入中").then((res)=>{
+    console.log("action=GetNotices&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&pagesize=" + pagesize + "&page=" + page)
+    app.post(API_URL,"action=GetNotices&LoginRandom="+LoginRandom+"&zcode="+zcode+"&pagesize="+pagesize+"&page="+page,true,false,"载入中","",true,self).then((res)=>{
 
       let messages = res.data.list;
       let page_all = res.data.page_all;

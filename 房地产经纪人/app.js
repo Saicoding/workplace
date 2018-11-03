@@ -10,7 +10,7 @@ App({
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
-  post: function(url, data, ifShow,ifCanCancel,title,pageUrl,self) {
+  post: function(url, data, ifShow,ifCanCancel,title,pageUrl,ifGoPage,self) {
     if (ifShow) {
       wx.showLoading({
         title: title,
@@ -39,16 +39,17 @@ App({
           if (status == 1) {//请求成功
             resolve(res);
           } else if(status == -2){//没有权限
+          console.log('没有权限')
             wx.navigateTo({
               url: '/pages/pay/pay',
             })
           } else if(status == -5){//重复登录
           console.log('重复登录')
             wx.navigateTo({
-              url: '/pages/login1/login1?url=' + pageUrl + "&ifGoBack=false",
+              url: '/pages/login1/login1?url=' + pageUrl+'&ifGoPage='+ifGoPage
             })
           } else if (status == -101){//没有试题
-          console.log('哈哈')
+          console.log('没有试题')
             self.setData({
               isHasShiti:false
             })
@@ -67,7 +68,7 @@ App({
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    wx.clearStorage();
+    // wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({

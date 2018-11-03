@@ -28,9 +28,13 @@ Page({
       title: title
     }) //设置标题
 
+    self.setData({
+      title: title,
+    })
+
     let px = 1;
 
-    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, true, true, "加载中").then((res) => {
+    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, true, true, "加载中","",true,self).then((res) => {
       let modelList = res.data.list;
       if(modelList.length == 0){//如果没有题库
         self.setData({
@@ -71,10 +75,6 @@ Page({
       })
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
-      self.setData({
-        title: title,
-        isHasShiti:false
-      })
       wx.hideLoading();
     });
   },
@@ -102,11 +102,13 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)
+
+        //验证重复登录:  参数:1.url1  没转码的url  2.url 转码的url 3.true 代码验证如果是重复登录是否跳转到要导向的页面
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url,true)
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
+          url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })
       }
     })
@@ -117,40 +119,5 @@ Page({
    */
   onReady: function() {
     this.waterWave = this.selectComponent("#waterWave"); //水波
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function() {
-
   },
 })
