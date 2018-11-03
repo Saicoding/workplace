@@ -51,3 +51,12 @@
   margin-left:30rpx;
   overflow-x: hidden;
 }
+
+.detail{
+  clear: both;
+  font-size:30rpx;
+  padding-left:70rpx;
+  padding-right:50rpx;
+  padding-bottom: 30rpx;
+  line-height:50rpx;
+}

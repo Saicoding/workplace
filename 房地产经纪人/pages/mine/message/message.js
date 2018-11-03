@@ -2,6 +2,10 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
 
+let animate = require('../../../common/animate.js');
+let easeOutAnimation = animate.easeOutAnimation();
+let easeInAnimation = animate.easeInAnimation();
+
 Page({
 
   /**
@@ -28,6 +32,7 @@ Page({
     app.post(API_URL,"action=GetNotices&LoginRandom="+LoginRandom+"&zcode="+zcode+"&pagesize="+pagesize+"&page="+page,true,false,"载入中").then((res)=>{
 
       let messages = res.data.list;
+      console.log(messages)
       let page_all = res.data.page_all;
 
       self.setData({
@@ -35,6 +40,50 @@ Page({
         user:user,
         page_all: page_all//总页数
       })
+    })
+
+  },
+  
+
+  /**
+   * 切换是否显示信息
+   */
+  toogleShowMessage:function(e){
+    let self = this;
+
+    let user = self.data.user;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
+    let index = e.currentTarget.dataset.index;
+    let messages = self.data.messages;
+    let message = messages[index];
+    let pages = getCurrentPages();
+    let prePage = pages[pages.length-2];//上一頁
+
+
+    if(message.show == undefined || message.show == false){
+      message.style = "background:#f9f9f9;height:auto;";
+      message.show = true;
+
+      //更新服務器已讀
+      app.post(API_URL,"action=ChangeNoticeFlag&LoginRandom="+LoginRandom+"&zcode="+zcode+"&id="+index,false,true,"").then((res)=>{
+        if(res.data.status == 1){
+          let nums = prePage.data.nums;
+          nums -- ;
+          prePage.setData({
+            nums:nums
+          })
+        }
+      })
+
+    }else{   
+      message.show = false;
+      message.flag  = 1;//每次折叠后才判定为已读
+      message.style = "background:white;height:100rpx;";
+    }
+
+    self.setData({
+      messages:messages
     })
 
   },

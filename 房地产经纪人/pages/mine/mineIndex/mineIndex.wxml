@@ -11,7 +11,7 @@
     <view class="nickname">{{user.Nickname}}</view>
   </view>
 
-  <scroll-view scroll-y style="height:{{windowHeight-350}}rpx">
+  <scroll-view scroll-y style="height:{{windowHeight-306}}rpx;">
     <view class='mycontainer'>
 
       <!-- 房地产经纪人标题 -->

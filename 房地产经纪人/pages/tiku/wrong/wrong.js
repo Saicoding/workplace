@@ -53,6 +53,7 @@ Page({
       isFold = false;
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
+      console.log('heihei')
       self.setData({
         isHasShiti: false
       })

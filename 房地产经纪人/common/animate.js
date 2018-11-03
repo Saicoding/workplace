@@ -33,6 +33,13 @@ function rotateAnimation(myAnimation,angle){
   return myAnimation.export();
 }
 
+/**
+ * 缩放动画
+ */
+function scaleZ(myAnimation,scale){
+
+}
+
 module.exports = {
   easeOutAnimation: easeOutAnimation,
   easeInAnimation: easeInAnimation,
