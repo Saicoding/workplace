@@ -32,7 +32,6 @@ Page({
     app.post(API_URL,"action=GetNotices&LoginRandom="+LoginRandom+"&zcode="+zcode+"&pagesize="+pagesize+"&page="+page,true,false,"载入中").then((res)=>{
 
       let messages = res.data.list;
-      console.log(messages)
       let page_all = res.data.page_all;
 
       self.setData({
@@ -57,6 +56,7 @@ Page({
     let index = e.currentTarget.dataset.index;
     let messages = self.data.messages;
     let message = messages[index];
+    let id = message.id;
     let pages = getCurrentPages();
     let prePage = pages[pages.length-2];//上一頁
 
@@ -64,17 +64,20 @@ Page({
     if(message.show == undefined || message.show == false){
       message.style = "background:#f9f9f9;height:auto;";
       message.show = true;
+      let flag = message.flag;
 
-      //更新服務器已讀
-      app.post(API_URL,"action=ChangeNoticeFlag&LoginRandom="+LoginRandom+"&zcode="+zcode+"&id="+index,false,true,"").then((res)=>{
-        if(res.data.status == 1){
-          let nums = prePage.data.nums;
-          nums -- ;
-          prePage.setData({
-            nums:nums
-          })
-        }
-      })
+      if(flag == 0){
+        //更新服務器已讀
+        app.post(API_URL, "action=ChangeNoticeFlag&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&id=" + id, false, true, "").then((res) => {
+          if (res.data.status == 1) {
+            let nums = prePage.data.nums;
+            nums--;
+            prePage.setData({
+              nums: nums
+            })
+          }
+        })
+      }
 
     }else{   
       message.show = false;

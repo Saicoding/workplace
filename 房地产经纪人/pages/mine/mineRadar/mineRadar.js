@@ -24,8 +24,8 @@ Page({
     stepText: 5,
     chanelArray: [
       ["章节题库", 0],
-      ["视频学习", 0],
       ["套卷练习", 0],
+      ["视频学习", 0],
       ["考前秘籍", 0],
       ["考点学习", 0]
     ],
@@ -77,8 +77,8 @@ Page({
       let rate = res.data.data[0];
       console.log(rate)
       chanelArray[0][1] = rate.zhangjie;
-      chanelArray[1][1] = rate.shipin;
-      chanelArray[2][1] = rate.shijuan;
+      chanelArray[1][1] = rate.shijuan;
+      chanelArray[2][1] = rate.shipin; 
       chanelArray[3][1] = rate.miji;
       chanelArray[4][1] = rate.kaodian;
 

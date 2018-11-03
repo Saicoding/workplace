@@ -1,5 +1,5 @@
 .body-container{
-  background: rgb(223, 221, 221)
+  background: #f3f7f8
 }
 
 .up{
@@ -52,7 +52,7 @@
 }
 
 .mycontainer{
-  border-top:18rpx solid rgb(223, 221, 221);
+  border-top:18rpx solid #f3f7f8;
   padding-left:40rpx;
   padding-right:40rpx;
   background:white;
@@ -115,8 +115,8 @@
 }
 
 .bottom{
-  border-top:18rpx solid rgb(223, 221, 221);
-  border-bottom:10rpx solid rgb(223, 221, 221);
+  border-top:18rpx solid #f3f7f8;
+  border-bottom:10rpx solid #f3f7f8;
   background:white;
   font-size:33rpx;
   width:100%;

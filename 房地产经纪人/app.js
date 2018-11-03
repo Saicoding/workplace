@@ -47,7 +47,7 @@ App({
             wx.navigateTo({
               url: '/pages/login1/login1?url=' + pageUrl + "&ifGoBack=false",
             })
-          } else if (status == -1){//没有试题
+          } else if (status == -101){//没有试题
           console.log('哈哈')
             self.setData({
               isHasShiti:false
@@ -67,7 +67,7 @@ App({
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
-    // wx.clearStorage();
+    wx.clearStorage();
     // wx.clearStorage("user")
     // 获取用户信息
     wx.getSetting({

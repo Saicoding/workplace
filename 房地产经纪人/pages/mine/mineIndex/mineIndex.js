@@ -3,6 +3,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
 let animate = require('../../../common/animate.js');
+let validate = require('../../../common/validate.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 let jjrIsFold = true;
@@ -31,13 +32,6 @@ Page({
   data: {
     stepText: 5,
     nums:0,
-    chanelArray: [
-      ["章节题库", 0],
-      ["视频学习", 0],
-      ["套卷练习", 0],
-      ["考前秘籍", 0],
-      ["考点学习", 0]
-    ],
   },
 
   /**
@@ -52,6 +46,9 @@ Page({
     let user = wx.getStorageSync('user');
 
     if (user) {
+
+      let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
+
       self.setData({
         user: user
       })
@@ -156,18 +153,6 @@ Page({
         })
       }
     });
-
-    let user = wx.getStorageSync('user');
-    if (user != "") {
-      let LoginRandom = user.Login_random;
-      let zcode = user.zcode;
-      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "").then((res) => {
-        let nums = res.data.nums;
-        self.setData({
-          nums: nums
-        })
-      })
-    }
   },
 
   /**
@@ -186,9 +171,18 @@ Page({
    * 导航到消息页面
    */
   GOmessage:function(){
-    wx.navigateTo({
-      url: '/pages/mine/message/message',
-    })
+    let self = this;
+
+    let url = encodeURIComponent('/pages/mine/message/message');
+    let url1 = '/pages/mine/message/message';
+
+    let user = self.data.user;
+    let zcode = user.zcode;
+    let LoginRandom = user.Login_random;
+    let pwd = user.pwd
+
+    validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)//验证重复登录
+
   },
   /**
    * 在返回页面的时候
@@ -196,6 +190,20 @@ Page({
   onShow: function() {
     let self = this;
     let user = wx.getStorageSync('user');
+    
+    if (user != "") {
+      let LoginRandom = user.Login_random;
+      let zcode = user.zcode;
+      let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
+
+      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "",url).then((res) => {
+        console.log(res)
+        let nums = res.data.nums;
+        self.setData({
+          nums: nums
+        })
+      })
+    }
 
     this.setData({
       user: user

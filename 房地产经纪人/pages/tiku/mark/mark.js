@@ -49,7 +49,8 @@ Page({
     let myFavorite = 0;
 
     app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true,true,"载入收藏中","",self).then((res) => {
-      post.wrongAndMarkOnload(options, px, circular, myFavorite,true, res, username, acode, self)
+      console.log(res)
+      post.markOnload(options, px, circular, myFavorite, res, username, acode, self)
       isFold = false;
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息

@@ -31,6 +31,8 @@ Page({
     isSubmit: false, //是否已提交答卷
     circular: false, //默认slwiper不可以循环滚动
     myFavorite: 0, //默认收藏按钮是0
+
+    page:1,//当前错题页
   },
   /**
    * 生命周期函数--监听页面加载
@@ -49,7 +51,7 @@ Page({
     let myFavorite = 0;
 
     app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true, true, "载入错题中", self).then((res) => {
-      post.wrongAndMarkOnload(options, px, circular, myFavorite, false, res, username, acode, self);
+      post.wrongOnload(options, px, circular, myFavorite,  res, username, acode, self);
       isFold = false;
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
@@ -115,10 +117,11 @@ Page({
    */
   sliderChange: function(e) {
     let self = this;
-    let lastSliderIndex = self.data.lastSliderIndex;
-    let current = e.detail.current;
-    let source = e.detail.source;
-    let myFavorite = 0;
+    let lastSliderIndex = self.data.lastSliderIndex;//滑块上次的index
+    let current = e.detail.current;//当前滑块的index
+    let source = e.detail.source;//导致滑动的类型
+    let myFavorite = 0;//我的收藏
+    let page = self.data.page;//当前页码
 
     if (source != "touch") return;
 
@@ -139,9 +142,16 @@ Page({
 
     if (direction == "左滑") {
       px++;
+      if(px % 10 >=7){//滑动到号大于7，这时判断有没有下一个page
+        let nextPagePx = px - px%10 +11;
+        if (shitiArray[nextPagePx-1] == {}){
+          
+        }
+      }
     } else {
       px--;
     }
+
 
     let preShiti = undefined; //前一题
     let nextShiti = undefined; //后一题

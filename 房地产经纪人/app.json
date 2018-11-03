@@ -21,7 +21,8 @@
     "pages/pay/pay",
     "pages/kaodianDetail/kaodianDetail",
     "pages/mine/mineRadar/mineRadar",
-    "pages/mine/message/message"
+    "pages/mine/message/message",
+    "pages/subscriber/subscriber"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -117,6 +117,15 @@ Page({
   },
 
   /**
+   * 点击用户协议
+   */
+  viewSign:function(){
+    wx.navigateTo({
+      url: '/pages/subscriber/subscriber',
+    })
+  },
+
+  /**
    * 点击确定按钮
    */
   confirm:function(){
@@ -125,7 +134,9 @@ Page({
     let identifyCode = self.data.identifyCode;
     let ifGoBack = self.data.ifGoBack;
 
-    if(code == identifyCode){//如果相等
+    console.log(code)
+    if(code == identifyCode && code !=undefined){//如果相等
+    console.log('ok')
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
@@ -153,6 +164,12 @@ Page({
         })
 
       })
+    } else if (code == undefined){
+      wx.showToast({
+        title: '验证码不能为空',
+        icon: 'none',
+        duration: 2000
+      });
     }else{
       wx.showToast({
         title: '验证码不正确',

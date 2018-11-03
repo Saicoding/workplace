@@ -75,6 +75,17 @@ function initShiti(shiti,self) {
     }
   }
 }
+/**
+ * 错题将试题数组扩充
+ */
+function initShitiArray(shitiArray,all_nums){
+  let num = all_nums - shitiArray.length;//空的试题
+  let blankArray = [];
+  for(let i = 0; i< num ;i++){
+    blankArray.push({});
+  }
+  shitiArray.push.apply(shitiArray, blankArray);
+}
 
 /**
  * 初始化所有试题编号
@@ -1096,4 +1107,5 @@ module.exports = {
   setModelRealCLShitiPx: setModelRealCLShitiPx,
   setCLMarkAnswer: setCLMarkAnswer,
   setMarkedAll: setMarkedAll,
+  initShitiArray: initShitiArray
 }

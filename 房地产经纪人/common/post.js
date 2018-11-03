@@ -3,6 +3,9 @@ let animate = require('animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 
+/**
+ * 练习题
+ */
 function zuotiOnload(options, px, circular, myFavorite, res, username, acode, self){
   let shitiArray = res.data.shiti;
 
@@ -109,12 +112,16 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
   wx.hideLoading();
 }
 
-function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, username, acode, self){
+/**
+ * 收藏题
+ */
+
+function markOnload(options, px, circular, myFavorite,res, username, acode, self){
   let shitiArray = res.data.shiti;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
-  if (isMark) common.setMarkedAll(shitiArray);
+  common.setMarkedAll(shitiArray);
 
   common.initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
@@ -173,7 +180,79 @@ function wrongAndMarkOnload(options, px, circular, myFavorite,isMark,res, userna
   wx.hideLoading();
 }
 
+
+/**
+ * 错题
+ */
+
+function wrongOnload(options, px, circular, myFavorite,  res, username, acode, self) {
+  let shitiArray = res.data.shiti;
+  let all_nums = res.data.all_nums;
+
+  common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
+
+  common.initMarkAnswer(all_nums, self); //初始化答题板数组
+
+  common.initShitiArray(shitiArray, all_nums);
+
+  //得到swiper数组
+  let nextShiti = undefined;//后一题
+  let midShiti = shitiArray[0];//中间题
+  let sliderShitiArray = [];
+
+  common.initShiti(midShiti, self); //初始化试题对象
+
+  if (shitiArray.length != 1) {
+    nextShiti = shitiArray[1];
+    common.initShiti(nextShiti, self); //初始化试题对象
+  }
+
+  circular = false //如果滑动后编号是1,或者最后一个就禁止循环滑动
+  myFavorite = midShiti.favorite;
+
+  if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+  sliderShitiArray[0] = midShiti;
+
+  self.setData({
+    //设置过场动画
+    winH: wx.getSystemInfoSync().windowHeight,
+    opacity: 1,
+    px: px,
+    page:1,
+    nums: all_nums, //题数
+    shitiArray: shitiArray, //整节的试题数组
+    sliderShitiArray: sliderShitiArray,//滑动数组
+    circular: circular,
+    myFavorite: myFavorite,//是否收藏
+    lastSliderIndex: 0,//默认滑动条一开始是0
+    isLoaded: false, //是否已经载入完毕,用于控制过场动画
+    username: username, //用户账号名称
+    acode: acode //用户唯一码
+  });
+
+  //如果是材料题就有动画
+  if (midShiti.TX == 99) {
+    let str = "#q" + px;
+    let question = self.selectComponent(str);
+
+    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    question.setData({
+      foldData: foldData
+    })
+
+    self.setData({
+      shitiArray: shitiArray,
+      sliderShitiArray: sliderShitiArray,
+    })
+  }
+
+  console.log(self.data.sliderShitiArray)
+
+  wx.hideLoading();
+}
+
 module.exports = {
   zuotiOnload: zuotiOnload,
-  wrongAndMarkOnload: wrongAndMarkOnload
+  wrongOnload: wrongOnload,
+  markOnload:markOnload
 }

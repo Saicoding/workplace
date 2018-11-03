@@ -12,7 +12,7 @@
     </button>
   </view>
   <view class ="prompt">
-    提示:未注册账号的手机号,登录时自动注册,并视为同意<span style = "color:red;">《用户服务协议》、《隐私政策》</span>
+    提示:未注册账号的手机号,登录时自动注册,并视为同意<span bindtap = "viewSign" style = "color:red;">《用户注册协议》</span>
   </view>
 
   <button class ="confirm-btn" bindtap = "confirm">确定</button>
