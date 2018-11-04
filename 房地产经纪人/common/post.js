@@ -188,6 +188,7 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
 function wrongOnload(options, px, circular, myFavorite,  res, username, acode, self) {
   let shitiArray = res.data.shiti;
   let all_nums = res.data.all_nums;
+  let pageall = res.data.pageall;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -218,11 +219,13 @@ function wrongOnload(options, px, circular, myFavorite,  res, username, acode, s
     winH: wx.getSystemInfoSync().windowHeight,
     opacity: 1,
     px: px,
-    page:1,
+    kid:options.kid,//题库编号
     nums: all_nums, //题数
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
     circular: circular,
+    pageall: pageall,//总页数
+    pageArray: [1],//当前所有已经渲染的页面数组
     myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: false, //是否已经载入完毕,用于控制过场动画

@@ -1,6 +1,9 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
 let myTime = require('time.js');
+let animate = require('animate.js')
+let easeOutAnimation = animate.easeOutAnimation();
+let easeInAnimation = animate.easeInAnimation();
 /**
  * 初始化试题
  */
@@ -76,6 +79,122 @@ function initShiti(shiti,self) {
   }
 }
 /**
+ * 初始化新请求的错题页的试题的答案为空
+ */
+function initNewWrongArrayDoneAnswer(shitiArray,page){
+  for (let i = 0; i < shitiArray.length; i++) {
+    shitiArray[i].px = i + 1+page*10;//设置每个试题的px号
+    switch (shitiArray[i].TX) {
+      case 1:
+        shitiArray[i].done_daan = "";
+      case 2:
+        shitiArray[i].done_daan = [];
+      case 99:
+        shitiArray[i].done_daan = [];
+        shitiArray[i].confirm = false;
+        for (let j = 0; j < shitiArray[i].xiaoti.length; j++) {
+          let ti = shitiArray[i].xiaoti[j];
+          if (ti.TX == 1) {
+            ti.done_daan = "";
+          } else {
+            ti.done_daan = [];
+          }
+        }
+    }
+  }
+}
+
+/**
+ * 错题中点击答题板后的处理方法封装
+ */
+function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current,circular,shitiArray,self){
+
+  console.log(midShiti)
+  let myFavorite = midShiti.favorite;
+
+  let sliderShitiArray = [];
+
+  initShiti(midShiti, self); //初始化试题对象
+  processDoneAnswer(midShiti.done_daan, midShiti, self);
+
+  if (px != 1 && px != shitiArray.length) { //如果不是第一题也是不是最后一题
+    preShiti = shitiArray[px - 2];
+    initShiti(preShiti, self); //初始化试题对象
+    processDoneAnswer(preShiti.done_daan, preShiti, self);
+    nextShiti = shitiArray[px];
+    initShiti(nextShiti, self); //初始化试题对象
+    processDoneAnswer(nextShiti.done_daan, nextShiti, self);
+  } else if (px == 1) { //如果是第一题
+    nextShiti = shitiArray[px];
+    initShiti(nextShiti, self); //初始化试题对象
+    processDoneAnswer(nextShiti.done_daan, nextShiti, self);
+  } else {
+    preShiti = shitiArray[px - 2];
+    initShiti(preShiti, self); //初始化试题对象
+    processDoneAnswer(preShiti.done_daan, preShiti, self);
+  }
+
+  //点击结束后,更新滑动试题数组
+  if (px != 1 && px != shitiArray.length) {
+    if (current == 1) {
+      if (nextShiti != undefined) sliderShitiArray[2] = nextShiti;
+      sliderShitiArray[1] = midShiti;
+      if (preShiti != undefined) sliderShitiArray[0] = preShiti;
+    } else if (current == 2) {
+      if (nextShiti != undefined) sliderShitiArray[0] = nextShiti;
+      sliderShitiArray[2] = midShiti;
+      if (preShiti != undefined) sliderShitiArray[1] = preShiti;
+
+    } else {
+      if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
+      sliderShitiArray[0] = midShiti;
+      if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+    }
+  } else if (px == 1) {
+    sliderShitiArray[0] = midShiti;
+    sliderShitiArray[1] = nextShiti;
+    current = 0;
+    self.setData({
+      myCurrent: 0
+    })
+  } else if (px == shitiArray.length) {
+    sliderShitiArray[0] = preShiti;
+    sliderShitiArray[1] = midShiti;
+    current = 1;
+    self.setData({
+      myCurrent: 1
+    })
+  }
+
+  circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
+
+  self.setData({
+    shitiArray: shitiArray,
+    sliderShitiArray: sliderShitiArray,
+    px: px,
+    circular: circular,
+    myFavorite: myFavorite,
+    lastSliderIndex: current,
+    checked: false
+  })
+  self._hideMarkAnswer();
+
+  let foldData = undefined; //动画
+
+  //如果是材料题就判断是否动画
+  if (midShiti.TX == 99) {
+    let str = "#q" + px;
+    let question = self.selectComponent(str);
+
+    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    question.setData({
+      foldData: foldData
+    })
+  }
+}
+
+
+/**
  * 错题将试题数组扩充
  */
 function initShitiArray(shitiArray,all_nums){
@@ -143,9 +262,6 @@ function initModelRealMarkAnswer(newShitiArray, self) {
   })
 }
 
-/**
- * 
- */
 
 /**
  * 初始化modelReal答题板数组
@@ -1107,5 +1223,7 @@ module.exports = {
   setModelRealCLShitiPx: setModelRealCLShitiPx,
   setCLMarkAnswer: setCLMarkAnswer,
   setMarkedAll: setMarkedAll,
-  initShitiArray: initShitiArray
+  initShitiArray: initShitiArray,
+  initNewWrongArrayDoneAnswer: initNewWrongArrayDoneAnswer,
+  processTapWrongAnswer: processTapWrongAnswer
 }
