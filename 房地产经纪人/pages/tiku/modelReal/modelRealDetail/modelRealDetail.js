@@ -50,6 +50,7 @@ Page({
     let id = options.id;
     let tiTypeStr = tiType == 1 ? "model" : "yati";
     let circular = false;
+    let lastSliderIndex = 0 ;
 
     //根据真题定制最后一次访问的key
     let last_view_key = tiTypeStr + 'lastModelReal' + options.id;
@@ -69,7 +70,6 @@ Page({
     app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中","",true,self).then((res) => {
 
       let shitiArray = res.data.list;
-      console.log(shitiArray)
 
       common.setModelRealCLShitiPx(shitiArray)
 
@@ -191,9 +191,22 @@ Page({
         })
       }
 
-      if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
-      sliderShitiArray[0] = midShiti;
-      if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+      if(px != 1 && px !=shitiArray.length){//如果不是第一题也不是最后一题
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+        sliderShitiArray[2] = preShiti;
+      }else if(px == 1){//如果是第一题
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+      }else{//如果是最后一题
+     
+        sliderShitiArray[0] = preShiti;
+        sliderShitiArray[1] = midShiti;
+        lastSliderIndex = 1;
+        self.setData({
+          myCurrent:1
+        })
+      }
 
       self.setData({
         id: options.id, //真题编号
@@ -212,7 +225,7 @@ Page({
         circular: circular, //是否循环
 
         sliderShitiArray: sliderShitiArray, //滑动数组
-        lastSliderIndex: 0, //默认滑动条一开始是0
+        lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
 
         newShitiArray: newShitiArray, //新的试题数组
         isLoaded: false, //是否已经载入完毕,用于控制过场动画

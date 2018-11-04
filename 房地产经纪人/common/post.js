@@ -18,6 +18,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
   let nextShiti = undefined;//后一题
   let midShiti = shitiArray[px - 1];//中间题
   let sliderShitiArray = [];
+  let lastSliderIndex = 0;
 
   common.initShiti(midShiti, self); //初始化试题对象
   if(px != 1 && px !=shitiArray.length){//如果不是第一题也是不是最后一题
@@ -68,10 +69,23 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
   myFavorite = midShiti.favorite;
-  
-  if (nextShiti != undefined) sliderShitiArray[1] = nextShiti;
-  sliderShitiArray[0] = midShiti;
-  if (preShiti != undefined) sliderShitiArray[2] = preShiti;
+
+  if (px != 1 && px != shitiArray.length) {//如果不是第一题也不是最后一题
+    sliderShitiArray[0] = midShiti;
+    sliderShitiArray[1] = nextShiti;
+    sliderShitiArray[2] = preShiti;
+  } else if (px == 1) {//如果是第一题
+    sliderShitiArray[0] = midShiti;
+    sliderShitiArray[1] = nextShiti;
+  } else {//如果是最后一题
+
+    sliderShitiArray[0] = preShiti;
+    sliderShitiArray[1] = midShiti;
+    lastSliderIndex = 1;
+    self.setData({
+      myCurrent: 1
+    })
+  }
 
   self.setData({
     z_id: options.z_id, //点击组件的id编号
@@ -86,7 +100,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
     nums: shitiArray.length, //题数
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
-    lastSliderIndex: 0,//默认滑动条一开始是0
+    lastSliderIndex: lastSliderIndex,//默认滑动条一开始是0
     isLoaded: false, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
     acode: acode //用户唯一码
