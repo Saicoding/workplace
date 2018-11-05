@@ -19,7 +19,7 @@
 
           <multiSelect shiti="{{shiti}}" checked="{{checked}}" bindcheckVal="_checkVal"></multiSelect>
 
-          <button class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">确认选择</button>
+          <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">确认选择</view>
           <!-- 解析 -->
           <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
         </view>
@@ -31,7 +31,7 @@
           </view>
           <!-- 材料题小题的滑动框 -->
           <view wx:if="{{shiti.confirm || shiti.isAnswer}}">
-            <swiper indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-280}}rpx" bindchange="xiaotiSliderChange" indicator-active-color="#1d9bf7">
+            <swiper current="{{xiaotiCurrent}}" indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-280}}rpx" bindchange="xiaotiSliderChange" indicator-active-color="#1d9bf7">
               <block wx:for="{{shiti.xiaoti}}" wx:for-item="xiaoti" wx:key="ti">
                 <swiper-item>
                   <!--问题-->
