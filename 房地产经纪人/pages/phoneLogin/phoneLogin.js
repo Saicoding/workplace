@@ -21,7 +21,7 @@ Page({
   onLoad: function (options) {
     this.setData({
       url: decodeURIComponent(options.url),
-      ifGoPage:options.ifGoPage
+      ifGoPage:options.ifGoPage,
     })
   },
 

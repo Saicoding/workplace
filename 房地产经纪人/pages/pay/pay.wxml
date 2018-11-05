@@ -14,7 +14,7 @@
           <view class = "phone-container"><image class = "phone" mode="aspectFit" src = "/imgs/phone1.png"></image></view>     
           <text class = "bt-text">详情咨询</text>
         </view>
-        <view data-product="jjr" bindtap='buy' class ="bt2">立即开通</view>
+        <button data-product="jjr" open-type="getUserInfo" bindgetuserinfo ='buy' class ="bt2">立即开通</button>
       </view>
     </view>
   </view>
@@ -32,7 +32,7 @@
           <view class = "phone-container"><image class = "phone" mode="aspectFit" src = "/imgs/phone2.png"></image></view>     
           <text class = "bt-text" style = "color:#54a54c;">详情咨询</text>
         </view>
-        <view data-product = "xl" bindtap='buy'  class ="bt2" style= "background:#ff8b0e">立即开通</view>
+        <button data-product = "xl" open-type="getUserInfo" bindgetuserinfo ='buy'  class ="bt2" style= "background:#ff8b0e">立即开通</button>
       </view>
     </view>
   </view>

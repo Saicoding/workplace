@@ -199,10 +199,12 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
  * 错题
  */
 
-function wrongOnload(options, px, circular, myFavorite,  res, username, acode, self) {
+function wrongOnload(options, px, circular, myFavorite, res, username, acode, requesttime, self) {
   let shitiArray = res.data.shiti;
   let all_nums = res.data.all_nums;
   let pageall = res.data.pageall;
+
+  console.log(shitiArray)
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -244,6 +246,7 @@ function wrongOnload(options, px, circular, myFavorite,  res, username, acode, s
     lastSliderIndex: 0,//默认滑动条一开始是0
     isLoaded: false, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
+    requesttime: requesttime,//第一次请求的时间
     acode: acode //用户唯一码
   });
 

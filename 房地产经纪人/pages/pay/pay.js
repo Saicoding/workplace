@@ -22,57 +22,75 @@ Page({
    * 购买套餐
    */
   buy: function(e) {
+    let self = this;
+
     let product = e.currentTarget.dataset.product;
-    wx.getStorage({
-      key: 'user',
-      success: function(res) {
-        let user = res.data;
-        let Login_random = user.Login_random; //用户登录随机值
-        let zcode = user.zcode; //客户端id号
 
-        console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
-        app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中").then((res) => {
-          console.log('可以')
-          let status = res.data.status;
+    let code = "";
+    let iv = e.detail.iv; //偏移量
+    let encryptedData = e.detail.encryptedData;
+    let signature = e.detail.signature; //签名
+    let nickname = e.detail.userInfo.nickName; //昵称
+    let wxid = ""; //openId
+    let session_key = ""; //
 
-          if (status == 1) {
-            let timestamp = Date.parse(new Date());
-            timestamp = timestamp / 1000;
-            timestamp = timestamp.toString();
-            let nonceStr = "TEST";
-            let prepay_id = res.data.prepay_id;
-            let appId = "wxf90a298a65cfaca8";
-            let myPackage = "prepay_id=" + prepay_id;
-            let key = "e625b97ae82c3622af5f5a56d1118825";
+    let user = wx.getStorageSync('user');
+    let Login_random = user.Login_random; //用户登录随机值
+    let zcode = user.zcode; //客户端id号
 
-            let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
-            let paySign = md5.md5(str).toUpperCase();
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        code = res.code;
+        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+          let openid = res.data.openid;
 
-            let myObject = {
-              'timeStamp': timestamp,
-              'nonceStr': nonceStr,
-              'package': myPackage,
-              'paySign': paySign,
-              'signType': "MD5",
-              success: function(res) {
-                if (res.errMsg == "requestPayment:ok") { //成功付款后
-                  console.log("action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
-                  app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中",).then((res) => {
-                    wx.navigateBack({
-                      delta: 2
+          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
+          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
+            console.log('可以')
+            let status = res.data.status;
+
+            if (status == 1) {
+              let timestamp = Date.parse(new Date());
+              timestamp = timestamp / 1000;
+              timestamp = timestamp.toString();
+              let nonceStr = "TEST";
+              let prepay_id = res.data.prepay_id;
+              let appId = "wxf90a298a65cfaca8";
+              let myPackage = "prepay_id=" + prepay_id;
+              let key = "e625b97ae82c3622af5f5a56d1118825";
+
+              let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
+              let paySign = md5.md5(str).toUpperCase();
+
+              let myObject = {
+                'timeStamp': timestamp,
+                'nonceStr': nonceStr,
+                'package': myPackage,
+                'paySign': paySign,
+                'signType': "MD5",
+                success: function (res) {
+                  if (res.errMsg == "requestPayment:ok") { //成功付款后
+                    console.log("action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
+                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
+                      wx.navigateBack({
+                        delta: 2
+                      })
                     })
-                  })
+                  }
+                },
+                fail: function (res) {
+                  console.log(res)
                 }
-              },
-              fail: function(res) {
-                console.log(res)
               }
-            }
 
-            wx.requestPayment(myObject)
-          }
+              wx.requestPayment(myObject)
+            }
+          })
+
         })
-      },
+      }
     })
 
   },

@@ -2,7 +2,7 @@
 <!--蒙版（渐出淡去效果）-->
 <!-- <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};' ></view> -->
 <!-- 如果没有试题就不显示 -->
-<swiper wx:if="{{isHasShiti}}" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
+<swiper duration="200" wx:if="{{isHasShiti}}" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
     

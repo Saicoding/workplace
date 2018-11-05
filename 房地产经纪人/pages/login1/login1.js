@@ -22,13 +22,13 @@ Page({
     this.setData({
       url: decodeURIComponent(options.url),
       url1: options.url,
-      ifGoPage:options.ifGoPage
+      ifGoPage: options.ifGoPage
     })
   },
   /**
-   * 用户密码登录
+   * 手机登录
    */
-  userPwdLogin: function() {
+  userPwdLogin: function(e) {
     wx.navigateTo({
       url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1 + '&ifGoPage=' + this.data.ifGoPage,
     })
@@ -41,7 +41,7 @@ Page({
     let self = this;
     let code = "";
     let iv = e.detail.iv; //偏移量
-    let encryptedData = e.detail.encryptedData; //
+    let encryptedData = e.detail.encryptedData;
     let signature = e.detail.signature; //签名
     let nickname = e.detail.userInfo.nickName; //昵称
     let headurl = e.detail.userInfo.avatarUrl; //头像
@@ -49,7 +49,7 @@ Page({
     let wxid = ""; //openId
     let session_key = ""; //
     let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
-    let url = self.data.url;//需要导航的url
+    let url = self.data.url; //需要导航的url
 
     // 登录
     wx.login({
@@ -83,7 +83,7 @@ Page({
               wx.navigateTo({
                 url: url,
               })
-            } 
+            }
           })
         })
       }

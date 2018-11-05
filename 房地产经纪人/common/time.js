@@ -51,10 +51,27 @@ function restart(myinterval,mytime){
   }, 1000)
 }
 
+function formatDateTime(timeStamp){
+  let  myDate = new Date();//获取系统当前时间
+  myDate.setTime(timeStamp);
+  let year = myDate.getFullYear();
+  let month = myDate.getMonth()+1;
+  let day = myDate.getDate();
+  let h = myDate.getHours(); 
+  h = h < 10?"0"+h:h;
+  let m = myDate.getMinutes(); 
+  m = m < 10?"0"+m:m;
+  let s = myDate.getSeconds();
+  s = s < 10?"0"+s:s;
+
+  return h+":"+m+":"+s;
+}
+
 
 module.exports = {
   getGoneTimeStr: getGoneTimeStr,
   getTime: getTime,
   start: start,
-  restart: restart
+  restart: restart,
+  formatDateTime: formatDateTime
 }
