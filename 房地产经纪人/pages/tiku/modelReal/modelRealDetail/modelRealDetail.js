@@ -348,7 +348,9 @@ Page({
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
 
-    if (midShiti.TX == 99) shitiNum = midShiti.clpx;
+    if (midShiti.TX == 99) {
+      shitiNum = midShiti.clpx;
+    }
 
     //每次滑动结束后初始化前一题和后一题
     if (direction == "左滑") {
@@ -412,6 +414,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       lastSliderIndex: current,
+      xiaotiCurrent:0,
       px: px,
       shitiNum: shitiNum,
       checked: false

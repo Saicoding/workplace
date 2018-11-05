@@ -221,6 +221,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       lastSliderIndex:current,
+      xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
       myFavorite: myFavorite,
       px: px,
       checked: false
@@ -582,6 +583,7 @@ Page({
       px:px,
       circular: circular,
       myFavorite: myFavorite,
+      xiaotiCurrent: 0,
       lastSliderIndex: current,
       checked: false
     })

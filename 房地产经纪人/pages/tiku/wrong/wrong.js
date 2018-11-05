@@ -287,6 +287,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       myFavorite: myFavorite,
+      xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
       lastSliderIndex: current,
       px: px,
       checked: false
