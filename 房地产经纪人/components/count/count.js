@@ -46,6 +46,10 @@ Component({
     },
     _toggleMarkAnswer:function(){
       this.triggerEvent('toogleMarkAnswer')
+    },
+
+    _toggleErrorRecovery:function(){
+      this.triggerEvent('toggleErrorRecovery')
     }
   }
 })

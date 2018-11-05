@@ -27,8 +27,6 @@ Component({
    */
   data: {
     isShow:false,
-    test1:"<span>",
-    test2:"</span>"
   },
 
   /**

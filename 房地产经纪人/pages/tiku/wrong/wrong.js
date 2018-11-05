@@ -49,8 +49,7 @@ Page({
     let px = 1;
     let circular = false;
     let myFavorite = 0;
-
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true, true, "载入错题中", true, self).then((res) => {
+    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true, true, "载入错题中","", true, self).then((res) => {
       post.wrongOnload(options, px, circular, myFavorite, res, username, acode, self);
       isFold = false;
     }).catch((errMsg) => {
@@ -68,12 +67,14 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.waterWave = this.selectComponent("#waterWave");
+    this.errorRecovery = this.selectComponent("#errorRecovery");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
+          windowWidth: windowWidth,
           windowHeight: windowHeight
         })
       }
@@ -509,7 +510,13 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.hide()
+  },
+  /**
+ * 切换纠错面板
+ */
+  _toggleErrorRecovery: function (e) {
+    console.log(this.errorRecovery)
+    this.errorRecovery.toogleDialog();
   },
   /**
    * 切换答题板
@@ -694,22 +701,24 @@ Page({
     }
 
   },
-
   /**
-   * 载入动画
-   */
-  hide: function() {
-    var vm = this
-    var interval = setInterval(function() {
-      if (vm.data.winH > 0) {
-        //清除interval 如果不清除interval会一直往上加
-        clearInterval(interval)
-        vm.setData({
-          winH: vm.data.winH - 20,
-          opacity: vm.data.winH / winHeight
-        })
-        vm.hide()
-      }
-    }, 10);
+ * 纠错提交后
+ */
+  _submit: function (e) {
+    let self = this;
+
+    let user = wx.getStorageSync('user');
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
+    let reason = e.detail.reason;
+    let px = self.data.px;
+    let shitiArray = self.data.shitiArray;
+    let shiti = shitiArray[px - 1];
+    let stid = shiti.id
+
+    console.log("action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason)
+    app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason, true, false, "提交中").then((res) => {
+      self.errorRecovery.hideDialog();
+    })
   }
 })

@@ -4,7 +4,7 @@
     <radio hidden value="A" checked="{{checked}}" />
     <view class="imgAndText">
       <view class="img-container">
-        <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.A}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.A}}</text>
     </view>
@@ -13,7 +13,7 @@
     <radio hidden value="B" checked="{{checked}}" />
     <view class="imgAndText">
       <view class="img-container">
-        <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.B}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.B}}</text>
     </view>
@@ -22,7 +22,7 @@
     <radio hidden value="C" checked="{{checked}}" />
     <view class="imgAndText">
       <view class="img-container">
-        <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.C}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.C}}</text>
     </view>
@@ -31,11 +31,9 @@
     <radio hidden value="D" checked="{{checked}}" />
     <view class="imgAndText">
       <view class="img-container">
-        <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.D}}" mode="aspectFit" class="answer-img"></image>
       </view>
-
       <text class="answer-text">{{shiti.D}}</text>
-
     </view>
   </label>
 </radio-group>

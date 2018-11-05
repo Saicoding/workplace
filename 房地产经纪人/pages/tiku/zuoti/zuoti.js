@@ -74,12 +74,14 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.waterWave = this.selectComponent("#waterWave");
+    this.errorRecovery = this.selectComponent("#errorRecovery");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
+          windowWidth: windowWidth,
           windowHeight: windowHeight
         })
       }
@@ -443,6 +445,14 @@ Page({
     common.lianxiRestart(self); //重新开始作答
   },
 
+  /**
+   * 切换纠错面板
+   */
+
+  _toggleErrorRecovery:function(e){
+    console.log(this.errorRecovery)
+    this.errorRecovery.toogleDialog();
+  },
 
   /**
    * 切换答题板
@@ -590,4 +600,24 @@ Page({
       })
     }
   },
+  /**
+   * 纠错提交后
+   */
+  _submit:function(e){
+    let self = this;
+
+    let user = wx.getStorageSync('user');
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
+    let reason = e.detail.reason;
+    let px = self.data.px;
+    let shitiArray = self.data.shitiArray;
+    let shiti = shitiArray[px-1];
+    let stid = shiti.id
+
+    console.log("action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason)
+    app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom+"&zcode="+zcode+"&stid="+stid+"&reason="+reason,true,false,"提交中").then((res)=>{
+      self.errorRecovery.hideDialog();
+    })
+  }
 })

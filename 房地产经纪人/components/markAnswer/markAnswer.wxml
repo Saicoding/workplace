@@ -1,6 +1,6 @@
 <!--components/Dialog/dialog.wxml-->
 <view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling'>
-  <scroll-view scroll-y="true" class = "container-in" style='top:{{windowHeight-60-500}}rpx' bindtap = "test">
+  <scroll-view scroll-y="true" class = "container-in" style='top:{{windowHeight-60-500}}rpx' >
     <view wx:for="{{markAnswerItems}}" wx:key="item">
       <view data-cl = "{{item.cl}}" data-px="{{index+1}}" catchtap='_tapEvent' class="icon" style="{{item.style}}">
         <view style = "margin:0 auto;">

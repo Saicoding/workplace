@@ -60,7 +60,7 @@
   </block>
 </swiper>
 <!-- 底部正确错误个数统计条 -->
-<count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer">
+<count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindtoggleErrorRecovery = "_toggleErrorRecovery">
 </count>
 <!-- 答题板 -->
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
@@ -71,3 +71,6 @@
 </view>
 <!-- 点击水波 -->
 <waterWave id="waterWave"></waterWave> 
+
+<!-- 纠错板 -->
+<errorRecovery id ="errorRecovery" windowWidth = "{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit = "_submit"></errorRecovery>

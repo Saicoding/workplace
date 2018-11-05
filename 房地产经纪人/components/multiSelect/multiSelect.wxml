@@ -4,7 +4,7 @@
     <checkbox hidden value="A" checked="{{shiti.A_checked}}" />
     <view class="answer-block">
       <view class="img-container">
-        <image src="{{shiti.srcs.A}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.A}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.A}}</text>
     </view>
@@ -14,7 +14,7 @@
     <checkbox hidden value="B" checked="{{shiti.B_checked}}" />
     <view class="answer-block">
       <view class="img-container">
-        <image src="{{shiti.srcs.B}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.B}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.B}}</text>
     </view>
@@ -24,7 +24,7 @@
     <checkbox hidden value="C" checked="{{shiti.C_checked}}" />
     <view class="answer-block">
       <view class="img-container">
-        <image src="{{shiti.srcs.C}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.C}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.C}}</text>
     </view>
@@ -34,7 +34,7 @@
     <checkbox hidden value="D" checked="{{shiti.D_checked}}" />
     <view class="answer-block">
       <view class="img-container">
-        <image src="{{shiti.srcs.D}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.D}}" mode="aspectFit" class="answer-img"></image>
       </view>
 
       <text class="answer-text">{{shiti.D}}</text>
@@ -45,7 +45,7 @@
     <checkbox hidden value="E" checked="{{shiti.E_checked}}" />
     <view class="answer-block">
       <view class="img-container">
-        <image src="{{shiti.srcs.E}}" mod="aspectFit" class="answer-img"></image>
+        <image src="{{shiti.srcs.E}}" mode="aspectFit" class="answer-img"></image>
       </view>
       <text class="answer-text">{{shiti.E}}</text>
     </view>

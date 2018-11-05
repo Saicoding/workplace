@@ -23,6 +23,7 @@
     "pages/mine/mineRadar/mineRadar",
     "pages/mine/message/message",
     "pages/subscriber/subscriber"
+
   ],
   "window": {
     "backgroundTextStyle": "light",

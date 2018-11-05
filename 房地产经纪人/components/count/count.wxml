@@ -1,4 +1,4 @@
-<view class="bottom-block">
+<view class="bottom-block" bindtap="_toggleErrorRecovery">
     <image src="/imgs/error_recovery.png" mod="aspectFit" class="bottom-img"></image>
      <view class="bottom-text" style="color:#666666;font-size:30rpx;">纠错</view>
 </view>

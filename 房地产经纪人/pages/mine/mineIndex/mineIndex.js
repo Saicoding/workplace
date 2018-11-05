@@ -156,6 +156,12 @@ Page({
       }
     });
   },
+  /**
+   * clearStorage
+   */
+  clearStorage:function(){
+    wx.clearStorage();
+  },
 
   /**
    * 导航到雷达页面
