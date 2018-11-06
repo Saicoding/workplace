@@ -1,6 +1,6 @@
 <!--components/Dialog/dialog.wxml-->
 <view hidden="{{!isShow}}" class="container-out" catchtap='stopBubbling'>
-  <view class="container-in">
+  <view class="container-in" style = "top:{{(windowHeight-720)/2}}rpx" >
     <image bindtap= "hideDialog" style="display:float;float:right;width:40rpx;height:40rpx;margin-right:15rpx;margin-top:20rpx;" src="/imgs/close.png" mode="aspectFit"></image>
     <view class="title">经纪人协理套餐</view>
     <view class="title" style="border-bottom:1rpx solid #d5d5d5;padding-bottom:35rpx;">冲刺班（2580元）</view>

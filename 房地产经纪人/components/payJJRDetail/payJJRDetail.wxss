@@ -1,4 +1,5 @@
 /* components/errorRecovery/errorRecovery.wxss */
+
 .container-out{
   width:80%;
   border:1px solid#f3f3f3;
@@ -9,12 +10,13 @@
 .container-in{
   width:80%;
   position: absolute;
-  bottom:200rpx;
   background: white;
   z-index: 100;
   border-radius:15rpx;
   padding-bottom:50rpx;
+  height:720rpx;
 }
+
 
 .modal{
   position: absolute;

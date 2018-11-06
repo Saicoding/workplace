@@ -57,5 +57,5 @@
 </view>
 
 <!-- 支付详细信息 -->
-<payJJRDetail id = "payJJRDetail" bindsubmit = "_submit"></payJJRDetail>
-<payXLDetail id = "payXLDetail" bindsubmit = "_submit"></payXLDetail>
+<payJJRDetail windowHeight = "{{windowHeight}}" id = "payJJRDetail" bindsubmit = "_submit"></payJJRDetail>
+<payXLDetail windowHeight = "{{windowHeight}}" id = "payXLDetail" bindsubmit = "_submit"></payXLDetail>

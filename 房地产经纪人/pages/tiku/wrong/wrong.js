@@ -526,13 +526,14 @@ Page({
  * 切换纠错面板
  */
   _toggleErrorRecovery: function (e) {
-    console.log(this.errorRecovery)
+    this.markAnswer.hideDialog();
     this.errorRecovery.toogleDialog();
   },
   /**
    * 切换答题板
    */
   _toogleMarkAnswer: function() {
+    this.errorRecovery.hideDialog();
     this.markAnswer.toogleDialog();
   },
   /**

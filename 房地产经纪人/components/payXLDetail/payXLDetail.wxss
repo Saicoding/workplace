@@ -9,7 +9,6 @@
 .container-in{
   width:80%;
   position: absolute;
-  bottom:200rpx;
   background: white;
   z-index: 100;
   border-radius:15rpx;
