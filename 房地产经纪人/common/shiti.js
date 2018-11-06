@@ -1020,6 +1020,7 @@ function restartModelReal(self) {
 
   self.setData({ //先把答题板数组置空
     myCurrent:0,
+    shitiNum:1,
     lastSliderIndex:0,//把最后一次的slider置位0,否则重置后滑动时不会得到正确的px值
     markAnswerItems: [],
     sliderShitiArray: sliderShitiArray,

@@ -27,8 +27,8 @@ Page({
   
     app.post(API_URL, "action=SelectZj").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-      
-      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, true, true, "获取考点...").then((res) => {
+
+      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, true, false, "获取考点...","",true).then((res) => {
         let kdList = res.data.list;//考点列表
 
         console.log(res)
@@ -57,7 +57,7 @@ Page({
       kaodian_id: kaodian_id, //设置章节的id编号
     })
 
-    app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, true, true, "获取考点...").then((res) => {
+    app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, true, false, "获取考点...").then((res) => {
       let kdList = res.data.list;//考点列表
 
       //存储本次浏览的题库
@@ -88,11 +88,12 @@ Page({
         let zcode = user.zcode;
         let LoginRandom = user.Login_random;
         let pwd = user.pwd
-        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url)//验证重复登录
+
+        validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url,true)//验证重复登录
       },
       fail: function (res) { //如果没有username就跳转到登录界面
         wx.navigateTo({
-          url: '/pages/login1/login1?url=' + url + "&ifGoBack=false",
+          url: '/pages/login1/login1?url=' + url + "&ifGoPage=true",
         })
       }
     })
