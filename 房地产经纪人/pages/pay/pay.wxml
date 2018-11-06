@@ -6,15 +6,19 @@
     <image class="bg" src="/imgs/bg1.png" mode="aspectFit">
     </image>
 
-    <view class = "block1">
+    <view class="block1">
       <text class="text1"> 房地产经纪人</text>
-      <view class="text2">冲刺班 3980<span style="font-size:23rpx;margin-left:5rpx;">元</span></view>
-      <view class = "bt-block">
-        <view class = "bt1">
-          <view class = "phone-container"><image class = "phone" mode="aspectFit" src = "/imgs/phone1.png"></image></view>     
-          <text class = "bt-text">详情咨询</text>
+      <view class="text2">冲刺班 3980
+        <span style="font-size:23rpx;margin-left:5rpx;">元</span>
+      </view>
+      <view class="bt-block">
+        <view class="bt1">
+          <view class="phone-container">
+            <image class="phone" mode="aspectFit" src="/imgs/phone1.png"></image>
+          </view>
+          <text class="bt-text">详情咨询</text>
         </view>
-        <button data-product="jjr" open-type="getUserInfo" bindgetuserinfo ='buy' class ="bt2">立即开通</button>
+        <button data-product="jjr" open-type="getUserInfo" bindgetuserinfo='buy' class="bt2">立即开通</button>
       </view>
     </view>
   </view>
@@ -24,22 +28,31 @@
     <image class="bg" src="/imgs/bg2.png" mode="aspectFit">
     </image>
 
-    <view class = "block2">
+    <view class="block2">
       <text class="text1"> 房地产经纪人协理</text>
-      <view class="text2">冲刺班 2580<span style="font-size:23rpx;margin-left:5rpx;">元</span></view>
-      <view class = "bt-block">
-        <view class = "bt1" style = "background:#bdedc1;">
-          <view class = "phone-container"><image class = "phone" mode="aspectFit" src = "/imgs/phone2.png"></image></view>     
-          <text class = "bt-text" style = "color:#54a54c;">详情咨询</text>
+      <view class="text2">冲刺班 2580
+        <span style="font-size:23rpx;margin-left:5rpx;">元</span>
+      </view>
+      <view class="bt-block">
+        <view class="bt1" style="background:#bdedc1;">
+          <view class="phone-container">
+            <image class="phone" mode="aspectFit" src="/imgs/phone2.png"></image>
+          </view>
+          <text class="bt-text" style="color:#54a54c;">详情咨询</text>
         </view>
-        <button data-product = "xl" open-type="getUserInfo" bindgetuserinfo ='buy'  class ="bt2" style= "background:#ff8b0e">立即开通</button>
+        <button data-product="xl" open-type="getUserInfo" bindgetuserinfo='buy' class="bt2" style="background:#ff8b0e">立即开通</button>
       </view>
     </view>
   </view>
 
-  <view class = "service">
-    <view class = "service-text1">郑州分公司为您服务</view>
-    <view class = "service-text2">咨询电话：0371-6167261</view>
+  <!-- 联系本地运营商,享受专属折扣优惠 -->
+  <view wx:if="{{hasCompany}}" class="service" bindtap='tel'>
+    <view class="service-text1">联系本地运营商,享受专属折扣优惠</view>
+    <view class="company">
+        <view class="company-name">{{company}}：</view>
+        <image class="company-phone" src="/imgs/phone.png" mode="aspectFit"></image>
+        <view class="company-tel">{{tel}}</view>
+    </view>
   </view>
 
 </view>

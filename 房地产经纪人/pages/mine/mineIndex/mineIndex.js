@@ -217,4 +217,13 @@ Page({
       user: user
     })
   },
+
+  /**
+   * 导航到关于我们界面
+   */
+  GOabout:function(){
+    wx.navigateTo({
+      url: '/pages/mine/about/about',
+    })
+  }
 })

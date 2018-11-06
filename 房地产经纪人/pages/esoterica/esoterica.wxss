@@ -47,6 +47,10 @@
 .text{
   display: float;
   float:left;
+  width:88%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .list{

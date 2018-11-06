@@ -7,9 +7,10 @@ const app = getApp();
 let numCount = 5; //元素个数
 let numSlot = 5; //一条线上的总节点数
 let windowWidth = wx.getSystemInfoSync().windowWidth; //窗口高度
+
 let mW = wx.getSystemInfoSync().windowWidth; //Canvas的宽度
 
-let mCenter = mW / 2; //中心点
+let mCenter = mW / 2 - 25 * (windowWidth / 750 ); //中心点
 let mAngle = Math.PI * 2 / numCount; //角度
 let mRadius = mCenter - 40 * (750 / windowWidth); //半径(减去的值用于给绘制的文本留空间)
 //获取指定的Canvas

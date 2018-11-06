@@ -40,12 +40,7 @@ Page({
   wxLogin: function(e) {
     let self = this;
     let code = "";
-    let iv = e.detail.iv; //偏移量
-    let encryptedData = e.detail.encryptedData;
-    let signature = e.detail.signature; //签名
-    let nickname = e.detail.userInfo.nickName; //昵称
-    let headurl = e.detail.userInfo.avatarUrl; //头像
-    let sex = e.detail.userInfo.gender //性别
+
     let wxid = ""; //openId
     let session_key = ""; //
     let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
@@ -57,34 +52,44 @@ Page({
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
 
-        //得到openId和session_key
-        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
-          let sesstion_key = res.data.sessionKey;
-          let openid = res.data.openid;
+        wx.getUserInfo({
+          success: function(res) {
+            let iv = res.iv; //偏移量
+            let encryptedData = res.encryptedData;
+            let signature = res.signature; //签名
+            let nickname = res.userInfo.nickName; //昵称
+            let headurl = res.userInfo.avatarUrl; //头像
+            let sex = res.userInfo.gender //性别
 
-          //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
-          let pc = new WXBizDataCrypt(appId, sesstion_key);
-          let data = pc.decryptData(encryptedData, iv);
-          let unionId = data.unionId;
+            //得到openId和session_key
+            app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
+              let sesstion_key = res.data.sessionKey;
+              let openid = res.data.openid;
 
-          console.log("action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
-          app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
-            console.log(res)
-            let user = res.data.list[0];
-            console.log(user)
-            wx.setStorage({
-              key: 'user',
-              data: user
-            })
+              //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
+              let pc = new WXBizDataCrypt(appId, sesstion_key);
+              let data = pc.decryptData(encryptedData, iv);
+              let unionId = data.unionId;
 
-            wx.navigateBack({}) //先回到登录前的页面
+              app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
 
-            if (ifGoPage == 'true') {
-              wx.navigateTo({
-                url: url,
+                let user = res.data.list[0];
+ 
+                wx.setStorage({
+                  key: 'user',
+                  data: user
+                })
+
+                wx.navigateBack({}) //先回到登录前的页面
+
+                if (ifGoPage == 'true'){
+                  wx.navigateTo({
+                    url: url,
+                  })
+                }
               })
-            }
-          })
+            })
+          }
         })
       }
     })

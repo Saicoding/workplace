@@ -121,11 +121,27 @@
   color:#204674;
 }
 
-.service-text2{
-  width:690rpx;
-  margin-top:15rpx;
-  margin-bottom: 30rpx;
+.company{
+  text-align: center;
+  height:50rpx;
+  display:table;
+  margin:40rpx auto;
+  line-height: 50rpx;
+}
+
+.company-name,.company-phone,.company-tel{
+  display: float;
+  float:left;
   font-size:30rpx;
-  letter-spacing: 4rpx;
-  color:#526a8f;
+}
+
+.company-tel{
+  margin-left:10rpx;
+}
+
+.company-phone{
+  width:36rpx;
+  height:36rpx;
+  margin-top:7rpx;
+  margin-left:20rpx;
 }

@@ -359,7 +359,6 @@ Page({
         validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url,true)//验证重复登录
       },
       fail: function(res) { //如果没有username就跳转到登录界面
-        console.log('haha')
         wx.navigateTo({
           url: '/pages/login1/login1?url=' + url+"&ifGoPage=true",
         })

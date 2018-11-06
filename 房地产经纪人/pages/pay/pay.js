@@ -15,7 +15,27 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-
+    let self = this;
+    wx.getUserInfo({
+      success: function(res) {
+        let city = res.userInfo.city;
+        app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
+          if (res.data.data.length == 0) { //如果没有城市代理
+            self.setData({ //设置成没有城市代理
+              hasCompany: false
+            })
+          } else {
+            let company = res.data.data[0].Name;
+            let tel = res.data.data[0].Tel
+            self.setData({
+              company: company,
+              tel: tel,
+              hasCompany: true
+            })
+          }
+        })
+      }
+    })
   },
 
   /**
@@ -70,7 +90,7 @@ Page({
                 'package': myPackage,
                 'paySign': paySign,
                 'signType': "MD5",
-                success: function (res) {
+                success: function(res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
                     console.log("action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
                     app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
@@ -80,7 +100,7 @@ Page({
                     })
                   }
                 },
-                fail: function (res) {
+                fail: function(res) {
                   console.log(res)
                 }
               }
@@ -96,29 +116,23 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
+   * 拨打电话
    */
-  onReady: function() {
-
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function() {
-
+  tel:function(){
+    let phoneNumber = this.data.tel;
+    wx.makePhoneCall({
+      phoneNumber: phoneNumber //仅为示例，并非真实的电话号码
+    })
   },
 
   /**
    * 点击返回按钮
    */
-  onUnload:function(){
+  onUnload: function() {
     let pages = getCurrentPages();
     console.log(pages)
     wx.navigateBack({
-      delta:1
+      delta: 1
     })
   }
-
 })

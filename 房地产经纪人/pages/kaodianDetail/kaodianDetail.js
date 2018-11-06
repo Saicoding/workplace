@@ -71,7 +71,7 @@ Page({
     let zcode = user.zcode;
 
     let second = mytime.second;
-    console.log(second)
+
     let pages = getCurrentPages();
     let prePage = pages[pages.length - 2];//上一页
     let kdList = prePage.data.kdList;
