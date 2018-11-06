@@ -16,9 +16,9 @@
           <view class="phone-container">
             <image class="phone" mode="aspectFit" src="/imgs/phone1.png"></image>
           </view>
-          <text class="bt-text">详情咨询</text>
+          <text bindtap='call400' class="bt-text">详情咨询</text>
         </view>
-        <button data-product="jjr" open-type="getUserInfo" bindgetuserinfo='buy' class="bt2">立即开通</button>
+        <button data-product="jjr" open-type="getUserInfo" bindgetuserinfo='showPayDetail' class="bt2">立即开通</button>
       </view>
     </view>
   </view>
@@ -38,9 +38,9 @@
           <view class="phone-container">
             <image class="phone" mode="aspectFit" src="/imgs/phone2.png"></image>
           </view>
-          <text class="bt-text" style="color:#54a54c;">详情咨询</text>
+          <text bindtap='call400' class="bt-text" style="color:#54a54c;">详情咨询</text>
         </view>
-        <button data-product="xl" open-type="getUserInfo" bindgetuserinfo='buy' class="bt2" style="background:#ff8b0e">立即开通</button>
+        <button data-product="xl" open-type="getUserInfo" bindgetuserinfo='showPayDetail' class="bt2" style="background:#ff8b0e">立即开通</button>
       </view>
     </view>
   </view>
@@ -48,11 +48,14 @@
   <!-- 联系本地运营商,享受专属折扣优惠 -->
   <view wx:if="{{hasCompany}}" class="service" bindtap='tel'>
     <view class="service-text1">联系本地运营商,享受专属折扣优惠</view>
+    <view class="company-name">{{company}}</view>
     <view class="company">
-        <view class="company-name">{{company}}：</view>
-        <image class="company-phone" src="/imgs/phone.png" mode="aspectFit"></image>
-        <view class="company-tel">{{tel}}</view>
+      <image class="company-phone" src="/imgs/phone.png" mode="aspectFit"></image>
+      <view class="company-tel">{{tel}}</view>
     </view>
   </view>
-
 </view>
+
+<!-- 支付详细信息 -->
+<payJJRDetail id = "payJJRDetail" bindsubmit = "_submit"></payJJRDetail>
+<payXLDetail id = "payXLDetail" bindsubmit = "_submit"></payXLDetail>

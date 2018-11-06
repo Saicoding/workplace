@@ -1,7 +1,7 @@
 /* pages/mine/about/about.wxss */
 .logo{
-  width:200rpx;
-  height:200rpx;
+  width:280rpx;
+  height:280rpx;
   margin:0 auto;
 }
 
@@ -10,6 +10,7 @@
   height:100%;
   text-align: center;
   padding:50rpx 0rpx 50rpx 0rpx;
+  background: #f9f9f9;
 }
 
 .title{
@@ -18,6 +19,7 @@
   text-align: center;
   margin-top:30rpx;
   margin-bottom: 70rpx;
+  font-size:39rpx;
 }
 
 .content{

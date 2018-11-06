@@ -1,6 +1,6 @@
 <view class="index-top">
   <picker range="{{array}}" range-key="title" class='picker changeType' value="{{Index}}" bindchange="bindPickerChange" data-selecthx="{{array[index].title}}">
-    <image src = "/imgs/dingwei.png" class = "dingwei" mode="aspectFit"></image>
+    <image src="/imgs/dingwei.png" class="dingwei" mode="aspectFit"></image>
     <text class='mulu'>当前题库</text>
     <view value="{{index}}">
       {{array[index].title}}>
@@ -13,7 +13,7 @@
         <image class="ti_img" src="/imgs/mark_exersise.jpg" mode="aspectFit"></image>
         <view class='t_text'>收藏练习</view>
       </view>
-      <view class='ti_z2' data-ti = "model" bindtap = "GOModelReal" >
+      <view class='ti_z2' data-ti="model" bindtap="GOModelReal">
         <image class="ti_img" src="/imgs/zhenti.jpg" mode="aspectFit"></image>
         <view class='t_text'>模拟真题</view>
       </view>
@@ -24,11 +24,11 @@
         <view class='t_text'>我的错题</view>
       </view>
       <view class='ti_z4'>
-        <image class="ti_img" data-ti = "yati" bindtap = "GOModelReal" src="/imgs/yati.jpg" mode="aspectFit"></image>
+        <image class="ti_img" data-ti="yati" bindtap="GOModelReal" src="/imgs/yati.jpg" mode="aspectFit"></image>
         <view class='t_text'>考前押题</view>
       </view>
     </view>
-    <view class='t_center' bindtap = "GOkaoqianmiji">
+    <view class='t_center' bindtap="GOkaoqianmiji">
       <view style="margin-top:0rpx;">
         <image style="width:100%;height:400rpx;" src="/imgs/miji.jpg" mode="aspectFit"></image>
       </view>
@@ -38,7 +38,7 @@
   <view class='shiti_zhangjie'>
     章节目录
   </view>
-    <!-- <button bindtap='test'>测试</button> -->
+  <!-- <button bindtap='test'>测试</button> -->
 
 </view>
 
@@ -49,9 +49,9 @@
       <view class="zj_block">
         <view hover-start-time="50" hover-class="select1">
           <view data-itemIdx="{{itemIdx}}" id='{{item.id}}' bindtap="onTapZhangjie" style="clear:both;">
-            <view style ="padding-left:15rpx;">
+            <view style="padding-left:15rpx;">
               <view class="zj_title">
-                <view class="zhang-icon-block" wx:if = "{{item.hasChild}}">
+                <view class="zhang-icon-block" wx:if="{{item.hasChild}}">
                   <image class="zhang-icon" src="{{item.isFolder?'/imgs/folder.png':'/imgs/unfolder.png'}}"></image>
                 </view>
                 <text class='zj_list' id='{{item.id}}' style="color:{{item.isAnswerAll?'#9D9D9D':'black'}}">
@@ -81,4 +81,3 @@
     </block>
   </scroll-view>
 </view>
-<waterWave id="waterWave"></waterWave>

@@ -184,7 +184,6 @@ Page({
    */
   onTapZhangjie: function(e) {
     //判断点击展开后 字节的高度+
-    this.waterWave.containerTap(e);//水波效果
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
@@ -319,7 +318,7 @@ Page({
    * 做题 
    */
   GOzuoti: function(e) {
-    this.waterWave.containerTap(e);//点击水波效果
+
     let self = this;
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
@@ -371,7 +370,6 @@ Page({
    */
   GOAnswerWrong: function(e) {
     let self = this;
-    self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
     let url1 = '/pages/tiku/wrong/wrong?kid=' + kid;
@@ -398,7 +396,6 @@ Page({
    */
   GOMarkExercise: function(e) {
     let self = this;
-    self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
     let url1 = '/pages/tiku/mark/mark?kid=' + kid;
@@ -425,7 +422,6 @@ Page({
    */
   GOkaoqianmiji:function(e){
     let self = this;
-    self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/kaoqianmiji/kaoqianmiji')
     let url1 = '/pages/tiku/kaoqianmiji/kaoqianmiji';
@@ -455,7 +451,6 @@ Page({
     let self = this;
     let ti = e.currentTarget.dataset.ti;//题型(押题,真题)
 
-    self.waterWave.containerTap(e);//水波效果
     let kid = self.data.zhangjie_id;
     let url1 = '/pages/tiku/modelReal/modelRealList/modelRealList?kid=' + kid + "&ti=" + ti;
 
@@ -468,7 +463,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    this.waterWave = this.selectComponent("#waterWave");
+
   },
 
   /**

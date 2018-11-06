@@ -46,14 +46,71 @@ Page({
 
     let product = e.currentTarget.dataset.product;
 
-    let code = "";
-    let iv = e.detail.iv; //偏移量
-    let encryptedData = e.detail.encryptedData;
-    let signature = e.detail.signature; //签名
-    let nickname = e.detail.userInfo.nickName; //昵称
-    let wxid = ""; //openId
-    let session_key = ""; //
+  },
 
+  /**
+   * 拨打400电话
+   */
+  call400:function(){
+    wx.makePhoneCall({
+      phoneNumber: '400-6456-114' //仅为示例，并非真实的电话号码
+    })
+  },
+
+  /**
+   * 拨打电话
+   */
+  tel:function(){
+    let phoneNumber = this.data.tel;
+    wx.makePhoneCall({
+      phoneNumber: phoneNumber //仅为示例，并非真实的电话号码
+    })
+  },
+
+  /**
+   * 生命周期事件
+   */
+  onReady:function(){
+    this.payJJRDetail = this.selectComponent("#payJJRDetail");
+    this.payXLDetail = this.selectComponent("#payXLDetail");
+  },
+
+  /**
+   * 点击返回按钮
+   */
+  onUnload: function() {
+    let pages = getCurrentPages();
+    console.log(pages)
+    wx.navigateBack({
+      delta: 1
+    })
+  },
+
+  /**
+   * 弹出支付详细信息
+   */
+  showPayDetail:function(e){
+    let product = e.currentTarget.dataset.product;
+
+    if (product == "jjr"){
+      this.payJJRDetail.showDialog();
+    }else{
+      this.payXLDetail.showDialog();
+    }
+
+    this.setData({
+      product: product
+    })
+  },
+
+  /**
+   * 提交支付
+   */
+  _submit:function(){
+    let self = this;
+
+    let product = self.data.product;
+    let code = "";
     let user = wx.getStorageSync('user');
     let Login_random = user.Login_random; //用户登录随机值
     let zcode = user.zcode; //客户端id号
@@ -66,7 +123,6 @@ Page({
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
           let openid = res.data.openid;
 
-          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
           app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
             console.log('可以')
             let status = res.data.status;
@@ -90,9 +146,8 @@ Page({
                 'package': myPackage,
                 'paySign': paySign,
                 'signType': "MD5",
-                success: function(res) {
+                success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
-                    console.log("action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product)
                     app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
                       wx.navigateBack({
                         delta: 2
@@ -100,39 +155,16 @@ Page({
                     })
                   }
                 },
-                fail: function(res) {
+                fail: function (res) {
                   console.log(res)
                 }
               }
-
               wx.requestPayment(myObject)
             }
           })
 
         })
       }
-    })
-
-  },
-
-  /**
-   * 拨打电话
-   */
-  tel:function(){
-    let phoneNumber = this.data.tel;
-    wx.makePhoneCall({
-      phoneNumber: phoneNumber //仅为示例，并非真实的电话号码
-    })
-  },
-
-  /**
-   * 点击返回按钮
-   */
-  onUnload: function() {
-    let pages = getCurrentPages();
-    console.log(pages)
-    wx.navigateBack({
-      delta: 1
     })
   }
 })
