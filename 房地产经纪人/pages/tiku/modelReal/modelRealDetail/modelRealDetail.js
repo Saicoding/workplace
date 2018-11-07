@@ -223,6 +223,7 @@ Page({
         px: px,
         shitiNum: shitiNum,
         circular: circular, //是否循环
+        user: user,
 
         sliderShitiArray: sliderShitiArray, //滑动数组
         lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
@@ -298,7 +299,6 @@ Page({
 
     let foldData = undefined; //动画
 
-    console.log(isFold)
 
     if (isFold) {
       foldData = animate.foldAnimation(easeOutAnimation, 400, 90);
@@ -477,6 +477,8 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
+    console.log(shiti.answer)
+
     done_daan = shiti.TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
     common.changeModelRealSelectStatus(done_daan, currentShiti, self); //改变试题状态
@@ -550,7 +552,7 @@ Page({
 
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - shiti.clpx == i) { //找到对应的小题
-
+        console.log(xiaoti[i].answer)
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
 
         common.changeModelRealSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
@@ -618,6 +620,7 @@ Page({
   onUnload: function(e) {
     let self = this;
     let user = self.data.user;
+ 
     let modelCount = self.modelCount;
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2]; //上一个页面
@@ -682,7 +685,6 @@ Page({
     } else { //如果是材料题,就让px=cl
       midShiti = shitiArray[cl - 1];
       xiaotiCurrent = px - midShiti.clpx;
-      console.log(midShiti)
       px = cl;
     }
 
@@ -744,7 +746,6 @@ Page({
     }
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
-    console.log(shitiNum)
     self.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,

@@ -6,56 +6,65 @@
 
     <view class="message" bindtap='GOmessage'>
       <image class="xin" src="/imgs/message.png" mode="aspectFit"></image>
-      <view wx:if ="{{nums != 0}}" class="num" >{{nums}}</view>
+      <view wx:if="{{nums != 0}}" class="num">{{nums}}</view>
     </view>
-    <view class="nickname">{{user.Nickname}}<span style = "font-size:25rpx;">({{user.username}})</span></view>
+    <view class="nickname">{{user.Nickname}}
+      <span style="font-size:25rpx;">({{user.username}})</span>
+    </view>
   </view>
 
   <scroll-view scroll-y style="height:{{windowHeight-310}}rpx;">
     <view class='mycontainer'>
 
       <!-- 房地产经纪人标题 -->
-      <view data-rate="jjr" class="block" bindtap="toogleShow">
-        <image class="left-img" src="/imgs/blue-rate.png" mode="aspectFit" style=" transform:rotate({{-jjrAngle}}deg)"></image>
+      <view class="line" hover-class='select' hover-stay-time='100'>
+        <view data-rate="jjr" class="block" bindtap="toogleShow">
+          <image class="left-img" src="/imgs/blue-rate.png" mode="aspectFit" style=" transform:rotate({{-jjrAngle}}deg)"></image>
 
-        <view class="mytext">【房地产经纪人】 学习进度</view>
+          <view class="mytext">【房地产经纪人】 学习进度</view>
 
-        <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>      
+          <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>
+        </view>
       </view>
 
       <!-- 房地产经纪人菜单 -->
       <view class="jie" animation="{{jjrFoldData}}">
-        <view data-title="房地产交易制度政策" data-kmid="257" class="jie-block" bindtap="GOradar">
-          <view class="jie-text ">《房地产交易制度政策》 </view>
+        <view class="line" hover-class='select' hover-stay-time='100'>
+          <view data-title="房地产交易制度政策" data-kmid="257" class="jie-block" bindtap="GOradar" >
+            <view class="jie-text ">《房地产交易制度政策》 </view>
 
-          <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
+            <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
 
+          </view>
         </view>
+        <view class="line" hover-class='select' hover-stay-time='100'>
+          <view data-title="房地产经纪职业导论" data-kmid="258" class="jie-block" bindtap="GOradar" >
+            <view class="jie-text ">《房地产经纪职业导论》 </view>
 
-        <view data-title="房地产经纪职业导论" data-kmid="258" class="jie-block" bindtap="GOradar">
-          <view class="jie-text ">《房地产经纪职业导论》 </view>
+            <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
 
-          <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
-
+          </view>
         </view>
+        <view class="line" hover-class='select' hover-stay-time='100'>
+          <view data-title="房地产经纪专业基础" data-kmid="260" class="jie-block" bindtap="GOradar" >
+            <view class="jie-text ">《房地产经纪专业基础》 </view>
 
-        <view data-title="房地产经纪专业基础" data-kmid="260" class="jie-block" bindtap="GOradar">
-          <view class="jie-text ">《房地产经纪专业基础》 </view>
+            <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
 
-          <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
-
+          </view>
         </view>
+        <view class="line" hover-class='select' hover-stay-time='100'>
+          <view data-title="房地产业务操作" data-kmid="259" class="jie-block" bindtap="GOradar">
+            <view class="jie-text ">《房地产业务操作》 </view>
 
-        <view data-title="房地产业务操作" data-kmid="259" class="jie-block" bindtap="GOradar">
-          <view class="jie-text ">《房地产业务操作》 </view>
+            <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
 
-          <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
-
+          </view>
         </view>
       </view>
 
       <!-- 协理标题 -->
-      <view data-rate="xl" class="block" bindtap='toogleShow' style="border:none;">
+      <view data-rate="xl" class="block" bindtap='toogleShow' style="border:none;" hover-class='select' hover-stay-time='100'>
 
         <image class="left-img" src="/imgs/orange-rate.png" mode="aspectFit" style="transform:rotate({{-xlAngle}}deg);"></image>
 
@@ -65,12 +74,12 @@
 
       <!-- 协理菜单 -->
       <view class="jie" animation="{{xlFoldData}}">
-        <view data-title="经纪操作实务" data-kmid="263" class="jie-block" bindtap="GOradar" style="border-top:1rpx solid #ebebeb;">
+        <view data-title="经纪操作实务" data-kmid="263" class="jie-block" bindtap="GOradar" style="border-top:1rpx solid #ebebeb;" hover-class='select' hover-stay-time='100'>
           <view class="jie-text">《经纪操作实务》 </view>
           <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
         </view>
 
-        <view data-title="经纪综合能力" data-kmid="262" class="jie-block" bindtap="GOradar">
+        <view data-title="经纪综合能力" data-kmid="262" class="jie-block" bindtap="GOradar" hover-class='select' hover-stay-time='100'>
           <view class="jie-text">《经纪综合能力》 </view>
           <image class="right-img" src="/imgs/more.png " mode="aspectFit "></image>
         </view>
@@ -80,15 +89,15 @@
     <!-- 最底下关于房地产经纪人考试通 -->
 
     <view class="mycontainer">
-      <view class="block">
+      <view class="block" hover-class='select' hover-stay-time='100'>
         <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:31rpx;margin-left:9rpx;"></image>
         <view class="mytext" bindtap='GOset'>
           设置
         </view>
       </view>
-      <view class="block">
+      <view class="block" hover-class='select' hover-stay-time='100'>
         <image class="left-img" src="/imgs/my_error.jpg" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:30rpx;margin-left:9rpx;"></image>
-        <view class="mytext" bindtap = "GOabout">
+        <view class="mytext" bindtap="GOabout">
           关于房地产经纪人考试通
         </view>
       </view>

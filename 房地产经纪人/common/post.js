@@ -58,23 +58,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
       //根据已答试题库得到正确题数和错误题数
       let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
 
-      if (px != 1 && px != shitiArray.length) {//如果不是第一题也不是最后一题
-        sliderShitiArray[0] = midShiti;
-        sliderShitiArray[1] = nextShiti;
-        sliderShitiArray[2] = preShiti;
-      } else if (px == 1) {//如果是第一题
-        sliderShitiArray[0] = midShiti;
-        sliderShitiArray[1] = nextShiti;
-      } else {//如果是最后一题
-
-        sliderShitiArray[0] = preShiti;
-        sliderShitiArray[1] = midShiti;
-        lastSliderIndex = 1;
-        self.setData({
-          myCurrent: 1
-        })
-      }
-
 
       //如果已答试题数目大于0才更新shiti
       if (doneAnswerArray.length > 0) {
@@ -90,6 +73,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
   myFavorite = midShiti.favorite;
+  console.log(sliderShitiArray)
 
   if (px != 1 && px != shitiArray.length) {//如果不是第一题也不是最后一题
     sliderShitiArray[0] = midShiti;
