@@ -78,7 +78,6 @@
   height:90rpx;
   width:100%;
   vertical-align: middle;
-  border-left:1rpx dashed #ebebeb;
   border-bottom: 1rpx dashed #ebebeb;
   color:rgb(78, 78, 78);
 }

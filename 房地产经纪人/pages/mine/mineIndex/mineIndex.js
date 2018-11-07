@@ -1,15 +1,12 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
-
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
 let animate = require('../../../common/animate.js');
 let validate = require('../../../common/validate.js');
+let util = require('../../../utils/util.js');
+
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
-let jjrIsFold = true;
-let xlIsFold = true;
-let jjrAngle = 0;
-let xlAngle =0;
 
 
 // start雷达图初始化数据
@@ -22,7 +19,8 @@ let mCenter = mW / 2; //中心点
 let mAngle = Math.PI * 2 / numCount; //角度
 let mRadius = mCenter - 40 * (750 / windowWidth); //半径(减去的值用于给绘制的文本留空间)
 //获取指定的Canvas
-let radCtx = wx.createCanvasContext("radarCanvas")
+let radCtx = wx.createCanvasContext("radarCanvas");
+
 
 Page({
 
@@ -30,8 +28,52 @@ Page({
    * 页面的初始数据
    */
   data: {
+    buttonClicked: false,
     stepText: 5,
-    nums:0,
+    nums: 0,
+    product: [{
+        'title': '【房地产经纪人】 学习进度',
+        'rate': 'jjr',
+        'angle': 0,
+        'isFold': true,
+        'height':380,
+        'src': '/imgs/blue-rate.png',
+        'jie': [{
+            'title': '房地产交易制度政策',
+            'kmid': 257
+          },
+          {
+            'title': '房地产经纪职业导论',
+            'kmid': 258
+          },
+          {
+            'title': '房地产经纪专业基础',
+            'kmid': 260
+          },
+          {
+            'title': '房地产业务操作',
+            'kmid': 259
+          },
+        ]
+      },
+      {
+        'title': '【房地产经纪人协理】 学习进度',
+        'rate': 'xl',
+        'height': 200,
+        'isFold': true,
+        'angle': 0,
+        'src': '/imgs/orange-rate.png',
+        'jie': [{
+            'title': '经纪操作实务',
+            'kmid': 263
+          },
+          {
+            'title': '经纪综合能力',
+            'kmid': 262
+          }
+        ]
+      }
+    ]
   },
 
   /**
@@ -58,83 +100,39 @@ Page({
 
   toogleShow: function(e) {
     let self = this;
-    let rate = e.currentTarget.dataset.rate;//点击的科目
+    let rate = e.currentTarget.dataset.rate; //点击的科目
+    let product = self.data.product;
+    let p = rate == "jjr" ? product[0] : product[1];
 
-    if (rate == "jjr") { //如果点击的是经纪人
-      if (jjrIsFold){//如果是折叠状态
-        let jjrFoldData = animate.foldAnimation(easeInAnimation, 380, 0);
-        jjrIsFold  = false;
-        let interval = setInterval(function(){
-          jjrAngle += 3 ;
-          if (jjrAngle >= 90){
-            jjrAngle = 90;
-            clearInterval(interval);
-          }
-          self.setData({
-            jjrAngle: jjrAngle
-          })
-        },30)       
-     
+    if (p.isFold) { //如果是折叠状态
+      p.foldData = animate.foldAnimation(easeInAnimation, p.height, 0);
+      p.isFold = false;
+      let interval = setInterval(function() {
+        p.angle += 3;
+        if (p.angle >= 90) {
+          p.angle = 90;
+          clearInterval(interval);
+        }
         self.setData({
-          jjrFoldData: jjrFoldData,
+          product: product
         })
-      }else{
-        let jjrFoldData = animate.foldAnimation(easeOutAnimation, 0,380);
-        jjrIsFold = true;
-        let interval = setInterval(function () {
-          jjrAngle -= 3;
-          if (jjrAngle <= 0) {
-            jjrAngle = 0;
-            clearInterval(interval);
-          }
-          self.setData({
-            jjrAngle: jjrAngle
-          })
-        }, 30)
+      }, 30)
 
+    } else {
+      p.foldData = animate.foldAnimation(easeOutAnimation, 0, p.height);
+      p.isFold = true;
+      let interval = setInterval(function() {
+        p.angle -= 3;
+        if (p.angle <= 0) {
+          p.angle = 0;
+          clearInterval(interval);
+        }
         self.setData({
-          jjrFoldData: jjrFoldData,
+          product: product
         })
-      }
-    }else{
-      if (xlIsFold) {//如果是折叠状态
-        let xlFoldData = animate.foldAnimation(easeInAnimation, 200, 0);
-        xlIsFold = false;
-        let interval = setInterval(function () {
-          xlAngle += 3;
-
-          if (xlAngle >= 90) {
-            xlAngle = 90;
-            clearInterval(interval);
-          }
-          self.setData({
-            xlAngle: xlAngle
-          })
-        }, 30)
-
-        self.setData({
-          xlFoldData: xlFoldData,
-        })
-      } else {
-        let xlFoldData = animate.foldAnimation(easeOutAnimation, 0, 200);
-        xlIsFold = true;
-        let interval = setInterval(function () {
-          xlAngle -= 3;
-          if (xlAngle <= 0) {
-            xlAngle = 0;
-            clearInterval(interval);
-          }
-          self.setData({
-            xlAngle: xlAngle
-          })
-        }, 30)
-
-        self.setData({
-          xlFoldData: xlFoldData,
-        })
-      }  
+      }, 30)
     }
-    
+
   },
 
   onReady: function() {
@@ -156,7 +154,8 @@ Page({
   /**
    * 设置页面
    */
-  GOset:function(){
+  GOset: function() {
+    util.buttonClicked(this);
     wx.navigateTo({
       url: '/pages/mine/set/set',
     })
@@ -165,19 +164,21 @@ Page({
   /**
    * 导航到雷达页面
    */
-  GOradar:function(e) {
+  GOradar: function(e) {
+    util.buttonClicked(this);
     let kmid = e.currentTarget.dataset.kmid;
     let title = e.currentTarget.dataset.title;
 
     wx.navigateTo({
-      url: '/pages/mine/mineRadar/mineRadar?kmid=' + kmid+"&title="+title,
+      url: '/pages/mine/mineRadar/mineRadar?kmid=' + kmid + "&title=" + title,
     })
   },
 
   /**
    * 导航到消息页面
    */
-  GOmessage:function(){
+  GOmessage: function() {
+    util.buttonClicked(this);
     let self = this;
 
     let url = encodeURIComponent('/pages/mine/message/message');
@@ -188,7 +189,7 @@ Page({
     let LoginRandom = user.Login_random;
     let pwd = user.pwd
 
-    validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url,true)//验证重复登录
+    validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
 
   },
   /**
@@ -197,13 +198,13 @@ Page({
   onShow: function() {
     let self = this;
     let user = wx.getStorageSync('user');
-    
+
     if (user != "") {
       let LoginRandom = user.Login_random;
       let zcode = user.zcode;
       let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
-      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "",url).then((res) => {
+      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
         console.log(res)
         let nums = res.data.nums;
         self.setData({
@@ -220,7 +221,8 @@ Page({
   /**
    * 导航到关于我们界面
    */
-  GOabout:function(){
+  GOabout: function() {
+    util.buttonClicked(this);
     wx.navigateTo({
       url: '/pages/mine/about/about',
     })

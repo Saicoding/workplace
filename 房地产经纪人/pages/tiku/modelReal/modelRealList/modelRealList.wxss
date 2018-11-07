@@ -53,3 +53,7 @@
   width:60rpx;
   height:60rpx;
 }
+
+.select{
+  background: rgb(223, 223, 223);
+}

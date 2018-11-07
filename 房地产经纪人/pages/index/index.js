@@ -7,6 +7,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
+let util = require('../../utils/util.js');
 
 Page({
 
@@ -18,6 +19,7 @@ Page({
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
+    buttonClicked: false,
     z_id: 0 //题库id
   },
   // test:function(){
@@ -353,7 +355,7 @@ Page({
    * 做题 
    */
   GOzuoti: function(e) {
-
+    util.buttonClicked(this);
     let self = this;
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
@@ -404,6 +406,7 @@ Page({
    * 导航到我的错题页面
    */
   GOAnswerWrong: function(e) {
+    util.buttonClicked(this);
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
@@ -430,6 +433,7 @@ Page({
    * 导航到收藏练习
    */
   GOMarkExercise: function(e) {
+    util.buttonClicked(this);
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
@@ -456,6 +460,7 @@ Page({
    * 导航到模拟考试
    */
   GOkaoqianmiji: function(e) {
+    util.buttonClicked(this);
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/kaoqianmiji/kaoqianmiji')
@@ -483,6 +488,7 @@ Page({
    * 导航到模拟真题
    */
   GOModelReal: function(e) {
+    util.buttonClicked(this);
     let self = this;
     let ti = e.currentTarget.dataset.ti; //题型(押题,真题)
 

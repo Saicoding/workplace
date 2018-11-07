@@ -51,6 +51,7 @@ Page({
   clearStorage:function(){
     let user = wx.getStorageSync('user');
     wx.clearStorage();
+    console.log(user)
     wx.setStorageSync('user', user);
     wx.showToast({
       title: '清除缓存成功',
@@ -81,6 +82,17 @@ Page({
     wx.navigateTo({
       url: '/pages/login1/login1?url=' + url + "&ifGoPage=false",
     })
-    
+  },
+
+  /**
+   * 开启wifi提醒
+   */
+
+  turnonPrompt:function(){
+    wx.showToast({
+      title: '该功能稍后开发',
+      icon:'none',
+      duration:2000
+    })
   }
 })

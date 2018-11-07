@@ -11,6 +11,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    buttonClicked: true,
     isHasShiti: true//默认有试题
   },
 
@@ -80,9 +81,9 @@ Page({
   },
 
   GOModelRealDetail: function(e) {
+    util.buttonClicked(this);
     let self = this;
-    self.waterWave.containerTap(e); //水波效果
-
+    if(self.buttonClicked) return;
     let id = e.currentTarget.dataset.id;
     let test_score = e.currentTarget.dataset.test_score;
     let times = e.currentTarget.dataset.times;
@@ -118,6 +119,5 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    this.waterWave = this.selectComponent("#waterWave"); //水波
   },
 })

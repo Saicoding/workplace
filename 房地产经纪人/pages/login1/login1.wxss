@@ -65,9 +65,9 @@
 }
 
 .select1{
-  background: #7EC0EE;
+  background: rgb(5, 144, 243);
 }
 
 .select2{
-  background: #CAFF70;
+  background: #004405;
 }

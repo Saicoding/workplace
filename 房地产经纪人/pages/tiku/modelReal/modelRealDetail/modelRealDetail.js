@@ -22,7 +22,7 @@ Page({
     id: 0, //书的编号,默认为0
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
-    isLoaded: true, //是否已经载入完毕,用于控制过场动画
+    isLoaded: false, //是否已经载入完毕,用于控制过场动画
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
     markAnswerItems: [], //设置一个空数组
@@ -117,6 +117,23 @@ Page({
 
       common.initModelRealMarkAnswer(newShitiArray, self); //初始化答题板数组
 
+      //开始计时
+      let interval = "";
+      if (!isSubmit) { //如果没提交
+        let second = wx.getStorageSync(tiTypeStr + 'last_time' + options.id + username);
+        if (second) {
+          interval = common.startWatch(second, self);
+        } else {
+          interval = common.startWatch(options.times * 60, self);
+        }
+      } else { //如果已提交
+        let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id + username);
+
+        self.modelCount.setData({
+          timeStr: last_gone_time_str
+        })
+      }
+
       let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id+username);
 
       //对是否是已答试题做处理
@@ -174,23 +191,6 @@ Page({
         }
       })
 
-      //开始计时
-      let interval = "";
-      if (!isSubmit) { //如果没提交
-        let second = wx.getStorageSync(tiTypeStr + 'last_time' + options.id+username);
-        if (second) {
-          interval = common.startWatch(second, self);
-        } else {
-          interval = common.startWatch(options.times * 60, self);
-        }
-      } else { //如果已提交
-        let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id+username);
-
-        self.modelCount.setData({
-          timeStr: last_gone_time_str
-        })
-      }
-
       if(px != 1 && px !=shitiArray.length){//如果不是第一题也不是最后一题
         sliderShitiArray[0] = midShiti;
         sliderShitiArray[1] = nextShiti;
@@ -229,7 +229,7 @@ Page({
         lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
 
         newShitiArray: newShitiArray, //新的试题数组
-        isLoaded: false, //是否已经载入完毕,用于控制过场动画
+        isLoaded: true, //是否已经载入完毕,用于控制过场动画
         username: username, //用户账号名称
         acode: acode //用户唯一码
       });
@@ -619,6 +619,9 @@ Page({
    */
   onUnload: function(e) {
     let self = this;
+    let isLoaded = self.data.isLoaded;
+    if(!isLoaded) return;
+
     let user = self.data.user;
  
     let modelCount = self.modelCount;

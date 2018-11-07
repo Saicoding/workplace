@@ -15,5 +15,5 @@
     提示:未注册账号的手机号,登录时自动注册,并视为同意<span bindtap = "viewSign" style = "color:red;">《用户注册协议》</span>
   </view>
 
-  <button class ="confirm-btn" bindtap = "confirm">确定</button>
+  <button class ="confirm-btn" bindtap = "confirm" hover-class='select' hover-start-time='0' hover-stay-time='300'>确定</button>
 </view>

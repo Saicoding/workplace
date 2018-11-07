@@ -58,8 +58,15 @@
 .confirm-btn{
   background: #388ff8;
   height:80rpx;
-  margin-top:80rpx;
+  margin:80rpx auto;
   border-radius: 80rpx;
   color:white;
   line-height: 80rpx;
+  font-size:32rpx;
+  width: 60%;
+
+}
+
+.select{
+  background: #0371f7;
 }
