@@ -34,15 +34,19 @@ function rotateAnimation(myAnimation,angle){
 }
 
 /**
- * 缩放动画
+ * 移动动画
  */
-function scaleZ(myAnimation,scale){
-
+function moveX(myAnimation,x){
+  myAnimation.translateX(x).step({
+    duration: 1000,
+  });
+  return myAnimation.export();
 }
 
 module.exports = {
   easeOutAnimation: easeOutAnimation,
   easeInAnimation: easeInAnimation,
   foldAnimation: foldAnimation,
-  rotateAnimation: rotateAnimation
+  rotateAnimation: rotateAnimation,
+  moveX: moveX
 }

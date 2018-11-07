@@ -46,9 +46,6 @@ Page({
     let user = wx.getStorageSync('user');
 
     if (user) {
-
-      let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
-
       self.setData({
         user: user
       })
@@ -157,10 +154,12 @@ Page({
     });
   },
   /**
-   * clearStorage
+   * 设置页面
    */
-  clearStorage:function(){
-    wx.clearStorage();
+  GOset:function(){
+    wx.navigateTo({
+      url: '/pages/mine/set/set',
+    })
   },
 
   /**

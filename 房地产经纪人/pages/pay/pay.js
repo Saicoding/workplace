@@ -122,8 +122,8 @@ Page({
    */
   _submit:function(e){
     let self = this;
-
-    let product = self.data.product;
+  
+    let product = e.detail.product;
     let code = "";
     let user = wx.getStorageSync('user');
     let Login_random = user.Login_random; //用户登录随机值
@@ -137,6 +137,7 @@ Page({
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
           let openid = res.data.openid;
 
+          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
           app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
             console.log('可以')
             let status = res.data.status;

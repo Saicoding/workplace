@@ -13,7 +13,6 @@
     "pages/tiku/modelReal/modelRealDetail/modelRealDetail",
     "pages/tiku/modelReal/modelRealList/modelRealList",
     "pages/prompt/modelRealScore/modelRealScore",
-    "pages/video/video",
     "pages/esoterica/esoterica",
     "pages/mine/mineIndex/mineIndex",
     "pages/phoneLogin/phoneLogin",
@@ -23,7 +22,9 @@
     "pages/mine/mineRadar/mineRadar",
     "pages/mine/message/message",
     "pages/subscriber/subscriber",
-    "pages/mine/about/about"
+    "pages/mine/about/about",
+    "pages/video/videoIndex/videoIndex",
+    "pages/mine/set/set"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -44,7 +45,7 @@
         "text": "题库"
       },
       {
-        "pagePath": "pages/video/video",
+        "pagePath": "pages/video/videoIndex/videoIndex",
         "selectedColor": "#2592ff",
         "iconPath": "/imgs/menu_ico2.png",
         "selectedIconPath": "/imgs/menu_ico2_sel.png",

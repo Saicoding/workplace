@@ -1,0 +1,11 @@
+<!--pages/video/videoIndex/videoIndex.wxml-->
+<!-- <view class="mycontainer">
+  <view class="mytitle">
+    <view data-product="jjr" bindtap='changeProduct' class="title1" style="color:{{product == 'jjr'?'#1aa0f4':'black'}}">房地产经纪人</view>
+    <view data-product="xl" bindtap='changeProduct' class="title2" style="color:{{product == 'xl'?'#1aa0f4':'black'}}">房地产经纪人协理</view>
+    <view class="blockMove" animation="{{moveData}}"></view>
+  </view>
+  
+</view> -->
+
+<hasNoPage str = "开发中,即将上线..."></hasNoPage>

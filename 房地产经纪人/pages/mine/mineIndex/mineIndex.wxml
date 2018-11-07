@@ -82,8 +82,8 @@
     <view class="mycontainer">
       <view class="block">
         <image class="left-img" src="/imgs/set.png" mode="aspectFit" style="width:40rpx;height:40rpx;margin-top:31rpx;margin-left:9rpx;"></image>
-        <view class="mytext" bindtap='clearStorage'>
-          退出
+        <view class="mytext" bindtap='GOset'>
+          设置
         </view>
       </view>
       <view class="block">

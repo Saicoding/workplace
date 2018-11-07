@@ -103,6 +103,10 @@
 
 .text{
   font-size:32rpx;
-  margin-left:40rpx;
+  padding-left:40rpx;
   color:black;
+}
+
+.select{
+  background: rgb(230, 229, 229);
 }

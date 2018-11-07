@@ -1,0 +1,31 @@
+/* pages/video/videoIndex/videoIndex.wxss */
+.mytitle{
+  width:100%;
+  height:100rpx;
+  border-bottom: 1rpx solid #e5e5e5;
+}
+
+.title1,.title2{
+  display:float;
+  float:left;
+  font-size:35rpx;
+  height:100rpx;
+  line-height: 100rpx;
+  color:#47a7e7
+}
+.title1{
+  margin-left:110rpx;
+}
+
+.title2{
+  margin-left:80rpx;
+}
+
+.blockMove{
+  position: absolute;
+  top:98rpx;
+  left:110rpx;
+  width:204rpx;
+  border-bottom:6rpx solid #0197f7;
+  border-radius: 6rpx;
+}
