@@ -44,12 +44,12 @@ Page({
 
     let user = wx.getStorageSync('user');
     let username = user.username;
-    let acode = user.acode;
+    let acode  = user.acode;
     let circular = false;
     let myFavorite = 0;
 
     //根据章是否有字节来定制最后一次访问的key
-    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "");
+    let last_view_key = 'last_view' + options.zhangjie_id + options.zhangIdx + (options.jieIdx != "undefined" ? options.jieIdx : "")+user.username;
 
     let last_view = wx.getStorageSync(last_view_key); //得到最后一次的题目
     let px = last_view.px; //最后一次浏览的题的编号
@@ -59,7 +59,7 @@ Page({
     }
 
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true, false, "载入中").then((res) => {
-      post.zuotiOnload(options, px, circular,myFavorite,res, username, acode, self) //对数据进行处理和初始化
+      post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
     }).catch((errMsg) => {
       console.log(errMsg); //错误提示信息
@@ -281,7 +281,6 @@ Page({
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
     common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
-
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
     common.setMarkAnswer(shiti, self.data.isModelReal, self.data.isSubmit, self) //更新答题板状态
@@ -444,7 +443,7 @@ Page({
   onShow: function(e) {
     let self = this;
 
-    common.lianxiRestart(self); //重新开始作答
+    // common.lianxiRestart(self); //重新开始作答
   },
 
   /**

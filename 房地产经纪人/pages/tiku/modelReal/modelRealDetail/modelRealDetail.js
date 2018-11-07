@@ -53,7 +53,7 @@ Page({
     let lastSliderIndex = 0 ;
 
     //根据真题定制最后一次访问的key
-    let last_view_key = tiTypeStr + 'lastModelReal' + options.id;
+    let last_view_key = tiTypeStr + 'lastModelReal' + options.id+username;
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
 
@@ -117,11 +117,11 @@ Page({
 
       common.initModelRealMarkAnswer(newShitiArray, self); //初始化答题板数组
 
-      let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id);
+      let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id+username);
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: tiTypeStr + "modelReal" + options.id,
+        key: tiTypeStr + "modelReal" + options.id+username,
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
@@ -168,7 +168,7 @@ Page({
         },
         fail: function() {
           wx.setStorage({
-            key: tiTypeStr + "modelReal" + options.id,
+            key: tiTypeStr + "modelReal" + options.id+username,
             data: [],
           })
         }
@@ -177,14 +177,14 @@ Page({
       //开始计时
       let interval = "";
       if (!isSubmit) { //如果没提交
-        let second = wx.getStorageSync(tiTypeStr + 'last_time' + options.id);
+        let second = wx.getStorageSync(tiTypeStr + 'last_time' + options.id+username);
         if (second) {
           interval = common.startWatch(second, self);
         } else {
           interval = common.startWatch(options.times * 60, self);
         }
       } else { //如果已提交
-        let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id);
+        let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id+username);
 
         self.modelCount.setData({
           timeStr: last_gone_time_str
@@ -617,6 +617,7 @@ Page({
    */
   onUnload: function(e) {
     let self = this;
+    let user = self.data.user;
     let modelCount = self.modelCount;
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2]; //上一个页面
@@ -629,7 +630,7 @@ Page({
       clearInterval(self.data.interval); //停止计时器
 
       wx.setStorage({
-        key: self.data.tiTypeStr + 'last_time' + self.data.id,
+        key: self.data.tiTypeStr + 'last_time' + self.data.id+user.username,
         data: second,
       })
     }
@@ -870,13 +871,13 @@ Page({
         text: "重新评测",
       })
       wx.setStorage({
-        key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id,
+        key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id+username,
         data: true,
       })
 
       //设置用时
       wx.setStorage({
-        key: self.data.tiTypeStr + "last_gone_time" + self.data.id,
+        key: self.data.tiTypeStr + "last_gone_time" + self.data.id+username,
         data: "用时" + time1.getGoneTimeStr(gone_time)
       })
       //设置答题板的显示文字

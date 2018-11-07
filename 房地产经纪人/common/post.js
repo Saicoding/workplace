@@ -6,8 +6,10 @@ let easeInAnimation = animate.easeInAnimation();
 /**
  * 练习题
  */
-function zuotiOnload(options, px, circular, myFavorite, res, username, acode, self){
+function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   let shitiArray = res.data.shiti;
+  let username = user.username;
+  let acode = user.acode;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -36,7 +38,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
 
   //对是否是已答试题做处理
   wx.getStorage({
-    key: "shiti" + options.zhangjie_id,
+    key: "shiti" + options.zhangjie_id+username,
     success: function (res1) {
       //根据章是否有子节所有已经回答的题
       let doneAnswerArray = self.data.jieIdx != "undefined" ? res1.data[self.data.zhangIdx][self.data.jieIdx] : res1.data[self.data.zhangIdx]
@@ -52,13 +54,32 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
       if (preShiti != undefined) common.processDoneAnswer(preShiti.done_daan, preShiti, self);
       common.processDoneAnswer(midShiti.done_daan, midShiti, self);
       if (nextShiti != undefined) common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
-     
+
       //根据已答试题库得到正确题数和错误题数
       let rightAndWrongObj = common.setRightWrongNums(doneAnswerArray);
+
+      if (px != 1 && px != shitiArray.length) {//如果不是第一题也不是最后一题
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+        sliderShitiArray[2] = preShiti;
+      } else if (px == 1) {//如果是第一题
+        sliderShitiArray[0] = midShiti;
+        sliderShitiArray[1] = nextShiti;
+      } else {//如果是最后一题
+
+        sliderShitiArray[0] = preShiti;
+        sliderShitiArray[1] = midShiti;
+        lastSliderIndex = 1;
+        self.setData({
+          myCurrent: 1
+        })
+      }
+
 
       //如果已答试题数目大于0才更新shiti
       if (doneAnswerArray.length > 0) {
         self.setData({
+          sliderShitiArray: sliderShitiArray,
           doneAnswerArray: doneAnswerArray, //获取该节所有的已做题目
           rightNum: rightAndWrongObj.rightNum,
           wrongNum: rightAndWrongObj.wrongNum
@@ -87,6 +108,8 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
     })
   }
 
+  console.log(sliderShitiArray)
+
   self.setData({
     z_id: options.z_id, //点击组件的id编号
     zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
@@ -94,6 +117,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, username, acode, se
     jieIdx: options.jieIdx, //节的id号
 
     px:px,
+    user:user,
     title: options.title,//标题
     circular:circular,
     myFavorite: myFavorite,//是否收藏

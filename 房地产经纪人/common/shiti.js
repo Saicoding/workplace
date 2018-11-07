@@ -501,8 +501,10 @@ function storeAnswerStatus(shiti, self) {
   let zhangIdx = self.data.zhangIdx;
   let jieIdx = self.data.jieIdx;
   let doneAnswerArray = self.data.doneAnswerArray
+  let user = self.data.user;
+  let username = user.username
 
-  let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id);
+  let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id+username);
 
   let obj = {
     "id": shiti.id,
@@ -525,7 +527,7 @@ function storeAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: "shiti" + self.data.zhangjie_id,
+    key: "shiti" + self.data.zhangjie_id+username,
     data: answer_nums_array,
   })
 }
@@ -535,9 +537,11 @@ function storeAnswerStatus(shiti, self) {
  */
 function storeModelRealAnswerStatus(shiti, self) {
   let id = self.data.id;
+  let user = self.data.user;
+  let username = user.username;
   let doneAnswerArray = self.data.doneAnswerArray;
 
-  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + id);
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + id+username);
 
   let flag = false;
 
@@ -588,7 +592,7 @@ function storeModelRealAnswerStatus(shiti, self) {
   })
 
   wx.setStorage({
-    key: self.data.tiTypeStr + "modelReal" + id,
+    key: self.data.tiTypeStr + "modelReal" + id+username,
     data: answer_nums_array,
   })
 }
@@ -867,11 +871,15 @@ function storeLastShiti(px, self) {
   //存储当前最后一题
   let zhangIdx = self.data.zhangIdx;
   let jieIdx = self.data.jieIdx;
+
+  let user = self.data.user;
+  let username = user.username;
+
   let last_view_key = ""; //存储上次访问的题目的key
   if (jieIdx != "undefined") { //如果有子节
-    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx
+    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + jieIdx + username;
   } else { //如果没有子节
-    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx
+    last_view_key = 'last_view' + self.data.zhangjie_id + zhangIdx + username;
   }
   //本地存储最后一次访问的题目
   wx.setStorage({
@@ -885,8 +893,10 @@ function storeLastShiti(px, self) {
  * 存储最后一题(真题，押题)
  */
 function storeModelRealLastShiti(px, self) {
+  let user = self.data.user;
+  let username = user.username;
   //存储当前最后一题
-  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id; //存储上次访问的题目的key
+  let last_view_key = self.data.tiTypeStr + 'lastModelReal' + self.data.id+username; //存储上次访问的题目的key
   //本地存储最后一次访问的题目
   wx.setStorage({
     key: last_view_key,
@@ -943,6 +953,8 @@ function lianxiRestart(self) {
   let shitiArray = self.data.shitiArray;
   let jieIdx = self.data.jieIdx;
   let zhangIdx = self.data.zhangIdx;
+  let user = self.data.user;
+  let username =user.username;
 
   if (restart) { //如果点击了重新开始练习，就清除缓存
     let shiti = self.data.shitiArray[0];
@@ -955,7 +967,7 @@ function lianxiRestart(self) {
 
     initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-    let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id);
+    let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id+username);
 
     //根据章是否有字节的结构来
     if (jieIdx != "undefined") {
@@ -963,7 +975,7 @@ function lianxiRestart(self) {
     } else {
       answer_nums_array[zhangIdx] = [];
     }
-    wx.setStorageSync("shiti" + self.data.zhangjie_id, answer_nums_array); //重置已答数组
+    wx.setStorageSync("shiti" + self.data.zhangjie_id+username, answer_nums_array); //重置已答数组
 
     self.setData({
       shiti: self.data.shitiArray[0],
@@ -1003,6 +1015,8 @@ function initShitiArrayDoneAnswer(shitiArray) {
 
 function restartModelReal(self) {
   let shitiArray = self.data.shitiArray;
+  let user = self.data.user;
+  let username = user.username;
 
   initShitiArrayDoneAnswer(shitiArray); //将所有问题已答置空
 
@@ -1032,13 +1046,13 @@ function restartModelReal(self) {
 
   initModelRealMarkAnswer(self.data.newShitiArray, self); //初始化答题板数组
 
-  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + self.data.id); //将已答答案置空
+  let answer_nums_array = wx.getStorageSync(self.data.tiTypeStr + "modelReal" + self.data.id+username); //将已答答案置空
   wx.setStorage({
-    key: self.data.tiTypeStr + "modelReal" + self.data.id,
+    key: self.data.tiTypeStr + "modelReal" + self.data.id+username,
     data: [],
   })
   wx.setStorage({
-    key: self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id,
+    key: self.data.tiTypeStr + "modelRealIsSubmit" + self.data.id+username,
     data: false,
   })
   self.setData({

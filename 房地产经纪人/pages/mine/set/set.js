@@ -5,14 +5,22 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    storageSize:0 
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      wx.getStorage({
+        key: 'user',
+        success: function (res) {
+          console.log(res.data);
+        },
+        fail: function (res) {
+          console.log("获取数据失败");
+        }
+      });
   },
 
   /**
@@ -68,7 +76,7 @@ Page({
 
     wx.navigateBack({})
 
-    wx.clearStorageSync('user');
+    wx.removeStorageSync('user');
 
     wx.navigateTo({
       url: '/pages/login1/login1?url=' + url + "&ifGoPage=false",
