@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "payXLDetail": "/components/payXLDetail/payXLDetail",
-    "payJJRDetail": "/components/payJJRDetail/payJJRDetail"
+    "payDetail": "/components/payDetail/payDetail"
   }
 }

@@ -111,7 +111,8 @@ Component({
     //提交后
     _submit: function () {
       this.hideDialog();
-      this.triggerEvent("submit");
+      let product = this.data.product;
+      this.triggerEvent("submit",{'product':product});
     }
   }
 })

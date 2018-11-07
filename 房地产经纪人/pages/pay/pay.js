@@ -72,8 +72,7 @@ Page({
    */
   onReady:function(){
     let self = this;
-    this.payJJRDetail = this.selectComponent("#payJJRDetail");
-    this.payXLDetail = this.selectComponent("#payXLDetail");
+    this.payDetail = this.selectComponent("#payDetail");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
@@ -106,20 +105,22 @@ Page({
     let product = e.currentTarget.dataset.product;
 
     if (product == "jjr"){
-      this.payJJRDetail.showDialog();
+      this.payDetail.setData({
+        product:"jjr"
+      })
+      this.payDetail.showDialog();
     }else{
-      this.payXLDetail.showDialog();
+      this.payDetail.setData({
+        product: "xl"
+      })
+      this.payDetail.showDialog();
     }
-
-    this.setData({
-      product: product
-    })
   },
 
   /**
    * 提交支付
    */
-  _submit:function(){
+  _submit:function(e){
     let self = this;
 
     let product = self.data.product;
