@@ -97,14 +97,30 @@ Page({
     let product = e.currentTarget.dataset.product;//点击的视频种类
     if (product == currentProduct) return;//如果没有改变就不作任何操作
 
+    self.setData({
+      loaded:false
+    })
 
     let windowWidth = self.data.windowWidth;//窗口宽度
     let moveData = undefined;//动画
     if(product == "xl"){
-      moveData = animate.moveX(easeOutAnimation, 270 * (windowWidth / 750), 278 * (windowWidth / 750));
-          console.log('ok')
+      moveData = animate.moveX(easeOutAnimation, 265 * (windowWidth / 750), 276 * (windowWidth / 750));
+      app.post(API_URL, "action=GetCourseList&types=xl", false, true, "", "").then((res) => {
+        let videoList = res.data.list;
+        self.setData({
+          videoList: videoList,
+          loaded: true
+        })
+      })
     }else{
       moveData = animate.moveX(easeOutAnimation, 200 * (windowWidth / 750),  0);
+      app.post(API_URL, "action=GetCourseList&types=jjr", false, true, "", "").then((res) => {
+        let videoList = res.data.list;
+        self.setData({
+          videoList: videoList,
+          loaded: true
+        })
+      })
     }
     
     self.setData({

@@ -25,36 +25,44 @@
   position: absolute;
   top:98rpx;
   left:110rpx;
-  width:204rpx;
+  width:200rpx;
   border-bottom:6rpx solid #0197f7;
   border-radius: 6rpx;
 }
 
+.content{
+  padding:0rpx 30rpx 50rpx 30rpx;
+
+}
+
 .block{
+  clear: both;
   width:100%;
-  height:300rpx;
-  padding-top:20rpx;
-  padding-bottom: 20rpx;
-  border-bottom: 1rpx solid #cfcece;
+  height:265rpx;
+  border-bottom: 1rpx solid #e6e5e5;
 }
 
 .img,.right-block{
   display: float;
   float:left;
+}
+
+.right-block{
   margin-left:30rpx;
 }
 
 .img{
   width:300rpx;
   height:225rpx;
-  
+  margin-top:20rpx;
 }
 
 .title{
-  width:350rpx;
-  height:120rpx;
-  border:1rpx solid pink;
+  width:360rpx;
+  height:100rpx;
+  margin-top:20rpx;
   font-size:35rpx;
+  line-height:40rpx;
 }
 
 .hot{
@@ -73,19 +81,37 @@
 .hot-img{
   width:40rpx;
   height:40rpx;
-  border:1rpx solid red;
 }
 
 .hot-text{
-  width:150rpx;
-  border:1rpx solid green;
+  width:110rpx;
+  margin-left:70rpx;
 }
 
+.slider-block{
+  width: 100%;
+  height:50rpx;
+  line-height: 70rpx;
+  margin-top:30rpx;
+  padding-left:-50rpx;
+  /* vertical-align: bottom; */
+}
 
+.slider,.slider-text{
+  display: float;
+  float:left;
+}
 
+.slider{
+  width:335rpx;
+  margin-left:-20rpx;
+}
 
-
-
+.slider-text{
+  font-size:25rpx;
+  color:#0068a8;
+  margin-left:-20rpx;
+}
 
 .loading-img{
   width: 750rpx;
