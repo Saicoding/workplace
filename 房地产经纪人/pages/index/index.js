@@ -7,7 +7,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
-let util = require('../../utils/util.js');
+let buttonClicked = false;
 
 Page({
 
@@ -19,7 +19,6 @@ Page({
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
-    buttonClicked: false,
     z_id: 0 //题库id
   },
   // test:function(){
@@ -54,7 +53,6 @@ Page({
             wx.getStorage({
               key: "shiti" + self.data.zhangjie_id + user.username,
               success: function(res) {
-                console.log(res)
                 //将每个节的已经作答的本地存储映射到组件中    
                 for (let i = 0; i < zhangjie.length; i++) {
                   let zhang_answer_num = 0; //章的总作答数
@@ -355,7 +353,8 @@ Page({
    * 做题 
    */
   GOzuoti: function(e) {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let self = this;
     let z_id = e.currentTarget.id;
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
@@ -406,7 +405,8 @@ Page({
    * 导航到我的错题页面
    */
   GOAnswerWrong: function(e) {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/wrong/wrong?kid=' + kid)
@@ -433,7 +433,8 @@ Page({
    * 导航到收藏练习
    */
   GOMarkExercise: function(e) {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/mark/mark?kid=' + kid)
@@ -460,7 +461,8 @@ Page({
    * 导航到模拟考试
    */
   GOkaoqianmiji: function(e) {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let self = this;
     let kid = self.data.zhangjie_id;
     let url = encodeURIComponent('/pages/tiku/kaoqianmiji/kaoqianmiji')
@@ -488,7 +490,8 @@ Page({
    * 导航到模拟真题
    */
   GOModelReal: function(e) {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let self = this;
     let ti = e.currentTarget.dataset.ti; //题型(押题,真题)
 
@@ -512,6 +515,7 @@ Page({
    */
   onShow: function() {
     let self = this;
+    buttonClicked = false;
     let zhangjie = self.data.zhangjie;
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作
 

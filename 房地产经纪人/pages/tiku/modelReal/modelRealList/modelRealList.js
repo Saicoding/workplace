@@ -2,16 +2,15 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
 let common = require('../../../../common/shiti.js');
-const util = require('../../../../utils/util.js')
+
 let validate = require('../../../../common/validate.js');
+let  buttonClicked = false;
 
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    buttonClicked: true,
     isHasShiti: true//默认有试题
   },
 
@@ -81,7 +80,8 @@ Page({
   },
 
   GOModelRealDetail: function(e) {
-    util.buttonClicked(this);
+    if(buttonClicked) return;
+    buttonClicked = true;
     let self = this;
     if(self.buttonClicked) return;
     let id = e.currentTarget.dataset.id;
@@ -120,4 +120,11 @@ Page({
    */
   onReady: function() {
   },
+
+  /**
+   * 生命周期函数
+   */
+  onShow:function(){
+    buttonClicked = false;
+  }
 })

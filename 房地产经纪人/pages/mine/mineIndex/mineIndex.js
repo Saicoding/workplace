@@ -20,6 +20,7 @@ let mAngle = Math.PI * 2 / numCount; //角度
 let mRadius = mCenter - 40 * (750 / windowWidth); //半径(减去的值用于给绘制的文本留空间)
 //获取指定的Canvas
 let radCtx = wx.createCanvasContext("radarCanvas");
+let buttonClicked = false;
 
 
 Page({
@@ -28,7 +29,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-    buttonClicked: false,
     stepText: 5,
     nums: 0,
     product: [{
@@ -155,7 +155,8 @@ Page({
    * 设置页面
    */
   GOset: function() {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     wx.navigateTo({
       url: '/pages/mine/set/set',
     })
@@ -165,7 +166,8 @@ Page({
    * 导航到雷达页面
    */
   GOradar: function(e) {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let kmid = e.currentTarget.dataset.kmid;
     let title = e.currentTarget.dataset.title;
 
@@ -178,7 +180,8 @@ Page({
    * 导航到消息页面
    */
   GOmessage: function() {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     let self = this;
 
     let url = encodeURIComponent('/pages/mine/message/message');
@@ -197,6 +200,7 @@ Page({
    */
   onShow: function() {
     let self = this;
+    buttonClicked = false;
     let user = wx.getStorageSync('user');
 
     if (user != "") {
@@ -222,7 +226,8 @@ Page({
    * 导航到关于我们界面
    */
   GOabout: function() {
-    util.buttonClicked(this);
+    if (buttonClicked) return;
+    buttonClicked = true;
     wx.navigateTo({
       url: '/pages/mine/about/about',
     })

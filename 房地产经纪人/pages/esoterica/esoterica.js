@@ -2,7 +2,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
-let util = require('../../utils/util.js');
+let buttonClicked = false;
 Page({
 
   /**
@@ -44,7 +44,7 @@ Page({
    * onShow生命周期事件
    */
   onShow:function(){
-
+    buttonClicked = false;
   },
 
   bindPickerChange:function(e){
@@ -73,7 +73,8 @@ Page({
   },
 
   GOkaodianDetail:function(e){
-    util.buttonClicked(this);//防止多次点击
+    if (buttonClicked) return;
+    buttonClicked = true;
     let kdid = e.currentTarget.dataset.kdid;
     let kdList = this.data.kdList
     let title = e.currentTarget.dataset.title
