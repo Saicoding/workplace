@@ -409,6 +409,8 @@ Page({
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
+    console.log(shitiNum)
+
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,

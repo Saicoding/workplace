@@ -57,7 +57,7 @@ Page({
       px = 1 //如果没有这个px说明这个章节首次访问
       circular:false
     }
-
+    console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true, false, "载入中").then((res) => {
       post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
@@ -268,6 +268,14 @@ Page({
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
 
+    if (shiti.TX == 2 && shiti.selectAnswer == undefined) {
+      wx.showToast({
+        title: '还没有作答 !',
+        icon: 'none',
+      })
+      return;
+    }
+
     if (shiti.isAnswer) return;
 
     common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
@@ -321,7 +329,6 @@ Page({
    */
   CLZuoti: function(e) {
     let self = this;
-    self.waterWave.containerTap(e);
 
     let str = "#q" + self.data.px;
     let question = self.selectComponent(str);
@@ -407,6 +414,13 @@ Page({
       if (px - 1 == i) { //找到对应的小题
         if (xiaoti[i].isAnswer) return;
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
+        if (xiaoti[i].TX == 2 && xiaoti[i].selectAnswer == undefined) {
+          wx.showToast({
+            title: '还没有作答 !',
+            icon: 'none',
+          })
+          return;
+        }
         common.changeSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
         common.changeSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的

@@ -19,16 +19,14 @@
   vertical-align: top;
 }
 
-.img-container {
-  display: inline-flex;
-  width:50rpx;
+.icon,{
+  display: float;
+  float:left;
 }
 
-/* 答案选项前面的图片 */
-
-.answer-img {
-  width: 50rpx;
-  height: 50rpx;
+.icon{
+  width:50rpx;
+  height:50rpx;
 }
 
 /* 答案选项的文字 */
@@ -39,6 +37,6 @@
   margin-left:40rpx;
   line-height:50rpx;
   width: 543rpx;
-  margin-top:-5rpx;
+  margin-top:0rpx;
   vertical-align: top;
 }

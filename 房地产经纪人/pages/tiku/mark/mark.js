@@ -255,6 +255,14 @@ Page({
 
     done_daan = shiti.TX == 1 ? e.detail.done_daan : shiti.selectAnswer; //根据单选还是多选得到done_daan
 
+    if (shiti.TX == 2 && shiti.selectAnswer == undefined) {
+      wx.showToast({
+        title: '还没有作答 !',
+        icon: 'none',
+      })
+      return;
+    }
+
     if (shiti.isAnswer) return;
 
     common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
@@ -398,6 +406,13 @@ Page({
       if (px - 1 == i) { //找到对应的小题
         if (xiaoti[i].isAnswer) return;
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
+        if (xiaoti[i].TX == 2 && xiaoti[i].selectAnswer == undefined) {
+          wx.showToast({
+            title: '还没有作答 !',
+            icon: 'none',
+          })
+          return;
+        }
         common.changeSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
         common.changeSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
 

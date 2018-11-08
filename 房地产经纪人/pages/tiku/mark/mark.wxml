@@ -1,13 +1,11 @@
 <!--pages/tiku/zuoti/index.wxml-->
-<!--蒙版（渐出淡去效果）-->
-<!-- <view class="aa" style='height: {{winH}}rpx;opacity: {{opacity}};' ></view> -->
+
 <!-- 如果没有试题就不显示 -->
 <swiper duration="200" wx:if="{{isHasShiti}}" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
     
-      <scroll-view scroll-y="true" class="containers log-list" hidden="{{isLoaded}}" style='height:{{windowHeight-90}}rpx;' catchlongtap='_toogleMarkAnswer'>
-        <!-- bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" -->
+      <view  hidden="{{isLoaded}}">
         <!--问题-->
         <question bindtoogleAnimation ="_toogleAnimation" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 
@@ -58,7 +56,7 @@
             </swiper>
           </view>
         </view>
-      </scroll-view>
+      </view>
     </swiper-item>
   </block>
 </swiper>

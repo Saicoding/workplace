@@ -19,8 +19,10 @@
           <view wx:if = "{{index == kdList.length-1}}" class = "white-down"></view>
           <view wx:if = "{{index == 0}}" class = "white-top"></view>
         </view>
-        <view class="text" hover-class='select'>{{kaodian.title}}</view>
+        <view class="text" >{{kaodian.title}}</view>
       </view>
     </view>
   </view>
 </view>
+
+<waterWave id ="waterWave"></waterWave>

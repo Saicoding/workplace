@@ -113,63 +113,43 @@
 }
 
 
-.zj_title {
-  clear: both;
-  display: float;
-  float: left;
-  width: 82%;
-  height: 100rpx;
-  vertical-align: middle;
-  /* border: 1px solid blue; */
+.block {
+  width: 100%;
+  font-size:30rpx;
+  height:80rpx;
+  line-height: 80rpx;
 }
 
-.jie_block {
-  clear: both;
+.zhang-icon,.title,.answer_number{
+  display: float;
+  float:left;
 }
 
-.jie_title {
-  clear: both;
-  display: float;
-  float: left;
-  width: 73%;
-  /* border:1px solid red; */
-  text-indent: 50rpx;
-  color: #333;
-  border-bottom: 1px dashed #eee;
-  font-size: 29rpx;
-  line-height: 70rpx;
-  height: 70rpx;
-  margin-left: 65rpx;
-  border-left: 1px #eee dashed;
-  white-space: nowrap;
-  overflow: hidden;
+.answer_number{
+  float:right;
 }
 
-.zj_list {
-  display: float;
-  float: left;
-  width: 526rpx;
-  font-size: 30rpx;
-  height: 100rpx;
-  line-height: 33rpx;
-  padding-left: 20rpx;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.zhang-icon-block {
-  display: float;
-  float: left;
-  height: 100rpx;
-}
 
 .zhang-icon {
-  display: float;
-  float: left;
   width: 40rpx;
   height: 40rpx;
-  margin-left: 10rpx;
-  margin-top: 30rpx;
+  margin-top:20rpx;
+  margin-left:20rpx;
+}
+
+.title{
+  margin-left:25rpx;
+  width:530rpx;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.answer_number {
+  width: 110rpx;
+  font-size: 25rpx;
+  margin-right:20rpx;
+  text-align: right;
 }
 
 .jie {
@@ -179,42 +159,30 @@
   clear: both;
 }
 
-.select1 {
-  height:100rpx;
-  width:100%;
-  background-color:	#CCCCCC;
+
+.jie_block {
+  width: 100%;
+  height:70rpx;
+  line-height: 70rpx;
+  font-size:30rpx;
+  color:rgb(73, 73, 73);
 }
+
+.jie_title {
+  display: float;
+  float: left;
+  width: 515rpx;
+  border-bottom: 1px dashed #eee;
+  margin-left: 100rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.select {
+  background-color:	rgb(226, 226, 226);
+}
+
 
 
 /********************章节后面的数字统计*******************/
-
-.answer_number {
-  /* border:1px solid pink; */
-  display: float;
-  float: right;
-  width: 14%;
-  height: 69rpx;
-  padding-top: 31rpx;
-  padding-right: 16rpx;
-  font-size: 25rpx;
-}
-
-.answer_number_1, .answer_number_m, .answer_number_2 {
-  display: float;
-  float: right;
-}
-
-.answer_number_jie {
-  display: float;
-  float: right;
-  width: 14%;
-  height: 40rpx;
-  padding-top: 18rpx;
-  padding-right: 16rpx;
-  font-size: 25rpx;
-}
-
-.answer_number_jie_1, .answer_number_jie_m, .answer_number_jie_2 {
-  display: float;
-  float: right;
-}

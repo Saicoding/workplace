@@ -46,6 +46,12 @@ Page({
   onShow:function(){
     buttonClicked = false;
   },
+  /**
+   * 
+   */
+  onReady:function(){
+    this.waterWave = this.selectComponent('#waterWave')
+  },
 
   bindPickerChange:function(e){
     let self = this;
@@ -73,6 +79,7 @@ Page({
   },
 
   GOkaodianDetail:function(e){
+    this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
     let kdid = e.currentTarget.dataset.kdid;

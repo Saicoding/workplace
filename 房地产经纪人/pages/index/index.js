@@ -298,7 +298,11 @@ Page({
 
     let height = 71 * num;
 
-    let scroll = (index * 100 + jie_num * 71) * (windowWidth / 750);
+    console.log(index+"||"+jie_num)
+
+    let scroll = (index * 80 + jie_num * 71) * (windowWidth / 750);
+
+    console.log(scroll)
 
     if (isFolder) { //展开
       let spreadAnimation = wx.createAnimation({
@@ -307,7 +311,9 @@ Page({
         timingFunction: "ease"
       })
 
-      spreadAnimation.height(height + "rpx", 0).step({})
+      spreadAnimation.height(height + "rpx", 0).step({
+        
+      })
       zhangjie[index].isFolder = false;
       zhangjie[index].height = height;
       zhangjie[index].spreadData = spreadAnimation.export()
@@ -330,7 +336,8 @@ Page({
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").step({})
+      foldAnimation.height(0, height + "rpx").step(function(){
+      })
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
         if (folder_object[i].index == index) {
@@ -340,6 +347,7 @@ Page({
       zhangjie[index].height = 0;
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
+
 
       self.setData({
         zhangjie: zhangjie,
@@ -405,6 +413,7 @@ Page({
    * 导航到我的错题页面
    */
   GOAnswerWrong: function(e) {
+    this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -433,6 +442,7 @@ Page({
    * 导航到收藏练习
    */
   GOMarkExercise: function(e) {
+    this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -461,6 +471,7 @@ Page({
    * 导航到模拟考试
    */
   GOkaoqianmiji: function(e) {
+    this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -507,7 +518,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+    this.waterWave = this.selectComponent("#waterWave");
   },
 
   /**
