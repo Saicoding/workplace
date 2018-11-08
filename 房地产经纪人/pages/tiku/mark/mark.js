@@ -618,7 +618,6 @@ Page({
     let shiti = shitiArray[px - 1];
     let stid = shiti.id
 
-    console.log("action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason)
     app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason, true, false, "提交中").then((res) => {
       self.errorRecovery.hideDialog();
     })

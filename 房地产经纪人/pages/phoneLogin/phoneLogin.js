@@ -74,7 +74,6 @@ Page({
           duration: 2000
         });
         let identifyCode = res.data.data[0].yzm;
-        console.log(identifyCode)
         self.setData({
           identifyCode: identifyCode
         })
@@ -139,7 +138,6 @@ Page({
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
-        console.log(user)
 
         wx.setStorage({
           key: 'user',

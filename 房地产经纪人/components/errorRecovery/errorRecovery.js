@@ -63,7 +63,6 @@ Component({
     },
     //toogle展示
     toogleDialog() {
-      console.log('haha')
       this.setData({
         isShow: !this.data.isShow
       })

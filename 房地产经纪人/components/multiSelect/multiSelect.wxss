@@ -11,12 +11,6 @@
   margin-top: 50rpx;
 }
 
-
-.img-container {
-  display: inline-flex;
-  width: 50rpx;
-}
-
 .answer-block {
   width: 100%;
   font-size: 35rpx;
@@ -27,8 +21,10 @@
 }
 
 .answer-img {
-  width: 50rpx;
-  height: 50rpx;
+  display: float;
+  float:left;
+  width:50rpx;
+  height:50rpx;
 }
 
 /* 答案选项的文字 */

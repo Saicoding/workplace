@@ -140,10 +140,8 @@ Page({
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
-        console.log(windowHeight)
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
-        console.log(windowHeight)
         self.setData({
           windowHeight: windowHeight,
           windowWidth: windowWidth,
@@ -209,7 +207,6 @@ Page({
       let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
       app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
-        console.log(res)
         let nums = res.data.nums;
         self.setData({
           nums: nums

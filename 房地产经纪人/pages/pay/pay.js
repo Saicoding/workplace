@@ -92,7 +92,6 @@ Page({
    */
   onUnload: function() {
     let pages = getCurrentPages();
-    console.log(pages)
     wx.navigateBack({
       delta: 1
     })
@@ -137,9 +136,8 @@ Page({
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
           let openid = res.data.openid;
 
-          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
           app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
-            console.log('可以')
+
             let status = res.data.status;
 
             if (status == 1) {
@@ -171,7 +169,6 @@ Page({
                   }
                 },
                 fail: function (res) {
-                  console.log(res)
                 }
               }
               wx.requestPayment(myObject)

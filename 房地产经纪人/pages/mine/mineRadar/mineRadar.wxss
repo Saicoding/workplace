@@ -56,3 +56,10 @@
   margin: 0 auto;
   margin-top:-50rpx;
 }
+
+.loading-img{
+  width: 750rpx;
+  height:458rpx;
+  margin:0 auto;
+  margin-top:40rpx;
+}

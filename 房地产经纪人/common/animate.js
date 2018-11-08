@@ -36,9 +36,9 @@ function rotateAnimation(myAnimation,angle){
 /**
  * 移动动画
  */
-function moveX(myAnimation,x){
-  myAnimation.translateX(x).step({
-    duration: 1000,
+function moveX(myAnimation,width,x){
+  myAnimation.width(width).translateX(x).step({
+    duration: 500,
   });
   return myAnimation.export();
 }

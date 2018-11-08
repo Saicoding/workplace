@@ -57,12 +57,11 @@ Page({
       px = 1 //如果没有这个px说明这个章节首次访问
       circular:false
     }
-    console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
+
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true, false, "载入中").then((res) => {
       post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
     }).catch((errMsg) => {
-      console.log(errMsg); //错误提示信息
       wx.hideLoading();
     });
   },
@@ -632,7 +631,6 @@ Page({
     let shiti = shitiArray[px-1];
     let stid = shiti.id
 
-    console.log("action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason)
     app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom+"&zcode="+zcode+"&stid="+stid+"&reason="+reason,true,false,"提交中").then((res)=>{
       self.errorRecovery.hideDialog();
     })

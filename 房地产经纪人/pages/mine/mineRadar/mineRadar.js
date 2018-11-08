@@ -30,6 +30,7 @@ Page({
       ["考前秘籍", 0],
       ["考点学习", 0]
     ],
+    loaded:false
 
   },
 
@@ -56,6 +57,7 @@ Page({
 
   onReady: function() {
     let self = this;
+
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -71,12 +73,11 @@ Page({
 
   getStudyRate(user,kmid) {
     let self = this;
-    console.log("action=MyLearningPro&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid)
+
     app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode+"&kmid="+kmid, false, false, "").then((res) => {
       
       let chanelArray = self.data.chanelArray;
       let rate = res.data.data[0];
-      console.log(rate)
       chanelArray[0][1] = rate.zhangjie;
       chanelArray[1][1] = rate.shijuan;
       chanelArray[2][1] = rate.shipin; 
@@ -85,8 +86,8 @@ Page({
 
       //雷达图
       self.drawRadar(chanelArray)
-      console.log(rate)
       self.setData({
+        loaded: true,
         chanelArray: chanelArray
       })
     })
@@ -96,7 +97,7 @@ Page({
    * 在返回页面的时候
    */
   onShow: function() {
-
+ 
   },
 
   // 雷达图

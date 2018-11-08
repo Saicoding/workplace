@@ -298,11 +298,8 @@ Page({
 
     let height = 71 * num;
 
-    console.log(index+"||"+jie_num)
-
     let scroll = (index * 80 + jie_num * 71) * (windowWidth / 750);
 
-    console.log(scroll)
 
     if (isFolder) { //展开
       let spreadAnimation = wx.createAnimation({
@@ -501,6 +498,7 @@ Page({
    * 导航到模拟真题
    */
   GOModelReal: function(e) {
+    this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;

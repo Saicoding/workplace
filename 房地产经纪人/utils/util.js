@@ -18,7 +18,7 @@ function buttonClicked(self) {
   self.setData({
     buttonClicked: true
   })
-  setTimeout(function () {
+  setTimeout(function() {
     self.setData({
       buttonClicked: false
     })

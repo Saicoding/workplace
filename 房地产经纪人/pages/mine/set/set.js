@@ -15,7 +15,6 @@ Page({
       wx.getStorage({
         key: 'user',
         success: function (res) {
-          console.log(res.data);
         },
         fail: function (res) {
           console.log("获取数据失败");

@@ -19,12 +19,9 @@
   vertical-align: top;
 }
 
-.icon,{
+.icon{
   display: float;
   float:left;
-}
-
-.icon{
   width:50rpx;
   height:50rpx;
 }

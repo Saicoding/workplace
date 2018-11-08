@@ -30,7 +30,7 @@ Page({
     let zcode = user.zcode;
     let page = self.data.page;
     let pagesize = 15;
-    console.log("action=GetNotices&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&pagesize=" + pagesize + "&page=" + page)
+
     app.post(API_URL,"action=GetNotices&LoginRandom="+LoginRandom+"&zcode="+zcode+"&pagesize="+pagesize+"&page="+page,true,false,"载入中","",true,self).then((res)=>{
 
       let messages = res.data.list;
@@ -133,8 +133,7 @@ Page({
       let newMessages = res.data.list;
 
       messages.push.apply(messages, newMessages);
-      console.log(page)
-      console.log(messages)
+
       self.setData({
         messages: messages,
         page: page

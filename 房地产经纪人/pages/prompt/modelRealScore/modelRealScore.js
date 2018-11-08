@@ -51,12 +51,6 @@ Page({
    * 当点击分享按钮
    */
   onShareAppMessage: function (res1) {
-    console.log(res1)
-    if(res1.from === 'button'){
-      console.log("来自页面内转发按钮");
-    } else {
-      console.log("来自右上角转发菜单")
-    }
 
     return {
       title: '房地产经纪考试通',
@@ -64,12 +58,9 @@ Page({
       imageUrl:'/imgs/login1.png',
       success: (res)=> {
         // 转发成功
-        console.log(res);
-        console.log("转发成功:" + JSON.stringify(res));
       },
       fail:(res)=>{
         // 转发失败
-        console.log("转发失败:" + JSON.stringify(res));
       }
     }
   },

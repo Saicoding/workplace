@@ -31,8 +31,6 @@ Page({
 
       app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, true, false, "获取考点...","",true).then((res) => {
         let kdList = res.data.list;//考点列表
-
-        console.log(res)
  
         self.setData({
           kdList: kdList

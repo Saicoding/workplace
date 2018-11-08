@@ -5,7 +5,10 @@
     </view>
     <view class="nickname">{{user.Nickname}}</view>
   </view>
-  <view class='radarContainer'>
+  <view wx:if="{{loaded}}" class='radarContainer'>
     <canvas class='radarCanvas' canvas-id='radarCanvas'></canvas>
+  </view>
+  <view wx:if="{{!loaded}}">
+    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
   </view>
 </view>
