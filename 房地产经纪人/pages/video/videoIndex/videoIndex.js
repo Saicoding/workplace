@@ -12,7 +12,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    loaded:false
   },
 
   /**
@@ -49,10 +49,10 @@ Page({
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
-        console.log(windowHeight)
         let windowWidth = res.windowWidth;
+
         windowHeight = (windowHeight * (750 / windowWidth));
-        console.log(windowHeight)
+
         self.setData({
           windowHeight: windowHeight,
           windowWidth: windowWidth,
@@ -73,11 +73,12 @@ Page({
       let zcode = user.zcode;
       let url = encodeURIComponent('/pages/video/videoIndex/videoIndex');
 
-      console.log("action=GetCourseList&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&types=jjr")
-      app.post(API_URL, "action=GetCourseList&types=jjr", true, true, "", url).then((res) => {
+      app.post(API_URL, "action=GetCourseList&types=jjr", false, true, "", url).then((res) => {
         let videoList = res.data.list;
+        console.log(videoList);
         self.setData({
           videoList: videoList,
+          loaded:true
         })
       })
     }
@@ -92,16 +93,20 @@ Page({
    */
   changeProduct: function(e) {
     let self = this;
-    let product = e.currentTarget.dataset.product;
-    let windowWidth = self.data.windowWidth;
-    let moveData = undefined;
+    let currentProduct = self.data.product;//当前种类
+    let product = e.currentTarget.dataset.product;//点击的视频种类
+    if (product == currentProduct) return;//如果没有改变就不作任何操作
+
+
+    let windowWidth = self.data.windowWidth;//窗口宽度
+    let moveData = undefined;//动画
     if(product == "xl"){
       moveData = animate.moveX(easeOutAnimation, 270 * (windowWidth / 750), 278 * (windowWidth / 750));
+          console.log('ok')
     }else{
       moveData = animate.moveX(easeOutAnimation, 200 * (windowWidth / 750),  0);
     }
     
-    console.log(moveData)
     self.setData({
       product: product,
       moveData: moveData

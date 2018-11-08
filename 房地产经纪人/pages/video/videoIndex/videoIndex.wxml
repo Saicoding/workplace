@@ -6,4 +6,34 @@
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
+  <image wx:if="{{!loaded}}" class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
+
+  <view class="content">
+    <view wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
+      <!-- 一项 -->
+      <view class="block">
+        <image class="img" src="{{video.img}}" mode="aspectFit"></image>
+        <view class="right-block">
+          <!-- 标题 -->
+          <view class="title">{{video.title}}</view>
+          <!-- 热度 -->
+          <view class="hot">
+            <view class="in-line">
+              <image class="hot-img" src="/imgs/error_select.png" mode="aspectFit"></image>
+              <view class="hot-text">{{video.videoNums}}</view>
+            </view>
+            <view class="in-line">
+              <image class="hot-img" src="/imgs/error_select.png" mode="aspectFit"></image>
+              <view class="hot-text">{{video.viewNums}}</view>
+            </view>
+          </view>
+          <!-- 滑块 -->
+          <view class="slider-block">
+            <slider class="slider-block" block-size="15" value="80"></slider>
+            <view class="slider-text">80%</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
 </view>
