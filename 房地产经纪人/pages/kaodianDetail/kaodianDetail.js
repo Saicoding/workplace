@@ -77,7 +77,7 @@ Page({
     let kdList = prePage.data.kdList;
     let kdid = self.data.kdid;
 
-    if (second > 10) {
+    if (second > 30) {
       for (let i = 0; i < kdList.length; i++) {
         let kd = kdList[i];
         if (kd.id == kdid) {

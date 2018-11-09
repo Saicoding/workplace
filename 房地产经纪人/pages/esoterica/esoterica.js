@@ -77,6 +77,7 @@ Page({
   },
 
   GOkaodianDetail:function(e){
+    console.log(buttonClicked)
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;

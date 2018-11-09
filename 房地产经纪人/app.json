@@ -24,7 +24,8 @@
     "pages/subscriber/subscriber",
     "pages/mine/about/about",
     "pages/video/videoIndex/videoIndex",
-    "pages/mine/set/set"
+    "pages/mine/set/set",
+    "pages/video/videoDetail/videoDetail"
   ],
   "window": {
     "backgroundTextStyle": "light",

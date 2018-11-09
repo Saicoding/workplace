@@ -1,9 +1,11 @@
 // pages/hasNoErrorShiti/hasNoErrorShiti.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp();
+let validate = require('../../../common/validate.js');
 let animate = require('../../../common/animate.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
+let buttonClicked = false;
 
 
 Page({
@@ -23,7 +25,7 @@ Page({
     let self = this;
 
     self.setData({
-      product: "jjr"
+      product: "jjr",
     })
 
     let url = encodeURIComponent('/pages/video/videoIndex/videoIndex');
@@ -67,6 +69,7 @@ Page({
   onShow: function() {
     let self = this;
     let user = wx.getStorageSync('user');
+    buttonClicked = false;
 
     if (user != "") {
       let LoginRandom = user.Login_random;
@@ -75,7 +78,7 @@ Page({
 
       app.post(API_URL, "action=GetCourseList&types=jjr", false, true, "", url).then((res) => {
         let videoList = res.data.list;
-        console.log(videoList);
+        console.log(videoList)
         self.setData({
           videoList: videoList,
           loaded:true
@@ -104,7 +107,7 @@ Page({
     let windowWidth = self.data.windowWidth;//窗口宽度
     let moveData = undefined;//动画
     if(product == "xl"){
-      moveData = animate.moveX(easeOutAnimation, 265 * (windowWidth / 750), 276 * (windowWidth / 750));
+      moveData = animate.ChangeWidthAndmoveX(easeOutAnimation, 265 * (windowWidth / 750), 276 * (windowWidth / 750));
       app.post(API_URL, "action=GetCourseList&types=xl", false, true, "", "").then((res) => {
         let videoList = res.data.list;
         self.setData({
@@ -113,7 +116,7 @@ Page({
         })
       })
     }else{
-      moveData = animate.moveX(easeOutAnimation, 200 * (windowWidth / 750),  0);
+      moveData = animate.ChangeWidthAndmoveX(easeOutAnimation, 200 * (windowWidth / 750),  0);
       app.post(API_URL, "action=GetCourseList&types=jjr", false, true, "", "").then((res) => {
         let videoList = res.data.list;
         self.setData({
@@ -126,6 +129,31 @@ Page({
     self.setData({
       product: product,
       moveData: moveData
+    })
+  },
+
+  /**
+   * 观看视频
+   */
+  watch:function(e){
+    if (buttonClicked) return;
+    buttonClicked = true;
+    let self = this;
+
+    let kc_id = e.currentTarget.dataset.kc_id;
+    let img = e.currentTarget.dataset.img
+
+    // let url = encodeURIComponent('/pages/video/videoDetail/videoDetail?kc_id=' + kc_id);
+    // let url1 = '/pages/video/videoDetail/videoDetail?kc_id=' + kc_id;
+
+    // let user = self.data.user;
+    // let zcode = user.zcode;
+    // let LoginRandom = user.Login_random;
+    // let pwd = user.pwd
+
+    // validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
+    wx.navigateTo({
+      url: '/pages/video/videoDetail/videoDetail?kc_id='+kc_id+'&img='+img,
     })
   }
 })

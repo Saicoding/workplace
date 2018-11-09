@@ -85,7 +85,7 @@
 
 .hot-text{
   width:110rpx;
-  margin-left:70rpx;
+  margin-left:50rpx;
 }
 
 .slider-block{
@@ -103,7 +103,7 @@
 }
 
 .slider{
-  width:335rpx;
+  width:330rpx;
   margin-left:-20rpx;
 }
 

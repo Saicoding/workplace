@@ -39,14 +39,17 @@ App({
           if (status == 1) {//请求成功
             resolve(res);
           } else if(status == -2){//没有权限
+            console.log('没有权限')
             wx.navigateTo({
               url: '/pages/pay/pay',
             })
           } else if(status == -5){//重复登录
+            console.log('重复登录')
             wx.navigateTo({
               url: '/pages/login1/login1?url=' + pageUrl+'&ifGoPage='+ifGoPage
             })
           } else if (status == -101){//没有试题
+            console.log('没有试题')
             self.setData({
               isHasShiti:false
             })

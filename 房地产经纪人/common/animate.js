@@ -34,10 +34,21 @@ function rotateAnimation(myAnimation,angle){
 }
 
 /**
+ * 边移动边改变宽度动画
+ */
+function ChangeWidthAndmoveX(myAnimation,width,x){
+  myAnimation.width(width).translateX(x).step({
+    duration: 500,
+  });
+  return myAnimation.export();
+}
+
+/**
  * 移动动画
  */
-function moveX(myAnimation,width,x){
-  myAnimation.width(width).translateX(x).step({
+
+function moveX(myAnimation,x){
+  myAnimation.translateX(x).step({
     duration: 500,
   });
   return myAnimation.export();
@@ -48,5 +59,6 @@ module.exports = {
   easeInAnimation: easeInAnimation,
   foldAnimation: foldAnimation,
   rotateAnimation: rotateAnimation,
+  ChangeWidthAndmoveX: ChangeWidthAndmoveX,
   moveX: moveX
 }
