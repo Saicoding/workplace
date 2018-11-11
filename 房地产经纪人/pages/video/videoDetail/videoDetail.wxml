@@ -1,8 +1,12 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id ="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}"  poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay= "play" bindpause = "pause">
-  <!-- <cover-view wx:if = "{{videos[px-1].lastViewLength =='0'&& videos[px-1].lastView}}" class="controls" bindtap="tooglePlay">
+<video bindtap="tooglePlay" id ="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}"  poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay= "play" bindpause = "pause" enable-progress-gesture >
+  <!-- <cover-view wx:if = "{{videos[px-1].lastViewLength =='0'}}"  bindtap="tooglePlay">
     <cover-image class="video-img" src="{{img}}" />
+  </cover-view>
+
+  <cover-view wx:if = "{{videos[px-1].lastViewLength !='0'&&!isPlaying}}"  bindtap="tooglePlay">
+    <cover-image class="video-icon" src="/imgs/play-icon.png" />
   </cover-view> -->
 </video>
 <image wx:if="{{!loaded}}" class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
@@ -33,9 +37,9 @@
     <!-- 目录信息 -->
     <view wx:if="{{product == 'option'}}" class="option">
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
-
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
-          <image class="icon" src="{{video.src}}" mode="aspectFit"></image>
+          <canvas class = "myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <!-- <image class="icon" src="{{video.src}}" mode="aspectFit"></image> -->
           <view class="title-block">
             <view class="title">{{video.title}}</view>
             <view class="view-time">{{video.time}}</view>

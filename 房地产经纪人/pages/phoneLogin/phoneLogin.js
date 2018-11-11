@@ -74,6 +74,7 @@ Page({
           duration: 2000
         });
         let identifyCode = res.data.data[0].yzm;
+        console.log(identifyCode)
         self.setData({
           identifyCode: identifyCode
         })

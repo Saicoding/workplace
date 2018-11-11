@@ -165,6 +165,11 @@ Page({
                       wx.navigateBack({
                         delta: 2
                       })
+                      wx.showToast({
+                        title: '购买成功',
+                        icon:'none',
+                        duration:'3000'
+                      })
                     })
                   }
                 },

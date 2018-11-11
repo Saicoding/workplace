@@ -11,6 +11,12 @@
   margin-top:40rpx;
 }
 
+.video-icon{
+  width:100rpx;
+  height:100rpx;
+  margin:133rpx auto;
+}
+
 .up-block{
   width:100%;
   height:80rpx;
@@ -112,9 +118,16 @@
   height:100rpx;
 }
 
-.icon,.title-block{
+.icon,.title-block,.myCanvas{
   display: float;
   float:left;
+}
+
+.myCanvas{
+  width:36rpx;
+  height:36rpx;
+  margin-left:60rpx;
+  margin-top:32rpx;
 }
 
 .icon{
