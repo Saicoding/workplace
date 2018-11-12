@@ -103,7 +103,7 @@
 }
 
 .slider{
-  width:330rpx;
+  width:295rpx;
   margin-left:-20rpx;
 }
 
@@ -111,6 +111,7 @@
   font-size:25rpx;
   color:#0068a8;
   margin-left:-20rpx;
+  width:100rpx;
 }
 
 .loading-img{
