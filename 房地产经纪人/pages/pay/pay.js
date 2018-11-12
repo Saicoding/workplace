@@ -158,7 +158,7 @@ Page({
                       wx.showToast({
                         title: '购买成功',
                         icon:'none',
-                        duration:'3000'
+                        duration:3000
                       })
                     })
                   }
@@ -169,7 +169,6 @@ Page({
               wx.requestPayment(myObject)
             }
           })
-
         })
       }
     })

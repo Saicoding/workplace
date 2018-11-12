@@ -80,7 +80,6 @@ Page({
 
       let moveData = undefined;
       let product = wx.getStorageSync('page');
-      console.log(product)
 
       let types = "";
       if (product == "xl") {
@@ -94,16 +93,14 @@ Page({
         product: types
       })
 
-      app.post(API_URL, "action=GetCourseList&types="+types, false, true, "", url).then((res) => {
+      app.post(API_URL, "action=GetCourseList&types=" + types + "&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
         let videoList = res.data.list;
-        console.log(videoList)
         self.setData({
           videoList: videoList,
           loaded:true
         })
       })
     }
-
   },
 
   /**
@@ -158,7 +155,6 @@ Page({
 
     let kc_id = e.currentTarget.dataset.kc_id;
     let title = e.currentTarget.dataset.title;
-    console.log(e)
     let img = e.currentTarget.dataset.img
 
     // let url = encodeURIComponent('/pages/video/videoDetail/videoDetail?kc_id=' + kc_id);

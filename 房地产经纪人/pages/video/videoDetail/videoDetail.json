@@ -1,1 +1,5 @@
-{}
+{
+  "usingComponents": {
+    "payDetail": "/components/payDetail/payDetail"
+  }
+}

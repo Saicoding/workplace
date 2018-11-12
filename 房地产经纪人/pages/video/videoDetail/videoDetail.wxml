@@ -1,13 +1,13 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id ="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}"  poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay= "play" bindpause = "pause" enable-progress-gesture >
-  <!-- <cover-view wx:if = "{{videos[px-1].lastViewLength =='0'}}"  bindtap="tooglePlay">
-    <cover-image class="video-img" src="{{img}}" />
+<video catchtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play"
+  bindpause="pause" enable-progress-gesture>
+
+  <cover-view wx:if="{{videos[px-1].lastViewLength !='0'&&!isPlaying &&!first}}" catchtap="tooglePlay">
+    <cover-image class="video-icon" src="/imgs/play-icon.png" />
   </cover-view>
 
-  <cover-view wx:if = "{{videos[px-1].lastViewLength !='0'&&!isPlaying}}"  bindtap="tooglePlay">
-    <cover-image class="video-icon" src="/imgs/play-icon.png" />
-  </cover-view> -->
+
 </video>
 <image wx:if="{{!loaded}}" class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
 <view wx:if="{{loaded}}" class="content">
@@ -17,7 +17,8 @@
       <span style="font-size:25rpx;">¥</span>{{kc_money}}</view>
     <view class="{{tag[0].class}}">{{tag[0].tag}}</view>
     <view class="{{tag[1].class}}">{{tag[1].tag}}</view>
-    <view class="youhui">套餐更优惠</view>
+    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='showPayDetail' class="youhui">套餐更优惠</view>
+    <view wx:if="{{buy==1}}" class="purchased">已购买</view>
   </view>
 
   <view class="mybar">
@@ -28,18 +29,18 @@
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
-  <!-- 目录列表 -->
-  <scroll-view scroll-y style="height:{{windowHeight-700}}rpx;">
+  <!-- 目录列表 scroll-top = "{{scroll}}"-->
+  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
     <!-- 简介信息 -->
-    <view wx:if="{{product == 'introduction'}}">
+    <view hidden="{{product != 'introduction'}}">
       {{info}}
     </view>
 
     <!-- 目录信息 -->
-    <view wx:if="{{product == 'option'}}" class="option">
+    <view hidden="{{product != 'option'}}" class="option">
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
-          <canvas class = "myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
           <view class="title-block">
             <view class="title">{{video.title}}</view>
             <view class="view-time">{{video.time}}</view>
@@ -50,8 +51,12 @@
   </scroll-view>
 
   <!-- bottom -->
-  <view class = "bottom">
-    <view class = "bottom-price">¥{{kc_money}}</view>
-    <view class ="bottom-buy">购买此课</view>
+  <view wx:if="{{buy==0}}" data-product="{{videos[px-1].id}}" class="bottom" bindtap='buy'>
+    <view class="bottom-price">¥{{kc_money}}</view>
+    <view class="bottom-buy">购买此课</view>
   </view>
 </view>
+
+
+<!-- 支付详细信息 -->
+<payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>

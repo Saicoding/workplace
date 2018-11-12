@@ -14,7 +14,7 @@
 .video-icon{
   width:100rpx;
   height:100rpx;
-  margin:133rpx auto;
+  margin:153rpx auto;
 }
 
 .up-block{
@@ -24,7 +24,7 @@
   line-height: 80rpx;
 }
 
-.kc_money,.tag1,.tag2,.youhui,.tag3{
+.kc_money,.tag1,.tag2,.youhui,.tag3,.purchased{
   display: float;
   float:left;
 }
@@ -64,17 +64,27 @@
   background: #fc7b03;
 }
 
-.youhui{
-  border:1rpx solid rgb(219, 24, 24);
-  width:150rpx;
+.youhui,.purchased{
   height:40rpx;
   line-height: 40rpx;
   font-size:25rpx;
-  color:rgb(219, 24, 24);
   margin-top:8rpx;
   text-align: center;
-  margin-left:250rpx;
   border-radius:5rpx;
+}
+
+.youhui{
+  width:150rpx;
+  margin-left:250rpx;
+  border:1rpx solid rgb(219, 24, 24);
+  color:rgb(219, 24, 24);
+}
+
+.purchased{
+  width:100rpx;
+  margin-left:300rpx;
+  color:white;
+  background: #93df35;
 }
 
 .mybar{

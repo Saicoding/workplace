@@ -53,7 +53,16 @@ App({
             self.setData({
               isHasShiti:false
             })
+          }else if(status == -201){
+            console.log('余额不足')
+            wx.showToast({
+              title: '余额不足',
+              icon:'none',
+              duration:3000
+            })
           }
+
+
           wx.hideLoading();
         },
         error: function(e) {
