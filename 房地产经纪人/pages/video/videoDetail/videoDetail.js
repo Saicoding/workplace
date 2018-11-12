@@ -5,6 +5,8 @@ let animate = require('../../../common/animate.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
 
+let changeVideo = false;//是否是通过点击更换的video
+
 let currentTime = 1;
 
 let icon = {//图标高度宽度
@@ -82,8 +84,10 @@ Page({
     }
 
     if (loaded) return;
+    console.log("action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid)
     app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
       let videos = res.data.data[0].videos;//视频列表
+      console.log(videos[px-1])
 
       let my_canvas = [];
 
@@ -130,7 +134,7 @@ Page({
     
     //画最外圈
     cv.beginPath()
-    cv.setStrokeStyle(color)
+    cv.setStrokeStyle("#bfbfbf")
     cv.setLineWidth(1)
     cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 *windowWidth / 750, 0, 2 * Math.PI);
     cv.stroke()
@@ -204,6 +208,8 @@ Page({
   changeVideo:function(e){
     let self = this;
 
+    changeVideo = true;
+
     let user = self.data.user;
     let kcid = self.data.kcid;
     let LoginRandom = user.Login_random;
@@ -217,6 +223,7 @@ Page({
     if(index == px-1) return;//如果点击的是同一个视频就不做任何操作
 
     let lastVideo = videos[px-1];//上一个视频
+    let flag = self.ifEnd(lastVideo) ? 2 : 1;//判断是否看完;
     let lastCv = my_canvas[px-1];//上一个画布
     let videoID = lastVideo.id;//视频id
 
@@ -231,19 +238,22 @@ Page({
     }else{
       playTime = 0;
     }
-    let flag = lastVideo.flag == 2?2:1
+
+    let playCourseArr = lastVideo.playCourseArr;
+    let playCourseStr = "";
+    for (let i = 0; i < playCourseArr.length;i++){
+      if (i < playCourseArr.length-1 ){
+        playCourseStr += playCourseArr[i]+",";
+      }else{
+        playCourseStr += playCourseArr[i];
+      }
+    }
 
     lastVideo.lastViewLength = currentTime;//设置上一个视频的播放时间
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
-
-    if (currentTime > 10 && currentTime + 10 < lastVideo.length){//如果大于10秒
-      self.drawArc(lastCv, "#e7e6e6", angle);
-    } else if (currentTime+10 >= lastVideo.length){
-      self.drawArc(lastCv, "#05c004", angle);
-    }else{
-      self.drawArc(lastCv, "#e7e6e6", 0);
-    }
+    
+    flag == 2 ? self.drawArc(lastCv, "#05c004", angle) : self.drawArc(lastCv, "#e7e6e6", angle)
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
@@ -251,20 +261,29 @@ Page({
 
     currentTime = currentVideo.lastViewLength;//将当前播放时间置为该视频的播放进度
 
-    self.setData({
-      videos: videos,
-      isPlaying:true,
-      px:index+1
-    })
+    console.log(currentVideo.lastViewLength);
+    console.log(currentVideo.length)
 
-    console.log(this.videoContext)
-    setTimeout(function(){
-      self.videoContext.play();
-    },2000)
+    if (currentVideo.lastViewLength >= currentVideo.length){
+      self.setData({
+        videos: videos,
+        isPlaying: false,
+        px: index + 1
+      })
+    }else{
+      self.setData({
+        videos: videos,
+        isPlaying: true,
+        px: index + 1
+      })
 
-    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag,false,true,"").then((res) => {
+      setTimeout(function () {
+        self.videoContext.play();
+      }, 2000)
+    }
 
-    })
+    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr,false,true,"").then((res) => {})
+
   },
 
   /**
@@ -281,12 +300,21 @@ Page({
     let px = self.data.px;
     let videos = self.data.videos;
     let video = videos[px-1];
+
     let my_canvas = self.data.my_canvas;
     let cv = my_canvas[px-1];
     currentTime = e.detail.currentTime;//当前播放进度(秒)
+    let m = parseInt(currentTime / 60);
     let angle = currentTime / video.length * 2 * Math.PI;
 
+    if (video.playCourseArr[m] ==0){
+      video.playCourseArr[m] = 1;
+    }
+    console.log(video.playCourseArr)
     self.drawPlay(cv, angle);
+    self.setData({
+      videos: videos
+    })
   },
 
   /**
@@ -337,6 +365,10 @@ Page({
   end:function(e){
     let self = this;
 
+    if(changeVideo) return;//如果是通过点击更换的video
+
+    changeVideo = false;
+    console.log('haha')
     let user = self.data.user;
     let kcid = self.data.kcid;
     let LoginRandom = user.Login_random;
@@ -352,6 +384,8 @@ Page({
     let lastCv = my_canvas[px - 1];//上一个画布
     let videoID = lastVideo.id;//视频id
 
+    let flag = self.ifEnd(lastVideo)?2:1;//判断是否看完;
+
     let currentVideo = videos[px];//点击的这个视频
     let currentCv = my_canvas[px];//当前画布
 
@@ -363,9 +397,18 @@ Page({
     } else {
       playTime = 0;
     }
-    let flag = lastVideo.flag == 2 ? 2 : 1
 
     lastVideo.lastViewLength = currentTime;//设置上一个视频的播放时间
+
+    let playCourseArr = lastVideo.playCourseArr;
+    let playCourseStr = "";
+    for (let i = 0; i < playCourseArr.length; i++) {
+      if (i < playCourseArr.length - 1) {
+        playCourseStr += playCourseArr[i] + ",";
+      } else {
+        playCourseStr += playCourseArr[i];
+      }
+    }
 
     self.drawArc(lastCv, "#05c004", 2 * Math.PI);
 
@@ -385,7 +428,7 @@ Page({
       self.videoContext.play();
     }, 2000)
 
-    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
+    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {
 
     })
   },
@@ -396,22 +439,27 @@ Page({
   initVideos: function (videos, px, my_canvas){
     for(let i = 0 ;i <videos.length;i++){
       let video = videos[i];
+      let flag = video.Flag;
       let cv = my_canvas[i];
 
       //处理时间
       let length = Math.ceil(video.length);
       let m = parseInt(length/60);
-      let s = length % 60 < 10 ? '0' + length % 60 : length % 60;
+      let s = length % 60 < 10 ? '0' + length % 60-1 : length % 60-1;
       video.time = m+'分'+s+'秒';
 
-      if (video.lastViewLength == "0" ){//如果没有播放进度
-        this.drawArc(cv, "#e7e6e6", 0);
-      } else if (video.lastViewLength == video.length){
-        this.drawArc(cv, "#05c004", 2 * Math.PI);
-      }else{
-        let angle = video.lastViewLength / video.length * 2 * Math.PI;
-        this.drawArc(cv, "#e7e6e6", angle);
+      //初始化已观看视频的时间数组
+      if (video.playCourseArr.length == 0) {//如果是空数组，说明是首次观看
+        if(s !== "00"){
+          for(let i = 0;i<m+1;i++){
+            video.playCourseArr.push(0);
+          }
+        }
       }
+
+      let angle = video.lastViewLength / video.length * 2 * Math.PI;
+
+      flag == 2 ? this.drawArc(cv, "#05c004", angle) : this.drawArc(cv, "#e7e6e6", angle);
 
       if(i == px-1) this.drawPlay(cv,10);
     }
@@ -448,6 +496,18 @@ Page({
     let videos = self.data.videos;//当前所有视频
 
     let lastVideo = videos[px - 1];//上一个视频
+    let flag = self.ifEnd(lastVideo) ? 2 : 1;//判断是否看完;
+
+    let playCourseArr = lastVideo.playCourseArr;
+    let playCourseStr = "";
+    for (let i = 0; i < playCourseArr.length; i++) {
+      if (i < playCourseArr.length - 1) {
+        playCourseStr += playCourseArr[i] + ",";
+      } else {
+        playCourseStr += playCourseArr[i];
+      }
+    }
+
     let videoID = lastVideo.id;//视频id
 
     let playTime = 0;
@@ -458,15 +518,28 @@ Page({
     } else {
       playTime = 0;
     }
-    let flag = lastVideo.flag == 2 ? 2 : 1
-    let myproduct = self.data.myproduct;
 
+    let myproduct = self.data.myproduct;
 
     wx.setStorageSync('lastVideo' + kcid + user.username, px);
     wx.setStorageSync('page', myproduct)
 
-    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
+    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag+"&playCourseArr=" + playCourseStr, false, true, "").then((res) => {
     })
   },
 
+  /**
+   * 是否真正看完
+   */
+  ifEnd:function(video){
+    let end = true;
+    for (let i = 0; i < video.playCourseArr.length;i++){
+      let playCourse = video.playCourseArr[i];
+      if (playCourse ==0){
+        end = false;
+        break;
+      }
+    }
+    return end;
+  }
 })

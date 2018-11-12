@@ -30,7 +30,7 @@
           <!-- 滑块 -->
           <view class="slider-block">
             <view class="slider" >
-              <slider disabled activeColor = "#0197f6" block-color="#eeeeee" block-size="5" value="{{video.jindu}}"></slider>
+              <slider disabled activeColor = "#0197f6" block-color="white" block-size="0" value="{{video.jindu}}"></slider>
             </view>
             <view class="slider-text">{{video.jindu}}%</view>
           </view>
