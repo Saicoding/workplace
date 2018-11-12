@@ -12,7 +12,7 @@
     <view wx:for="{{videoList}}" wx:for-item="video" wx:key="v">
       <!-- 一项 -->
       <view class="block">
-        <image data-img="{{video.img}}" data-kc_id = "{{video.kc_id}}" bindtap ="watch" class="img" src="{{video.img}}" mode="aspectFit"></image>
+        <image data-title = "{{video.title}}" data-img="{{video.img}}" data-kc_id = "{{video.kc_id}}" bindtap ="watch" class="img" src="{{video.img}}" mode="aspectFit"></image>
         <view class="right-block">
           <!-- 标题 -->
           <view data-title = "{{video.title}}" data-kc_id = "{{video.kc_id}}" bindtap ="watch" class="title">{{video.title}}</view>

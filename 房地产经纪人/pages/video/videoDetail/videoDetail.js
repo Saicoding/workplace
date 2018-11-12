@@ -223,22 +223,27 @@ Page({
     let currentVideo = videos[index];//点击的这个视频
     let currentCv = my_canvas[index];//当前画布
 
-    let playTime = currentTime > 10 ? currentTime - 10 : 0;//播放时间
+    let playTime = 0;
+    if (currentTime > 10 && currentTime < lastVideo.length-10) {//播放时间)
+       playTime = currentTime - 10;
+    } else if (currentTime > lastVideo.length - 10){
+      playTime = currentTime;
+    }else{
+      playTime = 0;
+    }
     let flag = lastVideo.flag == 2?2:1
-
 
     lastVideo.lastViewLength = currentTime;//设置上一个视频的播放时间
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
-    if (lastVideo.lastViewLength > 10){//如果大于10秒
+
+    if (currentTime > 10 && currentTime + 10 < lastVideo.length){//如果大于10秒
       self.drawArc(lastCv, "#e7e6e6", angle);
-    } else if (lastVideo.lastViewLength == lastVideo.length){
+    } else if (currentTime+10 >= lastVideo.length){
       self.drawArc(lastCv, "#05c004", angle);
     }else{
       self.drawArc(lastCv, "#e7e6e6", 0);
     }
-
-    console.log(currentVideo.lastViewLength)
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
@@ -248,10 +253,11 @@ Page({
 
     self.setData({
       videos: videos,
-      isPlaying:false,
+      isPlaying:true,
       px:index+1
     })
 
+    this.videoContext.play();
 
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag,false,true,"").then((res) => {
 
@@ -348,8 +354,6 @@ Page({
       } else if (video.lastViewLength == video.length){
         this.drawArc(cv, "#05c004", 2 * Math.PI);
       }else{
-        console.log(video.lastViewLength)
-        // let angle = video.lastViewLength / video.length * 2 * Math.PI;
         let angle = video.lastViewLength / video.length * 2 * Math.PI;
         this.drawArc(cv, "#e7e6e6", angle);
       }
@@ -368,7 +372,6 @@ Page({
     let user = self.data.user;
 
     if(user != undefined){
-      console.log('我在里面')
       let kcid = self.data.kcid;
       let px = self.data.px;
       wx.setStorageSync('lastVideo' + kcid + user.username, px);
@@ -392,7 +395,14 @@ Page({
     let lastVideo = videos[px - 1];//上一个视频
     let videoID = lastVideo.id;//视频id
 
-    let playTime = currentTime > 10?currentTime-10:0;//播放时间
+    let playTime = 0;
+    if (currentTime > 10 && currentTime < lastVideo.length - 10) {//播放时间)
+      playTime = currentTime - 10;
+    } else if (currentTime > lastVideo.length - 10) {
+      playTime = currentTime;
+    } else {
+      playTime = 0;
+    }
     let flag = lastVideo.flag == 2 ? 2 : 1
     let myproduct = self.data.myproduct;
 
@@ -403,10 +413,5 @@ Page({
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
     })
   },
-
-  /**
-   * 按返回键时
-   */
-
 
 })

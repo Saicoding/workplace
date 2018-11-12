@@ -158,6 +158,7 @@ Page({
 
     let kc_id = e.currentTarget.dataset.kc_id;
     let title = e.currentTarget.dataset.title;
+    console.log(e)
     let img = e.currentTarget.dataset.img
 
     // let url = encodeURIComponent('/pages/video/videoDetail/videoDetail?kc_id=' + kc_id);
