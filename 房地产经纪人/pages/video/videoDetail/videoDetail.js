@@ -257,7 +257,10 @@ Page({
       px:index+1
     })
 
-    this.videoContext.play();
+    console.log(this.videoContext)
+    setTimeout(function(){
+      self.videoContext.play();
+    },2000)
 
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag,false,true,"").then((res) => {
 
@@ -332,7 +335,59 @@ Page({
    * 视频播放结束后
    */
   end:function(e){
-    
+    let self = this;
+
+    let user = self.data.user;
+    let kcid = self.data.kcid;
+    let LoginRandom = user.Login_random;
+    let zcode = user.zcode;
+
+    let videos = self.data.videos;//当前所有视频
+    let my_canvas = self.data.my_canvas;//当前所有画布
+    let px = self.data.px;//当前视频编号
+
+    if (px == videos.length) return;//如果点击的是同一个视频就不做任何操作
+
+    let lastVideo = videos[px - 1];//上一个视频
+    let lastCv = my_canvas[px - 1];//上一个画布
+    let videoID = lastVideo.id;//视频id
+
+    let currentVideo = videos[px];//点击的这个视频
+    let currentCv = my_canvas[px];//当前画布
+
+    let playTime = 0;
+    if (currentTime > 10 && currentTime < lastVideo.length - 10) {//播放时间)
+      playTime = currentTime - 10;
+    } else if (currentTime > lastVideo.length - 10) {
+      playTime = currentTime;
+    } else {
+      playTime = 0;
+    }
+    let flag = lastVideo.flag == 2 ? 2 : 1
+
+    lastVideo.lastViewLength = currentTime;//设置上一个视频的播放时间
+
+    self.drawArc(lastCv, "#05c004", 2 * Math.PI);
+
+    let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
+
+    self.drawPlay(currentCv, currentAngle);
+
+    currentTime = currentVideo.lastViewLength;//将当前播放时间置为该视频的播放进度
+
+    self.setData({
+      videos: videos,
+      isPlaying: true,
+      px: px + 1
+    })
+
+    setTimeout(function () {
+      self.videoContext.play();
+    }, 2000)
+
+    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
+
+    })
   },
 
   /**
