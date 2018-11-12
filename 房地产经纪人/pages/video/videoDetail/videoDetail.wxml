@@ -28,7 +28,8 @@
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
-  <scroll-view scroll-y style="height:{{windowHeight-620}}rpx;">
+  <!-- 目录列表 -->
+  <scroll-view scroll-y style="height:{{windowHeight-700}}rpx;">
     <!-- 简介信息 -->
     <view wx:if="{{product == 'introduction'}}">
       {{info}}
@@ -39,7 +40,6 @@
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
           <canvas class = "myCanvas" canvas-id='myCanvas{{index}}'></canvas>
-          <!-- <image class="icon" src="{{video.src}}" mode="aspectFit"></image> -->
           <view class="title-block">
             <view class="title">{{video.title}}</view>
             <view class="view-time">{{video.time}}</view>
@@ -48,4 +48,10 @@
       </view>
     </view>
   </scroll-view>
+
+  <!-- bottom -->
+  <view class = "bottom">
+    <view class = "bottom-price">¥{{kc_money}}</view>
+    <view class ="bottom-buy">购买此课</view>
+  </view>
 </view>

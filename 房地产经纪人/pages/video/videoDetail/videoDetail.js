@@ -26,11 +26,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    wx.setNavigationBarTitle({//设置标题
+      title: options.title,
+    })
     //获取是否有登录权限
     let self = this;
+    let myproduct = options.product;//是从哪个产品点击过来的
 
     this.setData({
       product: "option",
+      myproduct: myproduct,
       options:options
     })
   },
@@ -118,7 +123,7 @@ Page({
     //画内圆
     cv.setFillStyle(color)
     cv.beginPath()
-    cv.arc(18 * windowWidth / 750, 18 * windowWidth / 750, 10 * windowWidth / 750, 0, 2 * Math.PI);
+    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 10 * windowWidth / 750, 0, 2 * Math.PI);
     cv.close
     cv.fill();
     cv.closePath();
@@ -127,7 +132,7 @@ Page({
     cv.beginPath()
     cv.setStrokeStyle(color)
     cv.setLineWidth(1)
-    cv.arc(18 * windowWidth / 750, 18 * windowWidth / 750, 16 *windowWidth / 750, 0, 2 * Math.PI);
+    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 *windowWidth / 750, 0, 2 * Math.PI);
     cv.stroke()
     cv.closePath();
 
@@ -135,7 +140,7 @@ Page({
     cv.beginPath();
     cv.setStrokeStyle("#0197f6")
     cv.setLineWidth(1)
-    cv.arc(18 * windowWidth / 750, 18 * windowWidth / 750, 16 * windowWidth / 750, -Math.PI / 2, rate - Math.PI / 2);
+    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, -Math.PI / 2, rate - Math.PI / 2);
     cv.stroke()
     cv.closePath();
 
@@ -148,25 +153,21 @@ Page({
   drawPlay: function (cv,rate){
     let windowWidth = this.data.windowWidth;
     cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750); 
-    //画外圆
-    cv.setFillStyle("#0097f5");
-    cv.arc(18 * windowWidth / 750, 18 * windowWidth / 750, 16 * windowWidth / 750, 0, 2 * Math.PI);
-    cv.fill();
-    cv.closePath();
+
     //画三角
-    cv.setFillStyle("#ffffff");
+    cv.setFillStyle("#ffa828");
     cv.beginPath();
-    cv.moveTo(12 * windowWidth / 750, 8 * windowWidth / 750);
-    cv.lineTo(12 * windowWidth / 750, 28 * windowWidth / 750);
-    cv.lineTo(28 * windowWidth / 750, 18 * windowWidth / 750);
+    cv.moveTo(15 * windowWidth / 750, 10 * windowWidth / 750);
+    cv.lineTo(15 * windowWidth / 750, 30 * windowWidth / 750);
+    cv.lineTo(29 * windowWidth / 750, 20 * windowWidth / 750);
     cv.closePath();
     cv.fill();
 
     //画进度
     cv.beginPath();
-    cv.setStrokeStyle("#f10707")
+    cv.setStrokeStyle("#ffa828")
     cv.setLineWidth(1)
-    cv.arc(18 * windowWidth / 750, 18 * windowWidth / 750, 16 * windowWidth / 750, -Math.PI / 2, rate - Math.PI / 2);
+    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, -Math.PI / 2, rate - Math.PI / 2);
     cv.stroke()
     cv.closePath();
     cv.draw();
@@ -230,9 +231,11 @@ Page({
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
     if (lastVideo.lastViewLength > 10){//如果大于10秒
-      self.drawArc(lastCv, "#ffa828", angle);
+      self.drawArc(lastCv, "#e7e6e6", angle);
+    } else if (lastVideo.lastViewLength == lastVideo.length){
+      self.drawArc(lastCv, "#05c004", angle);
     }else{
-      self.drawArc(lastCv, "#bfbfbf", 0);
+      self.drawArc(lastCv, "#e7e6e6", 0);
     }
 
     console.log(currentVideo.lastViewLength)
@@ -273,6 +276,7 @@ Page({
     let cv = my_canvas[px-1];
     currentTime = e.detail.currentTime;//当前播放进度(秒)
     let angle = currentTime / video.length * 2 * Math.PI;
+
     self.drawPlay(cv, angle);
   },
 
@@ -322,7 +326,7 @@ Page({
    * 视频播放结束后
    */
   end:function(e){
-    console.log(e);
+    
   },
 
   /**
@@ -340,12 +344,14 @@ Page({
       video.time = m+'分'+s+'秒';
 
       if (video.lastViewLength == "0" ){//如果没有播放进度
-        this.drawArc(cv, "#bfbfbf", 0);
+        this.drawArc(cv, "#e7e6e6", 0);
+      } else if (video.lastViewLength == video.length){
+        this.drawArc(cv, "#05c004", 2 * Math.PI);
       }else{
         console.log(video.lastViewLength)
         // let angle = video.lastViewLength / video.length * 2 * Math.PI;
         let angle = video.lastViewLength / video.length * 2 * Math.PI;
-        this.drawArc(cv, "#ffa828", angle );
+        this.drawArc(cv, "#e7e6e6", angle);
       }
 
       if(i == px-1) this.drawPlay(cv,10);
@@ -360,9 +366,13 @@ Page({
     this.videoContext.pause();
     let self = this;
     let user = self.data.user;
-    let kcid = self.data.kcid;
-    let px = self.data.px;
-    wx.setStorageSync('lastVideo'+kcid+user.username, px);
+
+    if(user != undefined){
+      console.log('我在里面')
+      let kcid = self.data.kcid;
+      let px = self.data.px;
+      wx.setStorageSync('lastVideo' + kcid + user.username, px);
+    }
   },
 
   /**
@@ -384,9 +394,19 @@ Page({
 
     let playTime = currentTime > 10?currentTime-10:0;//播放时间
     let flag = lastVideo.flag == 2 ? 2 : 1
+    let myproduct = self.data.myproduct;
+
+
     wx.setStorageSync('lastVideo' + kcid + user.username, px);
+    wx.setStorageSync('page', myproduct)
 
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag, false, true, "").then((res) => {
     })
-  }
+  },
+
+  /**
+   * 按返回键时
+   */
+
+
 })

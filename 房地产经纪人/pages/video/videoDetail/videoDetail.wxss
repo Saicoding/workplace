@@ -124,10 +124,11 @@
 }
 
 .myCanvas{
-  width:36rpx;
-  height:36rpx;
+  width:40rpx;
+  height:40rpx;
   margin-left:60rpx;
   margin-top:32rpx;
+  color:rgb(231, 230, 230);
 }
 
 .icon{
@@ -167,4 +168,36 @@
 
 .select{
   background: rgb(231, 231, 231);
+}
+
+.bottom{
+  width:100%;
+  height:80rpx;
+  line-height: 80rpx;
+  position: fixed;
+  bottom: 0rpx;
+  border-top:1rpx solid #f1f4f4;
+  background: white;
+}
+
+.bottom-price,.bottom-buy{
+  display: float;
+  float:left;
+}
+
+.bottom-price{
+  width:30%;
+  height:80rpx;
+  text-align: center;
+  font-size:40rpx;
+  color:#dc3f0c;
+}
+
+.bottom-buy{
+  width:70%;
+  height:80rpx;
+  background: #2693ff;
+  color:white;
+  text-align: center;
+  font-size:35rpx;
 }

@@ -15,7 +15,7 @@
         <image data-img="{{video.img}}" data-kc_id = "{{video.kc_id}}" bindtap ="watch" class="img" src="{{video.img}}" mode="aspectFit"></image>
         <view class="right-block">
           <!-- 标题 -->
-          <view data-kc_id = "{{video.kc_id}}" bindtap ="watch" class="title">{{video.title}}</view>
+          <view data-title = "{{video.title}}" data-kc_id = "{{video.kc_id}}" bindtap ="watch" class="title">{{video.title}}</view>
           <!-- 热度 -->
           <view class="hot">
             <view class="in-line">

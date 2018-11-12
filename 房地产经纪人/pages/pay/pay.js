@@ -39,16 +39,6 @@ Page({
   },
 
   /**
-   * 购买套餐
-   */
-  buy: function(e) {
-    let self = this;
-
-    let product = e.currentTarget.dataset.product;
-
-  },
-
-  /**
    * 拨打400电话
    */
   call400:function(){

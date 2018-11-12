@@ -30,6 +30,8 @@ Page({
     let url = encodeURIComponent('/pages/video/videoIndex/videoIndex');
 
     let user = wx.getStorageSync('user');
+    
+    wx.removeStorageSync('page');
 
     if (user) {
       self.setData({
@@ -68,6 +70,7 @@ Page({
   onShow: function() {
     let self = this;
     let user = wx.getStorageSync('user');
+
     buttonClicked = false;
 
     if (user != "") {
@@ -75,7 +78,23 @@ Page({
       let zcode = user.zcode;
       let url = encodeURIComponent('/pages/video/videoIndex/videoIndex');
 
-      app.post(API_URL, "action=GetCourseList&types=jjr", false, true, "", url).then((res) => {
+      let moveData = undefined;
+      let product = wx.getStorageSync('page');
+      console.log(product)
+
+      let types = "";
+      if (product == "xl") {
+        types = "xl"
+      } else {
+        types = "jjr"
+      }
+
+      self.setData({
+        user: user,
+        product: types
+      })
+
+      app.post(API_URL, "action=GetCourseList&types="+types, false, true, "", url).then((res) => {
         let videoList = res.data.list;
         console.log(videoList)
         self.setData({
@@ -85,9 +104,6 @@ Page({
       })
     }
 
-    this.setData({
-      user: user
-    })
   },
 
   /**
@@ -138,8 +154,10 @@ Page({
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
+    let product = self.data.product;
 
     let kc_id = e.currentTarget.dataset.kc_id;
+    let title = e.currentTarget.dataset.title;
     let img = e.currentTarget.dataset.img
 
     // let url = encodeURIComponent('/pages/video/videoDetail/videoDetail?kc_id=' + kc_id);
@@ -152,7 +170,7 @@ Page({
 
     // validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
     wx.navigateTo({
-      url: '/pages/video/videoDetail/videoDetail?kc_id='+kc_id+'&img='+img,
+      url: '/pages/video/videoDetail/videoDetail?kc_id='+kc_id+'&img='+img+"&product="+product+"&title="+title,
     })
   }
 })
