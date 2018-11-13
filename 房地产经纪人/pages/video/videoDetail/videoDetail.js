@@ -142,6 +142,7 @@ Page({
    * 画圆
    */
   drawArc: function(cv, color, rate) {
+    console.log('我画了一次')
     let windowWidth = this.data.windowWidth;
     cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
     //画内圆
@@ -281,7 +282,6 @@ Page({
     console.log(currentVideo.length)
 
     if (currentTime >= currentVideo.length - 3) {
-      console.log('ok')
       changeVideo = true;
       self.videoContext.stop();
       isPlaying = false;
@@ -495,6 +495,7 @@ Page({
    * 初始化视频信息
    */
   initVideos: function(videos, px, my_canvas) {
+    console.log(my_canvas)
     for (let i = 0; i < videos.length; i++) {
       let video = videos[i];
       let flag = video.Flag;
@@ -659,16 +660,14 @@ Page({
                       })
 
                       app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-                        let videos = res.data.data[0].videos; //视频列表
 
+                        let videos = res.data.data[0].videos; //视频列表
                         let my_canvas = self.data.my_canvas;
                         self.initVideos(videos, px, my_canvas); //初始化video的图片信息
-
                         self.setData({
                           videos: videos,
                           loaded: true,
                         })
-
                       })
                     })
                   }
@@ -765,10 +764,11 @@ Page({
 
                       app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
                         let videos = res.data.data[0].videos; //视频列表
+                        console.log(res.data.data[0])
 
                         let my_canvas = self.data.my_canvas;
                         self.initVideos(videos, px, my_canvas); //初始化video的图片信息
-
+                        
                         self.setData({
                           videos: videos,
                           loaded: true,

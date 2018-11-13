@@ -8,7 +8,7 @@
   </cover-view>
 </video>
 <image wx:if="{{!loaded}}" class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
-<view wx:if="{{loaded}}" class="content">
+<view hidden="{{!loaded}}" class="content">
   <!-- 视频 -->
   <view class="up-block">
     <view class='kc_money'>
