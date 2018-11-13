@@ -180,7 +180,7 @@ Page({
     //画最外圆
     cv.setStrokeStyle("#ecebeb")
     cv.setLineWidth(1)
-    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, 0, 2*Math.PI);
+    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, 0, 2 * Math.PI);
     cv.stroke()
     cv.closePath();
 
@@ -210,16 +210,16 @@ Page({
     let self = this;
     let windowWidth = self.data.windowWidth;
 
-    changeVideo = true;
-
     let user = self.data.user;
     let kcid = self.data.kcid;
     let LoginRandom = user.Login_random;
     let zcode = user.zcode;
+    changeVideo = false;
 
     let videos = self.data.videos; //当前所有视频
     let my_canvas = self.data.my_canvas; //当前所有画布
     let px = self.data.px; //当前视频编号
+    let isPlaying = true; //是否正在播放视频
 
     let index = e.currentTarget.dataset.index; //点击的视频编号
     let scroll = (parseInt(index + 1) * 100 - 85) * windowWidth / 750;
@@ -265,6 +265,7 @@ Page({
     }
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
+    
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
 
@@ -276,25 +277,22 @@ Page({
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
 
-    self.videoContext.seek(currentTime)
-   
+    console.log(currentTime)
+    console.log(currentVideo.length)
 
-    if (currentVideo.lastViewLength >= currentVideo.length) {
-      self.setData({
-        videos: videos,
-        isPlaying: false,
-        px: index + 1,
-        scroll: scroll,
-      })
-    } else {
-      self.setData({
-        videos: videos,
-        isPlaying: true,
-        px: index + 1,
-        scroll: scroll,
-      })
-
+    if (currentTime >= currentVideo.length - 3) {
+      console.log('ok')
+      changeVideo = true;
+      self.videoContext.stop();
+      isPlaying = false;
     }
+
+    self.setData({
+      videos: videos,
+      isPlaying: isPlaying,
+      px: index + 1,
+      scroll: scroll,
+    })
 
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
 
@@ -306,7 +304,7 @@ Page({
   waiting: function(e) {
     let self = this;
     this.setData({
-      isPlaying:true,
+      isPlaying: true,
     })
   },
   /**
@@ -352,7 +350,6 @@ Page({
       return;
     }
 
-    changeVideo = false; //防止视频到最后时自动播放
     this.setData({
       isPlaying: true,
     })
@@ -368,50 +365,15 @@ Page({
   },
 
   /**
-   * 切换播放状态
-   */
-  tooglePlay: function() {
-    let self = this;
-
-    let px = self.data.px; //当前视频编号
-    let videos = self.data.videos; //当前所有视频
-    let currentVideo = videos[px - 1];
-
-    if (currentVideo.videoUrl == "") {
-      wx.showToast({
-        title: '您还没有购买此课程',
-        icon: 'none',
-        duration: 3000
-      })
-      return;
-    }
-
-    let isPlaying = self.data.isPlaying;
-    if (currentVideo.lastViewLength == "0") { //如果没有播放过,就
-      currentVideo.lastViewLength = "0.1";
-      self.setData({
-        videos: videos
-      })
-    }
-    isPlaying = !isPlaying;
-    changeVideo = false; //防止视频到最后时自动播放
-
-    isPlaying ? this.videoContext.play() : this.videoContext.pause();
-
-    console.log(isPlaying);
-    self.setData({
-      isPlaying: isPlaying,
-    })
-  },
-
-  /**
    * 视频播放结束后
    */
   end: function(e) {
     let self = this;
     let windowWidth = self.data.windowWidth;
-
-    if (changeVideo) return; //如果是通过点击更换的video
+    if (changeVideo) {//如果点击的视频时结尾状态就暂停
+      self.videoContext.stop();
+      return; //如果是通过点击更换的video
+    } 
 
     let user = self.data.user;
     let kcid = self.data.kcid;
@@ -421,6 +383,7 @@ Page({
     let videos = self.data.videos; //当前所有视频
     let my_canvas = self.data.my_canvas; //当前所有画布
     let px = self.data.px; //当前视频编号
+    let isPlaying = true;//是否在播放
 
     if (px == videos.length) return; //如果点击的是同一个视频就不做任何操作
 
@@ -470,19 +433,61 @@ Page({
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
-    self.drawPlay(currentCv, currentAngle);//绘画当前播放图标
+    self.drawPlay(currentCv, currentAngle); //绘画当前播放图标
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
+    if(currentTime >= currentVideo.length-3){
+      changeVideo = true;
+      isPlaying = false;
+    }
 
     self.setData({
       videos: videos,
-      isPlaying: true,
+      isPlaying: isPlaying,
       px: px + 1,
       scroll: scroll,
     })
 
+
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {
 
+    })
+  },
+
+  /**
+   * 切换播放状态
+   */
+  tooglePlay: function() {
+    let self = this;
+
+    let px = self.data.px; //当前视频编号
+    let videos = self.data.videos; //当前所有视频
+    let currentVideo = videos[px - 1];
+
+    if (currentVideo.videoUrl == "") {
+      wx.showToast({
+        title: '您还没有购买此课程',
+        icon: 'none',
+        duration: 3000
+      })
+      return;
+    }
+
+    let isPlaying = self.data.isPlaying;
+    if (currentVideo.lastViewLength == "0") { //如果没有播放过,就
+      currentVideo.lastViewLength = "0.1";
+      self.setData({
+        videos: videos
+      })
+    }
+    isPlaying = !isPlaying;
+    changeVideo = false; //防止视频到最后时自动播放
+
+    isPlaying ? this.videoContext.play() : this.videoContext.pause();
+
+    console.log(isPlaying);
+    self.setData({
+      isPlaying: isPlaying,
     })
   },
 
@@ -639,7 +644,7 @@ Page({
                 'package': myPackage,
                 'paySign': paySign,
                 'signType': "MD5",
-                success: function (res) {
+                success: function(res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
                     app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
 
@@ -654,10 +659,10 @@ Page({
                       })
 
                       app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-                        let videos = res.data.data[0].videos;//视频列表
+                        let videos = res.data.data[0].videos; //视频列表
 
-                       let my_canvas = self.data.my_canvas;
-                       self.initVideos(videos, px, my_canvas);//初始化video的图片信息
+                        let my_canvas = self.data.my_canvas;
+                        self.initVideos(videos, px, my_canvas); //初始化video的图片信息
 
                         self.setData({
                           videos: videos,
@@ -668,8 +673,7 @@ Page({
                     })
                   }
                 },
-                fail: function (res) {
-                }
+                fail: function(res) {}
               }
               wx.requestPayment(myObject)
             }
@@ -783,9 +787,9 @@ Page({
     })
   },
   /**
- * 改变产品时
- */
-  changeOption: function (e) {
+   * 改变产品时
+   */
+  changeOption: function(e) {
     let self = this;
     let currentProduct = self.data.product; //当前种类
     let product = e.currentTarget.dataset.product; //点击的视频种类
