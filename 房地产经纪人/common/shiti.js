@@ -1204,6 +1204,21 @@ function setMarkedAll(shitiArray){
   }
 }
 
+/**
+ * 根据问题长度，得到高度
+ */
+function getQuestionHeight(str){
+  //数字长度
+  let num = str.replace(/[^0-9]/ig, "").length;//问题中含有的数字的长度
+  //汉字长度
+  let word_length = str.length-num;
+  //总长度 
+  let total_length = word_length+Math.ceil(num/2)+7;
+
+  let height = Math.ceil(total_length / 19)*45;//行高是45rpx
+  return height;
+}
+
 
 module.exports = {
   initShiti: initShiti,
@@ -1240,5 +1255,6 @@ module.exports = {
   setMarkedAll: setMarkedAll,
   initShitiArray: initShitiArray,
   initNewWrongArrayDoneAnswer: initNewWrongArrayDoneAnswer,
-  processTapWrongAnswer: processTapWrongAnswer
+  processTapWrongAnswer: processTapWrongAnswer,
+  getQuestionHeight: getQuestionHeight
 }

@@ -6,7 +6,7 @@ let time1 = require('../../../../common/time.js');
 let animate = require('../../../../common/animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
-let isFold = true; //默认都是折叠的
+let isFold = false; //默认都是折叠的
 
 const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
@@ -232,19 +232,23 @@ Page({
         username: username, //用户账号名称
         acode: acode //用户唯一码
       });
-
+      
       //如果是材料题就有动画
       if (midShiti.TX == 99) {
         let str = "#q" + px;
+        let questionStr = midShiti.question;//问题的str
+        let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+        
         let question = self.selectComponent(str);
 
-        let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
         question.setData({
-          foldData: foldData
+          style1: "display:block;height:"+height+"rpx;margin-bottom:30rpx;", //占位框
+          style2: "positon: fixed; left: 20rpx;height:" + height +"rpx", //问题框"
         })
-        isFold = false;
+
         self.setData({
           shitiArray: shitiArray,
+          height: height,
           sliderShitiArray: sliderShitiArray,
         })
       }
@@ -289,6 +293,7 @@ Page({
     let px = self.data.px; //当前px
     let str = "#q" + px; //当前问题组件id
     let question = self.selectComponent(str); //当前问题组件
+    let height = self.data.height;
 
     let lastSliderIndex = self.data.lastSliderIndex; //当前滑块index
     let shitiArray = self.data.shitiArray; //当前试题数组
@@ -298,12 +303,13 @@ Page({
 
     let foldData = undefined; //动画
 
+    console.log(height)
 
     if (isFold) {
-      foldData = animate.foldAnimation(easeOutAnimation, 400, 90);
+      foldData = animate.foldAnimation(easeOutAnimation, height, 90);
       isFold = false;
     } else {
-      foldData = animate.foldAnimation(easeInAnimation, 90, 400);
+      foldData = animate.foldAnimation(easeInAnimation, 90, height);
       isFold = true;
     }
 
@@ -434,8 +440,12 @@ Page({
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
+
+      let questionStr = midShiti.question;//问题的str
+      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
       let question = self.selectComponent(str);
-      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+      let foldData = animate.foldAnimation(easeOutAnimation, height, 90)
 
       question.setData({
         foldData: foldData
@@ -608,7 +618,8 @@ Page({
    * 刚载入时的动画
    */
   onShow: function(e) {
-    let self = this;
+    let self = this; 
+    let px = undefined;
 
     if (self.data.isSubmit) {
       self._showMarkAnswer();

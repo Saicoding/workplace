@@ -16,12 +16,13 @@
   background: #ffffff;
 }
 
-.container{
+.mycontainer{
   padding-top:5rpx;
   padding-left:15rpx;
   line-height: 45rpx;
   font-size:35rpx;
   overflow: hidden;
+  height:auto;
   width:94%;
 }
 

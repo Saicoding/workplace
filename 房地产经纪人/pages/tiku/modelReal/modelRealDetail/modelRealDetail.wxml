@@ -3,7 +3,7 @@
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
       <scroll-view scroll-y style="height:{{windowHeight-85}}rpx;" catchlongtap='_toogleMarkAnswer'>
-        <view style="border:1rpx solid white">
+        <view style="border:1rpx solid white;padding-bottom:50rpx;">
           <!--问题-->
           <question bindtoogleAnimation="_toogleAnimation" isModelReal="true" id="q{{shiti.px}}" num_color="{{shiti.num_color}}" px="{{shiti.px}}" tx="{{shiti.tx}}" question="{{shiti.question}}"></question>
 

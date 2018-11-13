@@ -1,5 +1,5 @@
-<view class = "outContainer" style ="{{style3}}" >
-<scroll-view  style ="{{style2}}" scroll-y ="{{tx == '材料题'?true:false}}" animation = "{{foldData}}" class="container" bindtap="toogleShow">
+<view id="myscroll"  class = "outContainer" style ="{{style3}}" >
+<scroll-view  style ="{{style2}}" scroll-y ="{{tx == '材料题'?true:false}}" animation = "{{foldData}}" class="mycontainer" bindtap="toogleShow">
   <view class="question-block1">
     <view wx:if = "{{(tx =='材料题'&&isModelReal)?false:true}}" class="qustion-num-text" style="background:{{num_color}}">{{px}}</view>
     <view class="qustion-select" style="color:{{num_color}}">【{{tx}}】</view>
