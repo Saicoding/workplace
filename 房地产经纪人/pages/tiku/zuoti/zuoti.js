@@ -21,7 +21,7 @@ Page({
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
 
-    isLoaded: true, //是否已经载入完毕,用于控制过场动画
+    isLoaded: false, //是否已经载入完毕,用于控制过场动画
     cl_question_hidden: false, //材料题是否隐藏题目
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
@@ -58,7 +58,7 @@ Page({
       circular:false
     }
 
-    app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, true, false, "载入中").then((res) => {
+    app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
       post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
     }).catch((errMsg) => {

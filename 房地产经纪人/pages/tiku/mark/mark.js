@@ -21,7 +21,7 @@ Page({
     id: 0, //书的编号,默认为0
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
-    isLoaded: true, //是否已经载入完毕,用于控制过场动画
+    isLoaded: false, //是否已经载入完毕,用于控制过场动画
     cl_question_hidden: false, //材料题是否隐藏题目
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
@@ -50,7 +50,7 @@ Page({
     let circular = false;
     let myFavorite = 0;
 
-    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, true, true, "载入收藏中", "", true, self).then((res) => {
+    app.post(API_URL, "action=GetFavoriteShiti&kid=" + kid + "&username=" + username + "&acode=" + acode, false, true, "", "", true, self).then((res) => {
       post.markOnload(options, px, circular, myFavorite, res, username, acode, self)
       isFold = false;
     }).catch((errMsg) => {

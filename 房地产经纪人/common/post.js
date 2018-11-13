@@ -109,7 +109,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
     lastSliderIndex: lastSliderIndex,//默认滑动条一开始是0
-    isLoaded: false, //是否已经载入完毕,用于控制过场动画
+    isLoaded: true, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
     acode: acode //用户唯一码
   });
@@ -176,7 +176,7 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
     circular: circular,
     myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
-    isLoaded: false, //是否已经载入完毕,用于控制过场动画
+    isLoaded: true, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
     acode: acode //用户唯一码
   });
@@ -252,7 +252,7 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
     pageArray: [1],//当前所有已经渲染的页面数组
     myFavorite: myFavorite,//是否收藏
     lastSliderIndex: 0,//默认滑动条一开始是0
-    isLoaded: false, //是否已经载入完毕,用于控制过场动画
+    isLoaded: true, //是否已经载入完毕,用于控制过场动画
     username: username, //用户账号名称
     requesttime: requesttime,//第一次请求的时间
     acode: acode //用户唯一码

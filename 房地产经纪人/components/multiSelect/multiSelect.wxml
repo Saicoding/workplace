@@ -1,4 +1,4 @@
-<view class="container">
+<view class="mycontainer">
   <checkbox-group class='checkbox-group' bindchange='_checkVal'>
     <label>
       <checkbox hidden value="A" checked="{{shiti.A_checked}}" />

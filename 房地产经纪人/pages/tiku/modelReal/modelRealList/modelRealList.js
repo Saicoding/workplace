@@ -11,7 +11,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isHasShiti: true//默认有试题
+    isHasShiti: true,//默认有试题
+    loaded:false// 默认没有载入完毕
   },
 
   /**
@@ -34,12 +35,13 @@ Page({
 
     let px = 1;
 
-    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, true, true, "加载中","",true,self).then((res) => {
+    app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, false, true, "","",true,self).then((res) => {
       let modelList = res.data.list;
       if(modelList.length == 0){//如果没有题库
         self.setData({
           title:title,
-          isHasShiti: false
+          isHasShiti: false,
+          loaded:true
         })
         return;
       }
@@ -71,6 +73,7 @@ Page({
 
       self.setData({
         modelList: modelList, //真题列表
+        loaded: true,
         tiType:tiType//题的类型（押题，真题）
       })
     }).catch((errMsg) => {
@@ -119,6 +122,17 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+    let self = this;
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function (res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowHeight: windowHeight
+        })
+      }
+    });
   },
 
   /**

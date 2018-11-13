@@ -67,7 +67,7 @@ Page({
 
     let shitiNum = px;
 
-    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, true, true, "载入中","",true,self).then((res) => {
+    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, false, true, "","",true,self).then((res) => {
 
       let shitiArray = res.data.list;
 
@@ -224,12 +224,11 @@ Page({
         shitiNum: shitiNum,
         circular: circular, //是否循环
         user: user,
-
+        isLoaded: true, //是否已经载入完毕,用于控制过场动画
         sliderShitiArray: sliderShitiArray, //滑动数组
         lastSliderIndex: lastSliderIndex, //默认滑动条一开始是0
 
         newShitiArray: newShitiArray, //新的试题数组
-        isLoaded: true, //是否已经载入完毕,用于控制过场动画
         username: username, //用户账号名称
         acode: acode //用户唯一码
       });

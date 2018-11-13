@@ -1,8 +1,7 @@
-.container{
+.mycontainer{
     background: #ffffff;
   width:94%;
   margin: 0 auto;
-  border-radius: 10rpx;
 }
 
 .checkbox-group {

@@ -9,7 +9,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    buttonClicked: false
+    buttonClicked: false,
+    isLoaded:false,
   },
 
   /**
@@ -29,11 +30,12 @@ Page({
     app.post(API_URL, "action=SelectZj").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
 
-      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, true, false, "获取考点...","",true).then((res) => {
+      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, false, false, "","",true).then((res) => {
         let kdList = res.data.list;//考点列表
  
         self.setData({
-          kdList: kdList
+          kdList: kdList,
+          isLoaded:true
         })
       })
     })
@@ -49,6 +51,17 @@ Page({
    */
   onReady:function(){
     this.waterWave = this.selectComponent('#waterWave')
+    let self = this;
+    wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+      success: function (res) { //转换窗口高度
+        let windowHeight = res.windowHeight;
+        let windowWidth = res.windowWidth;
+        windowHeight = (windowHeight * (750 / windowWidth));
+        self.setData({
+          windowHeight: windowHeight
+        })
+      }
+    });
   },
 
   bindPickerChange:function(e){
@@ -60,18 +73,19 @@ Page({
     self.setData({
       index: index, //设置是第几个题库
       kaodian_id: kaodian_id, //设置章节的id编号
+      isLoaded:false,
     })
 
-    app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, true, false, "获取考点...").then((res) => {
+    app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, false, false, "").then((res) => {
       let kdList = res.data.list;//考点列表
-
       //存储本次浏览的题库
       wx.setStorageSync("kaodian_id", {
         "id": kaodian_id,
         "index": index
       });
       self.setData({
-        kdList: kdList
+        kdList: kdList,
+        isLoaded:true
       })
     })
   },

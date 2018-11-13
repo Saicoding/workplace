@@ -21,7 +21,7 @@ Page({
     id: 0, //书的编号,默认为0
     rightNum: 0, //正确答案数
     wrongNum: 0, //错误答案数
-    isLoaded: true, //是否已经载入完毕,用于控制过场动画
+    isLoaded: false, //是否已经载入完毕,用于控制过场动画
     cl_question_hidden: false, //材料题是否隐藏题目
     checked: false, //选项框是否被选择
     doneAnswerArray: [], //已做答案数组
@@ -52,7 +52,7 @@ Page({
     let myFavorite = 0;
     let requesttime = time.formatDateTime((new Date()).valueOf());//请求时间（第一次请求的时间）
 
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&requesttime=" + requesttime, true, true, "载入错题中","", true, self).then((res) => {
+    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&requesttime=" + requesttime, false, true, "","", true, self).then((res) => {
       post.wrongOnload(options, px, circular, myFavorite, res, username, acode, requesttime,self);
       isFold = false;
     }).catch((errMsg) => {
@@ -497,7 +497,7 @@ Page({
 
           common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
 
-          common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, "测试", app, API_URL); //向服务器提交答题结果
+          common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, "", app, API_URL); //向服务器提交答题结果
 
           common.storeAnswerArray(shiti, self); //只存储答题状态,不做本地存储
 
@@ -609,6 +609,8 @@ Page({
     let prepage = page-1;//上一页
     let nextPage = page+1;//下一页
 
+    self._hideMarkAnswer();
+
     //如果渲染数组不包含当前页面
     if (pageArray.indexOf(page) == -1) {
       pageArray.push(page);
@@ -616,9 +618,10 @@ Page({
       if (px % 10 == 1 && prepage >= 1 && pageArray.indexOf(prepage) == -1) {//如果是页码的第一题,并且有上一页,并且不在已渲染数组中
         pageArray.push(prepage);
         self.setData({
+          isLoaded: false,
           pageArray: pageArray
         })
-        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, true, false, "载入中", true, self).then((res) => {
+        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
 
           let newWrongShitiArray = res.data.shiti;
 
@@ -628,7 +631,7 @@ Page({
             shitiArray[i + (page - 1) * 10] = newWrongShitiArray[i];
           }
          
-          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + prepage + "&requesttime=" + requesttime, true, false, "载入中", true, self).then((res) => {
+          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + prepage + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
 
             let newWrongShitiArray = res.data.shiti;
 
@@ -653,9 +656,10 @@ Page({
       }else if(px % 10 ==0 && nextPage <= pageall && pageArray.indexOf(nextPage) == -1){
         pageArray.push(nextPage);
         self.setData({
+          isLoaded: false,
           pageArray: pageArray
         })
-        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, true, false, "载入中", true, self).then((res) => {
+        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
           let newWrongShitiArray = res.data.shiti;
 
           common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空
@@ -664,7 +668,7 @@ Page({
             shitiArray[i + (page - 1) * 10] = newWrongShitiArray[i];
           }
 
-          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + nextPage + "&requesttime=" + requesttime, true, false, "载入中", true, self).then((res) => {
+          app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + nextPage + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
 
             let newWrongShitiArray = res.data.shiti;
 
@@ -690,10 +694,11 @@ Page({
  
       }else{
         self.setData({
+          isLoaded: false,
           pageArray: pageArray
         })
 
-        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, true, false, "载入中", true, self).then((res) => {
+        app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&page=" + page + "&requesttime=" + requesttime, false, false, "", true, self).then((res) => {
           let newWrongShitiArray = res.data.shiti;
 
           common.initNewWrongArrayDoneAnswer(newWrongShitiArray, page - 1); //将试题的所有done_daan置空

@@ -6,6 +6,12 @@
   background-color: #fff;
 }
 
+.loading-img{
+  width: 750rpx;
+  height:458rpx;
+  margin:0 auto;
+}
+
 .changeType {
   height: 90rpx;
   line-height: 90rpx;

@@ -31,7 +31,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-
+    timeStr:'开始计时'
   },
 
   /**

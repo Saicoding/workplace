@@ -14,6 +14,7 @@ Page({
     day:true,//白天还是黑天
     scroll:0,//滚动条位置
     isToBottom:false,//是否到底了
+    isLoaded:false,
   },
   /**
    * 生命周期函数--监听页面加载
@@ -29,7 +30,7 @@ Page({
     let username = user.username;
     let acode = user.acode;
 
-    app.post(API_URL,"action=GetKaodianShow&username="+username+"&acode="+acode+"&kdid="+kdid,true,true,"载入中").then((res)=>{
+    app.post(API_URL,"action=GetKaodianShow&username="+username+"&acode="+acode+"&kdid="+kdid,false,true,"").then((res)=>{
       let data = res.data.data[0];
       let content = data.content;
       let nextId = data.nextId;
@@ -44,7 +45,8 @@ Page({
         proTitle: proTitle,
         proId: proId,
         user:user,
-        kdid: kdid
+        kdid: kdid,
+        isLoaded: true
       })
     })
   },

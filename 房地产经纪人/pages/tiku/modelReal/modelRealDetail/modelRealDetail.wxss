@@ -3,6 +3,12 @@
 
 /******************** 提问 **********************/
 
+.loading-img{
+  width: 750rpx;
+  height:458rpx;
+  margin:0 auto;
+}
+
 .question {
   line-height: 60rpx;
   width: 96%;
@@ -48,6 +54,7 @@
   line-height: 80rpx;
   border:1rpx solid white;
   text-align: center;
+  font-size:28rpx;
 }
 
 .bottom {

@@ -88,8 +88,6 @@ Page({
       px = lastpx;
     }
 
-    let scroll = (parseInt(px) * 100 - 85) * windowWidth / 750;
-
     if (loaded) return;
 
     app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
@@ -130,11 +128,6 @@ Page({
         user: user,
       })
 
-      setTimeout(function() {
-        self.setData({
-          scroll: scroll
-        })
-      }, 1000)
     })
   },
 
@@ -142,7 +135,6 @@ Page({
    * 画圆
    */
   drawArc: function(cv, color, rate) {
-    console.log('我画了一次')
     let windowWidth = this.data.windowWidth;
     cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
     //画内圆
@@ -223,7 +215,6 @@ Page({
     let isPlaying = true; //是否正在播放视频
 
     let index = e.currentTarget.dataset.index; //点击的视频编号
-    let scroll = (parseInt(index + 1) * 100 - 85) * windowWidth / 750;
 
     if (index == px - 1) return; //如果点击的是同一个视频就不做任何操作
 
@@ -278,9 +269,6 @@ Page({
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
 
-    console.log(currentTime)
-    console.log(currentVideo.length)
-
     if (currentTime >= currentVideo.length - 3) {
       changeVideo = true;
       self.videoContext.stop();
@@ -291,7 +279,6 @@ Page({
       videos: videos,
       isPlaying: isPlaying,
       px: index + 1,
-      scroll: scroll,
     })
 
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
@@ -405,7 +392,6 @@ Page({
     }
 
     let currentCv = my_canvas[px]; //当前画布
-    let scroll = ((px + 1) * 100 - 85) * windowWidth / 750;
 
     let playTime = 0;
     if (currentTime > 10 && currentTime < lastVideo.length - 10) { //播放时间)
@@ -445,7 +431,6 @@ Page({
       videos: videos,
       isPlaying: isPlaying,
       px: px + 1,
-      scroll: scroll,
     })
 
 
@@ -485,7 +470,6 @@ Page({
 
     isPlaying ? this.videoContext.play() : this.videoContext.pause();
 
-    console.log(isPlaying);
     self.setData({
       isPlaying: isPlaying,
     })
@@ -495,7 +479,6 @@ Page({
    * 初始化视频信息
    */
   initVideos: function(videos, px, my_canvas) {
-    console.log(my_canvas)
     for (let i = 0; i < videos.length; i++) {
       let video = videos[i];
       let flag = video.Flag;
@@ -528,7 +511,6 @@ Page({
    * 生命周期函数
    */
   onHide: function() {
-    console.log('我隐藏了')
     this.videoContext.pause();
     let self = this;
     let user = self.data.user;
@@ -621,7 +603,7 @@ Page({
         code = res.code;
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
           let openid = res.data.openid;
-          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
+
           app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
             let status = res.data.status;
@@ -764,7 +746,6 @@ Page({
 
                       app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
                         let videos = res.data.data[0].videos; //视频列表
-                        console.log(res.data.data[0])
 
                         let my_canvas = self.data.my_canvas;
                         self.initVideos(videos, px, my_canvas); //初始化video的图片信息

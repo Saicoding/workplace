@@ -109,7 +109,6 @@ function initNewWrongArrayDoneAnswer(shitiArray,page){
  */
 function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current,circular,shitiArray,self){
 
-  console.log(midShiti)
   let myFavorite = midShiti.favorite;
 
   let sliderShitiArray = [];
@@ -173,12 +172,12 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current,circul
     sliderShitiArray: sliderShitiArray,
     px: px,
     circular: circular,
+    isLoaded:true,
     myFavorite: myFavorite,
     xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
     lastSliderIndex: current,
     checked: false
   })
-  self._hideMarkAnswer();
 
   let foldData = undefined; //动画
 
