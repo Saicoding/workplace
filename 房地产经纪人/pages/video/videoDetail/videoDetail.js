@@ -154,7 +154,7 @@ Page({
 
     //画最外圈
     cv.beginPath()
-    cv.setStrokeStyle("#bfbfbf")
+    cv.setStrokeStyle("#ecebeb")
     cv.setLineWidth(1)
     cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, 0, 2 * Math.PI);
     cv.stroke()
@@ -177,6 +177,12 @@ Page({
   drawPlay: function(cv, rate) {
     let windowWidth = this.data.windowWidth;
     cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
+    //画最外圆
+    cv.setStrokeStyle("#ecebeb")
+    cv.setLineWidth(1)
+    cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, 0, 2*Math.PI);
+    cv.stroke()
+    cv.closePath();
 
     //画三角
     cv.setFillStyle("#ffa828");
@@ -195,31 +201,6 @@ Page({
     cv.stroke()
     cv.closePath();
     cv.draw();
-  },
-
-  /**
-   * 改变产品时
-   */
-  changeOption: function(e) {
-    let self = this;
-    let currentProduct = self.data.product; //当前种类
-    let product = e.currentTarget.dataset.product; //点击的视频种类
-    if (product == currentProduct) return; //如果没有改变就不作任何操作
-
-    self.videoContext.pause()
-
-    let windowWidth = self.data.windowWidth; //窗口宽度
-    let moveData = undefined; //动画
-    if (product == "introduction") {
-      moveData = animate.moveX(easeOutAnimation, -258 * (windowWidth / 750));
-    } else {
-      moveData = animate.moveX(easeOutAnimation, 0);
-    }
-
-    self.setData({
-      product: product,
-      moveData: moveData
-    })
   },
 
   /**
@@ -287,7 +268,7 @@ Page({
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
 
-    flag == 2 ? self.drawArc(lastCv, "#05c004", angle) : self.drawArc(lastCv, "#e7e6e6", angle)
+    flag == 2 ? self.drawArc(lastCv, "#05c004", angle) : self.drawArc(lastCv, "#ecebeb", angle)
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
@@ -326,15 +307,7 @@ Page({
     let self = this;
     this.setData({
       isPlaying:true,
-      test: '我在等待'
     })
-    setTimeout(function () {
-      self.setData({
-        isPlaying: true,
-        test: '我开始播放'
-      })
-      self.videoContext.play();
-    }, 4000)
   },
   /**
    * 播放进度改变时
@@ -381,7 +354,6 @@ Page({
 
     changeVideo = false; //防止视频到最后时自动播放
     this.setData({
-      test: "开始播放",
       isPlaying: true,
     })
   },
@@ -391,8 +363,6 @@ Page({
    */
   pause: function() {
     this.setData({
-      test:"暂停了",
-      showCenter:true,
       isPlaying: false
     })
   },
@@ -403,9 +373,6 @@ Page({
   tooglePlay: function() {
     let self = this;
 
-    self.setData({
-      test:'我点击了'
-    })
     let px = self.data.px; //当前视频编号
     let videos = self.data.videos; //当前所有视频
     let currentVideo = videos[px - 1];
@@ -498,7 +465,7 @@ Page({
       }
     }
 
-    flag == 2 ? self.drawArc(lastCv, "#05c004", 2 * Math.PI) : self.drawArc(lastCv, "#e7e6e6", 2 * Math.PI);
+    flag == 2 ? self.drawArc(lastCv, "#05c004", 2 * Math.PI) : self.drawArc(lastCv, "#ecebeb", 2 * Math.PI);
 
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
@@ -545,7 +512,7 @@ Page({
 
       let angle = video.lastViewLength / video.length * 2 * Math.PI;
 
-      flag == 2 ? this.drawArc(cv, "#05c004", angle) : this.drawArc(cv, "#e7e6e6", angle);
+      flag == 2 ? this.drawArc(cv, "#05c004", angle) : this.drawArc(cv, "#ecebeb", angle);
 
       if (i == px - 1) this.drawPlay(cv, 10);
     }
@@ -641,101 +608,76 @@ Page({
     let Login_random = user.Login_random; //用户登录随机值
     let zcode = user.zcode; //客户端id号
 
-    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
+    // 登录
+    wx.login({
+      success: res => {
+        // 发送 res.code 到后台换取 openId, sessionKey, unionId
+        code = res.code;
+        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+          let openid = res.data.openid;
+          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
+          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
-      wx.showToast({
-        title: '购买成功',
-        icon: 'none',
-        duration: 3000
-      })
+            let status = res.data.status;
 
-      self.setData({
-        loaded: false,
-      })
+            if (status == 1) {
+              let timestamp = Date.parse(new Date());
+              timestamp = timestamp / 1000;
+              timestamp = timestamp.toString();
+              let nonceStr = "TEST";
+              let prepay_id = res.data.prepay_id;
+              let appId = "wxf90a298a65cfaca8";
+              let myPackage = "prepay_id=" + prepay_id;
+              let key = "e625b97ae82c3622af5f5a56d1118825";
 
-      app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-        let videos = res.data.data[0].videos; //视频列表
+              let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
+              let paySign = md5.md5(str).toUpperCase();
 
-        let my_canvas = self.data.my_canvas;
-        self.initVideos(videos, px, my_canvas); //初始化video的图片信息
+              let myObject = {
+                'timeStamp': timestamp,
+                'nonceStr': nonceStr,
+                'package': myPackage,
+                'paySign': paySign,
+                'signType': "MD5",
+                success: function (res) {
+                  if (res.errMsg == "requestPayment:ok") { //成功付款后
+                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
 
-        self.setData({
-          videos: videos,
-          loaded: true,
+                      wx.showToast({
+                        title: '购买成功',
+                        icon: 'none',
+                        duration: 3000
+                      })
+
+                      self.setData({
+                        loaded: false,
+                      })
+
+                      app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
+                        let videos = res.data.data[0].videos;//视频列表
+
+                       let my_canvas = self.data.my_canvas;
+                       self.initVideos(videos, px, my_canvas);//初始化video的图片信息
+
+                        self.setData({
+                          videos: videos,
+                          loaded: true,
+                        })
+
+                      })
+                    })
+                  }
+                },
+                fail: function (res) {
+                }
+              }
+              wx.requestPayment(myObject)
+            }
+          })
+
         })
-      })
+      }
     })
-
-    // // 登录
-    // wx.login({
-    //   success: res => {
-    //     // 发送 res.code 到后台换取 openId, sessionKey, unionId
-    //     code = res.code;
-    //     app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
-    //       let openid = res.data.openid;
-    //       console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
-    //       app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
-
-    //         let status = res.data.status;
-
-    //         if (status == 1) {
-    //           let timestamp = Date.parse(new Date());
-    //           timestamp = timestamp / 1000;
-    //           timestamp = timestamp.toString();
-    //           let nonceStr = "TEST";
-    //           let prepay_id = res.data.prepay_id;
-    //           let appId = "wxf90a298a65cfaca8";
-    //           let myPackage = "prepay_id=" + prepay_id;
-    //           let key = "e625b97ae82c3622af5f5a56d1118825";
-
-    //           let str = "appId=" + appId + "&nonceStr=" + nonceStr + "&package=" + myPackage + "&signType=MD5&timeStamp=" + timestamp + "&key=" + key;
-    //           let paySign = md5.md5(str).toUpperCase();
-
-    //           let myObject = {
-    //             'timeStamp': timestamp,
-    //             'nonceStr': nonceStr,
-    //             'package': myPackage,
-    //             'paySign': paySign,
-    //             'signType': "MD5",
-    //             success: function (res) {
-    //               if (res.errMsg == "requestPayment:ok") { //成功付款后
-    //                 app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
-
-    //                   wx.showToast({
-    //                     title: '购买成功',
-    //                     icon: 'none',
-    //                     duration: 3000
-    //                   })
-
-    //                   self.setData({
-    //                     loaded: false,
-    //                   })
-
-    //                   app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-    //                     let videos = res.data.data[0].videos;//视频列表
-
-    //                    let my_canvas = self.data.my_canvas;
-    //                    self.initVideos(videos, px, my_canvas);//初始化video的图片信息
-
-    //                     self.setData({
-    //                       videos: videos,
-    //                       loaded: true,
-    //                     })
-
-    //                   })
-    //                 })
-    //               }
-    //             },
-    //             fail: function (res) {
-    //             }
-    //           }
-    //           wx.requestPayment(myObject)
-    //         }
-    //       })
-
-    //     })
-    //   }
-    // })
   },
   /**
    * 弹出支付详细信息
@@ -839,5 +781,29 @@ Page({
         })
       }
     })
-  }
+  },
+  /**
+ * 改变产品时
+ */
+  changeOption: function (e) {
+    let self = this;
+    let currentProduct = self.data.product; //当前种类
+    let product = e.currentTarget.dataset.product; //点击的视频种类
+    if (product == currentProduct) return; //如果没有改变就不作任何操作
+
+    self.videoContext.pause()
+
+    let windowWidth = self.data.windowWidth; //窗口宽度
+    let moveData = undefined; //动画
+    if (product == "introduction") {
+      moveData = animate.moveX(easeOutAnimation, -258 * (windowWidth / 750));
+    } else {
+      moveData = animate.moveX(easeOutAnimation, 0);
+    }
+
+    self.setData({
+      product: product,
+      moveData: moveData
+    })
+  },
 })
