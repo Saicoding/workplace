@@ -4,6 +4,41 @@
   height:422rpx;
 }
 
+.wifi{
+  width:750rpx;
+  height:422rpx;
+  background: black;
+  color:white;
+  text-align: center;
+}
+
+.wifi-text1,.wifi-text2{
+  width:100%;
+}
+
+.wifi-text1{
+  font-size:30rpx;
+  letter-spacing: 2rpx;
+  margin-top:90rpx;
+}
+.wifi-text2{
+  font-size:25rpx;
+  margin-top:30rpx;
+  letter-spacing: 1rpx;
+}
+
+.wifi-button{
+  width:180rpx;
+  height:55rpx;
+  font-size:25rpx;
+  line-height: 55rpx;
+  border:1rpx solid #b74e2a;
+  border-radius: 5rpx;
+  margin:80rpx auto;
+  color:#b74e2a;
+
+}
+
 .loading-img{
   width: 750rpx;
   height:458rpx;

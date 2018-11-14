@@ -23,6 +23,7 @@ Page({
   data: {
     loaded: false,
     isPlaying: false, //是否在播放
+    useFlux :false,//是否使用流量观看
   },
 
   /**
@@ -84,6 +85,7 @@ Page({
     let loaded = self.data.loaded;
     let px = 1;
     let buied = self.data.buied;
+
     self.videoContext = wx.createVideoContext('myVideo')
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
@@ -147,20 +149,34 @@ Page({
       })
     }
 
-    wx.getNetworkType({
+    wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
       success:function(res){
         let networkType = res.networkType
-        console.log(networkType)
-        console.log(self.videoContext)
         if (networkType!="wifi"){
-          console.log('haha')
-          self.videoContext.stop();
           self.setData({
-            test:"停止",
+            isWifi:false,
+            autoplay:false,
             isPlaying :false
+          })
+        }else{
+          self.setData({
+            autoplay: true,
+            isPlaying: true,
+            isWifi: true,
           })
         }
       }
+    })
+  },
+  /**
+   * 使用流量继续观看
+   */
+  continueWatch:function(){
+    this.videoContext.play();
+    this.setData({
+      isPlaying:true,
+      autoplay: true,
+      useFlux:true
     })
   },
 
@@ -246,6 +262,25 @@ Page({
     let my_canvas = self.data.my_canvas; //当前所有画布
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否正在播放视频
+
+    wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
+      success: function (res) {
+        let networkType = res.networkType
+        if (networkType != "wifi") {
+          self.setData({
+            isWifi: false,
+            autoplay: false,
+            isPlaying: false
+          })
+        } else {
+          self.setData({
+            autoplay: true,
+            isPlaying: true,
+            isWifi: true,
+          })
+        }
+      }
+    })
 
     let index = e.currentTarget.dataset.index; //点击的视频编号
 
