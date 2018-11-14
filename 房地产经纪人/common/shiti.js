@@ -179,16 +179,24 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current,circul
     checked: false
   })
 
-  let foldData = undefined; //动画
-
   //如果是材料题就判断是否动画
   if (midShiti.TX == 99) {
     let str = "#q" + px;
+    let questionStr = midShiti.question;//问题的str
+    let height = getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
     let question = self.selectComponent(str);
 
-    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    animate.blockSpreadAnimation(90, height, question);//占位框动画
+
     question.setData({
-      foldData: foldData
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
+    })
+
+    self.setData({
+      height: height
     })
   }
 }

@@ -72,8 +72,7 @@
 <!-- 答题板 -->
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
-<!-- 点击水波 -->
-<waterWave id="waterWave"></waterWave>
+
 <view wx:if="{{!isHasShiti}}">
   <hasNoPage str="当前题库没有收藏试题"></hasNoPage>
 </view>

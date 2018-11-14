@@ -1,7 +1,5 @@
 let common = require('shiti.js');
 let animate = require('animate.js')
-let easeOutAnimation = animate.easeOutAnimation();
-let easeInAnimation = animate.easeInAnimation();
 
 /**
  * 练习题
@@ -118,16 +116,21 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   //如果是材料题就有动画
   if (midShiti.TX == 99) {
     let str = "#q" + px;
+    let questionStr = midShiti.question;//问题的str
+    let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
     let question = self.selectComponent(str);
 
-    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    animate.blockSpreadAnimation(90, height, question);//占位框动画
+
     question.setData({
-      foldData: foldData
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
     })
 
     self.setData({
-      shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray,
+      height: height,
     })
   }
 
@@ -184,20 +187,23 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
   //如果是材料题就有动画
   if (midShiti.TX == 99) {
     let str = "#q" + px;
+    let questionStr = midShiti.question;//问题的str
+    let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
     let question = self.selectComponent(str);
 
-    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    animate.blockSpreadAnimation(90, height, question);//占位框动画
+
     question.setData({
-      foldData: foldData
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
     })
 
     self.setData({
-      shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray,
+      height: height,
     })
   }
-
-  console.log(self.data.sliderShitiArray)
   
   wx.hideLoading();
 }
@@ -261,20 +267,23 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
   //如果是材料题就有动画
   if (midShiti.TX == 99) {
     let str = "#q" + px;
+    let questionStr = midShiti.question;//问题的str
+    let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+    height = height >= 400 ? 400 : height;
+
     let question = self.selectComponent(str);
 
-    let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+    animate.blockSpreadAnimation(90, height, question);//占位框动画
+
     question.setData({
-      foldData: foldData
+      style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
     })
 
     self.setData({
-      shitiArray: shitiArray,
-      sliderShitiArray: sliderShitiArray,
+      height: height,
     })
   }
-
-  console.log(self.data.sliderShitiArray)
 
   wx.hideLoading();
 }

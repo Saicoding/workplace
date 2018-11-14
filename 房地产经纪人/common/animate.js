@@ -54,11 +54,80 @@ function moveX(myAnimation,x){
   return myAnimation.export();
 }
 
+/**
+ * 问题折叠动画
+ */
+function questionFoldAnimation(max,min,question){
+  let interval = setInterval(()=>{
+    max -=10
+    if(max <=min){
+      clearInterval(interval);
+      max = min;
+    }
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:"+max+"rpx"
+    })
+  },40)
+}
+
+/**
+ * 问题展开动画
+ */
+function questionSpreadAnimation(min,max,question){
+  let interval = setInterval(() => {
+    min += 10
+    if (min >= max) {
+      clearInterval(interval);
+      min = max
+    }
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:" + min + "rpx"
+    })
+  }, 40)
+}
+
+/**
+ * 占位框折叠动画
+ */
+function blockFoldAnimation(max, min, question) {
+  let interval = setInterval(() => {
+    max -= 10
+    if (max <= min) {
+      clearInterval(interval);
+      max = min;
+    }
+    question.setData({
+      style1: "display:block;margin-bottom:30rpx;height:" + max + "rpx"
+    })
+  }, 40)
+}
+
+/**
+ * 占位框展开动画
+ */
+function blockSpreadAnimation(min, max, question) {
+  let interval = setInterval(() => {
+    min += 10
+    if (min >= max) {
+      clearInterval(interval);
+      min = max
+    }
+    question.setData({
+      style1: "display:block;margin-bottom:30rpx;height:" + min + "rpx"
+    })
+  }, 40)
+}
+
+
 module.exports = {
   easeOutAnimation: easeOutAnimation,
   easeInAnimation: easeInAnimation,
   foldAnimation: foldAnimation,
   rotateAnimation: rotateAnimation,
   ChangeWidthAndmoveX: ChangeWidthAndmoveX,
-  moveX: moveX
+  moveX: moveX,
+  questionFoldAnimation: questionFoldAnimation,
+  questionSpreadAnimation: questionSpreadAnimation,
+  blockFoldAnimation: blockFoldAnimation,
+  blockSpreadAnimation: blockSpreadAnimation
 }

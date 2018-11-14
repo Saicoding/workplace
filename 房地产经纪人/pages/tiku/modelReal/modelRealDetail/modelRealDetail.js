@@ -6,7 +6,7 @@ let time1 = require('../../../../common/time.js');
 let animate = require('../../../../common/animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
-let isFold = false; //默认都是折叠的
+let isFold = false; //默认都是打开的
 
 const util = require('../../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
@@ -238,18 +238,19 @@ Page({
         let str = "#q" + px;
         let questionStr = midShiti.question;//问题的str
         let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+        height = height >= 400 ? 400 : height;
         
         let question = self.selectComponent(str);
 
+        animate.blockSpreadAnimation(90, height, question);//占位框动画
+
         question.setData({
-          style1: "display:block;height:"+height+"rpx;margin-bottom:30rpx;", //占位框
           style2: "positon: fixed; left: 20rpx;height:" + height +"rpx", //问题框"
         })
 
         self.setData({
-          shitiArray: shitiArray,
           height: height,
-          sliderShitiArray: sliderShitiArray,
         })
       }
 
@@ -294,6 +295,7 @@ Page({
     let str = "#q" + px; //当前问题组件id
     let question = self.selectComponent(str); //当前问题组件
     let height = self.data.height;
+    let isSubmit = self.data.isSubmit;
 
     let lastSliderIndex = self.data.lastSliderIndex; //当前滑块index
     let shitiArray = self.data.shitiArray; //当前试题数组
@@ -301,22 +303,19 @@ Page({
     let shiti = shitiArray[px - 1]; //当前试题
     let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
 
-    let foldData = undefined; //动画
-
-    console.log(height)
+    if (!shiti.confirm && !isSubmit) return;
 
     if (isFold) {
-      foldData = animate.foldAnimation(easeOutAnimation, height, 90);
+      animate.questionSpreadAnimation(90, height, question);
+      animate.blockSpreadAnimation(90, height, question);
       isFold = false;
     } else {
-      foldData = animate.foldAnimation(easeInAnimation, 90, height);
+      animate.questionFoldAnimation(height, 90, question);
+      animate.blockFoldAnimation(height, 90, question);
       isFold = true;
     }
-
-    question.setData({
-      foldData: foldData
-    })
   },
+
 
   /**
    * slider改变事件
@@ -333,7 +332,14 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray;
     let circular = self.data.circular;
 
-    isFold = true;
+    isFold = false;
+
+    let lastStr = "#q" + px;
+    let question = self.selectComponent(lastStr);
+
+    question.setData({
+      style1: "display:block;margin-bottom:30rpx;height:90rpx"
+    })
 
     //判断滑动方向
     if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)) { //左滑
@@ -414,8 +420,6 @@ Page({
 
     circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
 
-    console.log(shitiNum)
-
     self.setData({ //每滑动一下,更新试题
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray,
@@ -427,15 +431,6 @@ Page({
       checked: false
     })
 
-    if (direction == "左滑") {
-      let str = "#q" + (px - 1);
-      let question1 = self.selectComponent(str);
-      question1.toogleStyle(true);
-    } else {
-      let str = "#q" + (px + 1);
-      let question2 = self.selectComponent(str);
-      question2.toogleStyle(true);
-    }
 
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
@@ -444,13 +439,19 @@ Page({
       let questionStr = midShiti.question;//问题的str
       let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
 
-      let question = self.selectComponent(str);
-      let foldData = animate.foldAnimation(easeOutAnimation, height, 90)
+      height = height >=400?400:height;
 
-      question.setData({
-        foldData: foldData
+      let question = self.selectComponent(str);
+
+      animate.blockSpreadAnimation(90, height, question);
+
+      question.setData({//每切换到材料题就把占位框复位
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
       })
-      isFold = false;
+
+      self.setData({
+        height: height
+      })
     }
   },
   /**
@@ -522,18 +523,15 @@ Page({
     let shitiArray = self.data.shitiArray;
     let sliderShitiArray = self.data.sliderShitiArray;
     let shiti = shitiArray[px - 1];
+    let height = self.data.height;
 
     let sliderShiti = sliderShitiArray[lastSliderIndex];
     shiti.confirm = true;
     sliderShiti.confirm = true;
 
-    if (!isFold) {
-      isFold = true;
-      let foldData = animate.foldAnimation(easeOutAnimation, 90, 400)
-      question.setData({
-        foldData: foldData
-      })
-    }
+    animate.questionFoldAnimation(height,90,question);
+    animate.blockFoldAnimation(height,90,question);
+    isFold = true;
 
     self.setData({
       shitiArray: shitiArray,
@@ -563,7 +561,6 @@ Page({
 
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - shiti.clpx == i) { //找到对应的小题
-        console.log(xiaoti[i].answer)
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
 
         common.changeModelRealSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
@@ -686,7 +683,7 @@ Page({
     let shiti = "";
     let xiaotiCurrent = 0;
     let shitiNum = px;
-    isFold = true;
+    isFold = false;
 
     let circular = self.data.circular;
     let current = self.data.lastSliderIndex; //当前swiper的index
@@ -773,16 +770,24 @@ Page({
     })
     self._hideMarkAnswer();
 
-    let foldData = undefined; //动画
-
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
+      let questionStr = midShiti.question;//问题的str
+      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+      height = height >= 400 ? 400 : height;
+
       let question = self.selectComponent(str);
 
-      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+      animate.blockSpreadAnimation(90, height, question);//占位框动画
+
       question.setData({
-        foldData: foldData
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
+      })
+
+      self.setData({
+        height:height
       })
     }
   },

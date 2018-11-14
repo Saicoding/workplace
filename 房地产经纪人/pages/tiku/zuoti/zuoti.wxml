@@ -67,8 +67,6 @@
 <!-- 答题板 -->
 <markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
-<!-- 点击水波 -->
-<waterWave id="waterWave"></waterWave>
 
 <!-- 纠错板 -->
 <errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>

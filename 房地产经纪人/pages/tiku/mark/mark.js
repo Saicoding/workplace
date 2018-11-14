@@ -65,7 +65,6 @@ Page({
     let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
-    this.waterWave = this.selectComponent("#waterWave");
     this.errorRecovery = this.selectComponent("#errorRecovery");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
@@ -94,21 +93,20 @@ Page({
     let shitiArray = self.data.shitiArray; //当前试题数组
     let sliderShitiArray = self.data.sliderShitiArray; //当前滑块试题数组
     let shiti = shitiArray[px - 1]; //当前试题
+    let height = self.data.height;
     let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
 
-    let foldData = undefined; //动画
+    if (!shiti.confirm && !shiti.isAnswer) return;
 
     if (isFold) {
-      foldData = animate.foldAnimation(easeOutAnimation, 400, 90);
+      animate.questionSpreadAnimation(90, height, question);
+      animate.blockSpreadAnimation(90, height, question);
       isFold = false;
     } else {
-      foldData = animate.foldAnimation(easeInAnimation, 90, 400);
+      animate.questionFoldAnimation(height, 90, question);
+      animate.blockFoldAnimation(height, 90, question);
       isFold = true;
     }
-
-    question.setData({
-      foldData: foldData
-    })
   },
 
   /**
@@ -129,7 +127,7 @@ Page({
     let doneAnswerArray = self.data.doneAnswerArray;
     let circular = self.data.circular;
 
-    isFold = true;
+    isFold = false;
 
     //判断滑动方向
     if ((lastSliderIndex == 0 && current == 1) || (lastSliderIndex == 1 && current == 2) || (lastSliderIndex == 2 && current == 0)) { //左滑
@@ -215,26 +213,27 @@ Page({
       checked: false
     })
 
-    if (direction == "左滑") {
-      let str = "#q" + (px - 1);
-      let question1 = self.selectComponent(str);
-      question1.toogleStyle(true);
-    } else {
-      let str = "#q" + (px + 1);
-      let question2 = self.selectComponent(str);
-      question2.toogleStyle(true);
-    }
 
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
-      let question = self.selectComponent(str);
-      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
 
-      question.setData({
-        foldData: foldData
+      let questionStr = midShiti.question;//问题的str
+      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+      height = height >= 400 ? 400 : height;
+
+      let question = self.selectComponent(str);
+
+      animate.blockSpreadAnimation(90, height, question);
+
+      question.setData({//每切换到材料题就把占位框复位
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
       })
-      isFold = false;
+
+      self.setData({
+        height: height
+      })
     }
   },
 
@@ -317,7 +316,6 @@ Page({
    */
   CLZuoti: function(e) {
     let self = this;
-    self.waterWave.containerTap(e);
 
     let str = "#q" + self.data.px;
     let question = self.selectComponent(str);
@@ -327,18 +325,15 @@ Page({
     let shitiArray = self.data.shitiArray;
     let sliderShitiArray = self.data.sliderShitiArray;
     let shiti = shitiArray[px - 1];
+    let height = self.data.height;
 
     let sliderShiti = sliderShitiArray[lastSliderIndex];
     shiti.confirm = true;
     sliderShiti.confirm = true;
 
-    if (!isFold) {
-      isFold = true;
-      let foldData = animate.foldAnimation(easeOutAnimation, 90, 400)
-      question.setData({
-        foldData: foldData
-      })
-    }
+    animate.questionFoldAnimation(height, 90, question);
+    animate.blockFoldAnimation(height, 90, question);
+    isFold = true;
 
     self.setData({
       shitiArray: shitiArray,
@@ -519,7 +514,7 @@ Page({
     let midShiti = shitiArray[px - 1]; //中间题
     myFavorite = midShiti.favorite;
 
-    isFold = true;
+    isFold = false;
 
     let sliderShitiArray = [];
 
@@ -594,11 +589,21 @@ Page({
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
+      let questionStr = midShiti.question;//问题的str
+      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+
+      height = height >= 400 ? 400 : height;
+
       let question = self.selectComponent(str);
 
-      let foldData = animate.foldAnimation(easeOutAnimation, 400, 90)
+      animate.blockSpreadAnimation(90, height, question);//占位框动画
+
       question.setData({
-        foldData: foldData
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
+      })
+
+      self.setData({
+        height: height
       })
     }
   },
