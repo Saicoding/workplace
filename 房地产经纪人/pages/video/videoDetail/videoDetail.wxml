@@ -15,7 +15,7 @@
       <span style="font-size:25rpx;">¥</span>{{kc_money}}</view>
     <view class="{{tag[0].class}}">{{tag[0].tag}}</view>
     <view class="{{tag[1].class}}">{{tag[1].tag}}</view>
-    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='showPayDetail' class="youhui">套餐更优惠</view>
+    <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">套餐更优惠</view>
     <view wx:if="{{buy==1}}" class="purchased">已购买</view>
   </view>
 
@@ -28,9 +28,9 @@
   </view>
 
   <!-- 目录列表 scroll-top = "{{scroll}}" -->
-  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation >
+  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
     <!-- 简介信息 -->
-    <view hidden="{{product != 'introduction'}}" class ="info">
+    <view hidden="{{product != 'introduction'}}" class="info">
       {{info}}
     </view>
 
@@ -38,7 +38,7 @@
     <view hidden="{{product != 'option'}}" class="option">
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
-          <canvas  class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
           <view class="title-block">
             <view class="title">{{video.title}}</view>
             <view class="view-time">{{video.time}}</view>
@@ -57,4 +57,4 @@
 
 
 <!-- 支付详细信息 -->
-<payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>
+  <payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>

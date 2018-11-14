@@ -82,9 +82,6 @@ Page({
    */
   onUnload: function() {
     let pages = getCurrentPages();
-    wx.navigateBack({
-      delta: 1
-    })
   },
 
   /**
@@ -152,9 +149,12 @@ Page({
                 success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
                     app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
-                      wx.navigateBack({
-                        delta: 2
+                      let pages = getCurrentPages();
+                      let  prevPage = pages[pages.length - 2];  //上一个页面
+                      prevPage.setData({
+                        buied: product
                       })
+                      wx.navigateBack({})
                       wx.showToast({
                         title: '购买成功',
                         icon:'none',

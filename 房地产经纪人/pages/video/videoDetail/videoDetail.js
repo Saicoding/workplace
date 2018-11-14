@@ -79,56 +79,74 @@ Page({
     let LoginRandom = user.Login_random;
     let zcode = user.zcode;
     let kcid = options.kc_id;
+    let myproduct = self.data.myproduct;
     let img = options.img;
     let loaded = self.data.loaded;
     let px = 1;
+    let buied = self.data.buied;
+
+    console.log(myproduct)
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
     if (lastpx != "") {
       px = lastpx;
     }
 
-    if (loaded) return;
+    if (loaded && buied == undefined) return;
 
-    app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-      let videos = res.data.data[0].videos; //视频列表
-      let currentVideo = videos[px - 1];
-      if (currentVideo.videoUrl == "") {
-        wx.showToast({
-          title: '您还没有购买此课程',
-          icon: 'none',
-          duration: 3000
+    if (myproduct == buied){//从购买页面回来的
+      loaded = false;
+      app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
+
+        let videos = res.data.data[0].videos; //视频列表
+        let my_canvas = self.data.my_canvas;
+        self.initVideos(videos, px, my_canvas); //初始化video的图片信息
+        self.setData({
+          videos: videos,
+          loaded: true,
         })
-      }
-      let my_canvas = [];
-
-      for (let i = 0; i < videos.length; i++) {
-        let cv = wx.createCanvasContext('myCanvas' + i, self)
-        my_canvas.push(cv);
-      }
-
-      self.initVideos(videos, px, my_canvas); //初始化video的图片信息
-
-      let buy = res.data.data[0].buy; //是否已经购买
-      let tag = res.data.data[0].tag; //标签
-      let info = res.data.data[0].info; //简介信息
-      let kc_money = res.data.data[0].kc_money; //价格    
-
-      self.setData({
-        videos: videos,
-        tag: tag,
-        info: info,
-        my_canvas: my_canvas,
-        kc_money: kc_money,
-        loaded: true,
-        img: img,
-        kcid: kcid,
-        px: px,
-        buy: buy,
-        user: user,
       })
+    }else{//正常载入
+      app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
+        let videos = res.data.data[0].videos; //视频列表
+        let currentVideo = videos[px - 1];
+        if (currentVideo.videoUrl == "") {
+          wx.showToast({
+            title: '您还没有购买此课程',
+            icon: 'none',
+            duration: 3000
+          })
+        }
+        let my_canvas = [];
 
-    })
+        for (let i = 0; i < videos.length; i++) {
+          let cv = wx.createCanvasContext('myCanvas' + i, self)
+          my_canvas.push(cv);
+        }
+
+        self.initVideos(videos, px, my_canvas); //初始化video的图片信息
+
+        let buy = res.data.data[0].buy; //是否已经购买
+        let tag = res.data.data[0].tag; //标签
+        let info = res.data.data[0].info; //简介信息
+        let kc_money = res.data.data[0].kc_money; //价格    
+
+        self.setData({
+          videos: videos,
+          tag: tag,
+          info: info,
+          my_canvas: my_canvas,
+          kc_money: kc_money,
+          loaded: true,
+          img: img,
+          kcid: kcid,
+          px: px,
+          buy: buy,
+          user: user,
+        })
+
+      })
+    }
   },
 
   /**
@@ -792,4 +810,13 @@ Page({
       moveData: moveData
     })
   },
+
+  /**
+   * 导航到套餐页面
+   */
+  goPay:function(){
+    wx.navigateTo({
+      url: '/pages/pay/pay',
+    })
+  }
 })
