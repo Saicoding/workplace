@@ -86,12 +86,7 @@ Page({
   /**
    * 开启wifi提醒
    */
-
-  turnonPrompt:function(){
-    wx.showToast({
-      title: '该功能稍后开发',
-      icon:'none',
-      duration:2000
-    })
+  switchChange:function(){
+    
   }
 })

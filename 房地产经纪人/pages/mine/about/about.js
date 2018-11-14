@@ -14,6 +14,11 @@ Page({
     wx.setNavigationBarTitle({
       title: '关于我们',
     })
+
+    wx.hideTabBar({
+      animation: true //是否需要过渡动画
+    })
+
   },
 
   /**

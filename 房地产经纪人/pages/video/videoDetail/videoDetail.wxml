@@ -4,6 +4,7 @@
   bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay>
 
   <cover-view wx:if="{{!isPlaying }}" bindtap="tooglePlay">
+    <view>当前网络为非wifi</view>
     <cover-image class="video-icon" src="/imgs/play-icon.png" />
   </cover-view>
 </video>
@@ -16,7 +17,7 @@
     <view class="{{tag[0].class}}">{{tag[0].tag}}</view>
     <view class="{{tag[1].class}}">{{tag[1].tag}}</view>
     <view wx:if="{{buy==0}}" data-product="{{myproduct}}" bindtap='goPay' class="youhui">套餐更优惠</view>
-    <view wx:if="{{buy==1}}" class="purchased">已购买</view>
+    <view wx:if="{{buy==1}}" class="purchased">{{test}}</view>
   </view>
 
   <view class="mybar">

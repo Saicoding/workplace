@@ -1,4 +1,7 @@
 /* pages/mine/about/about.wxss */
+page{
+   background: #f9f9f9;
+}
 .logo{
   width:280rpx;
   height:280rpx;

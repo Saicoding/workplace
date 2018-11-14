@@ -84,8 +84,7 @@ Page({
     let loaded = self.data.loaded;
     let px = 1;
     let buied = self.data.buied;
-
-    console.log(myproduct)
+    self.videoContext = wx.createVideoContext('myVideo')
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
     if (lastpx != "") {
@@ -147,6 +146,22 @@ Page({
 
       })
     }
+
+    wx.getNetworkType({
+      success:function(res){
+        let networkType = res.networkType
+        console.log(networkType)
+        console.log(self.videoContext)
+        if (networkType!="wifi"){
+          console.log('haha')
+          self.videoContext.stop();
+          self.setData({
+            test:"停止",
+            isPlaying :false
+          })
+        }
+      }
+    })
   },
 
   /**
