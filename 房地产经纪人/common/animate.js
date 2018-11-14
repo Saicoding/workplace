@@ -99,7 +99,7 @@ function blockFoldAnimation(max, min, question) {
     question.setData({
       style1: "display:block;margin-bottom:30rpx;height:" + max + "rpx"
     })
-  }, 40)
+  }, 20)
 }
 
 /**
@@ -115,7 +115,7 @@ function blockSpreadAnimation(min, max, question) {
     question.setData({
       style1: "display:block;margin-bottom:30rpx;height:" + min + "rpx"
     })
-  }, 40)
+  }, 20)
 }
 
 

@@ -99,11 +99,17 @@ Page({
     if (!shiti.confirm && !shiti.isAnswer) return;
 
     if (isFold) {
-      animate.questionSpreadAnimation(90, height, question);
+      question.setData({
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx"
+      })
+      // animate.questionSpreadAnimation(90, height, question);
       animate.blockSpreadAnimation(90, height, question);
       isFold = false;
     } else {
-      animate.questionFoldAnimation(height, 90, question);
+      question.setData({
+        style2: "positon: fixed; left: 20rpx;height:90rpx"
+      })
+      // animate.questionFoldAnimation(height, 90, question);
       animate.blockFoldAnimation(height, 90, question);
       isFold = true;
     }
@@ -331,7 +337,9 @@ Page({
     shiti.confirm = true;
     sliderShiti.confirm = true;
 
-    animate.questionFoldAnimation(height, 90, question);
+    question.setData({
+      style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
+    })
     animate.blockFoldAnimation(height, 90, question);
     isFold = true;
 

@@ -267,7 +267,6 @@ Page({
     let self = this;
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
-    this.waterWave = this.selectComponent("#waterWave");
     this.modelCount = this.selectComponent("#modelCount");
 
     this.modelCount.setData({
@@ -306,11 +305,17 @@ Page({
     if (!shiti.confirm && !isSubmit) return;
 
     if (isFold) {
-      animate.questionSpreadAnimation(90, height, question);
+      question.setData({
+        style2: "positon: fixed; left: 20rpx;height:" + height + "rpx"
+      })
+      // animate.questionSpreadAnimation(90, height, question);
       animate.blockSpreadAnimation(90, height, question);
       isFold = false;
     } else {
-      animate.questionFoldAnimation(height, 90, question);
+      question.setData({
+        style2: "positon: fixed; left: 20rpx;height:90rpx"
+      })
+      // animate.questionFoldAnimation(height, 90, question);
       animate.blockFoldAnimation(height, 90, question);
       isFold = true;
     }
@@ -513,7 +518,6 @@ Page({
    */
   CLZuoti: function(e) {
     let self = this;
-    self.waterWave.containerTap(e);
 
     let str = "#q" + self.data.px;
     let question = self.selectComponent(str);
@@ -529,7 +533,9 @@ Page({
     shiti.confirm = true;
     sliderShiti.confirm = true;
 
-    animate.questionFoldAnimation(height,90,question);
+    question.setData({//每切换到材料题就把占位框复位
+      style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
+    })
     animate.blockFoldAnimation(height,90,question);
     isFold = true;
 
