@@ -745,6 +745,7 @@ Page({
                       })
 
                       app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
+                        console.log(res)
                         let videos = res.data.data[0].videos; //视频列表
 
                         let my_canvas = self.data.my_canvas;

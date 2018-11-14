@@ -13,7 +13,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    loaded:false
+    loaded:false,
+    isShow:true
   },
 
   /**
@@ -21,6 +22,7 @@ Page({
    */
   onLoad: function() {
     //获取是否有登录权限
+    // return;
     let self = this;
 
     self.setData({
@@ -68,6 +70,7 @@ Page({
    * 在返回页面的时候
    */
   onShow: function() {
+    // return;
     let self = this;
     let user = wx.getStorageSync('user');
 

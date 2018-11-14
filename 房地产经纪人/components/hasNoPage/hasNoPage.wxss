@@ -10,8 +10,9 @@
 
 .text{
   margin-top:100rpx;
-  font-size:40rpx;
+  font-size:35rpx;
   color:#959595;
+  text-align: center;
 }
 
 .restart-btn{

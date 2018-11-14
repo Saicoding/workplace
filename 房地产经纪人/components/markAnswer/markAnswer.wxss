@@ -4,7 +4,7 @@
   border:1px solid#f3f3f3;
   margin: 0 auto;
   z-index: 100;
-  border-radius: 30rpx;
+  border-radius: 10rpx;
 }
 
 .container-in{
@@ -14,8 +14,7 @@
   top:600rpx;
   background: #ffffff;
   z-index: 100;
-  border-radius: 30rpx;
-  height:370rpx;
+  border-radius: 10rpx;
 }
 
 .icon{
@@ -24,10 +23,10 @@
   width:50rpx;
   height:50rpx;
   border:1rpx solid #9c9c9c;
-  border-radius: 50rpx;
   margin-left:20rpx;
   margin-top:20rpx;
   font-size:25rpx;
+  border-radius: 50rpx;
   text-align: center;
   line-height: 50rpx;
   margin-bottom:20rpx;
