@@ -8,7 +8,11 @@ let easeInAnimation = animate.easeInAnimation();
 
 let changeVideo = false; //是否是通过点击更换的video
 
+let changeType = false;//网络类型是否更改
+
 let currentTime = 1;
+
+
 
 let icon = { //图标高度宽度
   'width': 38,
@@ -24,6 +28,7 @@ Page({
     loaded: false,
     isPlaying: false, //是否在播放
     useFlux :false,//是否使用流量观看
+    isWifi:true,//默认有wifi
   },
 
   /**
@@ -86,7 +91,58 @@ Page({
     let px = 1;
     let buied = self.data.buied;
 
-    self.videoContext = wx.createVideoContext('myVideo')
+    self.videoContext = wx.createVideoContext('myVideo');
+
+    wx.getStorage({
+      key: 'turnonWifiPrompt',
+      success: function (res) {
+        let isOn = res.data;
+        console.log(isOn)
+        if (isOn == 0) {
+          let interval = setInterval((res) => {
+            wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
+              success: function (res) {
+                let networkType = res.networkType
+                if (networkType != "wifi") {
+                  let lastType = self.data.lastType;
+                  if (lastType !="noWifi"){
+                    self.videoContext.stop();
+                    self.videoContext.pause();
+                    self.setData({
+                      isWifi: false,
+                      autoplay: false,
+                      isPlaying: false,
+                      lastType: "noWifi"
+                    })
+                  }
+                } else {
+                  let lastType = self.data.lastType;
+                  if (lastType !="wifi"){
+                    self.videoContext.play();
+                    self.setData({
+                      autoplay: true,
+                      isPlaying: true,
+                      isWifi: true,
+                      lastType: "wifi"
+                    })
+                  }
+                }
+              }
+            })
+          }, 1000)
+          self.setData({
+            interval: interval
+          })
+        } else {
+          self.setData({
+            isWifi: true,
+            useFlux: true,
+            autoplay: true,
+            isPlaying: true,
+          })
+        }
+      },
+    })
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
     if (lastpx != "") {
@@ -149,41 +205,6 @@ Page({
 
       })
     }
-    wx.getStorage({
-      key: 'turnonWifiPrompt',
-      success: function (res) {
-        let isOn = res.data;
-        console.log(isOn)
-        if(isOn == 0){
-          wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
-            success: function (res) {
-              console.log(res)
-              let networkType = res.networkType
-              if (networkType != "wifi") {
-                self.setData({
-                  isWifi: false,
-                  autoplay: false,
-                  isPlaying: false
-                })
-              } else {
-                self.setData({
-                  autoplay: true,
-                  isPlaying: true,
-                  isWifi: true,
-                })
-              }
-            }
-          })
-        }else{
-          self.setData({
-            isWifi:true,
-            useFlux: true,
-            autoplay: true,
-            isPlaying: true,
-          })
-        }
-      },
-    })
   },
   /**
    * 使用流量继续观看
@@ -667,6 +688,8 @@ Page({
 
     wx.setStorageSync('lastVideo' + kcid + user.username, px);
     wx.setStorageSync('page', myproduct)
+
+    clearInterval(self.data.interval);
 
     app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
   },
