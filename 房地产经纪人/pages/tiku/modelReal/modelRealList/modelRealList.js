@@ -37,14 +37,6 @@ Page({
 
     app.post(API_URL, "action=GetTestlist&kid=" + options.kid + "&username=" + username + "&acode=" + acode + "&types=" + tiType, false, true, "","",true,self).then((res) => {
       let modelList = res.data.list;
-      if(modelList.length == 0){//如果没有题库
-        self.setData({
-          title:title,
-          isHasShiti: false,
-          loaded:true
-        })
-        return;
-      }
 
       for (let i = 0; i < modelList.length; i++) { 
         let model = modelList[i];
@@ -73,7 +65,7 @@ Page({
 
       self.setData({
         modelList: modelList, //真题列表
-        loaded: true,
+        isLoaded: true,
         tiType:tiType//题的类型（押题，真题）
       })
     }).catch((errMsg) => {
