@@ -36,8 +36,8 @@
     </view>
   </view>
   <view class="wave">
-      <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考点解析</view>
-      <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/画重点</view>
+  </view>
+    <view class="wave2">
   </view>
   <view class='shiti_zhangjie'>
     章节目录
