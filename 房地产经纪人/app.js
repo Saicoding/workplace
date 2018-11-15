@@ -51,7 +51,8 @@ App({
           } else if (status == -101){//没有试题
             console.log('没有试题')
             self.setData({
-              isHasShiti:false
+              isHasShiti:false,
+              isLoaded:true
             })
           }else if(status == -201){
             console.log('余额不足')

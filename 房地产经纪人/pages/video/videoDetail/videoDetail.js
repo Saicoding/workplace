@@ -103,6 +103,7 @@ Page({
         let my_canvas = self.data.my_canvas;
         self.initVideos(videos, px, my_canvas); //初始化video的图片信息
         self.setData({
+          buy:1,
           videos: videos,
           loaded: true,
         })
@@ -148,24 +149,40 @@ Page({
 
       })
     }
-
-    wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
-      success:function(res){
-        let networkType = res.networkType
-        if (networkType!="wifi"){
-          self.setData({
-            isWifi:false,
-            autoplay:false,
-            isPlaying :false
+    wx.getStorage({
+      key: 'turnonWifiPrompt',
+      success: function (res) {
+        let isOn = res.data;
+        console.log(isOn)
+        if(isOn == 0){
+          wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
+            success: function (res) {
+              console.log(res)
+              let networkType = res.networkType
+              if (networkType != "wifi") {
+                self.setData({
+                  isWifi: false,
+                  autoplay: false,
+                  isPlaying: false
+                })
+              } else {
+                self.setData({
+                  autoplay: true,
+                  isPlaying: true,
+                  isWifi: true,
+                })
+              }
+            }
           })
         }else{
           self.setData({
+            isWifi:true,
+            useFlux: true,
             autoplay: true,
             isPlaying: true,
-            isWifi: true,
           })
         }
-      }
+      },
     })
   },
   /**
@@ -263,23 +280,41 @@ Page({
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否正在播放视频
 
-    wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
+    //监测是否开启非wifi提醒
+    wx.getStorage({
+      key: 'turnonWifiPrompt',
       success: function (res) {
-        let networkType = res.networkType
-        if (networkType != "wifi") {
-          self.setData({
-            isWifi: false,
-            autoplay: false,
-            isPlaying: false
+        let isOn = res.data;
+        console.log(isOn)
+        if (isOn == 0) {
+          console.log('ok')
+          wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
+            success: function (res) {
+              let networkType = res.networkType
+              if (networkType != "wifi") {
+                self.setData({
+                  isWifi: false,
+                  autoplay: false,
+                  isPlaying: false
+                })
+              } else {
+                self.setData({
+                  autoplay: true,
+                  isPlaying: true,
+                  isWifi: true,
+                })
+              }
+            }
           })
         } else {
           self.setData({
+            isWifi: true,
+            useFlux: true,
             autoplay: true,
             isPlaying: true,
-            isWifi: true,
           })
         }
-      }
+      },
     })
 
     let index = e.currentTarget.dataset.index; //点击的视频编号

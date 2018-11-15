@@ -7,11 +7,11 @@
     <image class="right-img" src="/imgs/right-rate.png" mode="aspectFit" style=" transform:rotate({{jjrAngle}}deg);"></image>
   </view>
 
-  <view class="block" bindtap='turnonPrompt' hover-stay-time='100' hover-class='select'>
+  <view class="block"  hover-stay-time='100' hover-class='select'>
     <view class="mytext" style="width:600rpx;">
       开启非wifi播放提醒
     </view>
-    <switch class="switch" checked bindchange="switchChange" />
+    <switch class="switch" checked ="{{isOn}}" bindchange="switchChange" />
 
   </view>
 

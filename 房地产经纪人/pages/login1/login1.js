@@ -51,6 +51,7 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
+        console.log(code)
         wx.getUserInfo({
           success: function(res) {
             console.log(res)
@@ -60,7 +61,7 @@ Page({
             let nickname = res.userInfo.nickName; //昵称
             let headurl = res.userInfo.avatarUrl; //头像
             let sex = res.userInfo.gender //性别
-
+        
             //得到openId和session_key
             app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
               let sesstion_key = res.data.sessionKey;

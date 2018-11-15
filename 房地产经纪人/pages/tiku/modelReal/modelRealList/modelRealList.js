@@ -12,7 +12,7 @@ Page({
    */
   data: {
     isHasShiti: true,//默认有试题
-    loaded:false// 默认没有载入完毕
+    isLoaded:false// 默认没有载入完毕
   },
 
   /**

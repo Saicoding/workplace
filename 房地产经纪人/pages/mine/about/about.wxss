@@ -14,7 +14,6 @@ page{
   text-align: center;
   padding:50rpx 0rpx 50rpx 0rpx;
   background: #f9f9f9;
-  border:1rpx solid red;
 }
 
 .title{

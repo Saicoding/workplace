@@ -1,5 +1,5 @@
 <!--pages/tiku/modelReal/modelRealList/modelRealList.wxml-->
-<view wx:if="{{isHasShiti && loaded}}" wx:for="{{modelList}}" wx:for-item="model" wx:key="in" wx:for-index="index">
+<view wx:if="{{isHasShiti && isLoaded}}" wx:for="{{modelList}}" wx:for-item="model" wx:key="in" wx:for-index="index">
   <view hover-class='select' hover-stay-time='300'>
     <view class="item" bindtap="GOModelRealDetail" data-id="{{model.id}}" data-times="{{model.times}}" data-totalscore="{{model.totalscore}}" data-test_score="{{model.test_score}}" data-title="{{model.title}}">
       <view class="circle" style="background:{{model.bgColor}}"></view>
@@ -12,7 +12,7 @@
   </view>
 </view>
 
-<view wx:if="{{!loaded}}">
+<view wx:if="{{!isLoaded}}">
   <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style = "margin-top:{{windowHeight/2-400}}rpx;"></image>
 </view>
 

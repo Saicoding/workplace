@@ -12,6 +12,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let self = this;
       wx.getStorage({
         key: 'user',
         success: function (res) {
@@ -20,6 +21,16 @@ Page({
           console.log("获取数据失败");
         }
       });
+
+    let isOn = wx.getStorageSync('turnonWifiPrompt')==0?true:false;//检查非wifi开启状态
+    console.log(isOn)
+    if (isOn === "") {//如果没有本地缓存说明是第一次载入，默认是开启状态
+      isOn = true
+    }
+    console.log(isOn)
+    self.setData({
+      isOn:isOn
+    })
   },
 
   /**
@@ -32,10 +43,8 @@ Page({
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
-        console.log(windowHeight)
         let windowWidth = res.windowWidth;
         windowHeight = (windowHeight * (750 / windowWidth));
-        console.log(windowHeight)
         self.setData({
           windowHeight: windowHeight,
           windowWidth: windowWidth,
@@ -49,9 +58,23 @@ Page({
    */
   clearStorage:function(){
     let user = wx.getStorageSync('user');
-    wx.clearStorage();
+    let storages = wx.getStorageInfoSync().keys;
+
+    for(let i = 0;i<storages.length;i++){
+      console.log('hehe')
+      let storage = storages[i];
+      if (storage == 'user' || storage == 'turnonWifiPrompt'){
+        console.log('haha')
+        continue;
+      }
+      console.log(storage)
+      wx.removeStorageSync(storage);
+    }
+
+    let storages1 = wx.getStorageInfoSync();
+    console.log(storages1)
     console.log(user)
-    wx.setStorageSync('user', user);
+    
     wx.showToast({
       title: '清除缓存成功',
       duration:2000
@@ -86,7 +109,9 @@ Page({
   /**
    * 开启wifi提醒
    */
-  switchChange:function(){
-    
+  switchChange:function(e){
+    let isOn = e.detail.value?0:1;
+    console.log(isOn)
+    wx.setStorageSync('turnonWifiPrompt', isOn);
   }
 })

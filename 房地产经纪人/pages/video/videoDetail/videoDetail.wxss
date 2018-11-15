@@ -12,6 +12,19 @@
   text-align: center;
 }
 
+.unBuy{
+  background: black;
+  width:750rpx;
+  height:422rpx;
+  color:white;
+  text-align: center;
+}
+
+.unBuy-text{
+  font-size:35rpx;
+  margin-top:150rpx;
+}
+
 .wifi-text1,.wifi-text2{
   width:100%;
 }
