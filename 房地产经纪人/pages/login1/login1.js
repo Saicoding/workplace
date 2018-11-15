@@ -51,10 +51,8 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
-        console.log(code)
         wx.getUserInfo({
           success: function(res) {
-            console.log(res)
             let iv = res.iv; //偏移量
             let encryptedData = res.encryptedData;
             let signature = res.signature; //签名

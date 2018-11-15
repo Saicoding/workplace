@@ -24,6 +24,7 @@ Component({
         let style1 = "";
         let style2 = "";
         let style3 = "";
+ 
         if (tx == "材料题") {
           style1: "display:block;margin-bottom:30rpx;height:90rpx"
           style3 = "position:fixed;z-index:10000";

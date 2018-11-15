@@ -106,7 +106,6 @@ Page({
                 if (networkType != "wifi") {
                   let lastType = self.data.lastType;
                   if (lastType !="noWifi"){
-                    console.log('wifi变化为非')
                     self.videoContext.stop();
                     self.videoContext.pause();
                     self.setData({
@@ -121,7 +120,6 @@ Page({
                 } else {
                   let lastType = self.data.lastType;
                   if (lastType !="wifi"){
-                    console.log('wifi变化为是')
                     self.videoContext.play();
                     self.setData({
                       autoplay: true,
@@ -154,7 +152,6 @@ Page({
     }
 
     if (loaded && buied == undefined) return;
-
     if (myproduct == buied){//从购买页面回来的
       loaded = false;
       app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
@@ -310,9 +307,7 @@ Page({
       key: 'turnonWifiPrompt',
       success: function (res) {
         let isOn = res.data;
-        console.log(isOn)
         if (isOn == 0) {
-          console.log('ok')
           wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
             success: function (res) {
               let networkType = res.networkType
@@ -875,7 +870,6 @@ Page({
                       })
 
                       app.post(API_URL, "action=getCourseShow&LoginRandom=" + Login_random + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
-                        console.log(res)
                         let videos = res.data.data[0].videos; //视频列表
 
                         let my_canvas = self.data.my_canvas;

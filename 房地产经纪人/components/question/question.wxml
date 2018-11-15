@@ -7,7 +7,7 @@
   <text>{{question}}</text>
 </scroll-view>
 </view>
-<view class = "blank" style = "{{style1}}" >
+<view wx:if="{{tx=='材料题'}}" class = "blank" style = "{{style1}}" >
 </view>
 
 

@@ -14,7 +14,6 @@ Page({
    */
   data: {
     loaded:false,
-    isShow:true
   },
 
   /**
