@@ -61,6 +61,46 @@
   float: right;
   width: 42%;
   height: 450rpx;
+  text-align: center;
+}
+
+.wave{
+  position: absolute;
+  top:172rpx;
+  left:250rpx;
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 250rpx;
+  background: linear-gradient(to right, #00dde5, #0186fc);
+  color: white;
+  z-index: -1;
+  text-align:center;
+  animation: scaleout 1.3s infinite ease-in-out;
+}
+
+.center-block {
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 250rpx;
+  background: linear-gradient(to right, #00dde5, #0186fc);
+  margin: 80rpx auto;
+  color: white;
+}
+
+.center-text {
+  display: float;
+  float: left;
+  width: 100%;
+}
+
+@keyframes scaleout {
+  0% {
+    transform: scale(1.0);
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
 }
 
 .t_text {
