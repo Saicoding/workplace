@@ -106,6 +106,7 @@ Page({
                 if (networkType != "wifi") {
                   let lastType = self.data.lastType;
                   if (lastType !="noWifi"){
+                    console.log('wifi变化为非')
                     self.videoContext.stop();
                     self.videoContext.pause();
                     self.setData({
@@ -115,9 +116,12 @@ Page({
                       lastType: "noWifi"
                     })
                   }
+  
+
                 } else {
                   let lastType = self.data.lastType;
                   if (lastType !="wifi"){
+                    console.log('wifi变化为是')
                     self.videoContext.play();
                     self.setData({
                       autoplay: true,
@@ -924,7 +928,7 @@ Page({
    */
   goPay:function(){
     wx.navigateTo({
-      url: '/pages/pay/pay',
+      url: '/pages/pay/pay?goBack=true',
     })
   }
 })

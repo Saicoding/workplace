@@ -8,7 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-
   },
 
   /**
@@ -16,6 +15,9 @@ Page({
    */
   onLoad: function(options) {
     let self = this;
+    let goBack = options.goBack;
+    goBack = goBack == undefined?"false":goBack;
+
     wx.getUserInfo({
       success: function(res) {
         let city = res.userInfo.city;
@@ -30,6 +32,7 @@ Page({
             self.setData({
               company: company,
               tel: tel,
+              goBack: goBack,
               hasCompany: true
             })
           }
@@ -81,7 +84,10 @@ Page({
    * 点击返回按钮
    */
   onUnload: function() {
-    let pages = getCurrentPages();
+    let goBack = this.data.goBack;
+    if(goBack == "false"){
+      wx.navigateBack({})
+    }
   },
 
   /**
