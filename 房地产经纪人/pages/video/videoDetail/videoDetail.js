@@ -29,6 +29,7 @@ Page({
     isPlaying: false, //是否在播放
     useFlux :false,//是否使用流量观看
     isWifi:true,//默认有wifi
+    lastType:"first"
   },
 
   /**
@@ -97,7 +98,7 @@ Page({
       key: 'turnonWifiPrompt',
       success: function (res) {
         let isOn = res.data;
-        console.log(isOn)
+
         if (isOn == 0) {
           let interval = setInterval((res) => {
             wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
@@ -115,12 +116,11 @@ Page({
                       lastType: "noWifi"
                     })
                   }
-  
 
                 } else {
                   let lastType = self.data.lastType;
+
                   if (lastType !="wifi"){
-                    self.videoContext.play();
                     self.setData({
                       autoplay: true,
                       isPlaying: true,
@@ -188,8 +188,8 @@ Page({
         let buy = res.data.data[0].buy; //是否已经购买
         let tag = res.data.data[0].tag; //标签
         let info = res.data.data[0].info; //简介信息
-        let kc_money = res.data.data[0].kc_money; //价格    
-
+        let kc_money = res.data.data[0].kc_money; //价格   
+  
         self.setData({
           videos: videos,
           tag: tag,

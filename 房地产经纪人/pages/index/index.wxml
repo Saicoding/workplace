@@ -31,7 +31,7 @@
     <view class='t_center' bindtap="GOkaoqianmiji">
       <view class="center-block">
         <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考前秘笈</view>
-        <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/画重点</view>
+        <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/划重点</view>
       </view>
     </view>
   </view>
