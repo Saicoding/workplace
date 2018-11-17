@@ -35,7 +35,7 @@
   </view>
 
   <!-- 目录列表 scroll-top = "{{scroll}}" -->
-  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
+  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation bindscroll="redraw">
     <!-- 简介信息 -->
     <view hidden="{{product != 'introduction'}}" class="info">
       {{info}}
@@ -45,7 +45,7 @@
     <view hidden="{{product != 'option'}}" class="option">
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
-          <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <canvas hidden ="{{!video.show}}" class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
           <view class="title-block">
             <view class="title">{{video.title}}</view>
             <view class="view-time">{{video.time}}</view>

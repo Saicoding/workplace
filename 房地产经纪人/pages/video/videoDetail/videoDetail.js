@@ -8,7 +8,7 @@ let easeInAnimation = animate.easeInAnimation();
 
 let changeVideo = false; //是否是通过点击更换的video
 
-let changeType = false;//网络类型是否更改
+let changeType = false; //网络类型是否更改
 
 let currentTime = 1;
 
@@ -27,9 +27,9 @@ Page({
   data: {
     loaded: false,
     isPlaying: false, //是否在播放
-    useFlux :false,//是否使用流量观看
-    isWifi:true,//默认有wifi
-    lastType:"first"
+    useFlux: false, //是否使用流量观看
+    isWifi: true, //默认有wifi
+    lastType: "first"
   },
 
   /**
@@ -96,17 +96,17 @@ Page({
 
     wx.getStorage({
       key: 'turnonWifiPrompt',
-      success: function (res) {
+      success: function(res) {
         let isOn = res.data;
 
         if (isOn == 0) {
           let interval = setInterval((res) => {
-            wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
-              success: function (res) {
+            wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
+              success: function(res) {
                 let networkType = res.networkType
                 if (networkType != "wifi") {
                   let lastType = self.data.lastType;
-                  if (lastType !="noWifi"){
+                  if (lastType != "noWifi") {
                     self.videoContext.stop();
                     self.videoContext.pause();
                     self.setData({
@@ -120,7 +120,7 @@ Page({
                 } else {
                   let lastType = self.data.lastType;
 
-                  if (lastType !="wifi"){
+                  if (lastType != "wifi") {
                     self.setData({
                       autoplay: true,
                       isPlaying: true,
@@ -152,7 +152,7 @@ Page({
     }
 
     if (loaded && buied == undefined) return;
-    if (myproduct == buied){//从购买页面回来的
+    if (myproduct == buied) { //从购买页面回来的
       loaded = false;
       app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
 
@@ -160,12 +160,12 @@ Page({
         let my_canvas = self.data.my_canvas;
         self.initVideos(videos, px, my_canvas); //初始化video的图片信息
         self.setData({
-          buy:1,
+          buy: 1,
           videos: videos,
           loaded: true,
         })
       })
-    }else{//正常载入
+    } else { //正常载入
       app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
         let videos = res.data.data[0].videos; //视频列表
         let currentVideo = videos[px - 1];
@@ -189,7 +189,7 @@ Page({
         let tag = res.data.data[0].tag; //标签
         let info = res.data.data[0].info; //简介信息
         let kc_money = res.data.data[0].kc_money; //价格   
-  
+
         self.setData({
           videos: videos,
           tag: tag,
@@ -210,12 +210,12 @@ Page({
   /**
    * 使用流量继续观看
    */
-  continueWatch:function(){
+  continueWatch: function() {
     this.videoContext.play();
     this.setData({
-      isPlaying:true,
+      isPlaying: true,
       autoplay: true,
-      useFlux:true
+      useFlux: true
     })
   },
 
@@ -305,11 +305,11 @@ Page({
     //监测是否开启非wifi提醒
     wx.getStorage({
       key: 'turnonWifiPrompt',
-      success: function (res) {
+      success: function(res) {
         let isOn = res.data;
         if (isOn == 0) {
-          wx.getNetworkType({//查看当前的网络类型,如果是非wifi,就不自动播放
-            success: function (res) {
+          wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放
+            success: function(res) {
               let networkType = res.networkType
               if (networkType != "wifi") {
                 self.setData({
@@ -380,7 +380,7 @@ Page({
     }
 
     lastVideo.lastViewLength = currentTime; //设置上一个视频的播放时间
-    
+
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
 
@@ -417,6 +417,52 @@ Page({
       isPlaying: true,
     })
   },
+  /**
+   * 滚动条滚动时
+   */
+  redraw: function(e) {
+    let self = this;
+    let windowWidth = self.data.windowWidth;
+    let scrollTop = e.detail.scrollTop;
+    let my_canvas = self.data.my_canvas;
+    let noDrawIndex = Math.ceil((scrollTop*750/windowWidth) / 100)-1;
+
+    console.log(scrollTop + "||" + noDrawIndex)
+    let px = self.data.px;
+    let videos = self.data.videos;
+    let video = videos[px - 1];
+
+    let cv = my_canvas[px - 1];
+    currentTime = self.data.currentTime; //当前播放进度(秒)
+    let m = parseInt(currentTime / 60);
+    let angle = currentTime / video.length * 2 * Math.PI;
+
+    if (video.playCourseArr[m] == 0) {
+      video.playCourseArr[m] = 1;
+    }
+
+    self.drawPlay(cv, angle);
+    console.log(noDrawIndex)
+    if (noDrawIndex>=1){
+      for (let i = 0; i < noDrawIndex; i++) {
+        videos[i].show = false;
+      }
+    }
+
+    self.setData({
+      videos: videos
+    })
+  },
+
+  /**
+   * 清理画布
+   */
+  clearCanvas: function(cv) {
+    let windowWidth = this.data.windowWidth;
+    cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
+    cv.draw();
+  },
+
   /**
    * 播放进度改变时
    */
@@ -480,10 +526,10 @@ Page({
   end: function(e) {
     let self = this;
     let windowWidth = self.data.windowWidth;
-    if (changeVideo) {//如果点击的视频时结尾状态就暂停
+    if (changeVideo) { //如果点击的视频时结尾状态就暂停
       self.videoContext.stop();
       return; //如果是通过点击更换的video
-    } 
+    }
 
     let user = self.data.user;
     let kcid = self.data.kcid;
@@ -493,7 +539,7 @@ Page({
     let videos = self.data.videos; //当前所有视频
     let my_canvas = self.data.my_canvas; //当前所有画布
     let px = self.data.px; //当前视频编号
-    let isPlaying = true;//是否在播放
+    let isPlaying = true; //是否在播放
 
     if (px == videos.length) return; //如果点击的是同一个视频就不做任何操作
 
@@ -545,7 +591,7 @@ Page({
     self.drawPlay(currentCv, currentAngle); //绘画当前播放图标
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
-    if(currentTime >= currentVideo.length-3){
+    if (currentTime >= currentVideo.length - 3) {
       changeVideo = true;
       isPlaying = false;
     }
@@ -604,6 +650,7 @@ Page({
   initVideos: function(videos, px, my_canvas) {
     for (let i = 0; i < videos.length; i++) {
       let video = videos[i];
+      video.show = true;
       let flag = video.Flag;
       let cv = my_canvas[i];
 
@@ -874,7 +921,7 @@ Page({
 
                         let my_canvas = self.data.my_canvas;
                         self.initVideos(videos, px, my_canvas); //初始化video的图片信息
-                        
+
                         self.setData({
                           videos: videos,
                           loaded: true,
@@ -920,7 +967,7 @@ Page({
   /**
    * 导航到套餐页面
    */
-  goPay:function(){
+  goPay: function() {
     wx.navigateTo({
       url: '/pages/pay/pay?goBack=true',
     })
