@@ -147,6 +147,8 @@ Page({
     })
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
+    let scroll = lastpx * 100 * windowWidth /750;
+
     if (lastpx != "") {
       px = lastpx;
     }
@@ -202,6 +204,7 @@ Page({
           px: px,
           buy: buy,
           user: user,
+          scroll: scroll
         })
 
       })
@@ -425,9 +428,9 @@ Page({
     let windowWidth = self.data.windowWidth;
     let scrollTop = e.detail.scrollTop;
     let my_canvas = self.data.my_canvas;
-    let noDrawIndex = Math.ceil((scrollTop*750/windowWidth) / 100)-1;
 
-    console.log(scrollTop + "||" + noDrawIndex)
+    let noDrawIndex = ((scrollTop - 30) * 750 / windowWidth) / 100
+
     let px = self.data.px;
     let videos = self.data.videos;
     let video = videos[px - 1];
@@ -442,10 +445,23 @@ Page({
     }
 
     self.drawPlay(cv, angle);
-    console.log(noDrawIndex)
-    if (noDrawIndex>=1){
-      for (let i = 0; i < noDrawIndex; i++) {
-        videos[i].show = false;
+
+    if (noDrawIndex >= 0) { //如果符合隐藏条件
+      for (let i = 0; i < videos.length; i++) {
+        let myvideo = videos[i]
+        if (i <= noDrawIndex) {
+          myvideo.show = false;
+          self.setData({
+            videos: videos
+          })
+        } else {
+          myvideo.show = true;
+        }
+      }
+    } else {
+      for (let i = 0; i < videos.length; i++) {
+        let myvideo = videos[i]
+        myvideo.show = true;
       }
     }
 
@@ -947,8 +963,6 @@ Page({
     let currentProduct = self.data.product; //当前种类
     let product = e.currentTarget.dataset.product; //点击的视频种类
     if (product == currentProduct) return; //如果没有改变就不作任何操作
-
-    self.videoContext.pause()
 
     let windowWidth = self.data.windowWidth; //窗口宽度
     let moveData = undefined; //动画

@@ -183,7 +183,7 @@
   height:100rpx;
 }
 
-.icon,.title-block,.myCanvas{
+.icon,.title-block,.myCanvas,.blank{
   display: float;
   float:left;
 }
@@ -194,6 +194,31 @@
   margin-left:60rpx;
   margin-top:32rpx;
   color:rgb(231, 230, 230);
+}
+
+.blank{
+  width:40rpx;
+  height:40rpx;
+  margin-left:60rpx;
+  margin-top:32rpx;
+}
+
+.blank-in{
+  width:30rpx;
+  height:30rpx;
+  border:1rpx solid #ecebeb;
+  border-radius:30rpx;
+  margin-top:4rpx;
+  margin-left:4rpx;
+}
+
+.blank-in-in{
+  width:20rpx;
+  height:20rpx;
+  background:  #ecebeb;
+  border-radius:20rpx;
+  margin-top:6rpx;
+  margin-left:6rpx;
 }
 
 .icon{

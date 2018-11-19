@@ -2,8 +2,8 @@
 
 <video bindtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play"
   bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
-  <cover-view class ="unBuy" wx:if="{{buy==0}}">
-    <cover-view class = "unBuy-text">您尚未购买</cover-view>
+  <cover-view class="unBuy" wx:if="{{buy==0}}">
+    <cover-view class="unBuy-text">您尚未购买</cover-view>
   </cover-view>
   <cover-view wx:if="{{!isWifi && !useFlux}}" class="wifi">
     <cover-view class="wifi-text1">您正在使用移动网络</cover-view>
@@ -34,8 +34,8 @@
     <view class="blockMove" animation="{{moveData}}"></view>
   </view>
 
-  <!-- 目录列表 scroll-top = "{{scroll}}" -->
-  <scroll-view scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation bindscroll="redraw">
+  <!-- 目录列表  -->
+  <scroll-view scroll-top = "{{scroll}}" scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation bindscroll="redraw">
     <!-- 简介信息 -->
     <view hidden="{{product != 'introduction'}}" class="info">
       {{info}}
@@ -45,7 +45,15 @@
     <view hidden="{{product != 'option'}}" class="option">
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
-          <canvas hidden ="{{!video.show}}" class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <view hidden="{{!video.show}}">
+            <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          </view>
+          <view hidden="{{video.show}}" class="blank">
+            <view class="blank-in">
+              <view class="blank-in-in">
+              </view>
+            </view>
+          </view>
           <view class="title-block">
             <view class="title">{{video.title}}</view>
             <view class="view-time">{{video.time}}</view>
