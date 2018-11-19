@@ -87,8 +87,10 @@ function initNewWrongArrayDoneAnswer(shitiArray, page) {
     switch (shitiArray[i].TX) {
       case 1:
         shitiArray[i].done_daan = "";
+        break;
       case 2:
         shitiArray[i].done_daan = [];
+        break;
       case 99:
         shitiArray[i].done_daan = [];
         shitiArray[i].confirm = false;
@@ -100,6 +102,7 @@ function initNewWrongArrayDoneAnswer(shitiArray, page) {
             ti.done_daan = [];
           }
         }
+        break;
     }
   }
 }
@@ -108,7 +111,7 @@ function initNewWrongArrayDoneAnswer(shitiArray, page) {
  * 错题中点击答题板后的处理方法封装
  */
 function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circular, shitiArray, self) {
-
+  let myCurrent = current;
   let myFavorite = midShiti.favorite;
 
   let sliderShitiArray = [];
@@ -153,16 +156,12 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circu
     sliderShitiArray[0] = midShiti;
     sliderShitiArray[1] = nextShiti;
     current = 0;
-    self.setData({
-      myCurrent: 0
-    })
+    myCurrent = 0;
   } else if (px == shitiArray.length) {
     sliderShitiArray[0] = preShiti;
     sliderShitiArray[1] = midShiti;
     current = 1;
-    self.setData({
-      myCurrent: 1
-    })
+    myCurrent = 1;
   }
 
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
@@ -172,6 +171,7 @@ function processTapWrongAnswer(midShiti, preShiti, nextShiti, px, current, circu
     sliderShitiArray: sliderShitiArray,
     px: px,
     circular: circular,
+    myCurrent: myCurrent,
     isLoaded: true,
     myFavorite: myFavorite,
     xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
