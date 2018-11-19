@@ -248,6 +248,7 @@ function initMarkAnswer(nums, self) {
   for (let i = 0; i < nums; i++) {
     markAnswerItems.push({});
   }
+
   self.markAnswer.setData({
     markAnswerItems: markAnswerItems,
     answerHeight: answerHeight
@@ -1008,8 +1009,10 @@ function initShitiArrayDoneAnswer(shitiArray) {
     switch (shitiArray[i].TX) {
       case 1:
         shitiArray[i].done_daan = "";
+        break;
       case 2:
         shitiArray[i].done_daan = [];
+        break;
       case 99:
         shitiArray[i].done_daan = [];
         shitiArray[i].confirm = false;
@@ -1021,6 +1024,7 @@ function initShitiArrayDoneAnswer(shitiArray) {
             ti.done_daan = [];
           }
         }
+        break;
     }
   }
 }
