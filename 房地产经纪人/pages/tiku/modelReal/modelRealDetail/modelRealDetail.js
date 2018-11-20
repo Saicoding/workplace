@@ -116,6 +116,8 @@ Page({
 
       common.initModelRealMarkAnswer(newShitiArray, self); //初始化答题板数组
 
+      let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id + username);
+
       //开始计时
       let interval = "";
       if (!isSubmit) { //如果没提交
@@ -132,8 +134,6 @@ Page({
           timeStr: last_gone_time_str
         })
       }
-
-      let isSubmit = wx.getStorageSync(tiTypeStr + 'modelRealIsSubmit' + options.id+username);
 
       //对是否是已答试题做处理
       wx.getStorage({
