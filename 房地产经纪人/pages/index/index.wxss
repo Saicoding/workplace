@@ -71,7 +71,7 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #00dce5, #018bf8);
+  background: linear-gradient(to right, #0186fc, #00dde5);
   color: white;
   z-index: -1;
   text-align:center;
@@ -85,7 +85,7 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #00dce5, #018bf8);
+  background: linear-gradient(to right, #0186fc, #00dde5);
   color: white;
   z-index: -1;
   text-align:center;
@@ -97,7 +97,7 @@
   width: 250rpx;
   height: 250rpx;
   border-radius: 250rpx;
-  background: linear-gradient(to right, #00dde5, #0186fc);
+  background: linear-gradient(to right, #0186fc, #00dde5);
   margin: 80rpx auto;
   color: white;
 }
@@ -180,7 +180,9 @@
 
 
 .block {
-  width: 100%;
+  clear: both;
+  display: block;
+  width: 750rpx;
   font-size:30rpx;
   height:80rpx;
   line-height: 80rpx;
@@ -221,15 +223,16 @@
 .jie {
   /* hidden是为了实现点击后有动画效果 */
   height: 0rpx;
-  overflow: hidden;
+  overflow-y: hidden;
+  opacity: 0;
   clear: both;
 }
 
 
 .jie_block {
   width: 100%;
-  height:70rpx;
-  line-height: 70rpx;
+  height:68rpx;
+  line-height: 68rpx;
   font-size:30rpx;
   color:rgb(73, 73, 73);
   border:1rpx solid white;
@@ -239,7 +242,10 @@
   display: float;
   float: left;
   width: 515rpx;
+  height:68rpx;
+  line-height: 68rpx;
   border-bottom: 1rpx dashed #eee;
+  border-top:1rpx solid white;
   margin-left: 100rpx;
   white-space: nowrap;
   overflow: hidden;

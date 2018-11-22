@@ -230,8 +230,6 @@ Page({
     let hasChild = zhangjie[index].hasChild //是否有子节
     let windowWidth = self.data.windowWidth;
     let num = zhangjie[index].zhangjie_child.length //取得有多少个章节
-    let jie_height = num * 70 * windowWidth / 750 //获得字节高度(px),因为在定义节高度的时候用的是rpx，而滚动条位置是用px定位的，所以需要转换
-    let zhangjie_block_height = 750 * windowWidth / 750 //获得章节模块距离顶部的距离,转换同上
 
 
     if (!hasChild) {
@@ -251,12 +249,13 @@ Page({
    */
   foldAll: function() {
     let self = this;
+    let windowWidth = self.data.windowWidth;
     let zhangjie = self.data.zhangjie //取得章节对象
     for (let i = 0; i < zhangjie.length; i++) {
       let isFolder = zhangjie[i].isFolder; //取得现在是什么状态
       let jie_num = zhangjie[i].zhangjie_child.length;
 
-      let height = 71 * jie_num+30;
+      let height = (68 + 2 * 750 / windowWidth)* jie_num;
 
       let scroll = 0;
 
@@ -297,9 +296,9 @@ Page({
       }
     }
 
-    let height = 71 * num+30;
+    let height = (68 + 2 * 750 / windowWidth)* num ;//上下边框2px 转化为rpx
 
-    let scroll = (index * 80 + jie_num * 71 + blank_num*30) * (windowWidth / 750);
+    let scroll = (index * 80 + jie_num * (68 + 2 * 750 / windowWidth)) * (windowWidth / 750);
 
 
     if (isFolder) { //展开
@@ -309,7 +308,7 @@ Page({
         timingFunction: "ease"
       })
 
-      spreadAnimation.height(height + "rpx", 0).step({
+      spreadAnimation.height(height + "rpx", 0).opacity(1).step({
         
       })
       zhangjie[index].isFolder = false;
@@ -340,7 +339,7 @@ Page({
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").step(function(){
+      foldAnimation.height(0, height + "rpx").opacity(0).step(function(){
       })
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
@@ -355,13 +354,13 @@ Page({
       setTimeout(function(){
         zhangjie[index].display = false;
         self.setData({
-          zhangjie: zhangjie
+          zhangjie: zhangjie,
+          scroll:scroll
         })
-      },800)
+      },1000)
 
       self.setData({
         zhangjie: zhangjie,
-        scroll: scroll,
         folder_object: folder_object
       })
     }
