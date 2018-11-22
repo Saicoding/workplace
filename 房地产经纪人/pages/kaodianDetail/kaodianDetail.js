@@ -190,6 +190,7 @@ Page({
         content: content,
         nextId: nextId,
         proId: proId,
+        kdid: kdid,
         nextTitle: nextTitle,
         proTitle: proTitle,
         scroll:0
