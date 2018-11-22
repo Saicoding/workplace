@@ -83,7 +83,7 @@ Page({
       for (let i = 0; i < kdList.length; i++) {
         let kd = kdList[i];
         if (kd.id == kdid) {
-          kd.readed = 1;
+          kd.readed = "1";
         }
       }
       prePage.setData({

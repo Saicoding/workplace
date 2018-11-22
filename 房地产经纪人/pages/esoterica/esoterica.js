@@ -1,4 +1,3 @@
-// pages/hasNoErrorShiti/hasNoErrorShiti.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
