@@ -226,7 +226,7 @@ Page({
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
     let isFolder = zhangjie[index].isFolder //章节的展开与折叠状态
-    let display = zhangjie[index].display //设置是否开始动画
+
     let hasChild = zhangjie[index].hasChild //是否有子节
     let windowWidth = self.data.windowWidth;
     let num = zhangjie[index].zhangjie_child.length //取得有多少个章节
@@ -237,10 +237,10 @@ Page({
     if (!hasChild) {
       this.GOzuoti(e);
       return
-    }
+    }  
 
     //开始动画
-    this.step(index, num, windowWidth);
+    this.step(index, num, windowWidth,zhangjie);
 
     self.setData({
       zhangjie: zhangjie,
@@ -283,10 +283,9 @@ Page({
   /**
    * 实现展开折叠效果
    */
-  step: function(index, num, windowWidth) {
+  step: function(index, num, windowWidth,zhangjie) {
     let self = this;
-    let isFolder = self.data.zhangjie[index].isFolder; //取得现在是什么状态
-    let zhangjie = self.data.zhangjie //取得章节对象
+    let isFolder = zhangjie[index].isFolder; //取得现在是什么状态
     let folder_object = self.data.folder_object //取得展开章节的对象
     let jie_num = 0;
     let blank_num = 0;
@@ -329,6 +328,12 @@ Page({
       })
 
     } else { //折叠
+      zhangjie[index].display = true;
+
+      self.setData({
+        zhangjie: zhangjie
+      })
+
       let foldAnimation = wx.createAnimation({
         duration: 1000,
         delay: 0,
@@ -347,6 +352,12 @@ Page({
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
 
+      setTimeout(function(){
+        zhangjie[index].display = false;
+        self.setData({
+          zhangjie: zhangjie
+        })
+      },800)
 
       self.setData({
         zhangjie: zhangjie,

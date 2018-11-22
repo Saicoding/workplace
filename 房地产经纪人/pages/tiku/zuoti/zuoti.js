@@ -526,6 +526,11 @@ Page({
    */
   _tapEvent: function(e) {
     let self = this;
+
+    self.setData({
+      display:true
+    })
+
     let px = e.detail.px;
  
     let zhangIdx = self.data.zhangIdx;
