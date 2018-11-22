@@ -8,14 +8,14 @@
   clear:both;
   display: block;
   align-content: center;
-  padding-left:90rpx;
+  padding-left:170rpx;
 }
 
 .line {
   display: float;
   float:left;
-  width: 180rpx;
-  border-top: 1px solid #ccc;
+  width: 150rpx;
+  border-top: 1rpx solid #ccc;
   margin-top:20rpx;
 }
 

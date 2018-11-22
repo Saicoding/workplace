@@ -232,7 +232,17 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
+    let self = this;
+    let isToBottom = self.data.isToBottom;
     clearInterval(myinterval.interval);
+
+    if(!isToBottom){
+      mytime.second = 0;
+      return;
+    }
+
+    self.setPreReaded();
+    mytime.second = 0;
   },
 
   /**
