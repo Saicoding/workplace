@@ -290,8 +290,8 @@ Page({
 
     if (shiti.isAnswer) return;
 
-    common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
-    common.changeSelectStatus(done_daan, currentShiti, self); //改变试题状态
+    common.changeSelectStatus(done_daan, shiti, false); //改变试题状态
+    common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,

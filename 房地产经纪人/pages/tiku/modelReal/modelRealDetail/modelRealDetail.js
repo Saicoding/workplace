@@ -495,19 +495,15 @@ Page({
 
     let shiti = shitiArray[px - 1]; //本试题对象
 
-    console.log(shiti.answer)
-
     done_daan = shiti.TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan
 
-    common.changeModelRealSelectStatus(done_daan, currentShiti, self); //改变试题状态
-    common.changeModelRealSelectStatus(done_daan, shiti, self); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, currentShiti, false); //改变试题状态
+    common.changeModelRealSelectStatus(done_daan, shiti, false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray
     })
-
-    console.log(shitiArray)
 
     common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
@@ -572,8 +568,8 @@ Page({
       if (px - shiti.clpx == i) { //找到对应的小题
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
 
-        common.changeModelRealSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
-        common.changeModelRealSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
+        common.changeModelRealSelectStatus(done_daan, currentXiaoti[i], false); //改变试题状态
+        common.changeModelRealSelectStatus(done_daan, xiaoti[i], false); //改变试题状态
 
         common.setCLMarkAnswer(xiaoti[i], self.data.isSubmit, shiti.px, self) //更新答题板状态(单个)
 
@@ -918,8 +914,6 @@ Page({
       self.modelCount.setData({ //设置时间显示为花费时间
         timeStr: "用时" + time1.getGoneTimeStr(gone_time)
       })
-
-      console.log(self.data.shitiArray)
 
       let jibai = res.data.jibai;
       wx.navigateTo({

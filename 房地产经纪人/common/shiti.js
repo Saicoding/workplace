@@ -638,7 +638,7 @@ function storeAnswerArray(shiti, self) {
 /**
  * 更改选择状态（练习题）
  */
-function changeSelectStatus(done_daan, shiti, self,ifSubmit) {
+function changeSelectStatus(done_daan, shiti, ifSubmit) {
   let srcs = shiti.srcs; //选项前的图标对象
   let flag = 0; //初始化正确还是错误
 
@@ -689,7 +689,7 @@ function changeSelectStatus(done_daan, shiti, self,ifSubmit) {
 /**
  * 更改选择状态（真题和押题）
  */
-function changeModelRealSelectStatus(done_daan, shiti, self,ifSubmit) {
+function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
   shiti.srcs = { //初始图片对象(多选)
     "A": "/imgs/A.png",
     "B": "/imgs/B.png",
@@ -748,7 +748,7 @@ function processDoneAnswer(done_daan, shiti, self) {
     case "单选题":
     case "多选题":
       if (done_daan != "") {
-        changeSelectStatus(done_daan, shiti, self) //根据得到的已答数组更新试题状态
+        changeSelectStatus(done_daan, shiti) //根据得到的已答数组更新试题状态
         shiti.isAnswer = true;
       }
       break;
@@ -759,7 +759,7 @@ function processDoneAnswer(done_daan, shiti, self) {
           for (let j = 0; j < done_daan.length; j++) {
             let xt_done_daan = done_daan[j]; //小题已答答案对象
             if (i + 1 == xt_done_daan.px) { //找到对应小题
-              changeSelectStatus(xt_done_daan.done_daan, ti, self) //根据得到的已答数组更新试题状态
+              changeSelectStatus(xt_done_daan.done_daan, ti) //根据得到的已答数组更新试题状态
               break;
             }
           }
@@ -773,20 +773,18 @@ function processDoneAnswer(done_daan, shiti, self) {
  * 对已答试题进行处理（真题,押题）
  */
 function processModelRealDoneAnswer(done_daan, shiti, self) {
-  console.log(shiti);
   switch (shiti.tx) {
     case "单选题":
     case "多选题":
       if (self.data.isSubmit) { //提交了
-        console.log(done_daan+"哈哈")
         if (done_daan == "") { //提交而且答案是空
-          changeModelRealSelectStatus(shiti.answer, shiti, self, true) //根据得到的已答数组更新试题状态   
+          changeModelRealSelectStatus(shiti.answer, shiti, true) //根据得到的已答数组更新试题状态   
         } else {
-          changeSelectStatus(done_daan, shiti, self,true)
+          changeSelectStatus(done_daan, shiti, true)
         }
 
       } else {
-        changeModelRealSelectStatus(done_daan, shiti, self, false) //根据得到的已答数组更新试题状态
+        changeModelRealSelectStatus(done_daan, shiti,  false) //根据得到的已答数组更新试题状态
       }
       break;
     case "材料题":
@@ -796,25 +794,25 @@ function processModelRealDoneAnswer(done_daan, shiti, self) {
 
         if (self.data.isSubmit) { //提交了试卷
           if (done_daan == "") { //提交而且答案是空
-            changeModelRealSelectStatus(ti.answer, ti, self, true) //根据得到的已答数组更新试题状态   
+            changeModelRealSelectStatus(ti.answer, ti, true) //根据得到的已答数组更新试题状态   
           } else {
             let isIn = false; //已答数组中有没有这个小题，默认没有
             for (let j = 0; j < done_daan.length; j++) {
               let ti_done_daan = done_daan[j];
               if (ti.px == ti_done_daan.px) {
                 isIn = true;
-                changeSelectStatus(ti_done_daan.done_daan, ti, self,true)
+                changeSelectStatus(ti_done_daan.done_daan, ti, true)
               }
             }
             if (!isIn) { //如果没有作答
-              changeModelRealSelectStatus(ti.answer, ti, self,true) //根据得到的已答数组更新试题状态  
+              changeModelRealSelectStatus(ti.answer, ti, true) //根据得到的已答数组更新试题状态  
             }
           }
         } else { //如果没有提交试卷     
           for (let j = 0; j < done_daan.length; j++) {
             let ti_done_daan = done_daan[j]
             if (ti.px == ti_done_daan.px) {
-              changeModelRealSelectStatus(ti_done_daan.done_daan, ti, self, false) //根据得到的已答数组更新试题状态
+              changeModelRealSelectStatus(ti_done_daan.done_daan, ti,  false) //根据得到的已答数组更新试题状态
               break;
             }
           }

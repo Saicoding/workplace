@@ -270,8 +270,8 @@ Page({
 
     if (shiti.isAnswer) return;
 
-    common.changeSelectStatus(done_daan, shiti, self); //改变试题状态
-    common.changeSelectStatus(done_daan, currentShiti, self); //改变试题状态
+    common.changeSelectStatus(done_daan, shiti, false); //改变试题状态
+    common.changeSelectStatus(done_daan, currentShiti, false); //改变试题状态
 
     this.setData({
       shitiArray: shitiArray,
@@ -416,8 +416,8 @@ Page({
           })
           return;
         }
-        common.changeSelectStatus(done_daan, xiaoti[i], self); //改变试题状态
-        common.changeSelectStatus(done_daan, currentXiaoti[i], self); //改变试题状态
+        common.changeSelectStatus(done_daan, xiaoti[i], false); //改变试题状态
+        common.changeSelectStatus(done_daan, currentXiaoti[i], false); //改变试题状态
 
         if (xiaoti[i].flag == 1) shiti.flag = 1; //如果小题错一个,整个材料题就是错的
         shiti.doneAnswer.push({
