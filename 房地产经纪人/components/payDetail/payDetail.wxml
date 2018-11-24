@@ -43,7 +43,7 @@
 
     <view class="bottom">
       <view class="bottom-text">优惠价:
-        <span style="font-weight:bold;font-size:50rpx;color:#ff7769;letter-spacing:0rpx;line-height:85rpx;">{{product == "jjr"?'3980':'2580'}}</span>元 </view>
+        <span style="font-weight:bold;font-size:50rpx;color:#ff7769;letter-spacing:0rpx;line-height:85rpx;">{{product == "jjr"?'3980':'1980'}}</span>元 </view>
       <image src="/imgs/pay_button.png" class="submit" bindtap="_submit">
         确认立即开通
       </image>

@@ -366,6 +366,8 @@ Page({
     if (midShiti.TX == 99) {
       shitiNum = midShiti.clpx;
     }
+    
+    common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
 
     //每次滑动结束后初始化前一题和后一题
     if (direction == "左滑") {
@@ -504,6 +506,8 @@ Page({
       shitiArray: shitiArray,
       sliderShitiArray: sliderShitiArray
     })
+
+    console.log(shitiArray)
 
     common.storeModelRealAnswerStatus(shiti, self); //存储答题状态
 
@@ -914,6 +918,8 @@ Page({
       self.modelCount.setData({ //设置时间显示为花费时间
         timeStr: "用时" + time1.getGoneTimeStr(gone_time)
       })
+
+      console.log(self.data.shitiArray)
 
       let jibai = res.data.jibai;
       wx.navigateTo({

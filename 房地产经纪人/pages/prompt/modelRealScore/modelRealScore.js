@@ -93,6 +93,8 @@ Page({
 
     common.setModelRealMarkAnswerItems(doneAnswerArray, nums, isModelReal, true, prevPage); //更新答题板状态 
 
+    console.log(prevPage.data.shitiArray)
+
     wx.navigateBack({})
   },
 
