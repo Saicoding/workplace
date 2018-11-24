@@ -14,7 +14,18 @@ const formatNumber = n => {
   return n[1] ? n : '0' + n
 }
 
+function buttonClicked(self) {
+  self.setData({
+    buttonClicked: true
+  })
+  setTimeout(function() {
+    self.setData({
+      buttonClicked: false
+    })
+  }, 1000)
+}
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  buttonClicked: buttonClicked
 }

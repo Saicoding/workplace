@@ -7,13 +7,18 @@ Component({
    * 组件的属性列表
    */
   properties: {
-    done_answers:{
-      type: Array,
-      value:[]
+    windowHeight:{
+      type:Number,
+      value:0
     },
-    markAnswerItems:{
-      type: Array,
-      value:[]
+    isModelReal:{
+      type:Boolean,
+      value:false,
+      observer:function(isModelReal){
+        this.setData({
+          isModelReal: isModelReal
+        })
+      }
     }
   },
 
@@ -21,7 +26,7 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isShow:false
+    isShow:false,
   },
 
   /**
@@ -50,13 +55,20 @@ Component({
     //点击编号事件
     _tapEvent(e) {
       let px = e.currentTarget.dataset.px;
-      console.log(px)
+      let cl = e.currentTarget.dataset.cl;
       //触发取消回调
-      this.triggerEvent("tapEvent",{"px":px});
+      this.triggerEvent("tapEvent",{"px":px,"cl":cl});
     },
-    setBackground(e){
-      console.log(e)
-      return "red";
-    }
+
+    //阻止事件冒泡
+    stopBubbling:function(e){
+    },
+
+    //点击了空地,让蒙版消失
+    tapBlank: function (e) {
+      this.setData({
+        isShow: false
+      })
+    },
   }
 })

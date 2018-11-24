@@ -5,13 +5,13 @@
   </view>
 
   <view class="login">
-    <button class = "login-button-1"  hover-class="select1" bindtap='userPwdLogin'>
+    <button class = "login-button-1"   hover-class="select1" bindtap='userPwdLogin'>
       <view class = "small-img-container">
         <image class = "small-img-1"  src="/imgs/login2.png" mode='aspectFit'></image>
       </view>
-      <text class = "login-text">账号密码登录</text>
+      <text class = "login-text">手机快捷登录</text>
     </button>
-    <button class = "login-button-2"  hover-class="select2" open-type="getUserInfo" bindgetuserinfo = "wxLogin">
+    <button open-type="getUserInfo" class = "login-button-2"  hover-class="select2" bindgetuserinfo = "wxLogin">
       <view class = "small-img-container">
         <image class = "small-img-2" src="/imgs/login3.png" mode="aspectFit"></image>
       </view>
