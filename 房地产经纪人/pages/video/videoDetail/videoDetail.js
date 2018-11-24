@@ -792,9 +792,11 @@ Page({
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
           let openid = res.data.openid;
 
+          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
           app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
             let status = res.data.status;
+            console.log(status)
 
             if (status == 1) {
               let timestamp = Date.parse(new Date());

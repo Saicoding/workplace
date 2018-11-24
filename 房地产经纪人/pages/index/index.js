@@ -225,7 +225,6 @@ Page({
     let self = this;
     let index = e.currentTarget.dataset.itemidx; //选择章节的index
     let zhangjie = self.data.zhangjie; //取得章节对象
-    let isFolder = zhangjie[index].isFolder //章节的展开与折叠状态
 
     let hasChild = zhangjie[index].hasChild //是否有子节
     let windowWidth = self.data.windowWidth;
@@ -266,7 +265,7 @@ Page({
           timingFunction: "ease-out"
         })
 
-        foldAnimation.height(0, height + "rpx").step({})
+        foldAnimation.height(0, height + "rpx").opacity(0).step({})
 
         zhangjie[i].height = 0;
         zhangjie[i].isFolder = true;
@@ -287,11 +286,9 @@ Page({
     let isFolder = zhangjie[index].isFolder; //取得现在是什么状态
     let folder_object = self.data.folder_object //取得展开章节的对象
     let jie_num = 0;
-    let blank_num = 0;
 
     for (let i = 0; i < folder_object.length; i++) {
       if (folder_object[i].index < index) { //如果在点击选项前面有展开字节
-        blank_num ++;
         jie_num += folder_object[i].num //有几个节点就加几个节点
       }
     }

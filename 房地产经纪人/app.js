@@ -11,12 +11,14 @@ App({
    * @return {Promise}    promise 返回promise供后续操作
    */
   post: function(url, data, ifShow,ifCanCancel,title,pageUrl,ifGoPage,self) {
+
     if (ifShow) {
       wx.showLoading({
         title: title,
         mask: !ifCanCancel
       })
     }
+
     var promise = new Promise((resolve, reject) => {
       //init
       var that = this;
@@ -36,6 +38,7 @@ App({
         },
         success: function(res) { //服务器返回数据
           let status = res.data.status;
+          let message = res.data.message;
           if (status == 1) {//请求成功
             resolve(res);
           } else if(status == -2){//没有权限
@@ -52,7 +55,8 @@ App({
             console.log('没有试题')
             self.setData({
               isHasShiti:false,
-              isLoaded:true
+              isLoaded:true,
+              message: message
             })
           }else if(status == -201){
             console.log('余额不足')
@@ -60,6 +64,12 @@ App({
               title: '余额不足',
               icon:'none',
               duration:3000
+            })
+          }else if(status == -1){
+            wx.showToast({
+              title: message,
+              icon: 'none',
+              duration: 3000
             })
           }
 

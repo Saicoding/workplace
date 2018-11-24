@@ -28,9 +28,8 @@ Page({
   
     app.post(API_URL, "action=SelectZj").then((res) => {
       this.setZhangjie(res.data.list); //得到当前题库的缓存,并设置变量:1.所有题库数组 2.要显示的题库id 3.要显示的题库index
-
-      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, false, false, "","",true).then((res) => {
-        let kdList = res.data.list;//考点列表
+      app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id+"&username="+username+"&acode="+acode, false, false, "","",true).then((res1) => {
+        let kdList = res1.data.list;//考点列表
  
         self.setData({
           kdList: kdList,
@@ -90,14 +89,14 @@ Page({
   },
 
   GOkaodianDetail:function(e){
-    console.log(buttonClicked)
+
     this.waterWave.containerTap(e);
     if (buttonClicked) return;
     buttonClicked = true;
+
     let kdid = e.currentTarget.dataset.kdid;
     let kdList = this.data.kdList
     let title = e.currentTarget.dataset.title
-    // title = title.replace(/第\S{0,2}章\s*(\S+)/g, "$1");//把第几章字样去掉
 
     let url = encodeURIComponent('/pages/kaodianDetail/kaodianDetail?kdid=' + kdid+"&title="+title);
     let url1 = '/pages/kaodianDetail/kaodianDetail?kdid=' + kdid+"&title=" + title;

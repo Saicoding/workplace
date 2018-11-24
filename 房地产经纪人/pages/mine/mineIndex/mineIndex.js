@@ -36,7 +36,7 @@ Page({
         'rate': 'jjr',
         'angle': 0,
         'isFold': true,
-        'height':380,
+        'height': 380,
         'src': '/imgs/blue-rate.png',
         'jie': [{
             'title': '房地产交易制度政策',
@@ -81,21 +81,7 @@ Page({
    */
   onLoad: function() {
     //获取是否有登录权限
-    let self = this;
 
-    let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
-
-    let user = wx.getStorageSync('user');
-
-    if (user) {
-      self.setData({
-        user: user
-      })
-    } else {
-      wx.navigateTo({
-        url: '/pages/login1/login1?url=' + url + '&ifGoPage=false',
-      })
-    }
   },
 
   toogleShow: function(e) {
@@ -209,9 +195,18 @@ Page({
       app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
         let nums = res.data.nums;
         self.setData({
-          nums: nums
+          nums: nums,
+          user:user
         })
       })
+    } else { //如果没有登录
+
+      let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
+
+      wx.navigateTo({
+        url: '/pages/login1/login1?url=' + url + '&ifGoPage=false',
+      })
+
     }
 
     this.setData({

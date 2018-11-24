@@ -97,9 +97,6 @@ Page({
 
           wx.removeStorageSync('user');
 
-          wx.navigateTo({
-            url: '/pages/login1/login1?url=' + url + "&ifGoPage=false",
-          })
         } else if (res.cancel) {
 
         }

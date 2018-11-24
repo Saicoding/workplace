@@ -30,8 +30,10 @@ Page({
     let username = user.username;
     let acode = user.acode;
 
+    console.log("action=GetKaodianShow&username=" + username + "&acode=" + acode + "&kdid=" + kdid)
     app.post(API_URL,"action=GetKaodianShow&username="+username+"&acode="+acode+"&kdid="+kdid,false,true,"").then((res)=>{
       let data = res.data.data[0];
+      console.log(data)
       let content = data.content;
       let nextId = data.nextId;
       let proId = data.proId;
@@ -48,7 +50,9 @@ Page({
         kdid: kdid,
         isLoaded: true
       })
-    })
+    }).catch((errMsg) => {
+      console.log(errMsg)
+    });
   },
   /**
    * 滑动到底部

@@ -210,12 +210,12 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
  * 错题
  */
 
-function wrongOnload(options, px, circular, myFavorite, res, username, acode, requesttime, self) {
+function wrongOnload(options, px, circular, myFavorite, res, user, requesttime, self) {
   let shitiArray = res.data.shiti;
   let all_nums = res.data.all_nums;
   let pageall = res.data.pageall;
-
-  console.log(shitiArray)
+  let username = user.username;
+  let acode = user.acode;
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -251,6 +251,7 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
     shitiArray: shitiArray, //整节的试题数组
     sliderShitiArray: sliderShitiArray,//滑动数组
     circular: circular,
+    user:user,
     pageall: pageall,//总页数
     pageArray: [1],//当前所有已经渲染的页面数组
     myFavorite: myFavorite,//是否收藏
@@ -281,8 +282,6 @@ function wrongOnload(options, px, circular, myFavorite, res, username, acode, re
       height: height,
     })
   }
-
-  wx.hideLoading();
 }
 
 module.exports = {
