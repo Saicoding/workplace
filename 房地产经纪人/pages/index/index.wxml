@@ -47,7 +47,7 @@
 </view>
 
 <view class="zhangjie">
-  <scroll-view style="height:{{scrollHeight}}rpx;" scroll-y="true" scroll-top="{{scroll}}" scroll-with-animation>
+  <scroll-view style="height:{{scrollHeight}}rpx;" scroll-y="true" scroll-top="{{scroll}}" >
     <view style="border:1rpx solid white;">
       <view wx:for="{{zhangjie}}" wx:key="navItems" wx:for-item="item" wx:for-index="itemIdx">
         <!-- 如果是展开状态才显示线条 -->

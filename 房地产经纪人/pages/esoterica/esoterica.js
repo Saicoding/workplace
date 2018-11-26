@@ -68,13 +68,17 @@ Page({
     let index = e.detail.value//picker index
     let kaodian_id = self.data.array[e.detail.value].id;
 
+    let user = wx.getStorageSync('user');
+    let username = user.username == undefined ? "" : user.username;
+    let acode = user.acode == undefined ? "" : user.acode;
+
     self.setData({
       index: index, //设置是第几个题库
       kaodian_id: kaodian_id, //设置章节的id编号
       isLoaded:false,
     })
 
-    app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id, false, false, "").then((res) => {
+    app.post(API_URL, "action=GetKaodianList&kid=" + self.data.kaodian_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
       let kdList = res.data.list;//考点列表
       //存储本次浏览的题库
       wx.setStorageSync("kaodian_id", {

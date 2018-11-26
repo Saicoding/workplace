@@ -260,7 +260,7 @@ Page({
 
       if (!isFolder) {
         let foldAnimation = wx.createAnimation({
-          duration: 1000,
+          duration: 500,
           delay: 0,
           timingFunction: "ease-out"
         })
@@ -300,7 +300,7 @@ Page({
 
     if (isFolder) { //展开
       let spreadAnimation = wx.createAnimation({
-        duration: 1000,
+        duration: 500,
         delay: 0,
         timingFunction: "ease"
       })
@@ -331,7 +331,7 @@ Page({
       })
 
       let foldAnimation = wx.createAnimation({
-        duration: 1000,
+        duration: 500,
         delay: 0,
         timingFunction: "ease-out"
       })
@@ -352,9 +352,8 @@ Page({
         zhangjie[index].display = false;
         self.setData({
           zhangjie: zhangjie,
-          scroll:scroll
         })
-      },1000)
+      },500)
 
       self.setData({
         zhangjie: zhangjie,
