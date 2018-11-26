@@ -225,9 +225,13 @@ Page({
   /**
    * 画圆
    */
-  drawArc: function(cv, color, rate) {
+  drawArc: function(cv, color, rate,index) {
+    let self = this;
+
+    let videos = self.data.videos;
     let windowWidth = this.data.windowWidth;
-    cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
+
+    // cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
     //画内圆
     cv.setFillStyle(color)
     cv.beginPath()
@@ -252,15 +256,35 @@ Page({
     cv.stroke()
     cv.closePath();
 
-    cv.draw();
+    //绘制图片
+
+    cv.draw(false, wx.canvasToTempFilePath({
+      canvasId: cv.canvasId,
+      success: function (res) {
+        var tempFilePath = res.tempFilePath;
+        videos[index].src = tempFilePath;
+        console.log(tempFilePath)
+        self.setData({
+          videos: videos,
+        });
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    }));
+ 
   },
 
   /**
    * 画当前播放按钮
    */
-  drawPlay: function(cv, rate) {
+  drawPlay: function(cv, rate,index) {
     let windowWidth = this.data.windowWidth;
-    cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
+    let self = this;
+
+    let videos = self.data.videos;
+
+    // cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
     //画最外圆
     cv.setStrokeStyle("#ecebeb")
     cv.setLineWidth(1)
@@ -284,7 +308,23 @@ Page({
     cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 16 * windowWidth / 750, -Math.PI / 2, rate - Math.PI / 2);
     cv.stroke()
     cv.closePath();
-    cv.draw();
+
+    console.log(cv.canvasId)
+    //绘制图片
+    cv.draw(false, wx.canvasToTempFilePath({
+      canvasId: cv.canvasId,
+      success: function (res) {
+        var tempFilePath = res.tempFilePath;
+        console.log(tempFilePath)
+        videos[index].src = tempFilePath;
+        self.setData({
+          videos: videos,
+        });
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    }));
   },
 
   /**
@@ -387,11 +427,11 @@ Page({
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
 
-    flag == 2 ? self.drawArc(lastCv, "#05c004", angle) : self.drawArc(lastCv, "#ecebeb", angle)
+    flag == 2 ? self.drawArc(lastCv, "#05c004", angle, px - 1) : self.drawArc(lastCv, "#ecebeb", angle, px - 1)
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
-    self.drawPlay(currentCv, currentAngle);
+    self.drawPlay(currentCv, currentAngle, index);
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
 
@@ -444,7 +484,7 @@ Page({
       video.playCourseArr[m] = 1;
     }
 
-    self.drawPlay(cv, angle);
+    self.drawPlay(cv, angle,px-1);
 
     if (noDrawIndex >= 0) { //如果符合隐藏条件
       for (let i = 0; i < videos.length; i++) {
@@ -498,7 +538,7 @@ Page({
       video.playCourseArr[m] = 1;
     }
 
-    self.drawPlay(cv, angle);
+    // self.drawPlay(cv, angle,px-1);
     self.setData({
       videos: videos
     })
@@ -599,12 +639,12 @@ Page({
       }
     }
 
-    flag == 2 ? self.drawArc(lastCv, "#05c004", 2 * Math.PI) : self.drawArc(lastCv, "#ecebeb", 2 * Math.PI);
+    flag == 2 ? self.drawArc(lastCv, "#05c004", 2 * Math.PI, px-1) : self.drawArc(lastCv, "#ecebeb", 2 * Math.PI, px-1);
 
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
-    self.drawPlay(currentCv, currentAngle); //绘画当前播放图标
+    self.drawPlay(currentCv, currentAngle,px); //绘画当前播放图标
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
     if (currentTime >= currentVideo.length - 3) {
@@ -666,7 +706,7 @@ Page({
   initVideos: function(videos, px, my_canvas) {
     for (let i = 0; i < videos.length; i++) {
       let video = videos[i];
-      video.show = true;
+      video.first = true;
       let flag = video.Flag;
       let cv = my_canvas[i];
 
@@ -687,9 +727,9 @@ Page({
 
       let angle = video.lastViewLength / video.length * 2 * Math.PI;
 
-      flag == 2 ? this.drawArc(cv, "#05c004", angle) : this.drawArc(cv, "#ecebeb", angle);
+      flag == 2 ? this.drawArc(cv, "#05c004", angle,i) : this.drawArc(cv, "#ecebeb", angle,i);
 
-      if (i == px - 1) this.drawPlay(cv, 10);
+      if (i == px - 1) this.drawPlay(cv, angle, i);
     }
   },
 

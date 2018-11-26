@@ -129,6 +129,11 @@
   line-height: 50rpx;
 }
 
+.address{
+  text-align: center;
+  font-size:25rpx;
+}
+
 .company-name,.company-phone,.company-tel{
   display: float;
   float:left;

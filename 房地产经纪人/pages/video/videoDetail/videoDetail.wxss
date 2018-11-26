@@ -194,6 +194,7 @@
   margin-left:60rpx;
   margin-top:32rpx;
   color:rgb(231, 230, 230);
+  border:1rpx solid red;
 }
 
 .blank{

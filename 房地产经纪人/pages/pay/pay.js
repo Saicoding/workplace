@@ -28,10 +28,12 @@ Page({
             })
           } else {
             let company = res.data.data[0].Name;
+            let address = res.data.data[0].address;
             let tel = res.data.data[0].Tel
             self.setData({
               company: company,
               tel: tel,
+              address: address,
               goBack: goBack,
               hasCompany: true
             })

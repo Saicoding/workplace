@@ -35,7 +35,7 @@
   </view>
 
   <!-- 目录列表  -->
-  <scroll-view scroll-top = "{{scroll}}" scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation bindscroll="redraw">
+  <scroll-view scroll-top="{{scroll}}" scroll-y style="height:{{buy==0?windowHeight-700:windowHeight-620}}rpx;" scroll-with-animation>
     <!-- 简介信息 -->
     <view hidden="{{product != 'introduction'}}" class="info">
       {{info}}
@@ -45,17 +45,12 @@
     <view hidden="{{product != 'option'}}" class="option">
       <view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
         <view data-index="{{index}}" class="video-block" hover-class='select' bindtap='changeVideo'>
-          <view hidden="{{!video.show}}">
-            <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
+          <view>
+            <image class="myCanvas" src="{{video.src}}" mode="aspectFit"></image>
           </view>
-          <view hidden="{{video.show}}" class="blank">
-            <view class="blank-in">
-              <view class="blank-in-in">
-              </view>
-            </view>
-          </view>
+
           <view class="title-block">
-            <view class="title">{{video.title}}</view>
+            <view class="title">{{video.src}}</view>
             <view class="view-time">{{video.time}}</view>
           </view>
         </view>
@@ -68,6 +63,10 @@
     <view class="bottom-price">¥{{kc_money}}</view>
     <view class="bottom-buy">购买此课</view>
   </view>
+</view>
+
+<view wx:for="{{videos}}" wx:for-item='video' wx:key='v'>
+  <canvas class="myCanvas" canvas-id='myCanvas{{index}}'></canvas>
 </view>
 
 
