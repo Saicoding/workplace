@@ -19,13 +19,9 @@ Page({
     folder_object: [], //展开字节的对象,用于判断点击的章之前有多少个字节被展开
     loaded: false, //是否已经载入一次,用于答题时点击返回按钮,首页再次展现后更新做题数目
     zhangjie: "", //章节信息
-    z_id: 0 //题库id
+    z_id: 0 ,//题库id
+    isLoaded:false,
   },
-  // test:function(){
-  //   wx.navigateTo({
-  //     url: '/pages/pay/pay',
-  //   })
-  // },
 
   /**
    * 生命周期函数--监听页面加载
@@ -34,6 +30,7 @@ Page({
     let self = this;
 
     let user = wx.getStorageSync('user');
+
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 
     app.post(API_URL, "action=SelectZj").then((res) => {
@@ -118,19 +115,39 @@ Page({
         self.setData({
           zhangjie: zhangjie,
           // z_id:res.data.list[0].z_id,
-          loaded: true //已经载入完毕
+          loaded: true, //已经载入完毕
+          isLoaded:true,
         })
-        wx.hideLoading();
-      }).catch((errMsg) => {
-        console.log(errMsg); //错误提示信息
-        wx.hideLoading();
-      });
+      })
 
-    }).catch((errMsg) => {
-      console.log(errMsg); //错误提示信息
-      wx.hideLoading();
-    });
+    })
 
+    if (user) {
+      //得到消息数目
+      let LoginRandom = user.Login_random;
+      let zcode = user.zcode;
+
+      let url = encodeURIComponent('/pages/index/index');
+      self.setData({
+        isLoaded:false
+      })
+      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
+        let nums = res.data.nums;
+
+        if (nums > 0) {
+          nums = nums.toString();
+          wx.setTabBarBadge({
+            index: 3,
+            text: nums,
+          })
+        } else {
+          wx.setTabBarBadge({
+            index: 3,
+            text: "",
+          })
+        }
+      })
+    }
   },
   /* 更改题库 */
   bindPickerChange: function(e) {
@@ -140,10 +157,11 @@ Page({
       index: e.detail.value, //设置是第几个题库
       zhangjie_id: self.data.array[e.detail.value].id, //设置章节的id编号
       folder_object: [], //初始化展开字节的对象,因为更换章节后默认都是不展开状态
-      scroll: 0 //初始化章节的滑动条
+      scroll: 0 ,//初始化章节的滑动条
+      isLoaded:false,
     })
 
-    app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, true, false, "载入题库中").then((res) => {
+    app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, false, false, "").then((res) => {
       let answer_nums_array = [] //答题数目array
 
       let zhangjie = res.data.list; //该题库的所有章节
@@ -166,7 +184,8 @@ Page({
         }
       }
       self.setData({
-        zhangjie: zhangjie
+        zhangjie: zhangjie,
+        isLoaded:true,
       })
 
       // 得到存储答题状态
@@ -209,12 +228,7 @@ Page({
           });
         },
       })
-
-      wx.hideLoading();
-    }).catch((errMsg) => {
-      console.log(errMsg); //错误提示信息
-      wx.hideLoading();
-    });
+    })
 
   },
   /**
@@ -234,10 +248,10 @@ Page({
     if (!hasChild) {
       this.GOzuoti(e);
       return
-    }  
+    }
 
     //开始动画
-    this.step(index, num, windowWidth,zhangjie);
+    this.step(index, num, windowWidth, zhangjie);
 
     self.setData({
       zhangjie: zhangjie,
@@ -254,7 +268,7 @@ Page({
       let isFolder = zhangjie[i].isFolder; //取得现在是什么状态
       let jie_num = zhangjie[i].zhangjie_child.length;
 
-      let height = (68 + 2 * 750 / windowWidth)* jie_num;
+      let height = (68 + 2 * 750 / windowWidth) * jie_num;
 
       let scroll = 0;
 
@@ -281,7 +295,7 @@ Page({
   /**
    * 实现展开折叠效果
    */
-  step: function(index, num, windowWidth,zhangjie) {
+  step: function(index, num, windowWidth, zhangjie) {
     let self = this;
     let isFolder = zhangjie[index].isFolder; //取得现在是什么状态
     let folder_object = self.data.folder_object //取得展开章节的对象
@@ -293,7 +307,7 @@ Page({
       }
     }
 
-    let height = (68 + 2 * 750 / windowWidth)* num ;//上下边框2px 转化为rpx
+    let height = (68 + 2 * 750 / windowWidth) * num; //上下边框2px 转化为rpx
 
     let scroll = (index * 80 + jie_num * (68 + 2 * 750 / windowWidth)) * (windowWidth / 750);
 
@@ -306,7 +320,7 @@ Page({
       })
 
       spreadAnimation.height(height + "rpx", 0).opacity(1).step({
-        
+
       })
       zhangjie[index].isFolder = false;
       zhangjie[index].height = height;
@@ -336,8 +350,7 @@ Page({
         timingFunction: "ease-out"
       })
 
-      foldAnimation.height(0, height + "rpx").opacity(0).step(function(){
-      })
+      foldAnimation.height(0, height + "rpx").opacity(0).step(function() {})
       //把折叠对象从折叠对象数组中去除
       for (let i = 0; i < folder_object.length; i++) {
         if (folder_object[i].index == index) {
@@ -348,12 +361,12 @@ Page({
       zhangjie[index].isFolder = true;
       zhangjie[index].folderData = foldAnimation.export();
 
-      setTimeout(function(){
+      setTimeout(function() {
         zhangjie[index].display = false;
         self.setData({
           zhangjie: zhangjie,
         })
-      },500)
+      }, 500)
 
       self.setData({
         zhangjie: zhangjie,
@@ -534,6 +547,7 @@ Page({
     let self = this;
     buttonClicked = false;
     let zhangjie = self.data.zhangjie;
+
     if (!self.data.loaded) return //如果没有完成首次载入就什么都不作
 
     // 得到存储答题状态
@@ -541,6 +555,35 @@ Page({
       key: 'user',
       success: function(res) {
         let user = res.data;
+
+        //得到消息数目
+        let LoginRandom = user.Login_random;
+        let zcode = user.zcode;
+
+        let url = encodeURIComponent('/pages/index/index');
+        app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
+          let nums = res.data.nums;
+
+          if (nums > 0) {
+            nums = nums.toString();
+            wx.setTabBarBadge({
+              index: 3,
+              text: nums,
+              success: function(res) {
+                console.log('成功')
+              }
+            })
+          }else{
+            wx.setTabBarBadge({
+              index: 3,
+              text: "",
+              success: function (res) {
+                console.log('取消')
+              }
+            })
+          }
+        })
+
         wx.getStorage({
           key: "shiti" + self.data.zhangjie_id + user.username,
           success: function(res) {
@@ -574,7 +617,7 @@ Page({
             })
           },
 
-          fail:function(){
+          fail: function() {
             //将每个节的已经作答的本地存储映射到组件中          
             for (let i = 0; i < zhangjie.length; i++) {
               let zhang_answer_num = 0; //章的总作答数

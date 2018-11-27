@@ -80,8 +80,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function() {
-    //获取是否有登录权限
-
   },
 
   toogleShow: function(e) {
@@ -198,8 +196,27 @@ Page({
           nums: nums,
           user:user
         })
+
+        if(nums > 0){
+          wx.setTabBarBadge({
+            index: 3,
+            text: nums.toString(),
+          })
+        }else{
+          wx.setTabBarBadge({
+            index: 3,
+            text: "",
+          })
+        }
+
       })
     } else { //如果没有登录
+
+      //把消息图标调成美元
+      wx.setTabBarBadge({
+        index: 3,
+        text: "",
+      })
 
       let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 

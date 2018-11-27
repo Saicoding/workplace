@@ -10,6 +10,12 @@
   box-shadow: rgb(211, 206, 206) 3rpx 3rpx 8rpx 1rpx ;
 }
 
+.loading-img{
+  width: 750rpx;
+  height:458rpx;
+  margin:0 auto;
+}
+
 .mulu {
   text-align: left;
   float: left;
