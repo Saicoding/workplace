@@ -316,7 +316,7 @@ Page({
       let spreadAnimation = wx.createAnimation({
         duration: 500,
         delay: 0,
-        timingFunction: "ease"
+        timingFunction: "ease-in"
       })
 
       spreadAnimation.height(height + "rpx", 0).opacity(1).step({
