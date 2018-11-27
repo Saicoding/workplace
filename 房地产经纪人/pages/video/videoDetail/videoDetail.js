@@ -9,10 +9,9 @@ let easeInAnimation = animate.easeInAnimation();
 let changeVideo = false; //是否是通过点击更换的video
 
 let changeType = false; //网络类型是否更改
+let isdrawed = false;//首次画
 
 let currentTime = 1;
-
-
 
 let icon = { //图标高度宽度
   'width': 38,
@@ -29,13 +28,13 @@ Page({
     isPlaying: false, //是否在播放
     useFlux: false, //是否使用流量观看
     isWifi: true, //默认有wifi
-    lastType: "first"
+    lastType: "first",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     wx.setNavigationBarTitle({ //设置标题
       title: options.title,
     })
@@ -54,12 +53,12 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     let self = this;
     this.payDetail = this.selectComponent("#payDetail");
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
-      success: function(res) { //转换窗口高度
+      success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
 
@@ -78,7 +77,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     let self = this;
     let options = self.data.options;
     let windowWidth = wx.getSystemInfoSync().windowWidth;
@@ -96,13 +95,13 @@ Page({
 
     wx.getStorage({
       key: 'turnonWifiPrompt',
-      success: function(res) {
+      success: function (res) {
         let isOn = res.data;
 
         if (isOn == 0) {
           let interval = setInterval((res) => {
             wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
-              success: function(res) {
+              success: function (res) {
                 let networkType = res.networkType
                 if (networkType != "wifi") {
                   let lastType = self.data.lastType;
@@ -147,7 +146,7 @@ Page({
     })
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
-    let scroll = lastpx * 100 * windowWidth /750;
+    let scroll = lastpx * 100 * windowWidth / 750;
 
     if (lastpx != "") {
       px = lastpx;
@@ -213,7 +212,7 @@ Page({
   /**
    * 使用流量继续观看
    */
-  continueWatch: function() {
+  continueWatch: function () {
     this.videoContext.play();
     this.setData({
       isPlaying: true,
@@ -225,18 +224,15 @@ Page({
   /**
    * 画圆
    */
-  drawArc: function(cv, color, rate,index) {
+  drawArc: function (cv, color, rate, index, videos) {
     let self = this;
-
-    let videos = self.data.videos;
     let windowWidth = this.data.windowWidth;
 
-    // cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
+    cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
     //画内圆
     cv.setFillStyle(color)
-    cv.beginPath()
+    cv.beginPath();
     cv.arc(20 * windowWidth / 750, 20 * windowWidth / 750, 10 * windowWidth / 750, 0, 2 * Math.PI);
-    cv.close
     cv.fill();
     cv.closePath();
 
@@ -256,35 +252,29 @@ Page({
     cv.stroke()
     cv.closePath();
 
-    //绘制图片
-
-    cv.draw(false, wx.canvasToTempFilePath({
-      canvasId: cv.canvasId,
-      success: function (res) {
-        var tempFilePath = res.tempFilePath;
-        videos[index].src = tempFilePath;
-        console.log(tempFilePath)
-        self.setData({
-          videos: videos,
-        });
-      },
-      fail: function (res) {
-        console.log(res);
-      }
-    }));
- 
+    cv.draw(false, function () {
+      wx.canvasToTempFilePath({
+        canvasId: cv.canvasId,
+        success: function (res) {
+          let src = res.tempFilePath;
+          videos[index].src = src;
+          self.setData({
+            videos: videos
+          })
+        },
+        fail: function (res) {
+        }
+      }, self)
+    })
   },
 
   /**
    * 画当前播放按钮
    */
-  drawPlay: function(cv, rate,index) {
+  drawPlay: function (cv, rate, index, videos) {
     let windowWidth = this.data.windowWidth;
     let self = this;
-
-    let videos = self.data.videos;
-
-    // cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
+    cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
     //画最外圆
     cv.setStrokeStyle("#ecebeb")
     cv.setLineWidth(1)
@@ -309,28 +299,24 @@ Page({
     cv.stroke()
     cv.closePath();
 
-    console.log(cv.canvasId)
-    //绘制图片
-    cv.draw(false, wx.canvasToTempFilePath({
-      canvasId: cv.canvasId,
-      success: function (res) {
-        var tempFilePath = res.tempFilePath;
-        console.log(tempFilePath)
-        videos[index].src = tempFilePath;
-        self.setData({
-          videos: videos,
-        });
-      },
-      fail: function (res) {
-        console.log(res);
-      }
-    }));
+    cv.draw(false, function () {
+      wx.canvasToTempFilePath({
+        canvasId: cv.canvasId,
+        success: function (res) {
+          let src = res.tempFilePath;
+          videos[index].src = src;
+          self.setData({
+            videos: videos
+          })
+        },
+      }, this)
+    })
   },
 
   /**
    * 换视频时
    */
-  changeVideo: function(e) {
+  changeVideo: function (e) {
     let self = this;
     let windowWidth = self.data.windowWidth;
 
@@ -348,11 +334,11 @@ Page({
     //监测是否开启非wifi提醒
     wx.getStorage({
       key: 'turnonWifiPrompt',
-      success: function(res) {
+      success: function (res) {
         let isOn = res.data;
         if (isOn == 0) {
           wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放
-            success: function(res) {
+            success: function (res) {
               let networkType = res.networkType
               if (networkType != "wifi") {
                 self.setData({
@@ -427,11 +413,13 @@ Page({
 
     let angle = currentTime / lastVideo.length * 2 * Math.PI;
 
-    flag == 2 ? self.drawArc(lastCv, "#05c004", angle, px - 1) : self.drawArc(lastCv, "#ecebeb", angle, px - 1)
+    flag == 2 ? self.drawArc(lastCv, "#05c004", angle, px - 1, videos) : self.drawArc(lastCv, "#ecebeb", angle, px - 1, videos)
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
-    self.drawPlay(currentCv, currentAngle, index);
+    console.log(index)
+
+    self.drawPlay(currentCv, currentAngle, index, videos);
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
 
@@ -447,82 +435,25 @@ Page({
       px: index + 1,
     })
 
-    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
 
   },
 
   /**
    * 视频缓冲时
    */
-  waiting: function(e) {
+  waiting: function (e) {
     let self = this;
     this.setData({
       isPlaying: true,
     })
   },
-  /**
-   * 滚动条滚动时
-   */
-  redraw: function(e) {
-    let self = this;
-    let windowWidth = self.data.windowWidth;
-    let scrollTop = e.detail.scrollTop;
-    let my_canvas = self.data.my_canvas;
 
-    let noDrawIndex = ((scrollTop - 30) * 750 / windowWidth) / 100
-
-    let px = self.data.px;
-    let videos = self.data.videos;
-    let video = videos[px - 1];
-
-    let cv = my_canvas[px - 1];
-    currentTime = self.data.currentTime; //当前播放进度(秒)
-    let m = parseInt(currentTime / 60);
-    let angle = currentTime / video.length * 2 * Math.PI;
-
-    if (video.playCourseArr[m] == 0) {
-      video.playCourseArr[m] = 1;
-    }
-
-    self.drawPlay(cv, angle,px-1);
-
-    if (noDrawIndex >= 0) { //如果符合隐藏条件
-      for (let i = 0; i < videos.length; i++) {
-        let myvideo = videos[i]
-        if (i <= noDrawIndex) {
-          myvideo.show = false;
-          self.setData({
-            videos: videos
-          })
-        } else {
-          myvideo.show = true;
-        }
-      }
-    } else {
-      for (let i = 0; i < videos.length; i++) {
-        let myvideo = videos[i]
-        myvideo.show = true;
-      }
-    }
-
-    self.setData({
-      videos: videos
-    })
-  },
-
-  /**
-   * 清理画布
-   */
-  clearCanvas: function(cv) {
-    let windowWidth = this.data.windowWidth;
-    cv.clearRect(0, 0, icon.width * windowWidth / 750, icon.height * windowWidth / 750);
-    cv.draw();
-  },
 
   /**
    * 播放进度改变时
    */
-  timeupdate: function(e) {
+  timeupdate: function (e) {
     let self = this;
     let px = self.data.px;
     let videos = self.data.videos;
@@ -531,6 +462,7 @@ Page({
     let my_canvas = self.data.my_canvas;
     let cv = my_canvas[px - 1];
     currentTime = e.detail.currentTime; //当前播放进度(秒)
+
     let m = parseInt(currentTime / 60);
     let angle = currentTime / video.length * 2 * Math.PI;
 
@@ -538,16 +470,19 @@ Page({
       video.playCourseArr[m] = 1;
     }
 
-    // self.drawPlay(cv, angle,px-1);
-    self.setData({
-      videos: videos
-    })
+
+    if (currentTime % 10 >= 0 && currentTime % 10 <= 1) {   
+      self.drawPlay(cv, angle, px - 1, videos);
+      self.setData({
+        videos: videos
+      })
+    }
   },
 
   /**
    * 点击开始播放
    */
-  play: function() {
+  play: function () {
     let self = this;
     let px = self.data.px; //当前视频编号
     let videos = self.data.videos; //当前所有视频
@@ -570,7 +505,7 @@ Page({
   /**
    * 点击暂停播放
    */
-  pause: function() {
+  pause: function () {
     this.setData({
       isPlaying: false
     })
@@ -579,7 +514,7 @@ Page({
   /**
    * 视频播放结束后
    */
-  end: function(e) {
+  end: function (e) {
     let self = this;
     let windowWidth = self.data.windowWidth;
     if (changeVideo) { //如果点击的视频时结尾状态就暂停
@@ -639,12 +574,12 @@ Page({
       }
     }
 
-    flag == 2 ? self.drawArc(lastCv, "#05c004", 2 * Math.PI, px-1) : self.drawArc(lastCv, "#ecebeb", 2 * Math.PI, px-1);
+    flag == 2 ? self.drawArc(lastCv, "#05c004", 2 * Math.PI, px - 1, videos) : self.drawArc(lastCv, "#ecebeb", 2 * Math.PI, px - 1, videos);
 
 
     let currentAngle = currentVideo.lastViewLength / currentVideo.length * 2 * Math.PI;
 
-    self.drawPlay(currentCv, currentAngle,px); //绘画当前播放图标
+    self.drawPlay(currentCv, currentAngle, px, videos); //绘画当前播放图标
 
     currentTime = currentVideo.lastViewLength; //将当前播放时间置为该视频的播放进度
     if (currentTime >= currentVideo.length - 3) {
@@ -667,7 +602,7 @@ Page({
   /**
    * 切换播放状态
    */
-  tooglePlay: function() {
+  tooglePlay: function () {
     let self = this;
 
     let px = self.data.px; //当前视频编号
@@ -703,10 +638,10 @@ Page({
   /**
    * 初始化视频信息
    */
-  initVideos: function(videos, px, my_canvas) {
+  initVideos: function (videos, px, my_canvas) {
     for (let i = 0; i < videos.length; i++) {
       let video = videos[i];
-      video.first = true;
+      video.show = true;
       let flag = video.Flag;
       let cv = my_canvas[i];
 
@@ -727,16 +662,16 @@ Page({
 
       let angle = video.lastViewLength / video.length * 2 * Math.PI;
 
-      flag == 2 ? this.drawArc(cv, "#05c004", angle,i) : this.drawArc(cv, "#ecebeb", angle,i);
+      flag == 2 ? this.drawArc(cv, "#05c004", angle, i, videos) : this.drawArc(cv, "#ecebeb", angle, i, videos);
 
-      if (i == px - 1) this.drawPlay(cv, angle, i);
+      if (i == px - 1) this.drawPlay(cv, angle, i, videos);
     }
   },
 
   /**
    * 生命周期函数
    */
-  onHide: function() {
+  onHide: function () {
     this.videoContext.pause();
     let self = this;
     let user = self.data.user;
@@ -751,7 +686,7 @@ Page({
   /**
    * 生命周期函数
    */
-  onUnload: function() {
+  onUnload: function () {
     let self = this;
     let user = self.data.user;
     let kcid = self.data.kcid;
@@ -793,13 +728,13 @@ Page({
 
     clearInterval(self.data.interval);
 
-    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => {})
+    app.post(API_URL, "action=savePlayTime&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&videoID=" + videoID + "&playTime=" + playTime + "&kcid=" + kcid + "&flag=" + flag + "&playCourseArr=" + playCourseStr, false, true, "").then((res) => { })
   },
 
   /**
    * 是否真正看完
    */
-  ifEnd: function(video) {
+  ifEnd: function (video) {
     let end = true;
     for (let i = 0; i < video.playCourseArr.length; i++) {
       let playCourse = video.playCourseArr[i];
@@ -814,7 +749,7 @@ Page({
   /**
    * 购买课程
    */
-  buy: function(e) {
+  buy: function (e) {
     let self = this;
     let kcid = self.data.kcid;
     let px = self.data.px;
@@ -857,7 +792,7 @@ Page({
                 'package': myPackage,
                 'paySign': paySign,
                 'signType': "MD5",
-                success: function(res) {
+                success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
                     app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
 
@@ -884,7 +819,7 @@ Page({
                     })
                   }
                 },
-                fail: function(res) {}
+                fail: function (res) { }
               }
               wx.requestPayment(myObject)
             }
@@ -897,7 +832,7 @@ Page({
   /**
    * 弹出支付详细信息
    */
-  showPayDetail: function(e) {
+  showPayDetail: function (e) {
     let product = e.currentTarget.dataset.product;
 
     if (product == "jjr") {
@@ -916,7 +851,7 @@ Page({
   /**
    * 提交支付
    */
-  _submit: function(e) {
+  _submit: function (e) {
     let self = this;
 
     let product = e.detail.product;
@@ -958,7 +893,7 @@ Page({
                 'package': myPackage,
                 'paySign': paySign,
                 'signType': "MD5",
-                success: function(res) {
+                success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
                     app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
                       self.setData({ //设置已经购买
@@ -988,7 +923,7 @@ Page({
                     })
                   }
                 },
-                fail: function(res) {}
+                fail: function (res) { }
               }
               wx.requestPayment(myObject)
             }
@@ -1000,7 +935,7 @@ Page({
   /**
    * 改变产品时
    */
-  changeOption: function(e) {
+  changeOption: function (e) {
     let self = this;
     let currentProduct = self.data.product; //当前种类
     let product = e.currentTarget.dataset.product; //点击的视频种类
@@ -1023,7 +958,7 @@ Page({
   /**
    * 导航到套餐页面
    */
-  goPay: function() {
+  goPay: function () {
     wx.navigateTo({
       url: '/pages/pay/pay?goBack=true',
     })

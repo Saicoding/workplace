@@ -684,7 +684,7 @@ Page({
     let windowWidth = wx.getSystemInfoSync().windowWidth; //获取窗口宽度(px)
     let windowHeight = wx.getSystemInfoSync().windowHeight; //获取窗口高度(px)
     windowHeight = (windowHeight * (750 / windowWidth)); //转换窗口高度(rpx)
-    let scrollHeight = windowHeight - 720 //计算滚动框高度(rpx) 
+    let scrollHeight = windowHeight - 675 //计算滚动框高度(rpx) 
 
     this.setData({
       windowWidth: windowWidth, //窗口宽度

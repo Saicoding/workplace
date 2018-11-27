@@ -189,12 +189,11 @@
 }
 
 .myCanvas{
+  position: absolute;
+  left:-200rpx;
   width:40rpx;
   height:40rpx;
-  margin-left:60rpx;
-  margin-top:32rpx;
   color:rgb(231, 230, 230);
-  border:1rpx solid red;
 }
 
 .blank{
@@ -223,8 +222,8 @@
 }
 
 .icon{
-  width:35rpx;
-  height:35rpx;
+  width:40rpx;
+  height:40rpx;
   margin-left:60rpx;
   margin-top:32rpx;
 }
