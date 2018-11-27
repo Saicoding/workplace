@@ -92,11 +92,14 @@ Page({
       success(res) {
         if (res.confirm) {
           let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
-
-          wx.navigateBack({})
-
           wx.removeStorageSync('user');
 
+          wx.removeStorage({
+            key: 'user',
+            success: function(res) {
+              wx.navigateBack({})
+            },
+          })
         } else if (res.cancel) {
 
         }
