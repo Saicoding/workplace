@@ -59,7 +59,7 @@ function moveX(myAnimation,x){
  */
 function questionFoldAnimation(max,min,question){
   let interval = setInterval(()=>{
-    max -=10
+    max -=20
     if(max <=min){
       clearInterval(interval);
       max = min;
@@ -75,7 +75,7 @@ function questionFoldAnimation(max,min,question){
  */
 function questionSpreadAnimation(min,max,question){
   let interval = setInterval(() => {
-    min += 10
+    min += 20
     if (min >= max) {
       clearInterval(interval);
       min = max
@@ -91,7 +91,7 @@ function questionSpreadAnimation(min,max,question){
  */
 function blockFoldAnimation(max, min, question) {
   let interval = setInterval(() => {
-    max -= 10
+    max -= 20
     if (max <= min) {
       clearInterval(interval);
       max = min;
@@ -99,7 +99,7 @@ function blockFoldAnimation(max, min, question) {
     question.setData({
       style1: "display:block;margin-bottom:30rpx;height:" + max + "rpx"
     })
-  }, 20)
+  }, 40)
 }
 
 /**
@@ -107,7 +107,7 @@ function blockFoldAnimation(max, min, question) {
  */
 function blockSpreadAnimation(min, max, question) {
   let interval = setInterval(() => {
-    min += 10
+    min += 20
     if (min >= max) {
       clearInterval(interval);
       min = max
@@ -115,7 +115,7 @@ function blockSpreadAnimation(min, max, question) {
     question.setData({
       style1: "display:block;margin-bottom:30rpx;height:" + min + "rpx"
     })
-  }, 20)
+  }, 40)
 }
 
 

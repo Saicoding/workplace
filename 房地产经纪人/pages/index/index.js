@@ -569,17 +569,11 @@ Page({
             wx.setTabBarBadge({
               index: 3,
               text: nums,
-              success: function(res) {
-                console.log('成功')
-              }
             })
           }else{
             wx.setTabBarBadge({
               index: 3,
               text: "",
-              success: function (res) {
-                console.log('取消')
-              }
             })
           }
         })

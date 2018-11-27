@@ -467,8 +467,15 @@ Page({
    */
   onShow: function(e) {
     let self = this;
+  },
 
-    // common.lianxiRestart(self); //重新开始作答
+  /**
+   * 重新开始练习
+   */
+  _restart:function(){
+    let self = this;
+    self._hideMarkAnswer();
+    common.lianxiRestart(self); //重新开始作答
   },
 
   /**

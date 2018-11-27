@@ -11,14 +11,9 @@ Component({
       type:Number,
       value:0
     },
-    isModelReal:{
-      type:Boolean,
-      value:false,
-      observer:function(isModelReal){
-        this.setData({
-          isModelReal: isModelReal
-        })
-      }
+    isLianxi: {
+      type: Boolean,
+      value:false
     }
   },
 
@@ -58,6 +53,11 @@ Component({
       let cl = e.currentTarget.dataset.cl;
       //触发取消回调
       this.triggerEvent("tapEvent",{"px":px,"cl":cl});
+    },
+
+    //重新练题
+    _restart(){
+      this.triggerEvent("restart");
     },
 
     //阻止事件冒泡

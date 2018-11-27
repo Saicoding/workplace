@@ -242,7 +242,7 @@ function setModelRealCLShitiPx(shitiArray) {
 function initMarkAnswer(nums, self) {
   let markAnswerItems = self.data.markAnswerItems;
 
-  let lines = Math.ceil(nums / 9);//有多少行编号
+  let lines = Math.ceil(nums / 9); //有多少行编号
   let answerHeight = lines > 5 ? 460 : lines * 90 + 10;
 
   for (let i = 0; i < nums; i++) {
@@ -261,7 +261,7 @@ function initMarkAnswer(nums, self) {
 function initModelRealMarkAnswer(newShitiArray, self) {
   let markAnswerItems = self.data.markAnswerItems;
 
-  let lines = Math.ceil(newShitiArray.length / 9);//有多少行编号
+  let lines = Math.ceil(newShitiArray.length / 9); //有多少行编号
   let answerHeight = lines > 5 ? 460 : lines * 90 + 10;
 
   for (let i = 0; i < newShitiArray.length; i++) {
@@ -274,7 +274,7 @@ function initModelRealMarkAnswer(newShitiArray, self) {
       });
     }
 
-    markAnswerItems[i].radius = newShiti.TX ==1?50:10;//映射试题种类
+    markAnswerItems[i].radius = newShiti.TX == 1 ? 50 : 10; //映射试题种类
   }
 
   self.markAnswer.setData({
@@ -784,7 +784,7 @@ function processModelRealDoneAnswer(done_daan, shiti, self) {
         }
 
       } else {
-        changeModelRealSelectStatus(done_daan, shiti,  false) //根据得到的已答数组更新试题状态
+        changeModelRealSelectStatus(done_daan, shiti, false) //根据得到的已答数组更新试题状态
       }
       break;
     case "材料题":
@@ -812,7 +812,7 @@ function processModelRealDoneAnswer(done_daan, shiti, self) {
           for (let j = 0; j < done_daan.length; j++) {
             let ti_done_daan = done_daan[j]
             if (ti.px == ti_done_daan.px) {
-              changeModelRealSelectStatus(ti_done_daan.done_daan, ti,  false) //根据得到的已答数组更新试题状态
+              changeModelRealSelectStatus(ti_done_daan.done_daan, ti, false) //根据得到的已答数组更新试题状态
               break;
             }
           }
@@ -942,7 +942,7 @@ function markRestart(self) {
   if (restart) { //如果点击了重新开始练习，就清除缓存
     let shiti = self.data.shitiArray[0];
 
-    initShiti(shiti, 1, self); //初始化试题对象
+    initShiti(shiti, self); //初始化试题对象
 
     self.setData({ //先把答题板数组置空
       markAnswerItems: []
@@ -964,41 +964,53 @@ function markRestart(self) {
  * 练习题重新开始做题
  */
 function lianxiRestart(self) {
-  let restart = self.data.restart;
   let shitiArray = self.data.shitiArray;
   let jieIdx = self.data.jieIdx;
   let zhangIdx = self.data.zhangIdx;
   let user = self.data.user;
   let username = user.username;
 
-  if (restart) { //如果点击了重新开始练习，就清除缓存
-    let shiti = self.data.shitiArray[0];
+  initShitiArrayDoneAnswer(shitiArray); //将所有问题已答置空
 
-    initShiti(shiti, 1, self); //初始化试题对象
+  //得到swiper数组
+  let midShiti = shitiArray[0]; //中间题
+  let nextShiti = shitiArray[1]; //后一题
+  initShiti(midShiti, self); //初始化试题对象
+  initShiti(nextShiti, self); //初始化试题对象
 
-    self.setData({ //先把答题板数组置空
-      markAnswerItems: []
-    })
+  let sliderShitiArray = [];
 
-    initMarkAnswer(shitiArray.length, self); //初始化答题板数组
+  sliderShitiArray[0] = midShiti;
+  sliderShitiArray[1] = nextShiti;
 
-    let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id + username);
+  self.setData({ //先把答题板数组置空
+    markAnswerItems: []
+  })
 
-    //根据章是否有字节的结构来
-    if (jieIdx != "undefined") {
-      answer_nums_array[zhangIdx][jieIdx] = [];
-    } else {
-      answer_nums_array[zhangIdx] = [];
-    }
-    wx.setStorageSync("shiti" + self.data.zhangjie_id + username, answer_nums_array); //重置已答数组
+  initMarkAnswer(shitiArray.length, self); //初始化答题板数组
 
-    self.setData({
-      shiti: self.data.shitiArray[0],
-      doneAnswerArray: [], //已做答案数组
-      rightNum: 0, //正确答案数
-      wrongNum: 0, //错误答案数
-    })
+  let answer_nums_array = wx.getStorageSync("shiti" + self.data.zhangjie_id + username);
+
+  //根据章是否有字节的结构来
+  if (jieIdx != "undefined") {
+    answer_nums_array[zhangIdx][jieIdx] = [];
+  } else {
+    answer_nums_array[zhangIdx] = [];
   }
+  wx.setStorageSync("shiti" + self.data.zhangjie_id + username, answer_nums_array); //重置已答数组
+
+  storeLastShiti(1, self)
+
+  self.setData({
+    myCurrent: 0,
+    shitiArray: shitiArray,
+    doneAnswerArray: [], //已做答案数组
+    rightNum: 0, //正确答案数
+    wrongNum: 0, //错误答案数
+    lastSliderIndex: 0, //把最后一次的slider置位0,否则重置后滑动时不会得到正确的px值
+    sliderShitiArray: sliderShitiArray,
+    px: 1
+  })
 }
 
 function initShitiArrayDoneAnswer(shitiArray) {

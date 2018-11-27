@@ -63,7 +63,7 @@
 <modelCount hidden="{{!isLoaded}}" text="{{text}}" id="modelCount" nums="{{nums}}" px="{{shitiNum}}" class="bottom" bindrestart="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
 </modelCount>
 <!-- 答题板 -->
-<markAnswer id="markAnswer" done_answers="{{jieDoneAnswerArray}}" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
+<markAnswer id="markAnswer"  windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
 <!-- 点击水波 -->
 <waterWave id="waterWave"></waterWave>
