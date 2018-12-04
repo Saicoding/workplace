@@ -25,7 +25,9 @@
     "pages/mine/about/about",
     "pages/video/videoIndex/videoIndex",
     "pages/mine/set/set",
-    "pages/video/videoDetail/videoDetail"
+    "pages/video/videoDetail/videoDetail",
+    "pages/tiku/live/live",
+    "pages/tiku/pastVideo/pastVideo"
   ],
   "window": {
     "backgroundTextStyle": "light",

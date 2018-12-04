@@ -7,7 +7,7 @@ let easeInAnimation = animate.easeInAnimation();
 /**
  * 初始化试题
  */
-function initShiti(shiti, self) {
+function initShiti(shiti) {
   let TX = shiti.TX;
 
   //给试题设置章idx 节idx 和默认已做答案等

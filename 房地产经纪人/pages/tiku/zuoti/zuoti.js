@@ -2,14 +2,10 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../common/shiti.js');
 let animate = require('../../../common/animate.js')
-let easeOutAnimation = animate.easeOutAnimation();
-let easeInAnimation = animate.easeInAnimation();
 let isFold = true; //默认都是折叠的
 let post = require('../../../common/post.js');
 
-const util = require('../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
-const winHeight = wx.getSystemInfoSync().windowHeight
 const app = getApp();
 
 Page({
@@ -97,12 +93,9 @@ Page({
     let str = "#q" + px; //当前问题组件id
     let question = self.selectComponent(str); //当前问题组件
 
-    let lastSliderIndex = self.data.lastSliderIndex; //当前滑块index
     let shitiArray = self.data.shitiArray; //当前试题数组
-    let sliderShitiArray = self.data.sliderShitiArray; //当前滑块试题数组
     let shiti = shitiArray[px - 1]; //当前试题
     let height = self.data.height;
-    let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前滑块试题
 
     if (!shiti.isAnswer&&!shiti.confirm) return;
 
@@ -138,7 +131,6 @@ Page({
     let px = self.data.px;
     let direction = "";
     let shitiArray = self.data.shitiArray;
-    let doneAnswerArray = self.data.doneAnswerArray;
     let circular = self.data.circular;
 
     isFold = false;

@@ -67,11 +67,26 @@ function formatDateTime(timeStamp){
   return h+":"+m+":"+s;
 }
 
+/**
+ * 根据秒数得到时间字符串
+ */
+
+function formatTimeBySecond(t) {
+  let h = parseInt(t / 3600);
+  let m = parseInt((t - h * 3600) / 60);
+  let s = t % 60;
+
+  m = m < 10 ? "0" + m : m;
+  s = s < 10 ? "0" + s : s;
+  return h + "小时" + m + "分" + s + "秒";
+}
+
 
 module.exports = {
   getGoneTimeStr: getGoneTimeStr,
   getTime: getTime,
   start: start,
   restart: restart,
-  formatDateTime: formatDateTime
+  formatDateTime: formatDateTime,
+  formatTimeBySecond: formatTimeBySecond
 }
