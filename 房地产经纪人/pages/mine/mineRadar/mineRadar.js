@@ -36,8 +36,6 @@ Page({
     time: '12:00',
     dateTimeArray: null,
     dateTime: null,
-    dateTimeArray1: null,
-    dateTime1: null,
     startYear: 2018,
     endYear: new Date().getFullYear()
   },
@@ -48,10 +46,6 @@ Page({
   onLoad: function(options) {
     // 获取完整的年月日 时分秒，以及默认显示的数组
     var obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
-    var obj1 = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
-    // 精确到分的处理，将数组的秒去掉
-    var lastArray = obj1.dateTimeArray.pop();
-    var lastTime = obj1.dateTime.pop();
 
     wx.setNavigationBarTitle({
       title: options.title,
@@ -66,10 +60,8 @@ Page({
 
     self.setData({
       user: user,
-      dateTime: obj.dateTime,
       dateTimeArray: obj.dateTimeArray,
-      dateTimeArray1: obj1.dateTimeArray,
-      dateTime1: obj1.dateTime
+      dateTime: obj.dateTime
     })
 
   },
@@ -247,19 +239,37 @@ Page({
 
   },
 
-  changeDateTime1(e) {
-    this.setData({ dateTime1: e.detail.value });
+  changeDateTime(e) {
+    let obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
+    let c_dateTime = obj.dateTime;
+    let dateTimeArray = obj.dateTimeArray;
+
+    let dateTime = e.detail.value;
+
+    let s_time = dateTimeArray[0][dateTime[0]] * 525600 + dateTimeArray[1][dateTime[1]] * 43200 + dateTimeArray[2][dateTime[2]] * 1440 + dateTimeArray[3][dateTime[3]] * 60 + dateTimeArray[4][dateTime[4]];
+    let c_time = dateTimeArray[0][c_dateTime[0]] * 525600 + dateTimeArray[1][c_dateTime[1]] * 43200 + dateTimeArray[2][c_dateTime[2]] * 1440 + dateTimeArray[3][c_dateTime[3]] * 60 + dateTimeArray[4][c_dateTime[4]];
+
+    if(s_time > c_time){//如果选择的时间大于当前时间
+      dateTime = c_dateTime;
+    }
+
+    this.setData({
+      dateTime: dateTime
+    })
+
+    
+
   },
 
-  changeDateTimeColumn1(e) {
-    var arr = this.data.dateTime1, dateArr = this.data.dateTimeArray1;
+  changeDateTimeColumn(e) {
+    var arr = this.data.dateTime, dateArr = this.data.dateTimeArray;
 
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
 
     this.setData({
-      dateTimeArray1: dateArr,
-      dateTime1: arr
+      dateTimeArray: dateArr,
+      dateTime: arr
     });
   }
 })
