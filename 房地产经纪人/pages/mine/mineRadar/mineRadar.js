@@ -11,7 +11,7 @@ let windowWidth = wx.getSystemInfoSync().windowWidth; //窗口高度
 
 let mW = wx.getSystemInfoSync().windowWidth; //Canvas的宽度
 
-let mCenter = mW / 2 - 25 * (windowWidth / 750 ); //中心点
+let mCenter = mW / 2 - 25 * (windowWidth / 750); //中心点
 let mAngle = Math.PI * 2 / numCount; //角度
 let mRadius = mCenter - 40 * (750 / windowWidth); //半径(减去的值用于给绘制的文本留空间)
 //获取指定的Canvas
@@ -31,7 +31,7 @@ Page({
       ["考前秘籍", 0],
       ["考点学习", 0]
     ],
-    loaded:false,
+    loaded: false,
     date: '2018-10-01',
     time: '12:00',
     dateTimeArray: null,
@@ -56,12 +56,15 @@ Page({
 
     let user = wx.getStorageSync('user');
 
-    self.getStudyRate(user,kmid);
+    let date_j = obj.dateTimeArray[0][obj.dateTime[0]] + "-" + obj.dateTimeArray[1][obj.dateTime[1]] + "-" + obj.dateTimeArray[2][obj.dateTime[2]] + "*" + obj.dateTimeArray[3][obj.dateTime[3]] + ":" + obj.dateTimeArray[4][obj.dateTime[4]] + ":00";
+
+    self.getStudyRate(user, kmid, date_j);
 
     self.setData({
       user: user,
       dateTimeArray: obj.dateTimeArray,
-      dateTime: obj.dateTime
+      dateTime: obj.dateTime,
+      kmid: kmid
     })
 
   },
@@ -82,15 +85,20 @@ Page({
     });
   },
 
-  getStudyRate(user,kmid) {
+  getStudyRate(user, kmid, date_j) {
     let self = this;
 
-    app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode+"&kmid="+kmid, false, false, "").then((res) => {
+    let str = encodeURI("action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j)
+   
+    console.log("action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j)
+         
+    app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j, false, false, "").then((res) => {
+      console.log(res)
       let chanelArray = self.data.chanelArray;
       let rate = res.data.data[0];
       chanelArray[0][1] = rate.zhangjie;
       chanelArray[1][1] = rate.shijuan;
-      chanelArray[2][1] = rate.shipin; 
+      chanelArray[2][1] = rate.shipin;
       chanelArray[3][1] = rate.miji;
       chanelArray[4][1] = rate.kaodian;
 
@@ -107,7 +115,7 @@ Page({
    * 在返回页面的时候
    */
   onShow: function() {
- 
+
   },
 
   // 雷达图
@@ -243,13 +251,14 @@ Page({
     let obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
     let c_dateTime = obj.dateTime;
     let dateTimeArray = obj.dateTimeArray;
+    let user = this.data.user;
 
     let dateTime = e.detail.value;
 
     let s_time = dateTimeArray[0][dateTime[0]] * 525600 + dateTimeArray[1][dateTime[1]] * 43200 + dateTimeArray[2][dateTime[2]] * 1440 + dateTimeArray[3][dateTime[3]] * 60 + dateTimeArray[4][dateTime[4]];
     let c_time = dateTimeArray[0][c_dateTime[0]] * 525600 + dateTimeArray[1][c_dateTime[1]] * 43200 + dateTimeArray[2][c_dateTime[2]] * 1440 + dateTimeArray[3][c_dateTime[3]] * 60 + dateTimeArray[4][c_dateTime[4]];
 
-    if(s_time > c_time){//如果选择的时间大于当前时间
+    if (s_time > c_time) { //如果选择的时间大于当前时间
       dateTime = c_dateTime;
     }
 
@@ -257,12 +266,15 @@ Page({
       dateTime: dateTime
     })
 
-    
-
+    let kmid = this.data.kmid;
+    let date_j = dateTimeArray[0][dateTime[0]] + "-" + dateTimeArray[1][dateTime[1]] + "-" + dateTimeArray[2][dateTime[2]] + "*" + dateTimeArray[3][dateTime[3]] + ":" + dateTimeArray[4][dateTime[4]] + ":00";
+    console.log(date_j)
+    this.getStudyRate(user, kmid, date_j);
   },
 
   changeDateTimeColumn(e) {
-    var arr = this.data.dateTime, dateArr = this.data.dateTimeArray;
+    var arr = this.data.dateTime,
+      dateArr = this.data.dateTimeArray;
 
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);

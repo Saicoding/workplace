@@ -78,6 +78,7 @@
 }
 
 piker{
+border:1rpx soilid red;
   margin-left:80rpx;
   font-size:25rpx;
 }
@@ -94,3 +95,4 @@ piker{
   line-height: 100rpx;
   font-size:30rpx;
 }
+
