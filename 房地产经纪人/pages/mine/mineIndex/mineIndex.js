@@ -92,7 +92,7 @@ Page({
       p.foldData = animate.foldAnimation(easeInAnimation, p.height, 0);
       p.isFold = false;
       let interval = setInterval(function() {
-        p.angle += 3;
+        p.angle += 6;
         if (p.angle >= 90) {
           p.angle = 90;
           clearInterval(interval);
@@ -106,7 +106,7 @@ Page({
       p.foldData = animate.foldAnimation(easeOutAnimation, 0, p.height);
       p.isFold = true;
       let interval = setInterval(function() {
-        p.angle -= 3;
+        p.angle -= 6;
         if (p.angle <= 0) {
           p.angle = 0;
           clearInterval(interval);

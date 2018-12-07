@@ -50,14 +50,14 @@
   justify-content: center;
   align-items: center;
   position: relative;
+  margin-top:10rpx;
 }
 
 .radarCanvas {
   clear: both;
   width: 700rpx;
-  height: 650rpx;
-  margin: 0 auto;
-  margin-top:-50rpx;
+  height: 600rpx;
+  margin: 0rpx auto;
 }
 
 .loading-img{

@@ -89,9 +89,9 @@ Page({
     let self = this;
 
     let str = encodeURI("action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j)
-   
+
     console.log("action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j)
-         
+
     app.post(API_URL, "action=MyLearningProSin&username=" + user.username + "&acode=" + user.acode + "&kmid=" + kmid + "&date_j=" + date_j, false, false, "").then((res) => {
       console.log(res)
       let chanelArray = self.data.chanelArray;
@@ -146,7 +146,7 @@ Page({
       for (let j = 0; j < numCount; j++) {
         //坐标
         let x = mCenter + rdius * Math.cos(mAngle * j - 18 * Math.PI / 180);
-        let y = mCenter + rdius * Math.sin(mAngle * j - 18 * Math.PI / 180);
+        let y = mCenter - 30 + rdius * Math.sin(mAngle * j - 18 * Math.PI / 180);
         radCtx.lineTo(x, y);
       }
       radCtx.closePath()
@@ -158,9 +158,9 @@ Page({
     radCtx.beginPath();
     for (let k = 0; k < numCount; k++) {
       let x = mCenter + mRadius * Math.cos(mAngle * k - 18 * Math.PI / 180);
-      let y = mCenter + mRadius * Math.sin(mAngle * k - 18 * Math.PI / 180);
+      let y = mCenter - 30 + mRadius * Math.sin(mAngle * k - 18 * Math.PI / 180);
 
-      radCtx.moveTo(mCenter, mCenter);
+      radCtx.moveTo(mCenter, mCenter - 30);
       radCtx.lineTo(x, y);
     }
     radCtx.stroke();
@@ -171,7 +171,7 @@ Page({
     radCtx.beginPath();
     for (let m = 0; m < numCount; m++) {
       let x = mCenter + mRadius * Math.cos(mAngle * m - 18 * Math.PI / 180) * mData[m][1] / 100;
-      let y = mCenter + mRadius * Math.sin(mAngle * m - 18 * Math.PI / 180) * mData[m][1] / 100;
+      let y = mCenter - 30 + mRadius * Math.sin(mAngle * m - 18 * Math.PI / 180) * mData[m][1] / 100;
 
       radCtx.lineTo(x, y);
     }
@@ -187,7 +187,7 @@ Page({
     radCtx.font = '16px cursive' //设置字体
     for (let n = 0; n < numCount; n++) {
       let x = mCenter + mRadius * Math.cos(mAngle * n - 18 * Math.PI / 180);
-      let y = mCenter + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
+      let y = mCenter - 30 + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
       //通过不同的位置，调整文本的显示位置
       switch (n) {
         case 0:
@@ -211,7 +211,7 @@ Page({
     radCtx.font = '10px cursive' //设置字体
     for (let n = 0; n < numCount; n++) {
       let x = mCenter + mRadius * Math.cos(mAngle * n - 18 * Math.PI / 180);
-      let y = mCenter + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
+      let y = mCenter - 30 + mRadius * Math.sin(mAngle * n - 18 * Math.PI / 180);
       //通过不同的位置，调整文本的显示位置
       switch (n) {
         case 0:
@@ -237,7 +237,7 @@ Page({
     let r = 3; //设置节点小圆点的半径
     for (let i = 0; i < numCount; i++) {
       let x = mCenter + mRadius * Math.cos(mAngle * i - 18 * Math.PI / 180) * mData[i][1] / 100;
-      let y = mCenter + mRadius * Math.sin(mAngle * i - 18 * Math.PI / 180) * mData[i][1] / 100;
+      let y = mCenter - 30 + mRadius * Math.sin(mAngle * i - 18 * Math.PI / 180) * mData[i][1] / 100;
 
       radCtx.beginPath();
       radCtx.arc(x, y, r, 0, Math.PI * 2);
