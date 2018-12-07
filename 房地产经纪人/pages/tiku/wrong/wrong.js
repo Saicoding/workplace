@@ -50,10 +50,10 @@ Page({
     let px = 1;
     let circular = false;
     let myFavorite = 0;
-    let requesttime = time.formatDateTime((new Date()).valueOf());//请求时间（第一次请求的时间）
+    let requesttime = time.formatDateTime((new Date()).valueOf()); //请求时间（第一次请求的时间）
 
-    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&requesttime=" + requesttime, false, true, "","", true, self).then((res) => {
-      post.wrongOnload(options, px, circular, myFavorite, res, user, requesttime,self);
+    app.post(API_URL, "action=GetErrorShiti&kid=" + kid + "&username=" + username + "&acode=" + acode + "&requesttime=" + requesttime, false, true, "", "", true, self).then((res) => {
+      post.wrongOnload(options, px, circular, myFavorite, res, user, requesttime, self);
       isFold = false;
     }).catch((errMsg) => {
       wx.hideLoading();
@@ -132,7 +132,7 @@ Page({
 
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
     let pageall = self.data.pageall; //当前题库错题页总页数
-    let requesttime = self.data.requesttime;//第一次请求的时间
+    let requesttime = self.data.requesttime; //第一次请求的时间
 
     let kid = self.data.kid; //题库编号
 
@@ -156,7 +156,7 @@ Page({
     if (direction == "左滑") {
       px++;
       if (px % 10 >= 7) { //滑动到号大于7，这时判断有没有下一个page
-        let nextPage = ((px-1) - (px-1) % 10) / 10 + 2;
+        let nextPage = ((px - 1) - (px - 1) % 10) / 10 + 2;
 
 
         if (pageArray.indexOf(nextPage) == -1 && nextPage <= pageall) { //已渲染数组不包含下一页面
@@ -176,7 +176,9 @@ Page({
 
             self.setData({
               shitiArray: shitiArray,
+              isLoaded:true
             })
+            wx.hideLoading();
           }).catch((errMsg) => {
             console.log(errMsg); //错误提示信息
             wx.hideLoading();
@@ -187,9 +189,9 @@ Page({
       px--;
 
       if (px % 10 <= 3) { //滑动到小于等于3时，这时判断有没有上一个page
-        let prePage = ((px-1) - (px-1) % 10) / 10 ;
+        let prePage = ((px - 1) - (px - 1) % 10) / 10;
 
-        if (pageArray.indexOf(prePage) == -1 && prePage >=1) { //已渲染数组不包含下一页面
+        if (pageArray.indexOf(prePage) == -1 && prePage >= 1) { //已渲染数组不包含下一页面
           pageArray.push(prePage); //请求后就添加到已渲染数组
           self.setData({
             pageArray: pageArray
@@ -207,7 +209,9 @@ Page({
 
             self.setData({
               shitiArray: shitiArray,
+              isLoaded: true
             })
+            wx.hideLoading();
           }).catch((errMsg) => {
             console.log(errMsg); //错误提示信息
             wx.hideLoading();
@@ -216,11 +220,9 @@ Page({
       }
 
     }
-
-
-    let preShiti = undefined; //前一题
-    let nextShiti = undefined; //后一题
-    let midShiti = shitiArray[px - 1]; //中间题
+    let midShiti = shitiArray[px - 1];
+    let nextShiti = undefined;
+    let preShiti = undefined;
 
     myFavorite = midShiti.favorite;
 
@@ -229,9 +231,16 @@ Page({
       if (px < shitiArray.length) { //如果还有下一题
         nextShiti = shitiArray[px];
         common.initShiti(nextShiti, self); //初始化试题对象
-
-        //先处理是否是已经回答的题    
         common.processDoneAnswer(nextShiti.done_daan, nextShiti, self);
+      }
+      if (px + 1 < shitiArray.length){//如果有下下题
+        if(shitiArray[px+1].id == undefined){
+          wx.showToast({
+            title: '载入试题中...',
+            icon:'none',
+            mask:true
+          })
+        }
       }
       preShiti = shitiArray[px - 2]; //肯定会有上一题
     } else { //右滑
@@ -239,6 +248,15 @@ Page({
         preShiti = shitiArray[px - 2];
         common.initShiti(preShiti, self); //初始化试题对象
         common.processDoneAnswer(preShiti.done_daan, preShiti, self);
+      }
+      if (px> 2) {//如果有上上题
+        if (shitiArray[px - 3].id == undefined) {
+          wx.showToast({
+            title: '载入试题中...',
+            icon: 'none',
+            mask: true
+          })
+        }
       }
       nextShiti = shitiArray[px];
     }
@@ -284,7 +302,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       myFavorite: myFavorite,
-      xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
+      xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
       lastSliderIndex: current,
       px: px,
       checked: false
@@ -294,8 +312,8 @@ Page({
     if (midShiti.TX == 99) {
       let str = "#q" + px;
 
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
       height = height >= 400 ? 400 : height;
 
@@ -303,7 +321,7 @@ Page({
 
       animate.blockSpreadAnimation(90, height, question);
 
-      question.setData({//每切换到材料题就把占位框复位
+      question.setData({ //每切换到材料题就把占位框复位
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
       })
 
@@ -528,12 +546,11 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
-  },
+  onShow: function() {},
   /**
- * 切换纠错面板
- */
-  _toggleErrorRecovery: function (e) {
+   * 切换纠错面板
+   */
+  _toggleErrorRecovery: function(e) {
     this.markAnswer.hideDialog();
     this.errorRecovery.toogleDialog();
   },
@@ -578,9 +595,9 @@ Page({
   },
 
   /**
-* 得到新一组试题
-*/
-  getNewShiti: function (username, kid, acode, page, midShiti, preShiti, nextShiti, px, requesttime, current, circular) {
+   * 得到新一组试题
+   */
+  getNewShiti: function(username, kid, acode, page, midShiti, preShiti, nextShiti, px, requesttime, current, circular) {
     let self = this;
     let shitiArray = self.data.shitiArray;
 
@@ -614,7 +631,7 @@ Page({
   /**
    * 答题板点击编号事件,设置当前题号为点击的题号
    */
-  _tapEvent: function (e) {
+  _tapEvent: function(e) {
     let self = this;
     let px = e.detail.px;
 
@@ -627,7 +644,7 @@ Page({
 
     let pageArray = self.data.pageArray; //当前所有已经渲染的页面数组
     let pageall = self.data.pageall; //当前题库错题页总页数
-    let requesttime = self.data.requesttime;//第一次请求的时间
+    let requesttime = self.data.requesttime; //第一次请求的时间
 
     let current = self.data.lastSliderIndex; //当前swiper的index
     let circular = self.data.circular;
@@ -638,10 +655,10 @@ Page({
 
     let midShiti = shitiArray[px - 1]; //中间题
 
-    let page = ((px - 1) - (px - 1) % 10) / 10 + 1;//当前页
+    let page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
 
-    let prepage = page - 1;//上一页
-    let nextPage = page + 1;//下一页
+    let prepage = page - 1; //上一页
+    let nextPage = page + 1; //下一页
 
     self._hideMarkAnswer();
 
@@ -654,7 +671,7 @@ Page({
         isLoaded: false,
       })
 
-      if (px % 10 >= 1 && px % 10 <= 4 && pageArray.indexOf(prepage) == -1) {//如果是页码的第一题,并且有上一页,并且不在已渲染数组中
+      if (px % 10 >= 1 && px % 10 <= 4 && pageArray.indexOf(prepage) == -1) { //如果是页码的第一题,并且有上一页,并且不在已渲染数组中
         pageArray.push(prepage);
 
         self.setData({
@@ -705,9 +722,9 @@ Page({
 
   },
   /**
- * 纠错提交后
- */
-  _submit: function (e) {
+   * 纠错提交后
+   */
+  _submit: function(e) {
     let self = this;
 
     let user = wx.getStorageSync('user');
