@@ -115,8 +115,8 @@
 }
 
 .loading-img{
-  width: 750rpx;
-  height:458rpx;
-  margin:0 auto;
-  margin-top:40rpx;
+  display: block;
+  width: 118rpx;
+  height:150rpx;
+  margin:300rpx auto;
 }

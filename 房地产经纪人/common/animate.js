@@ -1,6 +1,6 @@
 function easeOutAnimation(){
   let myAnimation = wx.createAnimation({
-    duration: 1000,
+    duration: 500,
     delay: 0,
     timingFunction: "ease-out",
     transformOrigin: "50%,50%"
@@ -11,7 +11,7 @@ function easeOutAnimation(){
 
 function easeInAnimation() {
   let myAnimation = wx.createAnimation({
-    duration: 1000,
+    duration: 500,
     delay: 0,
     timingFunction: "ease-in",
     transformOrigin: "50%,50%"
@@ -23,7 +23,7 @@ function easeInAnimation() {
 
 function foldAnimation(myAnimation,max,min){
   myAnimation.height(max+"rpx", min+"rpx").step({
-    duration: 1000,
+    duration: 500,
   })
   return myAnimation.export();
 }

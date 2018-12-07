@@ -5,7 +5,7 @@
 
 <!-- 载入动画 -->
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style = "margin-top:80rpx;"></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
 </view>
 
 <view class="bottom" style = "background:{{day?'#ffffff':'#323232'}};  border-top:2rpx solid {{day?'#e4e4e4':'#1f1f1f'}};">

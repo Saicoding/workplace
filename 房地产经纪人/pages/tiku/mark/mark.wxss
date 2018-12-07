@@ -10,9 +10,10 @@
   
 }
 .loading-img{
-  width: 750rpx;
-  height:458rpx;
-  margin:0 auto;
+  display: block;
+  width: 118rpx;
+  height:150rpx;
+  margin:300rpx auto;
 }
 
 .question_cailiao1 {

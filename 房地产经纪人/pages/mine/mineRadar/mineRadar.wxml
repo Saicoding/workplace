@@ -6,19 +6,18 @@
     <view class="nickname">{{user.Nickname}}</view>
   </view>
   <view class="time">
-    <image class="time-icon" src="/imgs/date.png" mode="aspectFit"></image>
-    <picker  mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+    <picker class="picker changeType" mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
+      <image class="time-icon" src="/imgs/date.png" mode="aspectFit"></image>
       <view class="tui-picker-detail">
         当前统计时间: {{dateTimeArray[0][dateTime[0]]}}-{{dateTimeArray[1][dateTime[1]]}}-{{dateTimeArray[2][dateTime[2]]}} {{dateTimeArray[3][dateTime[3]]}}:{{dateTimeArray[4][dateTime[4]]}}
       </view>
     </picker>
-
   </view>
 
   <view wx:if="{{loaded}}" class='radarContainer'>
     <canvas class='radarCanvas' canvas-id='radarCanvas'></canvas>
   </view>
   <view wx:if="{{!loaded}}">
-    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
+    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style = "margin-top:100rpx;"></image>
   </view>
 </view>

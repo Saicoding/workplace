@@ -31,6 +31,7 @@ Page({
 
       console.log("action=getPlaySign&LoginRandom=" + LoginRandom + "&zcode=" + zcode)
       app.post(API_URL, "action=getPlaySign&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, false, "").then((res) => {
+        console.log(res)
         let img = res.data.data.img;
         let sign = res.data.data.sign;
         let title = res.data.data.title;
