@@ -11,10 +11,10 @@
 }
 
 .loading-img{
-  display: block;
+  display:block;
   width: 118rpx;
   height:150rpx;
-  margin:400rpx auto;
+  margin:0 auto;
 }
 
 .mulu {

@@ -81,8 +81,8 @@
   </scroll-view>
 
   <!-- 载入动画 -->
-  <view wx:if="{{!isLoaded}}">
-    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
+  <view wx:if="{{!isLoaded}}" style = "position: relative;top:100rpx;">
+    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
   </view>
 </view>
 
