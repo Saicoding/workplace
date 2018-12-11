@@ -203,9 +203,8 @@ Page({
             text: nums.toString(),
           })
         }else{
-          wx.setTabBarBadge({
-            index: 3,
-            text: "",
+          wx.removeTabBarBadge({
+            index: 3
           })
         }
 

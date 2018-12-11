@@ -8,7 +8,7 @@
 
     <view class="block1">
       <text class="text1"> 房地产经纪人</text>
-      <view class="text2">冲刺班 3980
+      <view class="text2">冲刺班 4580
         <span style="font-size:23rpx;margin-left:5rpx;">元</span>
       </view>
       <view class="bt-block">
@@ -30,7 +30,7 @@
 
     <view class="block2">
       <text class="text1"> 房地产经纪人协理</text>
-      <view class="text2">冲刺班 1980
+      <view class="text2">冲刺班 2480
         <span style="font-size:23rpx;margin-left:5rpx;">元</span>
       </view>
       <view class="bt-block">
