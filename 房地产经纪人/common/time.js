@@ -81,6 +81,23 @@ function formatTimeBySecond(t) {
   return h + "小时" + m + "分" + s + "秒";
 }
 
+/**
+ * 距离某天还有多少天
+ * param: 格式 2018-04-01
+ */
+function leftTime(t){
+  let timeStamp = Date.parse(new Date());
+
+  let d = new Date(t);
+  let day = d.getTime(d) // 得到时间戳
+
+  //时间差
+  let left = (day - timeStamp) / (1000 * 86400); 
+  left = Math.ceil(left);
+
+  return left;
+}
+
 
 module.exports = {
   getGoneTimeStr: getGoneTimeStr,
@@ -88,5 +105,6 @@ module.exports = {
   start: start,
   restart: restart,
   formatDateTime: formatDateTime,
-  formatTimeBySecond: formatTimeBySecond
+  formatTimeBySecond: formatTimeBySecond,
+  leftTime: leftTime
 }

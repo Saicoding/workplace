@@ -213,7 +213,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       myFavorite: myFavorite,
-      xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
+      xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
       lastSliderIndex: current,
       px: px,
       checked: false
@@ -224,8 +224,8 @@ Page({
     if (midShiti.TX == 99) {
       let str = "#q" + px;
 
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
       height = height >= 400 ? 400 : height;
 
@@ -233,7 +233,7 @@ Page({
 
       animate.blockSpreadAnimation(90, height, question);
 
-      question.setData({//每切换到材料题就把占位框复位
+      question.setData({ //每切换到材料题就把占位框复位
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
       })
 
@@ -586,7 +586,7 @@ Page({
       px: px,
       circular: circular,
       myFavorite: myFavorite,
-      xiaotiCurrent: 0,//没滑动一道题都将材料题小题的滑动框index置为0
+      xiaotiCurrent: 0, //没滑动一道题都将材料题小题的滑动框index置为0
       lastSliderIndex: current,
       checked: false
     })
@@ -597,14 +597,14 @@ Page({
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
       height = height >= 400 ? 400 : height;
 
       let question = self.selectComponent(str);
 
-      animate.blockSpreadAnimation(90, height, question);//占位框动画
+      animate.blockSpreadAnimation(90, height, question); //占位框动画
 
       question.setData({
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
@@ -614,6 +614,16 @@ Page({
         height: height
       })
     }
+  },
+
+  /**
+   * 小题滑块改动时
+   */
+  xtSliderChange: function(e) {
+    let xtCurrent = e.detail.current;
+    this.setData({
+      xtCurrent: xtCurrent
+    })
   },
 
   /**
@@ -629,7 +639,14 @@ Page({
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
     let shiti = shitiArray[px - 1];
-    let stid = shiti.id
+    let stid = "";
+
+    if (shiti.TX == 99) {
+      let xtCurrent = self.data.xtCurrent;
+      stid = shiti.xiaoti[xtCurrent].id;
+    } else {
+      stid = shiti.id;
+    }
 
     app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason, true, false, "提交中").then((res) => {
       self.errorRecovery.hideDialog();

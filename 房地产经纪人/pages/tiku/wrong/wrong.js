@@ -721,6 +721,17 @@ Page({
     }
 
   },
+
+  /**
+ * 小题滑块改动时
+ */
+  xtSliderChange: function (e) {
+    let xtCurrent = e.detail.current;
+    this.setData({
+      xtCurrent: xtCurrent
+    })
+  },
+
   /**
    * 纠错提交后
    */
@@ -734,7 +745,14 @@ Page({
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
     let shiti = shitiArray[px - 1];
-    let stid = shiti.id
+    let stid = "";
+
+    if (shiti.TX == 99) {
+      let xtCurrent = self.data.xtCurrent;
+      stid = shiti.xiaoti[xtCurrent].id;
+    } else {
+      stid = shiti.id;
+    }
 
     app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason, true, false, "提交中").then((res) => {
       self.errorRecovery.hideDialog();

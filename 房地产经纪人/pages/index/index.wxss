@@ -115,6 +115,30 @@
   width: 100%;
 }
 
+.center-time-block{
+  clear: both;
+  width:200rpx;
+  margin-left:60rpx;
+  margin-top:130rpx;
+}
+
+.center-time-block-text,.center-time-block-icon{
+  display: float;
+  float:left;
+}
+
+.center-time-block-text{
+  font-size:25rpx;
+  letter-spacing: 4rpx;
+  height:40rpx;
+  line-height: 40rpx;
+}
+
+.center-time-block-icon{
+  width:40rpx;
+  height:40rpx;
+}
+
 @keyframes scaleout1 {
   0% {
     transform: scale(1.0);

@@ -7,6 +7,7 @@
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 const app = getApp(); //获取app对象
 let validate = require('../../common/validate.js');
+let time = require('../../common/time.js');
 let buttonClicked = false;
 
 Page({
@@ -30,6 +31,12 @@ Page({
     let self = this;
 
     let user = wx.getStorageSync('user');
+
+    let leftTime = time.leftTime("2019-02-04");
+
+    self.setData({//设置倒计时
+      leftTime: leftTime
+    })
 
     this.setWindowWidthHeightScrollHeight(); //获取窗口高度 宽度 并计算章节滚动条的高度
 

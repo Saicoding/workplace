@@ -29,10 +29,21 @@
       </view>
     </view>
     <view class='t_center' bindtap="GOkaoqianmiji">
-      <view class="center-block">
-        <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考前秘笈</view>
-        <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/划重点</view>
-      </view>
+      <swiper class="center-block" autoplay interval="5000" duration="600" circular>
+        <swiper-item>
+          <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考前秘笈</view>
+          <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/划重点</view>
+        </swiper-item>
+        <swiper-item>
+          <view class="center-text" style="margin-top:70rpx;font-size:35rpx;letter-spacing:2rpx;">距离下次考试</view>
+          <view class ="center-time-block">
+            <view class="center-time-block-text" >还有</view>
+            <image class="center-time-block-icon" src="/imgs/square.png" mode="aspectFit"></image>
+            <view class="center-time-block-text" style="color:rgb(202, 18, 18);margin-left:-38rpx;font-weight:bold;letter-spacing:0rpx;">{{leftTime}}</view>
+            <view class="center-time-block-text" style = "margin-left:5rpx;"> 天</view>
+          </view>
+        </swiper-item>
+      </swiper>
     </view>
   </view>
   <view class="wave1">
@@ -81,7 +92,7 @@
   </scroll-view>
 
   <!-- 载入动画 -->
-  <view wx:if="{{!isLoaded}}" style = "position: relative;top:100rpx;">
+  <view wx:if="{{!isLoaded}}" style="position: relative;top:100rpx;">
     <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
   </view>
 </view>

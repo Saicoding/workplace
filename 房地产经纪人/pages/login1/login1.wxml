@@ -11,7 +11,7 @@
       </view>
       <text class = "login-text">手机快捷登录</text>
     </button>
-    <button open-type="getUserInfo" class = "login-button-2"  hover-class="select2" bindgetuserinfo = "wxLogin">
+    <button open-type="getUserInfo" class = "login-button-2"  hover-class="select2" hover-stay-time='500' bindgetuserinfo = "wxLogin">
       <view class = "small-img-container">
         <image class = "small-img-2" src="/imgs/login3.png" mode="aspectFit"></image>
       </view>
