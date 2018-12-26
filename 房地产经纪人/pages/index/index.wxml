@@ -29,13 +29,13 @@
       </view>
     </view>
     <view class='t_center' bindtap="GOkaoqianmiji">
-      <swiper class="center-block" autoplay interval="5000" duration="600" circular>
+      <swiper class="center-block" autoplay interval="3000" duration="1000" circular>
         <swiper-item>
           <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考前秘笈</view>
           <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/划重点</view>
         </swiper-item>
         <swiper-item>
-          <view class="center-text" style="margin-top:70rpx;font-size:35rpx;letter-spacing:2rpx;">距离下次考试</view>
+          <view class="center-text" style="margin-top:70rpx;font-size:35rpx;">距下次考试</view>
           <view class ="center-time-block">
             <view class="center-time-block-text" >还有</view>
             <view class="center-time-block-text left-time" style="color:rgb(202, 18, 18);font-weight:bold;text-align:center;">{{leftTime}}</view>

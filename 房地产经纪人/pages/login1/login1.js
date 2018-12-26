@@ -3,6 +3,7 @@ const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let WXBizDataCrypt = require('../../utils/cryptojs/RdWXBizDataCrypt.js');
 let appId = "wxf90a298a65cfaca8";
 let secret = "4bb3fe58d349718b6832c04bf462d832";
+let buttonClicked = false;
 
 // pages/login1/login1.js
 Page({
@@ -34,7 +35,8 @@ Page({
           let openid = res.data.openid;
           self.setData({
             sesstion_key: sesstion_key,
-            openid: openid
+            openid: openid,
+            hasCode: true
           })
         })
       }
@@ -54,6 +56,12 @@ Page({
    */
   wxLogin: function(e) {
     let self = this;
+    let hasCode = self.data.hasCode;
+
+    //限制连续点击
+    if (buttonClicked && !hasCode) return;
+    buttonClicked = true;
+
     let wxid = ""; //openId
     let session_key = ""; //
     let ifGoPage = self.data.ifGoPage //是否返回上一级菜单

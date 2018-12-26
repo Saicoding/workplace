@@ -37,6 +37,7 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
+          console.log(res)
           let status = res.data.status;
           let message = res.data.message;
           if (status == 1) {//请求成功

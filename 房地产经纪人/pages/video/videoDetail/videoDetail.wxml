@@ -1,6 +1,6 @@
 <!--pages/video/videoDetail/videoDetail.wxml-->
 
-<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play"
+<video bindtap="tooglePlay" id="myVideo" controls initial-time="{{videos[px-1].lastViewLength}}" poster="{{img}}" class="video" src="{{videos[px-1].videoUrl == undefined?'':videos[px-1].videoUrl}}" bindended="end" bindtimeupdate="timeupdate" bindwaiting="waiting" custom-cache="false" bindplay="play"
   bindpause="pause" enable-progress-gesture show-center-play-btn="{{false}}" autoplay="{{autoplay}}">
   <cover-view class="unBuy" wx:if="{{buy==0}}">
     <cover-view class="unBuy-text">您尚未购买</cover-view>
