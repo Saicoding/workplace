@@ -39,7 +39,7 @@
           <view class ="center-time-block">
             <view class="center-time-block-text" >还有</view>
             <image class="center-time-block-icon" src="/imgs/square.png" mode="aspectFit"></image>
-            <view class="center-time-block-text" style="color:rgb(202, 18, 18);margin-left:-38rpx;font-weight:bold;letter-spacing:0rpx;">{{leftTime}}</view>
+            <view class="center-time-block-text" style="color:rgb(202, 18, 18);margin-left:-40rpx;font-weight:bold;letter-spacing:0rpx;width:40rpx;text-align:center;">{{leftTime}}</view>
             <view class="center-time-block-text" style = "margin-left:5rpx;"> 天</view>
           </view>
         </swiper-item>

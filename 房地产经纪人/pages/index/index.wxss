@@ -118,8 +118,8 @@
 .center-time-block{
   clear: both;
   width:200rpx;
-  margin-left:60rpx;
-  margin-top:130rpx;
+  margin-left:62rpx;
+  margin-top:140rpx;
 }
 
 .center-time-block-text,.center-time-block-icon{
@@ -129,7 +129,6 @@
 
 .center-time-block-text{
   font-size:25rpx;
-  letter-spacing: 4rpx;
   height:40rpx;
   line-height: 40rpx;
 }
@@ -137,6 +136,7 @@
 .center-time-block-icon{
   width:40rpx;
   height:40rpx;
+  margin-left:4rpx;
 }
 
 @keyframes scaleout1 {
