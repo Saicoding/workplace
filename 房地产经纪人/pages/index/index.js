@@ -32,7 +32,7 @@ Page({
 
     let user = wx.getStorageSync('user');
 
-    let leftTime = time.leftTime("2019-02-04");
+    let leftTime = time.leftTime("2019-04-20");
 
     self.setData({//设置倒计时
       leftTime: leftTime

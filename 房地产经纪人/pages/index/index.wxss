@@ -118,8 +118,9 @@
 .center-time-block{
   clear: both;
   width:200rpx;
-  margin-left:62rpx;
+  margin-left:55rpx;
   margin-top:140rpx;
+  text-align: center;
 }
 
 .center-time-block-text,.center-time-block-icon{
@@ -133,10 +134,13 @@
   line-height: 40rpx;
 }
 
-.center-time-block-icon{
-  width:40rpx;
-  height:40rpx;
-  margin-left:4rpx;
+.left-time{
+  background: white;
+  border-radius: 7rpx;
+  padding-left:10rpx;
+  padding-right:10rpx;
+  margin-left:5rpx;
+  margin-right:5rpx;
 }
 
 @keyframes scaleout1 {
