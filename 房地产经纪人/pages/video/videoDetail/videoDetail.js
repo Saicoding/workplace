@@ -61,12 +61,15 @@ Page({
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
+        let platform = res.platform;
+        console.log(platform)
 
         windowHeight = (windowHeight * (750 / windowWidth));
 
         self.setData({
           windowHeight: windowHeight,
           windowWidth: windowWidth,
+          platform: platform
         })
       }
     });
@@ -153,7 +156,7 @@ Page({
     }
 
     if (loaded && buied == undefined) return;
-    if (myproduct == buied) { //从购买页面回来的
+    if (myproduct == buied) { //从开通页面回来的
       loaded = false;
       app.post(API_URL, "action=getCourseShow&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&kcid=" + kcid, false, false, "", "").then((res) => {
 
@@ -172,7 +175,7 @@ Page({
         let currentVideo = videos[px - 1];
         if (currentVideo.videoUrl == "") {
           wx.showToast({
-            title: '您还没有购买此课程',
+            title: '您还没有开通此课程',
             icon: 'none',
             duration: 3000
           })
@@ -186,7 +189,7 @@ Page({
 
         self.initVideos(videos, px, my_canvas); //初始化video的图片信息
 
-        let buy = res.data.data[0].buy; //是否已经购买
+        let buy = res.data.data[0].buy; //是否已经开通
         let tag = res.data.data[0].tag; //标签
         let info = res.data.data[0].info; //简介信息
         let kc_money = res.data.data[0].kc_money; //价格   
@@ -208,6 +211,7 @@ Page({
 
       })
     }
+    console.log(self.data.isPlaying)
   },
   /**
    * 使用流量继续观看
@@ -380,7 +384,7 @@ Page({
 
     if (currentVideo.videoUrl == "") {
       wx.showToast({
-        title: '您还没有购买此课程',
+        title: '您还没有开通此课程',
         icon: 'none',
         duration: 3000
       })
@@ -490,7 +494,7 @@ Page({
 
     if (currentVideo.videoUrl == "") {
       wx.showToast({
-        title: '您还没有购买此课程',
+        title: '您还没有开通此课程',
         icon: 'none',
         duration: 3000
       })
@@ -544,7 +548,7 @@ Page({
 
     if (currentVideo.videoUrl == "") {
       wx.showToast({
-        title: '您还没有购买此课程',
+        title: '您还没有开通此课程',
         icon: 'none',
         duration: 3000
       })
@@ -611,7 +615,7 @@ Page({
 
     if (currentVideo.videoUrl == "") {
       wx.showToast({
-        title: '您还没有购买此课程',
+        title: '您还没有开通此课程',
         icon: 'none',
         duration: 3000
       })
@@ -747,7 +751,7 @@ Page({
   },
 
   /**
-   * 购买课程
+   * 开通课程
    */
   buy: function (e) {
     let self = this;
@@ -764,11 +768,11 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
-        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
           let openid = res.data.openid;
 
           console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
-          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
+          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
 
             let status = res.data.status;
             console.log(status)
@@ -794,10 +798,10 @@ Page({
                 'signType': "MD5",
                 success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
-                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
+                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "开通中", ).then((res) => {
 
                       wx.showToast({
-                        title: '购买成功',
+                        title: '开通成功',
                         icon: 'none',
                         duration: 3000
                       })
@@ -867,10 +871,10 @@ Page({
       success: res => {
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         code = res.code;
-        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
+        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "开通中").then((res) => {
           let openid = res.data.openid;
 
-          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
+          app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "开通中").then((res) => {
 
             let status = res.data.status;
 
@@ -895,12 +899,12 @@ Page({
                 'signType': "MD5",
                 success: function (res) {
                   if (res.errMsg == "requestPayment:ok") { //成功付款后
-                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "购买中", ).then((res) => {
-                      self.setData({ //设置已经购买
+                    app.post(API_URL, "action=BuyTC&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product, true, false, "开通中", ).then((res) => {
+                      self.setData({ //设置已经开通
                         buy: 1
                       })
                       wx.showToast({
-                        title: '购买成功',
+                        title: '开通成功',
                         icon: 'none',
                         duration: 3000
                       })

@@ -59,6 +59,10 @@
   margin:300rpx auto;
 }
 
+.video-play{
+
+}
+
 .video-icon{
   width:100rpx;
   height:100rpx;

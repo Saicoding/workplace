@@ -2,7 +2,7 @@
 
 <view class="mycontainer">
   <!-- 第一块 -->
-  <view class="up">
+  <view class="up" wx:if="{{platform !='ios'}}">
     <image class="bg" src="/imgs/bg1.png" mode="aspectFit">
     </image>
 
@@ -24,7 +24,7 @@
   </view>
 
   <!-- 第二块 -->
-  <view class="down">
+  <view class="down" wx:if="{{platform !='ios'}}">
     <image class="bg" src="/imgs/bg2.png" mode="aspectFit">
     </image>
 
@@ -46,7 +46,7 @@
   </view>
 
   <!-- 联系本地运营商,享受专属折扣优惠 -->
-  <view wx:if="{{hasCompany}}" class="service" bindtap='tel'>
+  <view wx:if="{{hasCompany}}" class="service" bindtap='tel' style="top:{{platform == 'ios'?30:630}}rpx">
     <view class="service-text1">联系本地运营商 享受专属折扣优惠</view>
     <view class="company-name">{{company}}</view>
     <view class="address">{{address}}</view>

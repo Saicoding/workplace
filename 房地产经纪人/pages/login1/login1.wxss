@@ -5,13 +5,9 @@
   padding: 0rpx;
 }
 
-.big-img-container {
-  width: 100%;
-  text-align: center;
-  margin-top: 150rpx;
-}
-
 .big-img {
+  margin: 0 auto;
+  margin-top: 150rpx;
   width: 500rpx;
 }
 
@@ -19,50 +15,40 @@
   text-align: center;
 }
 
-.login-button-1 {
-  width: 500rpx;
-  height: 90rpx;
+.login-button{
+  font-size: 30rpx;
+  width: 600rpx;
+  height: 80rpx;
   margin-top: 50rpx;
-  border-radius: 45rpx;
+  border-radius: 80rpx;
   color: white;
+  line-height: 80rpx;
+}
+
+.login-button-1 {
   background: #388ff8;
 }
 
 .login-button-2 {
-  width: 500rpx;
-  height: 90rpx;
-  margin-top: 50rpx;
-  border-radius: 45rpx;
-  color: white;
   background: #00ca0e;
 }
 
-.small-img-container {
-  margin-left: 38rpx;
+
+.small-img,.login-text{
   display: float;
   float: left;
-  width: 100rpx;
-  height: 90rpx;
-  vertical-align: middle;
 }
 
-.small-img-1 {
+.small-img{
   width: 40rpx;
   height: 40rpx;
-  margin-top: 25rpx;
-}
-
-.small-img-2 {
-  width: 40rpx;
-  height: 40rpx;
-  margin-top: 25rpx;
+  margin-top: 20rpx;
+  margin-left:150rpx;
 }
 
 .login-text {
-  display: float;
-  float: left;
-  font-size: 35rpx;
-  letter-spacing: 7rpx;
+  letter-spacing: 3rpx;
+  margin-left:10rpx;
 }
 
 .select1 {

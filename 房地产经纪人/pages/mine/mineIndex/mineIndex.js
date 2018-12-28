@@ -191,7 +191,9 @@ Page({
       let url = encodeURIComponent('/pages/mine/mineIndex/mineIndex');
 
       app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
+
         let nums = res.data.nums;
+        console.log(nums)
         self.setData({
           nums: nums,
           user:user

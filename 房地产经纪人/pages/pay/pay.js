@@ -73,10 +73,12 @@ Page({
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
+        let platform = res.platform;
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,
-          windowHeight: windowHeight
+          windowHeight: windowHeight,
+          platform: platform
         })
       }
     });
