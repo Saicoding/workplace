@@ -1,0 +1,58 @@
+<!--pages/pay/kanjia/kanjia.wxml-->
+<view class= "mycontainer">
+  <!-- 顶部bannner -->
+  <image class ="top" src="/imgs/kanjiaBanner.jpg" mode ="aspectFit"></image>
+  <!-- 中间 -->
+  <view class ="mid">
+    <!-- 中间标题 -->
+    <view class ="mid-title">我正在抢购 {{title}} 砍价中...</view>
+
+    <!-- 价格方框和三角 -->
+    <view class ="mid-price" style ="margin-left:{{nowLength}}rpx;">
+      <view class ="mid-price-text">¥ <span style = "font-weight: bolder">{{money_now}}</span></view>
+      <view class ="mid-price-triangle"></view>
+    </view>
+
+    <!-- 价格进度 -->
+    <view class ="mid-rate">
+      <view class ="mid-rate-slider1"></view>
+      <view class ="mid-rate-slider2" style ="width:{{nowLength}}rpx;" ></view>
+      <view class ="mid-rate-price"> ¥ <span style = "font-weight: bolder">{{money_zong}}</span></view>
+    </view>
+
+    <!-- 时间倒计时 -->
+    <view class ="countdown">
+      <view class ="countdown-text" style="width:220rpx;text-align:right;">剩余{{nowLength1}}</view>
+      <view class ="countdonw-block">{{timeObj.hStr}}</view>
+      <view class ="countdown-text">:</view>
+      <view class ="countdonw-block">{{timeObj.mStr}}</view>
+      <view class ="countdown-text">:</view>
+      <view class ="countdonw-block">{{timeObj.sStr}}</view>
+       <view class ="countdown-text" style="width:220rpx;">结束</view>
+    </view>
+  
+  </view>
+
+  <!-- 砍价按钮 -->
+  <button wx:if ="{{me ==1}}" class ="kanjia">继续分享砍价</button>
+  <button wx:if ="{{me ==0}}" class ="kanjia">一键帮<span style ="font-weight:bold;">TA</span>砍价</button>
+
+  <!-- 帮好友加速 -->
+  <view class ="jiasu">
+    <view class ="jiasu-top">已有6名用户帮好友加速</view>
+    <view wx:for="{{jiasuUsers}}" wx:for-item="user" wx:key="l">
+      <view class = "jiasu-block">
+        <image class ="jiasu-block-pic" src= "{{user.pic}}" mode ="aspectFit"></image>
+        <image wx:if ="{{user.headPic !=undefined}}" class ="jiasu-block-pic-icon" src="{{user.headPic}}" mode ="aspectFit"></image>
+        <image wx:if ="{{user.num !=undefined}}" class ="jiasu-block-pic-icon" src="{{user.num}}" mode ="aspectFit"></image>
+        <view class ="jiasu-block-text" style ="color:#d84055;margin-left:30rpx;">{{user.nickname}}</view>
+        <view class ="jiasu-block-text" style ="margin-left:100rpx;">TA帮你砍掉<span style="color:#fb5995">50元</span></view>
+        <view class ="jiasu-block-text" style ="margin-right:50rpx;margin-left:65rpx;">2018.12.3</view>
+      </view>
+    </view>
+  </view>
+  <!-- 规则 -->
+  <view class ="role">
+  
+  </view>
+</view>

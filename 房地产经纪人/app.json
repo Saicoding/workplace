@@ -1,7 +1,9 @@
 {
   "pages": [
+
+    "pages/pay/kanjia/kanjia",
+    "pages/pay/pay",
     "pages/index/index",
-    "pages/logs/logs",
     "pages/tiku/zuoti/zuoti",
     "pages/login1/login1",
     "pages/prompt/jieAnswerAll/jieAnswerAll",
@@ -17,7 +19,6 @@
     "pages/mine/mineIndex/mineIndex",
     "pages/phoneLogin/phoneLogin",
     "pages/tiku/kaoqianmiji/kaoqianmiji",
-    "pages/pay/pay",
     "pages/kaodianDetail/kaodianDetail",
     "pages/mine/mineRadar/mineRadar",
     "pages/mine/message/message",
@@ -31,7 +32,7 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#0197F6",
+    "navigationBarBackgroundColor": "#2b85ff",
     "navigationBarTitleText": "房地产经纪人考试通",
     "navigationBarTextStyle": "white"
   },

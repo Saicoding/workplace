@@ -98,6 +98,30 @@ function leftTime(t){
   return left;
 }
 
+/**
+ * 得到剩余时间（秒）
+ */
+function leftTime2(t){
+  let timeStamp1 = Date.parse(new Date());//当前时间戳
+  let timeStamp2 = Date.parse(t);//未来时间戳
+  return (timeStamp2 - timeStamp1) / 1000;
+}
+
+/**
+ * 根据剩余秒数得到时间对象
+ */
+function getTimeObj(t) {
+  let timeObj = {};
+  let h = parseInt(t / 3600);
+  let m = parseInt((t - h * 3600) / 60);
+  let s = t % 60;
+
+  timeObj.hStr = h < 10 ? "0" + h : h;
+  timeObj.mStr = m < 10 ? "0" + m : m;
+  timeObj.sStr = s < 10 ? "0" + s : s;
+
+  return timeObj;//时间对象
+}
 
 module.exports = {
   getGoneTimeStr: getGoneTimeStr,
@@ -106,5 +130,7 @@ module.exports = {
   restart: restart,
   formatDateTime: formatDateTime,
   formatTimeBySecond: formatTimeBySecond,
-  leftTime: leftTime
+  leftTime: leftTime,
+  leftTime2: leftTime2,
+  getTimeObj: getTimeObj
 }

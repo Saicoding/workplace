@@ -1,0 +1,180 @@
+/* pages/pay/kanjia/kanjia.wxss */
+
+.mycontainer {
+}
+
+.top {
+  background: white;
+  width: 100%;
+  height: 428rpx;
+  z-index: -1;
+}
+
+.mid {
+  position: relative;
+  height: 380rpx;
+  width: 92%;
+  box-shadow: #dcedf8 3rpx 3rpx 8rpx 1rpx;
+  left: 4%;
+  border-radius: 8rpx;
+  top: -70rpx;
+}
+
+.mid-title {
+  background: white;
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  height: 100rpx;
+  line-height: 100rpx;
+  color: black;
+  border-radius: 8rpx;
+}
+
+.mid-price {
+}
+
+.mid-price-text {
+  background: #2582ff;
+  color: white;
+  height: 55rpx;
+  font-size: 28rpx;
+  width: 155rpx;
+  text-align: center;
+  line-height: 55rpx;
+  border-radius: 5rpx;
+  letter-spacing: 3rpx;
+}
+
+.mid-price-triangle {
+  position: relative;
+  width: 0;
+  height: 0;
+  border-width: 7px 7px 0;
+  border-style: solid;
+  border-color: #2582ff transparent transparent; /*灰 透明 透明 */
+  left: 20rpx;
+}
+
+/* 进度 */
+
+.mid-rate {
+  margin-top: 25rpx;
+}
+
+.mid-rate-slider1, .mid-rate-slider2 {
+  display: float;
+  float: left;
+  height: 7rpx;
+  border-radius: 10rpx;
+  margin-left: 30rpx;
+}
+
+.mid-rate-slider1 {
+  width: 500rpx;
+  background: #e9e9e9;
+}
+
+.mid-rate-slider2 {
+  position:relative;
+  background: #2486fb;
+  left:-530rpx;
+}
+
+.mid-rate-price {
+  display: float;
+  float: right;
+  background: #d1e7fd;
+  width: 100rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  border-radius: 7rpx;
+  font-size: 25rpx;
+  text-align: center;
+  margin-right: 30rpx;
+  margin-top: -25rpx;
+  color: #4662e2;
+}
+
+.countdown {
+  clear: both;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  margin-top: 80rpx;
+}
+
+.countdown-text {
+  font-size: 25rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  color: rgb(148, 148, 148);
+}
+
+.countdonw-block {
+  font-size: 22rpx;
+  height: 40rpx;
+  width: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  border-radius: 5rpx;
+  background: black;
+  color: white;
+}
+
+/* 砍价 */
+
+.kanjia{
+  position: relative;
+  width:80%;
+  height:100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size:35rpx;
+  background: linear-gradient(to right,#029cfe,#4267f7);
+  border-radius: 100rpx;
+  color:white;
+  top:-120rpx;
+}
+
+/* 加速 */
+
+.jiasu{
+  width: 92%;
+  margin:0 auto;
+  margin-top:-80rpx;
+  box-shadow: #dcedf8 3rpx 3rpx 8rpx 1rpx;
+  border-radius: 8rpx;
+  margin-bottom:60rpx;
+}
+
+.jiasu-top{
+  height:100rpx;
+  line-height: 100rpx;
+  width:100%;
+  padding-left:30rpx;
+  font-size:30rpx;
+}
+
+.jiasu-block{
+  height:70rpx;
+  line-height:70rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.jiasu-block-pic{
+  width:50rpx;
+  height:50rpx;
+  border-radius: 50rpx;
+  margin-left:50rpx;
+}
+
+.jiasu-block-text{
+  font-size:25rpx;
+  color:rgb(145, 145, 145);
+}

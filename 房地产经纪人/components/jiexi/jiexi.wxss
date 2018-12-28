@@ -39,7 +39,7 @@
   line-height: 40rpx;
   font-size: 26rpx;
   border-radius: 10rpx;
-   box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
+  box-shadow: #dcedf8 3rpx 3rpx 8rpx 1rpx ;
   background: white;
   padding:30rpx 20rpx 40rpx 35rpx;
 }
