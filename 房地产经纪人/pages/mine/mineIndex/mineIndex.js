@@ -36,7 +36,7 @@ Page({
         'rate': 'jjr',
         'angle': 0,
         'isFold': true,
-        'height': 380,
+        'height': 310,
         'src': '/imgs/blue-rate.png',
         'jie': [{
             'title': '房地产交易制度政策',
@@ -59,7 +59,7 @@ Page({
       {
         'title': '【房地产经纪人协理】 学习进度',
         'rate': 'xl',
-        'height': 200,
+        'height': 160,
         'isFold': true,
         'angle': 0,
         'src': '/imgs/orange-rate.png',

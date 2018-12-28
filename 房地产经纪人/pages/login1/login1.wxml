@@ -5,13 +5,13 @@
 
 
   <view class="login">
-    <button class="login-button" style="background: #388ff8;" hover-class="select1" bindtap='userPwdLogin'>
+    <button class="login-button-1" hover-class="select1" bindtap='userPwdLogin' hover-stay-time='500' >
 
       <image class="small-img" src="/imgs/login2.png" mode='aspectFit'></image>
 
       <text class="login-text">手机快捷登录</text>
     </button>
-    <button open-type="getUserInfo" style="background: #00ca0e;" class="login-button" hover-class="select2" hover-stay-time='500' bindgetuserinfo="wxLogin">
+    <button class="login-button-2" open-type="getUserInfo"  hover-class="select2" hover-stay-time='500' bindgetuserinfo="wxLogin">
 
       <image class="small-img" src="/imgs/login3.png" mode="aspectFit"></image>
 

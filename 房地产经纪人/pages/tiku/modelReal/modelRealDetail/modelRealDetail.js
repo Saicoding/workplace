@@ -267,6 +267,7 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.modelCount = this.selectComponent("#modelCount");
+    this.clJiexi = this.selectComponent("#clJiexi");
 
     this.modelCount.setData({
       time: time1.getTime(self.data.times)
@@ -626,6 +627,21 @@ Page({
     if (self.data.isSubmit) {
       self._showMarkAnswer();
     }
+  },
+  
+  /**
+  * 材料题点击查看解析
+  */
+  viewJiexi: function (e) {
+    let jiexi = e.currentTarget.dataset.jiexi;
+    let answer = e.currentTarget.dataset.answer;
+
+    this.setData({
+      cl_jiexi: jiexi,
+      cl_answer: answer
+    })
+
+    this.clJiexi.showDialog();
   },
 
   /**

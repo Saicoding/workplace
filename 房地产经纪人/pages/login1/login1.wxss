@@ -15,7 +15,7 @@
   text-align: center;
 }
 
-.login-button{
+.login-button-1,.login-button-2{
   font-size: 30rpx;
   width: 600rpx;
   height: 80rpx;

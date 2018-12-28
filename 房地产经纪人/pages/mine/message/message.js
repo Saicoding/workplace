@@ -129,7 +129,7 @@ Page({
 
     let pagesize = 15;
 
-    app.post(API_URL, "action=GetNotices&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&pagesize=" + pagesize + "&page=" + page, true, false, "载入中").then((res) => {
+    app.post(API_URL, "action=GetNotices&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&pagesize=" + pagesize + "&page=" + page, false, false, "").then((res) => {
       let newMessages = res.data.list;
 
       messages.push.apply(messages, newMessages);

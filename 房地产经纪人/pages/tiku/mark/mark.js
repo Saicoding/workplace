@@ -66,6 +66,7 @@ Page({
     //获得dialog组件
     this.markAnswer = this.selectComponent("#markAnswer");
     this.errorRecovery = this.selectComponent("#errorRecovery");
+    this.clJiexi = this.selectComponent("#clJiexi");
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function(res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -454,6 +455,21 @@ Page({
     let self = this;
 
     common.markRestart(self); //重新开始作答
+  },
+
+  /**
+  * 材料题点击查看解析
+  */
+  viewJiexi: function (e) {
+    let jiexi = e.currentTarget.dataset.jiexi;
+    let answer = e.currentTarget.dataset.answer;
+
+    this.setData({
+      cl_jiexi: jiexi,
+      cl_answer: answer
+    })
+
+    this.clJiexi.showDialog();
   },
 
   /**

@@ -38,10 +38,12 @@
                     <!--单选题-->
                     <view wx:if="{{xiaoti.TX == 1}}">
                       <singleSelect data-px="{{xiaoti.px}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{isSubmit}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                     </view>
                     <!--多选题-->
                     <view wx:if="{{xiaoti.TX ==2}}">
                       <multiSelect data-px="{{xiaoti.px}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLAnswerSelect"></multiSelect>
+                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{isSubmit}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                     </view>
                   </swiper-item>
                 </block>
@@ -67,3 +69,6 @@
 </markAnswer>
 <!-- 点击水波 -->
 <waterWave id="waterWave"></waterWave>
+
+<!-- 材料题解析面板 -->
+<clJiexi id="clJiexi" cl_jiexi="{{cl_jiexi}}" cl_answer="{{cl_answer}}"></clJiexi>

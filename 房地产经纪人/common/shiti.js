@@ -658,7 +658,8 @@ function changeSelectStatus(done_daan, shiti, ifSubmit) {
       shiti.isAnswer = true;
       break;
     case "多选题":
-      let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
+      let answers = shiti.answer.replace(/,|\s+/g, "");
+      answers = answers.split(""); //将“ABD” 这种字符串转为字符数组
       if (!ifSubmit) shiti.done_daan = done_daan; //已经做的选择
 
       for (let i = 0; i < answers.length; i++) {

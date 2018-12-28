@@ -88,3 +88,19 @@ page {
   margin-top:40rpx;
   line-height: 80rpx;
 }
+
+.viewJiexi{
+  font-size:25rpx;
+  height:40rpx;
+  width:200rpx;
+  border:1rpx solid #0197f6;
+  line-height: 40rpx;
+  border-radius: 40rpx;
+  color:#0197f6;
+  margin:20rpx auto;
+  text-align: center;
+}
+
+.select1{
+  background: #79c5f5;
+}

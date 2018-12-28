@@ -1,5 +1,5 @@
 <!--pages/tiku/zuoti/index.wxml-->
-<swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
+<swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange" >
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
       <scroll-view scroll-y style="height:{{windowHeight-85}}rpx;">
@@ -11,7 +11,7 @@
           <view style="margin-botoom:50rpx;" wx:if="{{shiti.TX == 1}}">
             <singleSelect shiti="{{shiti}}" checked="{{checked}}" bindanswerSelect="_answerSelect"> </singleSelect>
             <!-- 解析 -->
-            <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
+            <jiexi answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
           </view>
 
           <!--多选题-->
@@ -21,7 +21,7 @@
 
             <view class='submit_answer' wx:if="{{!shiti.isAnswer}}" bindtap="_answerSelect">确认选择</view>
             <!-- 解析 -->
-            <jiexi isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
+            <jiexi answer="{{shiti.answer}}" isAnswer="{{shiti.isAnswer}}" jiexi="{{shiti.jiexi}}"></jiexi>
           </view>
 
           <!--材料题-->
@@ -40,12 +40,13 @@
                     <!--单选题-->
                     <view wx:if="{{xiaoti.TX == 1}}">
                       <singleSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{xiaoti.isAnswer}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                     </view>
                     <!--多选题-->
                     <view wx:if="{{xiaoti.TX ==2}}">
                       <multiSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
                       <button data-px="{{index+1}}" class='submit_answer' wx:if="{{!xiaoti.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
-
+                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{xiaoti.isAnswer}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                     </view>
                   </swiper-item>
                 </block>
@@ -59,14 +60,17 @@
 </swiper>
 
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
 </view>
 <!-- 底部正确错误个数统计条 -->
 <count id="count" rightNum="{{rightNum}}" wrongNum="{{wrongNum}}" nums="{{nums}}" px="{{px}}" isMark="{{myFavorite}}" class="bottom" bindtoogleMark="_toogleMark" bindtoogleMarkAnswer="_toogleMarkAnswer" bindtoggleErrorRecovery="_toggleErrorRecovery">
 </count>
 <!-- 答题板 -->
-<markAnswer isLianxi="true" id="markAnswer"  windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart = "_restart">
+<markAnswer isLianxi="true" id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent" bind:restart="_restart">
 </markAnswer>
 
 <!-- 纠错板 -->
 <errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>
+
+<!-- 材料题解析面板 -->
+<clJiexi id ="clJiexi" cl_jiexi="{{cl_jiexi}}" cl_answer = "{{cl_answer}}"></clJiexi>

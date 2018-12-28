@@ -3,29 +3,27 @@
 }
 
 .jiexi_border {
-  width: 100%;
+  width: 93%;
   height: 50rpx;
   clear: both;
   display: block;
   align-content: center;
-  padding-left: 170rpx;
+  margin:0 auto;
 }
 
 .line {
   display: float;
   float: left;
-  width: 150rpx;
+  width: 278rpx;
+  height:30rpx;
   margin-top: 20rpx;
-  border: 0;
-  height: 0;
-  border-top: 1rpx solid rgba(0, 0, 0, 0.2);
-  border-bottom: 1rpx solid rgba(255, 255, 255, 0.3);
+  border-top: 1rpx solid rgb(226, 226, 226);
 }
 
 .txt {
   display: float;
   float: left;
-  color: #686868;
+  color: #000000;
   margin: 0 20rpx;
   font-size: 25rpx;
 }
@@ -33,11 +31,26 @@
 .jiexi {
   margin: 0 auto;
   margin-top: 25rpx;
+  margin-bottom:50rpx;
   text-align: left;
   clear: both;
-  width: 80%;
+  width: 88%;
   color: #666;
   line-height: 40rpx;
-  font-size: 25rpx;
-  text-indent: 40rpx;
+  font-size: 26rpx;
+  border-radius: 10rpx;
+   box-shadow: rgb(231, 230, 230) 3rpx 3rpx 8rpx 1rpx ;
+  background: white;
+  padding:30rpx 20rpx 40rpx 35rpx;
 }
+
+.jiexi-text1{
+  font-size:28rpx;
+  color:black;
+}
+
+.jiexi-text2{
+  margin-top:30rpx;
+}
+
+

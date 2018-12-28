@@ -12,7 +12,7 @@
   top:100rpx;
   background: white;
   z-index: 100;
-  border-radius:30rpx;
+  border-radius:10rpx;
   padding-bottom: 35rpx;
 }
 
