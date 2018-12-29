@@ -1,9 +1,8 @@
 {
   "pages": [
-
+    "pages/index/index",
     "pages/pay/kanjia/kanjia",
     "pages/pay/pay",
-    "pages/index/index",
     "pages/tiku/zuoti/zuoti",
     "pages/login1/login1",
     "pages/prompt/jieAnswerAll/jieAnswerAll",

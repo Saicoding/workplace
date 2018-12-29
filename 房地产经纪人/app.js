@@ -49,6 +49,11 @@ App({
             })
           } else if(status == -5){//重复登录
             console.log('重复登录')
+            if (self) {//如果传了这个参数
+              self.setData({
+                isReLoad: true
+              })
+            }
             wx.navigateTo({
               url: '/pages/login1/login1?url=' + pageUrl+'&ifGoPage='+ifGoPage
             })
@@ -72,8 +77,13 @@ App({
               icon: 'none',
               duration: 3000
             })
+          }else if(status == -990){
+            wx.showToast({
+              title: message,
+              icon: 'none',
+              duration: 3000
+            })
           }
-
 
           wx.hideLoading();
         },

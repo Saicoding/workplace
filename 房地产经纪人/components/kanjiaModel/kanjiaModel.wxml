@@ -1,0 +1,14 @@
+<!--components/Dialog/dialog.wxml-->
+
+<view hidden="{{!isShow}}" class="container-in" catchtap='stopBubbling'>
+  <view bindtap="hideDialog" class="close"></view>
+  <view class="text1">您成功帮忙砍价</view>
+  <view class="text2">¥{{money}}</view>
+
+  <button open-type='share' class="btn1"></button>
+  <view bindtap= "_GOxuexi" class="btn2"></view>
+</view>
+
+
+<view wx:if="{{isShow}}" class="modal" bindtap="tapBlank">
+</view>

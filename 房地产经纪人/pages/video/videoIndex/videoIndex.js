@@ -101,6 +101,24 @@ Page({
           videoList: videoList,
           loaded:true
         })
+
+        //得到消息数目
+        let url = encodeURIComponent('/pages/videoIndex/videoIndex');
+        app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
+          let nums = res.data.nums;
+
+          if (nums > 0) {
+            nums = nums.toString();
+            wx.setTabBarBadge({
+              index: 3,
+              text: nums,
+            })
+          } else {
+            wx.removeTabBarBadge({
+              index: 3,
+            })
+          }
+        })
       })
     }
   },

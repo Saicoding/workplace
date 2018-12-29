@@ -183,32 +183,14 @@ Page({
       }
     })
   },
+  /**
+   * 导航到砍价页面
+   */
+  GOkanjia:function(e){
+    let taocan = e.currentTarget.dataset.taocan;
 
-  onShareAppMessage:function(result){
-    // 用户信息
-    let user = wx.getStorageSync('user');
-    let loginrandom = user.Login_random;
-    let zcode = user.zcode;
-
-    let product = result.target.dataset.product;//点击的产品
-
-    app.post(API_URL, "action=KanjiaCreate&loginrandom=" + loginrandom + "&zcode=" + zcode + "&taocan=" + product, false, false, "").then(res1 => {
-      let kan_id = res1.data.data[0].kan_id;
-      console.log(kan_id)
-      return {
-        title: '我正在抢购课程 求砍价!',
-        path: '/pages/pay/kanjia/kanjia?kan_id=' + kan_id, //这里设定都是以"/page"开头,并拼接好传递的参数
-        imageUrl: '/imgs/kanjiaBanner.jpg',
-        success: (res) => {
-          console.log('ok')
-          wx.navigateTo({
-            url: '/pages/pay/kanjia/kanjia?me=1&kan_id=' + kan_id,
-          })
-        },
-        fail: (res) => {
-          console.log('haha')
-        }
-      }
+    wx.navigateTo({
+      url: '/pages/pay/kanjia/kanjia?taocan='+taocan+"&me=1",
     })
   }
 })

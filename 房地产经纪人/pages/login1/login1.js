@@ -24,7 +24,8 @@ Page({
     this.setData({
       url: decodeURIComponent(options.url),
       url1: options.url,
-      ifGoPage: options.ifGoPage
+      ifGoPage: options.ifGoPage,
+      redirect: options.redirect
     })
 
     wx.login({
@@ -65,6 +66,7 @@ Page({
     let wxid = ""; //openId
     let session_key = ""; //
     let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
+    let redirect = self.data.redirect;//是否直接转
     let url = self.data.url; //需要导航的url
 
     let encryptedData = e.detail.encryptedData;
@@ -97,10 +99,17 @@ Page({
       wx.navigateBack({}) //先回到登录前的页面
 
       if (ifGoPage == 'true') {
-        wx.navigateTo({
-          url: url,
-        })
+        if (redirect){
+          wx.redirectTo({//是直接跳转
+            url: url,
+          })
+        }else{
+          wx.navigateTo({
+            url: url,
+          })
+        }
       }
+
     })
   },
 })

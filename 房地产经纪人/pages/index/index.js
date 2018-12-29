@@ -567,6 +567,7 @@ Page({
         let zcode = user.zcode;
 
         let url = encodeURIComponent('/pages/index/index');
+        // 请求消息
         app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
           let nums = res.data.nums;
 

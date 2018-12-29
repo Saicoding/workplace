@@ -57,8 +57,8 @@
   </view>
 </view>
 
-<button data-product="DB16" open-type='share' style="margin-top:850rpx;" >砍价1</button>
-<button data-product="DB18" open-type='share' style="margin-top:850rpx;" >砍价2</button>
+<button data-taocan="DB16"  style="margin-top:850rpx;"  bindtap = "GOkanjia">砍价1</button>
+<button data-taocan="DB18"   bindtap = "GOkanjia">砍价2</button>
 
 <!-- 支付详细信息 -->
 <payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>

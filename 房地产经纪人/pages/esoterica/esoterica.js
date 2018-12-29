@@ -43,6 +43,29 @@ Page({
    */
   onShow:function(){
     buttonClicked = false;
+    //得到消息数目
+    let url = encodeURIComponent('/pages/esoterica/esoterica');
+    let user = wx.getStorageSync('user');
+
+    if(user !=""){
+      let LoginRandom = user.Login_random;
+      let zcode = user.zcode;
+      app.post(API_URL, "action=GetNoticesNums&LoginRandom=" + LoginRandom + "&zcode=" + zcode, false, true, "", url).then((res) => {
+        let nums = res.data.nums;
+
+        if (nums > 0) {
+          nums = nums.toString();
+          wx.setTabBarBadge({
+            index: 3,
+            text: nums,
+          })
+        } else {
+          wx.removeTabBarBadge({
+            index: 3,
+          })
+        }
+      })
+    }
   },
   /**
    * 
