@@ -37,15 +37,15 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
-          console.log(res)
           let status = res.data.status;
           let message = res.data.message;
           if (status == 1) {//请求成功
             resolve(res);
           } else if(status == -2){//没有权限
-            console.log('没有权限')
+            let product = res.data.taocan;
+           
             wx.navigateTo({
-              url: '/pages/pay/pay',
+              url: '/pages/pay/pay?product=' + product,
             })
           } else if(status == -5){//重复登录
             console.log('重复登录')

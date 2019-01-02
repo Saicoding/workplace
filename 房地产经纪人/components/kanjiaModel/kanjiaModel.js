@@ -40,20 +40,25 @@ Component({
       })
     },
     //阻止事件冒泡
-    stopBubbling: function (e) {
-    },
+    stopBubbling: function(e) {},
 
     //点击了空地,让蒙版消失
-    tapBlank: function (e) {
+    tapBlank: function(e) {
       this.setData({
         isShow: false
       })
     },
 
     //继续找人帮砍
-    _GOxuexi:function(){
+    _GOxuexi: function() {
       this.hideDialog();
       this.triggerEvent("GOxuexi");
+    },
+
+    //关闭模块
+    close: function() {
+      this.hideDialog();
+      this.triggerEvent("addKanjia");
     }
 
   }

@@ -1,7 +1,7 @@
 <!--pages/pay/kanjia/kanjia.wxml-->
 <view class="mycontainer">
   <!-- 顶部bannner -->
-  <image class="top" src="/imgs/kanjiaBanner.jpg" mode="aspectFit"></image>
+  <image class="top" src="/imgs/kanjiaBanner.jpg" ></image>
   <!-- 中间 -->
   <view class="mid">
     <!-- 中间标题 -->
@@ -39,22 +39,22 @@
 
   <!-- 砍价按钮 -->
   <button wx:if="{{me ==1}}" open-type="share" class="kanjia">求助力砍价</button>
-  <view wx:if="{{me ==0 && isKaned}}">
+  <view wx:if="{{me ==0 && isKaned || iskaned}}">
     <button  bindtap = "_GOxuexi" class="kanjia">我也要学习</button>
   </view>
-  <button open-type="getUserInfo" wx:if="{{me ==0 && !isKaned}}" bindgetuserinfo="kanjia" hover-class='select1' class="kanjia">一键帮
+  <button open-type="getUserInfo" wx:if="{{me ==0 && !isKaned && !iskaned}}" bindgetuserinfo="kanjia" hover-class='select1' class="kanjia">一键帮
     <span style="font-weight:bold;">TA</span>砍价</button>
 
   <!-- 帮好友加速 -->
   <view class="jiasu">
-    <view class="jiasu-top">已有{{kan_list.length}}名好友帮加速</view>
+    <view class="jiasu-top">已有{{kan_list.length}}名好友助力砍价</view>
     <view wx:for="{{kan_list}}" wx:for-item="user" wx:key="l">
       <view class="jiasu-block">
         <image class="jiasu-block-pic" src="{{user.headurl}}" mode="aspectFit"></image>
         <!-- <image class ="jiasu-block-pic-icon" src="{{user.headurl}}" mode ="aspectFit"></image>
         <image class ="jiasu-block-pic-icon" src="{{user.num}}" mode ="aspectFit"></image> -->
         <view class="jiasu-block-text1">{{user.nickname}}</view>
-        <view class="jiasu-block-text2">TA帮你砍掉
+        <view class="jiasu-block-text2">砍掉
           <span style="color:#fb5995">{{user.money}}元</span>
         </view>
         <view class="jiasu-block-text3">{{user.addtime}}</view>
@@ -68,4 +68,4 @@
 </view>
 
 <!-- 弹窗 -->
-<kanjiaModel money="{{money}}" id="kanjiaModel" bindGOxuexi="_GOxuexi"></kanjiaModel>
+<kanjiaModel money="{{money}}" id="kanjiaModel" bindaddKanjia = "_addKanjia" bindGOxuexi="_GOxuexi"></kanjiaModel>

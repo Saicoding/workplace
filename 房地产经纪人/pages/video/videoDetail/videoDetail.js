@@ -839,7 +839,7 @@ Page({
   showPayDetail: function (e) {
     let product = e.currentTarget.dataset.product;
 
-    if (product == "jjr") {
+    if (product == "DB16") {
       this.payDetail.setData({
         product: "jjr"
       })
@@ -963,8 +963,10 @@ Page({
    * 导航到套餐页面
    */
   goPay: function () {
+    let myproduct = this.data.myproduct;
+    myproduct = myproduct =='jjr'?'DB16':'DB18';
     wx.navigateTo({
-      url: '/pages/pay/pay?goBack=true',
+      url: '/pages/pay/pay?goBack=true&product=' + myproduct,
     })
   }
 })

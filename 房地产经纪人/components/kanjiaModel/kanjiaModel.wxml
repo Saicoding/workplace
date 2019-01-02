@@ -1,7 +1,7 @@
 <!--components/Dialog/dialog.wxml-->
 
 <view hidden="{{!isShow}}" class="container-in" catchtap='stopBubbling'>
-  <view bindtap="hideDialog" class="close"></view>
+  <view bindtap="close" class="close"></view>
   <view class="text1">您成功帮忙砍价</view>
   <view class="text2">¥{{money}}</view>
 

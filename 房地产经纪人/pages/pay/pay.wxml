@@ -1,8 +1,8 @@
 <!--pages/pay/pay.wxml-->
 
-<view class="mycontainer">
+<view wx:if="{{!hasCompany}}" class="mycontainer">
   <!-- 第一块 -->
-  <view class="up" wx:if="{{platform !='ios'}}">
+  <view wx:if="{{hasCompany}}" class="up" wx:if="{{platform !='ios'}}">
     <image class="bg" src="/imgs/bg1.png" mode="aspectFit">
     </image>
 
@@ -24,7 +24,7 @@
   </view>
 
   <!-- 第二块 -->
-  <view class="down" wx:if="{{platform !='ios'}}">
+  <view wx:if="{{!hasCompany}}" class="down" wx:if="{{platform !='ios'}}">
     <image class="bg" src="/imgs/bg2.png" mode="aspectFit">
     </image>
 
@@ -46,7 +46,7 @@
   </view>
 
   <!-- 联系本地运营商,享受专属折扣优惠 -->
-  <view wx:if="{{hasCompany}}" class="service" bindtap='tel' style="top:{{platform == 'ios'?30:630}}rpx">
+  <view wx:if="{{!hasCompany}}" class="service" bindtap='tel' style="top:{{platform == 'ios'?30:630}}rpx">
     <view class="service-text1">联系本地运营商 享受专属折扣优惠</view>
     <view class="company-name">{{company}}</view>
     <view class="address">{{address}}</view>
@@ -57,8 +57,58 @@
   </view>
 </view>
 
-<button data-taocan="DB16"  style="margin-top:850rpx;"  bindtap = "GOkanjia">砍价1</button>
-<button data-taocan="DB18"   bindtap = "GOkanjia">砍价2</button>
+<!-- 砍价版 -->
+<view wx:if="{{hasCompany}}" class="mycontainer1">
+  <view class="title">{{myproduct.title}}</view>
+  <view class ="info">
+    <view class ="info-title">套餐介绍</view>
+    <view class ="info-text">
+      <view wx:for ="{{myproduct.info}}" wx:for-item="info" wx:key ="k">
+        <view class ="info-text-block">
+          <image class ="info-text-icon" src ="/imgs/shape.png" ></image>
+          <view class ="info-text-detail">{{info}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class ="info-bottom">自购买之日内两年有效</view>
+  </view>
+
+  <!-- 中间的价格 -->
+  <view class ="price">
+    <view class ="price-text">¥</view>
+    <view wx:for="{{money_now}}" wx:for-item="word" wx:key="w">
+      <view class ="price-text">{{word}}</view>
+    </view>
+  </view>
+
+  <!-- 砍价 -->
+  <view class ="kanjia">
+    <view data-taocan="{{product == 'jjr'?'DB16':'DB18'}}" class ="kanjia-btn1" bindtap="GOkanjia">{{hasEndtime?'查看':'邀请'}}好友助力砍价</view>
+    <button data-type="direct" class ="kanjia-btn2"  open-type="getUserInfo" bindgetuserinfo='_submit'>立即开通</button>
+  </view>
+
+  <!-- 助力倒计时 -->
+  <view wx:if="{{hasEndtime}}" class ="daojishi">
+    <view >助力倒计时</view>
+    <view class ="daojishi-text">{{timeObj.hStr}}</view>
+    <view style ="margin-left:10rpx;">时</view>
+    <view class ="daojishi-text">{{timeObj.mStr}}</view>
+    <view style ="margin-left:10rpx;">分</view>
+    <view class ="daojishi-text">{{timeObj.sStr}}</view>
+    <view style ="margin-left:10rpx;">秒</view>
+  </view>
+
+  <!-- 砍价规则 -->
+  <view class ="role">
+    <view class ="role-title">助力砍价规则</view>
+    <view class ="role-info">
+      <view class ="role-info-text">1.分享助力砍价成功后助力砍价计时开始。</view>
+      <view class ="role-info-text">2.邀请好友助力有效期3天,3天后好友不可再助力砍价。</view>
+      <view class ="role-info-text">3.活动期间同一个好友仅可助力一次。</view>
+    </view>
+  </view>
+</view>
 
 <!-- 支付详细信息 -->
 <payDetail windowHeight="{{windowHeight}}" id="payDetail" bindsubmit="_submit"></payDetail>

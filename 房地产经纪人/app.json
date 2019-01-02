@@ -1,8 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/pay/kanjia/kanjia",
     "pages/pay/pay",
+    "pages/pay/kanjia/kanjia",
     "pages/tiku/zuoti/zuoti",
     "pages/login1/login1",
     "pages/prompt/jieAnswerAll/jieAnswerAll",
@@ -31,7 +31,7 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#2b85ff",
+    "navigationBarBackgroundColor": "#2983fe",
     "navigationBarTitleText": "房地产经纪人考试通",
     "navigationBarTextStyle": "white"
   },

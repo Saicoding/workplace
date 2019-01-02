@@ -22,6 +22,7 @@ Page({
     zhangjie: "", //章节信息
     z_id: 0 ,//题库id
     isLoaded:false,
+    product:'jjr'
   },
 
   /**
@@ -168,6 +169,7 @@ Page({
     })
 
     app.post(API_URL, "action=SelectZj_l&z_id=" + self.data.zhangjie_id, false, false, "").then((res) => {
+      
       let answer_nums_array = [] //答题数目array
 
       let zhangjie = res.data.list; //该题库的所有章节
