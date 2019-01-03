@@ -22,7 +22,6 @@ Page({
     let self = this;
     let goBack = options.goBack;
     let product = options.product;
-    console.log(product)
 
     goBack = goBack == undefined ? "false" : goBack;
 
@@ -57,8 +56,8 @@ Page({
       success: function(res) {
         let city = res.userInfo.city;
         app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
-          res.data.data = [];
-          if (res.data.data.length == 0) { //如果没有城市代理
+          let dl = res.data.data[0].dl; 
+          if (dl == 0) { //如果没有城市代理
             wx.setNavigationBarColor({ //设置导航条颜色
               frontColor: "#ffffff",
               backgroundColor: "#6701c1",
@@ -151,6 +150,7 @@ Page({
       app.post(API_URL, "action=KanjiaInfo_sim&loginrandom=" + loginrandom + "&zcode=" + zcode + "&types=" + product, false, false, "", "", "", self).then(res => {
         let hasEndtime = true;
         let interval = "";
+       
         let endtime = res.data.data[0].endtime;
         if (endtime == "") {
           hasEndtime = false
@@ -175,7 +175,6 @@ Page({
             })
           }, 1000);
         }
-        console.log(money_now)
 
         self.setData({
           hasEndtime: hasEndtime,
@@ -249,7 +248,6 @@ Page({
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "购买中").then((res) => {
           let openid = res.data.openid;
 
-          console.log("action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid)
           app.post(API_URL, "action=unifiedorder&LoginRandom=" + Login_random + "&zcode=" + zcode + "&product=" + product + "&openid=" + openid, true, false, "购买中").then((res) => {
 
             let status = res.data.status;
@@ -281,7 +279,9 @@ Page({
                       prevPage.setData({
                         buied: product
                       })
-                      wx.navigateBack({})
+                      wx.navigateBack({
+                        delta:2
+                      })
                       wx.showToast({
                         title: '购买成功',
                         icon: 'none',
@@ -304,9 +304,26 @@ Page({
    */
   GOkanjia: function(e) {
     let taocan = e.currentTarget.dataset.taocan;
+    let hasEndtime = this.data.hasEndtime;
 
-    wx.navigateTo({
-      url: '/pages/pay/kanjia/kanjia?taocan=' + taocan + "&me=1",
-    })
+    if (!hasEndtime){
+      wx.showModal({
+        title: '提示',
+        content: '点击后助力砍价计时开始，72小时内您的朋友可帮您助力砍价，每人仅可参加一次，确定现在开始？',
+        success:function(res){
+          let confirm = res.confirm;
+          if (confirm){
+            wx.navigateTo({
+              url: '/pages/pay/kanjia/kanjia?taocan=' + taocan + "&me=1",
+            })
+          }
+        },
+        confirmColor:'#2983fe'
+      })
+    }else{
+      wx.navigateTo({
+        url: '/pages/pay/kanjia/kanjia?taocan=' + taocan + "&me=1",
+      })
+    }
   }
 })

@@ -65,7 +65,6 @@ Page({
               if (me == 0) { //没有用户
 
                 app.post(API_URL, "action=KanjiaInfo&kan_id=" + mykan_id, false, false, "").then(res => {
-                  console.log(res)
                   let result = res.data.data[0]
                   let endtime = result.endtime; //砍价截止时间
                   let title = result.title; //抢购产品
@@ -76,7 +75,6 @@ Page({
 
                   let kan_list = result.kan_list;
                   let iskaned = self.getIskaned(unionid, kan_list); //是否已经砍过
-                  console.log(iskaned)
 
                   //开始计时
                   leftTime = time.leftTime2(endtime); //剩余时间(秒数)
@@ -169,7 +167,6 @@ Page({
         let kan_id = res1.data.data[0].kan_id;
 
         app.post(API_URL, "action=KanjiaInfo&kan_id=" + kan_id, false, false, "").then(res => {
-          console.log(res)
           let result = res.data.data[0]
           let endtime = result.endtime; //砍价截止时间
           let title = result.title; //抢购产品
@@ -239,20 +236,19 @@ Page({
     } else { //如果是被分享的人
       kan_id = this.data.mykan_id;
     }
-    console.log(kan_id + '我的id')
+
     this.kanjiaModel.hideDialog();
     return {
       title: '我正在抢购课程 求砍价!',
       path: '/pages/pay/kanjia/kanjia?mykan_id=' + kan_id,
       imageUrl: 'https://xcx2.chinaplat.com/images/shair_kan.png',
       success: (res) => {
-        console.log('chenggong')
         wx.navigateTo({
           // url: '/pages/pay/kanjia/kanjia?me=1&kan_id=' + kan_id,
         })
       },
       fail: (res) => {
-        console.log('haha')
+        console.log('失败')
       }
     }
   },
@@ -308,11 +304,8 @@ Page({
    * 判断是否帮他砍过
    */
   getIskaned: function(unionId, list) {
-    console.log(list)
     for (let i = 0; i < list.length; i++) {
       let item = list[i];
-      console.log(unionId + "我的")
-      console.log(item.unionid + "好友")
       if (unionId == item.unionid) {
         return true;
       }

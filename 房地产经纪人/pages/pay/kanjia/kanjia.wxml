@@ -5,7 +5,7 @@
   <!-- 中间 -->
   <view class="mid">
     <!-- 中间标题 -->
-    <view class="mid-title">{{me==1?'我':'他'}}正在抢购 {{title}} 砍价中...</view>
+    <view class="mid-title">{{me==1?'我':'他'}}正在抢购 <span style ="color:#4267f7">{{title}} </span>砍价中...</view>
 
     <!-- 价格方框和三角 -->
     <view class="mid-price" style="margin-left:{{500-nowLength-65}}rpx;">
@@ -19,7 +19,7 @@
     <view class="mid-rate">
       <view class="mid-rate-slider1"></view>
       <view class="mid-rate-slider2" style="width:{{500-nowLength}}rpx;"></view>
-      <view class="mid-rate-price"> ¥
+      <view class="mid-rate-price" style = "text-decoration:line-through;"> ¥
         <span style="font-weight: bolder">{{money_zong}}</span>
       </view>
     </view>

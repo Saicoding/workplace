@@ -103,7 +103,7 @@
   <view class ="role">
     <view class ="role-title">助力砍价规则</view>
     <view class ="role-info">
-      <view class ="role-info-text">1.分享助力砍价成功后助力砍价计时开始。</view>
+      <view class ="role-info-text">1.邀请助力砍价成功后助力砍价计时开始。</view>
       <view class ="role-info-text">2.邀请好友助力有效期3天,3天后好友不可再助力砍价。</view>
       <view class ="role-info-text">3.活动期间同一个好友仅可助力一次。</view>
     </view>
