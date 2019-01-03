@@ -27,15 +27,6 @@ Page({
     goBack = goBack == undefined ? "false" : goBack;
 
     let myproduct = {};
-    wx.setNavigationBarColor({ //设置导航条颜色
-      frontColor: "#ffffff",
-      backgroundColor: "#6701c1",
-      animation: {
-        duration: 1000,
-        timingFunc: 'easeIn'
-      }
-    })
-
 
     if (product == 'DB16') {
       myproduct.title = "房地产经纪人冲刺套餐";
@@ -68,6 +59,14 @@ Page({
         app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
           res.data.data = [];
           if (res.data.data.length == 0) { //如果没有城市代理
+            wx.setNavigationBarColor({ //设置导航条颜色
+              frontColor: "#ffffff",
+              backgroundColor: "#6701c1",
+              animation: {
+                duration: 1000,
+                timingFunc: 'easeIn'
+              }
+            })
             self.setData({ //设置成没有城市代理
               hasCompany: false,
               myproduct: myproduct
@@ -193,7 +192,11 @@ Page({
    */
   onUnload: function() {
     let goBack = this.data.goBack;
-    if (goBack == "false") {
+    if (goBack == "true") {
+      wx.navigateBack({
+        delta:2
+      })
+    }else{
       wx.navigateBack({})
     }
   },

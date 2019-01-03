@@ -61,7 +61,6 @@
 <view wx:if="{{!hasCompany}}" class="mycontainer1">
   <view class="title">{{myproduct.title}}</view>
   <view class ="info">
-    <view class ="info-title">套餐介绍</view>
     <view class ="info-text">
       <view wx:for ="{{myproduct.info}}" wx:for-item="info" wx:key ="k">
         <view class ="info-text-block">
