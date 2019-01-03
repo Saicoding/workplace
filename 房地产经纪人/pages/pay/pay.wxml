@@ -84,7 +84,7 @@
 
   <!-- 砍价 -->
   <view class ="kanjia">
-    <view wx:if ="{{!over}}" data-taocan="{{product == 'jjr'?'DB16':'DB18'}}" class ="kanjia-btn1" bindtap="GOkanjia">{{hasEndtime?'查看':'邀请'}}好友助力砍价</view>
+    <view wx:if ="{{!over}}" data-taocan="{{product}}" class ="kanjia-btn1" bindtap="GOkanjia">{{hasEndtime?'查看':'邀请'}}好友助力砍价</view>
     <view wx:if ="{{over}}" class ="kanjia-btn1" style=" background: linear-gradient(to bottom,#029cfe,#4267f7);">活动已结束</view>
     <button data-type="direct" class ="kanjia-btn2"  open-type="getUserInfo" bindgetuserinfo='_submit'>立即开通</button>
   </view>

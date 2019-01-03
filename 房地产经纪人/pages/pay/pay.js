@@ -22,6 +22,7 @@ Page({
     let self = this;
     let goBack = options.goBack;
     let product = options.product;
+    console.log(product)
 
     goBack = goBack == undefined ? "false" : goBack;
 
@@ -146,10 +147,9 @@ Page({
     let isReLoad = self.data.isReLoad; //是否是重复登录
     let first = self.data.first; //是否是第一次渲染页面
     let product = self.data.product; //产品类型
-    let types = product == "jjr" ? 'DB16' : 'DB18';
 
     if (user != "") { //如果user = "" 
-      app.post(API_URL, "action=KanjiaInfo_sim&loginrandom=" + loginrandom + "&zcode=" + zcode + "&types=" + types, false, false, "", "", "", self).then(res => {
+      app.post(API_URL, "action=KanjiaInfo_sim&loginrandom=" + loginrandom + "&zcode=" + zcode + "&types=" + product, false, false, "", "", "", self).then(res => {
         let hasEndtime = true;
         let interval = "";
         let endtime = res.data.data[0].endtime;
