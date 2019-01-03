@@ -28,8 +28,8 @@
         <view class='t_text'>考前押题</view>
       </view>
     </view>
-    <view class='t_center' bindtap="GOkaoqianmiji">
-      <swiper class="center-block" autoplay interval="3000" duration="1000" circular>
+    <view class='t_center' >
+      <swiper class="center-block" autoplay interval="3000" duration="1000" circular bindtap='GOkaoqianmiji'>
         <swiper-item>
           <view class="center-text" style="margin-top:70rpx;font-size:40rpx;letter-spacing:2rpx;">考前秘笈</view>
           <view class="center-text" style="margin-top:20rpx;font-size:25rpx;">敲黑板/划重点</view>

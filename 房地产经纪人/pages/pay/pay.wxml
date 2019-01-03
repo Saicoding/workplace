@@ -1,6 +1,6 @@
 <!--pages/pay/pay.wxml-->
 
-<view wx:if="{{hasCompany}}" class="mycontainer">
+<view wx:if="{{hasCompany || platform =='ios'}}" class="mycontainer">
   <!-- 第一块 -->
   <view wx:if="{{hasCompany}}" class="up" wx:if="{{platform !='ios'}}">
     <image class="bg" src="/imgs/bg1.png" mode="aspectFit">
@@ -58,7 +58,7 @@
 </view>
 
 <!-- 砍价版 -->
-<view wx:if="{{!hasCompany}}" class="mycontainer1">
+<view wx:if="{{!hasCompany &&platform!= 'ios'}}" class="mycontainer1">
   <view class="title">{{myproduct.title}}</view>
   <view class ="info">
     <view class ="info-text">
