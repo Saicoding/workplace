@@ -63,7 +63,7 @@ Page({
               let unionid = data.unionId;
 
               if (me == 0) { //没有用户
-    
+
                 app.post(API_URL, "action=KanjiaInfo&kan_id=" + mykan_id, false, false, "").then(res => {
                   console.log(res)
                   let result = res.data.data[0]
@@ -185,6 +185,12 @@ Page({
 
           let interval = setInterval(res => {
             leftTime--;
+            if (leftTime < 0) { //如果时间小于0，就显示活动已经结束
+              leftTime = 0;
+              self.setData({
+                over:true
+              })
+            }
             let timeObj = time.getTimeObj(leftTime);
             self.setData({
               timeObj: timeObj
@@ -305,8 +311,8 @@ Page({
     console.log(list)
     for (let i = 0; i < list.length; i++) {
       let item = list[i];
-      console.log(unionId+"我的")
-      console.log(item.unionid+"好友")
+      console.log(unionId + "我的")
+      console.log(item.unionid + "好友")
       if (unionId == item.unionid) {
         return true;
       }
@@ -317,7 +323,7 @@ Page({
   /**
    * 关闭砍价成功模块时，添加信息
    */
-  _addKanjia:function(){
+  _addKanjia: function() {
     let self = this;
     let kan_list = self.data.kan_list;
     let obj = {};
@@ -327,7 +333,7 @@ Page({
     obj.money = self.data.money;
     obj.addtime = "刚刚";
 
-    kan_list.unshift(obj);//在第一的位置添加元素
+    kan_list.unshift(obj); //在第一的位置添加元素
     self.setData({
       kan_list: kan_list
     })

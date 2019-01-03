@@ -38,12 +38,13 @@
   </view>
 
   <!-- 砍价按钮 -->
-  <button wx:if="{{me ==1}}" open-type="share" class="kanjia">求助力砍价</button>
+  <button disabled='{{over}}' wx:if="{{me ==1}}" open-type="share" class="kanjia" style="  background: linear-gradient(to right,{{over?'rgb(253, 106, 81)':'#029cfe'}},{{over?'rgb(211, 16, 16)':'#4267f7'}});">{{over?'活动已结束':'求助力砍价'}}</button>
   <view wx:if="{{me ==0 && isKaned || iskaned}}">
     <button  bindtap = "_GOxuexi" class="kanjia">我也要学习</button>
   </view>
-  <button open-type="getUserInfo" wx:if="{{me ==0 && !isKaned && !iskaned}}" bindgetuserinfo="kanjia" hover-class='select1' class="kanjia">一键帮
+  <button open-type="getUserInfo" wx:if="{{me ==0 && !isKaned && !iskaned && !over}}" bindgetuserinfo="kanjia" hover-class='select1' class="kanjia">一键帮
     <span style="font-weight:bold;">TA</span>砍价</button>
+  <button wx:if="{{me ==0 && !isKaned && !iskaned && over}}" disabled='{{over}}' class="kanjia" style="  background: linear-gradient(to right,rgb(253, 106, 81),rgb(211, 16, 16));">活动已结束</button>
 
   <!-- 帮好友加速 -->
   <view class="jiasu">

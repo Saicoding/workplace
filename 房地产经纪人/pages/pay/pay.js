@@ -58,7 +58,6 @@ Page({
 
 
     self.setData({
-      myproduct: myproduct,
       product: product
     })
 
@@ -66,6 +65,7 @@ Page({
       success: function(res) {
         let city = res.userInfo.city;
         app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
+          res.data.data = [];
           if (res.data.data.length == 0) { //如果没有城市代理
             self.setData({ //设置成没有城市代理
               hasCompany: false,
@@ -149,7 +149,6 @@ Page({
     let types = product == "jjr" ? 'DB16' : 'DB18';
 
     if (user != "") { //如果user = "" 
-      console.log("action=KanjiaInfo_sim&loginrandom=" + loginrandom + "&zcode=" + zcode + "&types=" + types)
       app.post(API_URL, "action=KanjiaInfo_sim&loginrandom=" + loginrandom + "&zcode=" + zcode + "&types=" + types, false, false, "", "", "", self).then(res => {
         let hasEndtime = true;
         let interval = "";
@@ -165,6 +164,12 @@ Page({
         if (hasEndtime && first) { //如果已经有助力了
           interval = setInterval(res => {
             leftTime--;
+            if (leftTime < 0){
+              leftTime =0;
+              self.setData({
+                over:true
+              })
+            }
             let timeObj = time.getTimeObj(leftTime);
             self.setData({
               timeObj: timeObj

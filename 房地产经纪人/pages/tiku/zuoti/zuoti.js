@@ -486,6 +486,7 @@ Page({
    */
   onShow: function(e) {
     let self = this;
+    
   },
 
   /**
