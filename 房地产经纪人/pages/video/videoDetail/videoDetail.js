@@ -5,6 +5,7 @@ let md5 = require('../../../common/MD5.js');
 let animate = require('../../../common/animate.js');
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
+let share = require('../../../common/share.js');
 
 let changeVideo = false; //是否是通过点击更换的video
 
@@ -56,6 +57,7 @@ Page({
   onReady: function () {
     let self = this;
     this.payDetail = this.selectComponent("#payDetail");
+    self.myVideo = wx.createVideoContext('myVideo');
 
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
@@ -96,57 +98,7 @@ Page({
 
     self.videoContext = wx.createVideoContext('myVideo');
 
-    wx.getStorage({
-      key: 'turnonWifiPrompt',
-      success: function (res) {
-        let isOn = res.data;
-
-        if (isOn == 0) {
-          let interval = setInterval((res) => {
-            wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
-              success: function (res) {
-                let networkType = res.networkType
-                if (networkType != "wifi") {
-                  let lastType = self.data.lastType;
-                  if (lastType != "noWifi") {
-                    self.videoContext.stop();
-                    self.videoContext.pause();
-                    self.setData({
-                      isWifi: false,
-                      autoplay: false,
-                      isPlaying: false,
-                      lastType: "noWifi"
-                    })
-                  }
-
-                } else {
-                  let lastType = self.data.lastType;
-
-                  if (lastType != "wifi") {
-                    self.setData({
-                      autoplay: true,
-                      isPlaying: true,
-                      isWifi: true,
-                      lastType: "wifi"
-                    })
-                  }
-                }
-              }
-            })
-          }, 1000)
-          self.setData({
-            interval: interval
-          })
-        } else {
-          self.setData({
-            isWifi: true,
-            useFlux: true,
-            autoplay: true,
-            isPlaying: true,
-          })
-        }
-      },
-    })
+    share.monitorConnectType(self);
 
     let lastpx = wx.getStorageSync('lastVideo' + kcid + user.username);
     let scroll = lastpx * 100 * windowWidth / 750;
@@ -334,41 +286,6 @@ Page({
     let my_canvas = self.data.my_canvas; //当前所有画布
     let px = self.data.px; //当前视频编号
     let isPlaying = true; //是否正在播放视频
-
-    //监测是否开启非wifi提醒
-    wx.getStorage({
-      key: 'turnonWifiPrompt',
-      success: function (res) {
-        let isOn = res.data;
-        if (isOn == 0) {
-          wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放
-            success: function (res) {
-              let networkType = res.networkType
-              if (networkType != "wifi") {
-                self.setData({
-                  isWifi: false,
-                  autoplay: false,
-                  isPlaying: false
-                })
-              } else {
-                self.setData({
-                  autoplay: true,
-                  isPlaying: true,
-                  isWifi: true,
-                })
-              }
-            }
-          })
-        } else {
-          self.setData({
-            isWifi: true,
-            useFlux: true,
-            autoplay: true,
-            isPlaying: true,
-          })
-        }
-      },
-    })
 
     let index = e.currentTarget.dataset.index; //点击的视频编号
 
