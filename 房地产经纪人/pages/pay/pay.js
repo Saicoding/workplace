@@ -132,6 +132,9 @@ Page({
    * 生命周期事件
    */
   onShow: function() {
+    wx.setNavigationBarTitle({
+      title: '',
+    })
     let self = this;
 
     buttonClicked = false;
