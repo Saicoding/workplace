@@ -85,8 +85,8 @@ Page({
         shitiNum = midShiti.clpx;
         let xt = midShiti.xiaoti[0];
         let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-        if (strs.length > 200) {
-          midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+        if (strs.length > 140) {
+          midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
         }
       }
 
@@ -375,8 +375,8 @@ Page({
       shitiNum = midShiti.clpx;
       let xt = midShiti.xiaoti[0];
       let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 200) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      if (strs.length > 140) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
       }
     }
     
@@ -487,8 +487,8 @@ Page({
     let xt = sliderShiti.xiaoti[current];//当前小题
 
     let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    if (strs.length > 200) {
-      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+    if (strs.length > 140) {
+      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
       this.setData({
         sliderShitiArray: sliderShitiArray
       })
@@ -756,8 +756,8 @@ Page({
     if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
       let xt = midShiti.xiaoti[0];
       let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 200) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      if (strs.length > 140) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
       }
     }
 
