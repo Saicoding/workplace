@@ -20,9 +20,13 @@
   padding-top:5rpx;
   padding-left:15rpx;
   line-height: 45rpx;
-  font-size:35rpx;
+  font-size:32rpx;
   overflow: hidden;
   width:94%;
+}
+
+.qustion-text{
+  font-size:32rpx;
 }
 
 .question-block1 {

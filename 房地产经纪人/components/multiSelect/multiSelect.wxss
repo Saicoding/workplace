@@ -2,6 +2,7 @@
     background: #ffffff;
   width:94%;
   margin: 0 auto;
+  margin-top:-30rpx;
 }
 
 .checkbox-group {
@@ -12,11 +13,12 @@
 
 .answer-block {
   width: 100%;
-  font-size: 35rpx;
+  font-size: 30rpx;
   padding-left: 30rpx;
   padding-top: 25rpx;
   padding-bottom: 25rpx;
   vertical-align: top;
+    line-height:50rpx;
 }
 
 .answer-img {
@@ -30,9 +32,7 @@
 
 .answer-text {
   display: inline-flex;
-  font-size: 30rpx;
   margin-left:40rpx;
-  line-height:50rpx;
   width: 543rpx;
   margin-top:-5rpx;
   vertical-align: top;

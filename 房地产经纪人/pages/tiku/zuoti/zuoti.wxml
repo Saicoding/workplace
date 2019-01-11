@@ -31,7 +31,7 @@
             </view>
             <!-- 材料题小题的滑动框 -->
             <view wx:if="{{shiti.confirm||shiti.isAnswer}}">
-              <swiper current="{{xiaotiCurrent}}" indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-280}}rpx" indicator-active-color="#1d9bf7" bindchange="xtSliderChange">
+              <swiper current="{{xiaotiCurrent}}" indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-230}}rpx;" indicator-active-color="#1d9bf7" bindchange="xtSliderChange">
                 <block wx:for="{{shiti.xiaoti}}" wx:for-item="xiaoti" wx:key="ti">
                   <swiper-item>
                     <!--问题-->
@@ -39,7 +39,7 @@
 
                     <!--单选题-->
                     <view wx:if="{{xiaoti.TX == 1}}">
-                      <singleSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+                      <singleSelect  data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
                       <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{xiaoti.isAnswer}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
                     </view>
                     <!--多选题-->

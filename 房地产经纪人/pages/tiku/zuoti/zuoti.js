@@ -27,6 +27,7 @@ Page({
     isSubmit: false ,//是否已提交答卷
     circular: true,//默认slwiper可以循环滚动
     myFavorite:0,//默认收藏按钮是0
+    xtCurrent: 0//当前材料题小题滑块位置
   },
   /**
    * 生命周期函数--监听页面加载
@@ -186,6 +187,13 @@ Page({
 
     common.storeLastShiti(px, self); //存储最后一题的状态
 
+    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+      let xt = midShiti.xiaoti[0];
+      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+      if (strs.length > 200) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      }
+    }
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray=[];
@@ -486,7 +494,6 @@ Page({
    */
   onShow: function(e) {
     let self = this;
-    
   },
 
   /**
@@ -580,6 +587,15 @@ Page({
    
 
     common.initShiti(midShiti, self); //初始化试题对象
+
+    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+      let xt = midShiti.xiaoti[0];
+      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+      if (strs.length > 200) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      }
+    }
+
     common.processDoneAnswer(midShiti.done_daan, midShiti, self);
     
     if (px != 1 && px != shitiArray.length) {//如果不是第一题也是不是最后一题
@@ -674,7 +690,22 @@ Page({
    * 小题滑块改动时
    */
   xtSliderChange:function(e){
+    if(e.detail.source !='touch') return;//如果不是手动滑动就返回
+    let self = this;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let sliderShiti = sliderShitiArray[lastSliderIndex];//当前材料题
     let xtCurrent = e.detail.current;
+    let xt = sliderShiti.xiaoti[xtCurrent];//当前小题
+
+    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+    if (strs.length > 200) {
+      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      this.setData({
+        sliderShitiArray: sliderShitiArray
+      })
+    }
+
     this.setData({
       xtCurrent:xtCurrent
     })
@@ -695,7 +726,7 @@ Page({
     let shiti = shitiArray[px-1];
     let stid = "";
 
-    if(shiti.TX ==99){
+    if (shiti.TX == 99 && shiti.confirm){
       let xtCurrent = self.data.xtCurrent;
       stid = shiti.xiaoti[xtCurrent].id;
     }else{
@@ -704,6 +735,11 @@ Page({
 
     app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom+"&zcode="+zcode+"&stid="+stid+"&reason="+reason,true,false,"提交中").then((res)=>{
       self.errorRecovery.hideDialog();
+      wx.showToast({
+        icon:'none',
+        title:'提交成功,辛苦了!',
+        duration:3000
+      })
     })
   }
 })

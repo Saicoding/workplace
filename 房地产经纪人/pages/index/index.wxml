@@ -2,7 +2,7 @@
   <picker range="{{array}}" range-key="title" class='picker changeType' value="{{Index}}" bindchange="bindPickerChange" data-selecthx="{{array[index].title}}">
     <image src="/imgs/dingwei1.png" class="dingwei" mode="aspectFit"></image>
     <text class='mulu'>当前题库</text>
-    <view value="{{index}}">
+    <view value="{{index}}" style ="font-size:28rpx;">
       {{array[index].title}}>
     </view>
   </picker>

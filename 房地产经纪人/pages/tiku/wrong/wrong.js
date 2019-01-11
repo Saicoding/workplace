@@ -32,6 +32,7 @@ Page({
     isSubmit: false, //是否已提交答卷
     circular: false, //默认slwiper不可以循环滚动
     myFavorite: 0, //默认收藏按钮是0
+    xtCurrent: 0,//当前材料题小题滑块位置
 
     page: 1, //当前错题页
   },
@@ -260,6 +261,14 @@ Page({
         }
       }
       nextShiti = shitiArray[px];
+    }
+
+    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+      let xt = midShiti.xiaoti[0];
+      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+      if (strs.length > 200) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      }
     }
 
     //滑动结束后,更新滑动试题数组
@@ -669,6 +678,14 @@ Page({
 
     let midShiti = shitiArray[px - 1]; //中间题
 
+    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+      let xt = midShiti.xiaoti[0];
+      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+      if (strs.length > 200) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      }
+    }
+
     let page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
 
     let prepage = page - 1; //上一页
@@ -737,10 +754,25 @@ Page({
   },
 
   /**
- * 小题滑块改动时
- */
+   * 小题滑块改动时
+   */
   xtSliderChange: function (e) {
+    if (e.detail.source != 'touch') return;//如果不是手动滑动就返回
+    let self = this;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let sliderShiti = sliderShitiArray[lastSliderIndex];//当前材料题
     let xtCurrent = e.detail.current;
+    let xt = sliderShiti.xiaoti[xtCurrent];//当前小题
+
+    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+    if (strs.length > 200) {
+      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      this.setData({
+        sliderShitiArray: sliderShitiArray
+      })
+    }
+
     this.setData({
       xtCurrent: xtCurrent
     })
@@ -761,7 +793,7 @@ Page({
     let shiti = shitiArray[px - 1];
     let stid = "";
 
-    if (shiti.TX == 99) {
+    if (shiti.TX == 99 && shiti.confirm) {
       let xtCurrent = self.data.xtCurrent;
       stid = shiti.xiaoti[xtCurrent].id;
     } else {

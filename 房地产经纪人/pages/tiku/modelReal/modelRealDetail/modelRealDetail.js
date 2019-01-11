@@ -81,7 +81,14 @@ Page({
       let nextShiti = undefined; //后一题
       let midShiti = shitiArray[px - 1]; //中间题
 
-      if (midShiti.TX == 99) shitiNum = midShiti.clpx; //刚载入进来时编号用clpx
+      if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+        shitiNum = midShiti.clpx;
+        let xt = midShiti.xiaoti[0];
+        let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+        if (strs.length > 200) {
+          midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+        }
+      }
 
       let sliderShitiArray = [];
 
@@ -364,8 +371,13 @@ Page({
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
 
-    if (midShiti.TX == 99) {
+    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
       shitiNum = midShiti.clpx;
+      let xt = midShiti.xiaoti[0];
+      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+      if (strs.length > 200) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      }
     }
     
     common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
@@ -466,8 +478,23 @@ Page({
    */
   xiaotiSliderChange: function(e) {
     let self = this;
-    let px = self.data.px;
+
+    if (e.detail.source != 'touch') return;//如果不是手动滑动就返回
     let current = e.detail.current;
+    let lastSliderIndex = self.data.lastSliderIndex;
+    let sliderShitiArray = self.data.sliderShitiArray;
+    let sliderShiti = sliderShitiArray[lastSliderIndex];//当前材料题
+    let xt = sliderShiti.xiaoti[current];//当前小题
+
+    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+    if (strs.length > 200) {
+      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      this.setData({
+        sliderShitiArray: sliderShitiArray
+      })
+    }
+
+    let px = self.data.px;
     let shitiArray = self.data.shitiArray;
     let shiti = shitiArray[px - 1];
     let clpx = shiti.clpx;
@@ -723,6 +750,15 @@ Page({
       midShiti = shitiArray[cl - 1];
       xiaotiCurrent = px - midShiti.clpx;
       px = cl;
+    }
+
+
+    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+      let xt = midShiti.xiaoti[0];
+      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
+      if (strs.length > 200) {
+        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:22rpx;line-height:40rpx;";
+      }
     }
 
     let sliderShitiArray = [];

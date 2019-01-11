@@ -3,6 +3,7 @@
   width:94%;
   margin: 0 auto;
   border-radius: 10rpx;
+  margin-top:-30rpx;
 }
 .radio-group {
   width: 100%;
@@ -12,11 +13,12 @@
 
 .imgAndText {
   width: 100%;
-  font-size: 35rpx;
+  font-size: 30rpx;
   padding-left: 30rpx;
   padding-top:25rpx;
   padding-bottom:25rpx;
   vertical-align: top;
+  line-height:50rpx;
 }
 
 .icon{
@@ -27,12 +29,9 @@
 }
 
 /* 答案选项的文字 */
-
 .answer-text {
   display: inline-flex;
-  font-size: 30rpx;
   margin-left:40rpx;
-  line-height:50rpx;
   width: 543rpx;
   margin-top:0rpx;
   vertical-align: top;
