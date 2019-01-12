@@ -7,6 +7,7 @@ let easeInAnimation = animate.easeInAnimation();
 let time = require('../../../common/time.js');
 let isFold = true; //默认都是折叠的
 let post = require('../../../common/post.js');
+let share = require('../../../common/share.js');
 
 const util = require('../../../utils/util.js')
 //把winHeight设为常量，不要放在data里（一般来说不用于渲染的数据都不能放在data里）
@@ -263,14 +264,6 @@ Page({
       nextShiti = shitiArray[px];
     }
 
-    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-      let xt = midShiti.xiaoti[0];
-      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 140) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      }
-    }
-
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray = [];
 
@@ -439,6 +432,9 @@ Page({
     })
     animate.blockFoldAnimation(height, 90, question);
     isFold = true;
+
+    share.ifOverHeight(self, sliderShiti.xiaoti[0], sliderShitiArray);
+    console.log('ok')
 
     self.setData({
       shitiArray: shitiArray,
@@ -678,14 +674,6 @@ Page({
 
     let midShiti = shitiArray[px - 1]; //中间题
 
-    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-      let xt = midShiti.xiaoti[0];
-      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 140) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      }
-    }
-
     let page = ((px - 1) - (px - 1) % 10) / 10 + 1; //当前页
 
     let prepage = page - 1; //上一页
@@ -765,13 +753,7 @@ Page({
     let xtCurrent = e.detail.current;
     let xt = sliderShiti.xiaoti[xtCurrent];//当前小题
 
-    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    if (strs.length > 140) {
-      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      this.setData({
-        sliderShitiArray: sliderShitiArray
-      })
-    }
+    share.ifOverHeight(self, xt, sliderShitiArray);//是否超行
 
     this.setData({
       xtCurrent: xtCurrent

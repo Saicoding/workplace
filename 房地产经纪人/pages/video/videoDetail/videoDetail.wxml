@@ -66,7 +66,7 @@
   </view>
 
   <!-- ios -->
-  <view data-product="{{myproduct}}" wx:if="{{buy==0 && platform == 'ios' || platform == 'devtools'}}"  class="bottom" bindtap='goPay'>
+  <view data-product="{{myproduct}}" wx:if="{{buy==0 && platform == 'ios'}}"  class="bottom" bindtap='goPay'>
     <view class="bottom-buy" style="width:100%;">点此开通</view>
   </view>
 </view>

@@ -1,5 +1,6 @@
 let common = require('shiti.js');
 let animate = require('animate.js')
+let share = require('share.js')
 
 /**
  * 练习题
@@ -74,15 +75,6 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   circular = px == 1 || px == shitiArray.length ? false : true //如果滑动后编号是1,或者最后一个就禁止循环滑动
   myFavorite = midShiti.favorite;
 
-  if (midShiti.TX == 99){//判断答案长度,根据长度改变样式
-    let xt = midShiti.xiaoti[0];
-    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    console.log(strs)
-    if (strs.length >200) {
-      midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-    }
-  }
-
   if (px != 1 && px != shitiArray.length) {//如果不是第一题也不是最后一题
     sliderShitiArray[0] = midShiti;
     sliderShitiArray[1] = nextShiti;
@@ -124,7 +116,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   //如果是材料题就有动画
   if (midShiti.TX == 99) {
     let str = "#q" + px;
-    
+    share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
     let questionStr = midShiti.question;//问题的str
     let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
 

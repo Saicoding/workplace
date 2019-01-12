@@ -136,8 +136,57 @@ function monitorConnectType(self){
     })
   }
 }
+/**
+ * 判断是否超高
+ */
+function ifOverHeight(self,shiti, sliderShitiArray){
+  wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
+    success: function (res) { //转换窗口高度
+      let windowHeight = res.windowHeight;
+      let windowWidth = res.windowWidth;
+      windowHeight = (windowHeight * (750 / windowWidth));
+
+      let str = "#h" + shiti.id;
+      var query = wx.createSelectorQuery();
+      //选择id
+      setTimeout(function () {
+        query.select(str).boundingClientRect(function (rect) {
+          //当前受测组件的高度(rpx);
+          console.log(rect)
+          let height = rect.height * (750 / windowWidth);
+          console.log('受测窗口高度' + height);
+          console.log('当前窗口高度' + windowHeight);
+          if (windowHeight - 220 < height) {
+            console.log('超高' + (height - windowHeight + 220) + 'rpx');
+            // midShiti.xiaoti[0].style = "padding-left:20rpx;font-size:25rpx;line-height:40rpx;";
+            if (height - windowHeight + 220 < 115) {//如果只超了120
+              console.log('haha')
+              let sub = (height - windowHeight + 220) / 2;
+              // shiti.style = "padding-top:" + (25 - sub) + "rpx;padding-bottom:" + (25 - sub) +"rpx;"
+              shiti.style = "padding-top:5rpx;padding-bottom:5rpx;"
+              self.setData({
+                sliderShitiArray: sliderShitiArray
+              })
+            } else if (height - windowHeight + 220 >= 115 && height - windowHeight + 220 < 455) {
+              shiti.style = "padding-top:5rpx;padding-bottom:5rpx;font-size:25rpx;padding-left:20rpx;line-height:40rpx;"
+              self.setData({
+                sliderShitiArray: sliderShitiArray
+              })
+            } else if (height - windowHeight + 220 >= 455) {
+              shiti.style = "padding-top:0rpx;padding-bottom:0rpx;font-size:22rpx;padding-left:0rpx;line-height:35rpx;"
+              self.setData({
+                sliderShitiArray: sliderShitiArray
+              })
+            }
+          }
+        }).exec();
+      }, 200)
+    }
+  });
+}
 
 module.exports={
   getNum: getNum,
-  monitorConnectType: monitorConnectType
+  monitorConnectType: monitorConnectType,
+  ifOverHeight: ifOverHeight
 }

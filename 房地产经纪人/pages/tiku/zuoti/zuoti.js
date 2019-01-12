@@ -1,7 +1,8 @@
 // pages/tiku/zuoti/index.js
 const API_URL = 'https://xcx2.chinaplat.com/'; //接口地址
 let common = require('../../../common/shiti.js');
-let animate = require('../../../common/animate.js')
+let animate = require('../../../common/animate.js');
+let share = require('../../../common/share.js');
 let isFold = true; //默认都是折叠的
 let post = require('../../../common/post.js');
 
@@ -86,6 +87,7 @@ Page({
         })
       }
     });
+
   },
 
   /**
@@ -187,14 +189,6 @@ Page({
 
     common.storeLastShiti(px, self); //存储最后一题的状态
 
-    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-      let xt = midShiti.xiaoti[0];
-      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 140) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      }
-    }
-
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray=[];
 
@@ -243,11 +237,10 @@ Page({
       checked: false
     })
 
-
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
-
+      share.ifOverHeight(self, midShiti.xiaoti[0], sliderShitiArray)
       let questionStr = midShiti.question;//问题的str
       let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
 
@@ -386,8 +379,11 @@ Page({
     question.setData({
       style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
     })
+
     animate.blockFoldAnimation(height, 90, question);
     isFold = true;
+
+    share.ifOverHeight(self, sliderShiti.xiaoti[0], sliderShitiArray);
 
     self.setData({
       shitiArray: shitiArray,
@@ -588,14 +584,6 @@ Page({
 
     common.initShiti(midShiti, self); //初始化试题对象
 
-    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-      let xt = midShiti.xiaoti[0];
-      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 140) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      }
-    }
-
     common.processDoneAnswer(midShiti.done_daan, midShiti, self);
     
     if (px != 1 && px != shitiArray.length) {//如果不是第一题也是不是最后一题
@@ -698,13 +686,7 @@ Page({
     let xtCurrent = e.detail.current;
     let xt = sliderShiti.xiaoti[xtCurrent];//当前小题
 
-    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    if (strs.length > 140) {
-      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      this.setData({
-        sliderShitiArray: sliderShitiArray
-      })
-    }
+    share.ifOverHeight(self, xt, sliderShitiArray)
 
     this.setData({
       xtCurrent:xtCurrent

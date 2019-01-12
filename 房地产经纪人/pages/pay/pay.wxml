@@ -46,7 +46,7 @@
   </view>
 
   <!-- 联系本地运营商,享受专属折扣优惠 -->
-  <view wx:if="{{hasCompany}}" class="service" bindtap='tel' style="top:{{platform == 'ios'?30:630}}rpx">
+  <view class="service" bindtap='tel' style="top:{{platform == 'ios'?30:630}}rpx">
     <view class="service-text1">联系本地运营商 享受专属折扣优惠</view>
     <view class="company-name">{{company}}</view>
     <view class="address">{{address}}</view>

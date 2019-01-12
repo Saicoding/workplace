@@ -1,5 +1,5 @@
 <!--pages/tiku/zuoti/index.wxml-->
-<swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange" >
+<swiper wx:if="{{isLoaded}}" duration="200" current="{{myCurrent}}" circular="{{circular}}" skip-hidden-item-layout="true" class="swiper" bindchange="sliderChange">
   <block wx:for="{{sliderShitiArray}}" wx:for-item="shiti" wx:key="ti">
     <swiper-item>
       <scroll-view scroll-y style="height:{{windowHeight-85}}rpx;">
@@ -32,21 +32,23 @@
             <!-- 材料题小题的滑动框 -->
             <view wx:if="{{shiti.confirm||shiti.isAnswer}}">
               <swiper current="{{xiaotiCurrent}}" indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-230}}rpx;" indicator-active-color="#1d9bf7" bindchange="xtSliderChange">
-                <block wx:for="{{shiti.xiaoti}}" wx:for-item="xiaoti" wx:key="ti">
+                <block wx:for="{{shiti.xiaoti}}"  wx:for-item="xiaoti" wx:key="ti">
                   <swiper-item>
-                    <!--问题-->
-                    <question class="question" num_color="{{xiaoti.num_color}}" px="{{index+1}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
+                    <view id="h{{xiaoti.id}}" >
+                      <!--问题-->
+                      <question class="question" num_color="{{xiaoti.num_color}}" px="{{index+1}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
 
-                    <!--单选题-->
-                    <view wx:if="{{xiaoti.TX == 1}}">
-                      <singleSelect  data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
-                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{xiaoti.isAnswer}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
-                    </view>
-                    <!--多选题-->
-                    <view wx:if="{{xiaoti.TX ==2}}">
-                      <multiSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
-                      <button data-px="{{index+1}}" class='submit_answer' wx:if="{{!xiaoti.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
-                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{xiaoti.isAnswer}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
+                      <!--单选题-->
+                      <view wx:if="{{xiaoti.TX == 1}}">
+                        <singleSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+                        <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{xiaoti.isAnswer}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
+                      </view>
+                      <!--多选题-->
+                      <view wx:if="{{xiaoti.TX ==2}}">
+                        <multiSelect data-px="{{index+1}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLCheckVal"></multiSelect>
+                        <button data-px="{{index+1}}" class='submit_answer' wx:if="{{!xiaoti.isAnswer}}" bindtap="_CLAnswerSelect">确认选择</button>
+                        <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{xiaoti.isAnswer}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
+                      </view>
                     </view>
                   </swiper-item>
                 </block>
@@ -73,4 +75,4 @@
 <errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>
 
 <!-- 材料题解析面板 -->
-<clJiexi id ="clJiexi" cl_jiexi="{{cl_jiexi}}" cl_answer = "{{cl_answer}}"></clJiexi>
+<clJiexi id="clJiexi" cl_jiexi="{{cl_jiexi}}" cl_answer="{{cl_answer}}"></clJiexi>

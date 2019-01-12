@@ -6,6 +6,7 @@ let time1 = require('../../../../common/time.js');
 let animate = require('../../../../common/animate.js')
 let easeOutAnimation = animate.easeOutAnimation();
 let easeInAnimation = animate.easeInAnimation();
+let share = require('../../../../common/share.js');
 let isFold = false; //默认都是打开的
 
 const util = require('../../../../utils/util.js')
@@ -50,10 +51,10 @@ Page({
     let id = options.id;
     let tiTypeStr = tiType == 1 ? "model" : "yati";
     let circular = false;
-    let lastSliderIndex = 0 ;
+    let lastSliderIndex = 0;
 
     //根据真题定制最后一次访问的key
-    let last_view_key = tiTypeStr + 'lastModelReal' + options.id+username;
+    let last_view_key = tiTypeStr + 'lastModelReal' + options.id + username;
 
     let last_model_real = wx.getStorageSync(last_view_key); //得到最后一次的题目
 
@@ -67,7 +68,7 @@ Page({
 
     let shitiNum = px;
 
-    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, false, true, "","",true,self).then((res) => {
+    app.post(API_URL, "action=SelectTestShow&sjid=" + id + "&username=" + username + "&acode=" + acode, false, true, "", "", true, self).then((res) => {
       let shitiArray = res.data.list;
 
       common.setModelRealCLShitiPx(shitiArray)
@@ -81,13 +82,8 @@ Page({
       let nextShiti = undefined; //后一题
       let midShiti = shitiArray[px - 1]; //中间题
 
-      if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+      if (midShiti.TX == 99) { //判断答案长度,根据长度改变样式
         shitiNum = midShiti.clpx;
-        let xt = midShiti.xiaoti[0];
-        let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-        if (strs.length > 140) {
-          midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-        }
       }
 
       let sliderShitiArray = [];
@@ -136,7 +132,6 @@ Page({
         }
       } else { //如果已提交
         let last_gone_time_str = wx.getStorageSync(tiTypeStr + "last_gone_time" + options.id + username);
-
         self.modelCount.setData({
           timeStr: last_gone_time_str
         })
@@ -144,7 +139,7 @@ Page({
 
       //对是否是已答试题做处理
       wx.getStorage({
-        key: tiTypeStr + "modelReal" + options.id+username,
+        key: tiTypeStr + "modelReal" + options.id + username,
         success: function(res1) {
           //根据章是否有子节所有已经回答的题
           let doneAnswerArray = res1.data;
@@ -191,26 +186,26 @@ Page({
         },
         fail: function() {
           wx.setStorage({
-            key: tiTypeStr + "modelReal" + options.id+username,
+            key: tiTypeStr + "modelReal" + options.id + username,
             data: [],
           })
         }
       })
 
-      if(px != 1 && px !=shitiArray.length){//如果不是第一题也不是最后一题
+      if (px != 1 && px != shitiArray.length) { //如果不是第一题也不是最后一题
         sliderShitiArray[0] = midShiti;
         sliderShitiArray[1] = nextShiti;
         sliderShitiArray[2] = preShiti;
-      }else if(px == 1){//如果是第一题
+      } else if (px == 1) { //如果是第一题
         sliderShitiArray[0] = midShiti;
         sliderShitiArray[1] = nextShiti;
-      }else{//如果是最后一题
-     
+      } else { //如果是最后一题
+
         sliderShitiArray[0] = preShiti;
         sliderShitiArray[1] = midShiti;
         lastSliderIndex = 1;
         self.setData({
-          myCurrent:1
+          myCurrent: 1
         })
       }
 
@@ -238,21 +233,21 @@ Page({
         username: username, //用户账号名称
         acode: acode //用户唯一码
       });
-      
+
       //如果是材料题就有动画
       if (midShiti.TX == 99) {
         let str = "#q" + px;
-        let questionStr = midShiti.question;//问题的str
-        let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+        let questionStr = midShiti.question; //问题的str
+        let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
         height = height >= 400 ? 400 : height;
-        
+
         let question = self.selectComponent(str);
 
-        animate.blockSpreadAnimation(90, height, question);//占位框动画
+        animate.blockSpreadAnimation(90, height, question); //占位框动画
 
         question.setData({
-          style2: "positon: fixed; left: 20rpx;height:" + height +"rpx", //问题框"
+          style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
         })
 
         self.setData({
@@ -371,15 +366,10 @@ Page({
     let nextShiti = undefined; //后一题
     let midShiti = shitiArray[px - 1]; //中间题
 
-    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
+    if (midShiti.TX == 99) { //判断答案长度,根据长度改变样式
       shitiNum = midShiti.clpx;
-      let xt = midShiti.xiaoti[0];
-      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 140) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      }
     }
-    
+
     common.processModelRealDoneAnswer(midShiti.done_daan, midShiti, self);
 
     //每次滑动结束后初始化前一题和后一题
@@ -444,7 +434,7 @@ Page({
       sliderShitiArray: sliderShitiArray,
       circular: circular,
       lastSliderIndex: current,
-      xiaotiCurrent:0,
+      xiaotiCurrent: 0,
       px: px,
       shitiNum: shitiNum,
       checked: false
@@ -454,17 +444,17 @@ Page({
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
+      share.ifOverHeight(self, midShiti.xiaoti[current], sliderShitiArray);
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
-
-      height = height >=400?400:height;
+      height = height >= 400 ? 400 : height;
 
       let question = self.selectComponent(str);
 
       animate.blockSpreadAnimation(90, height, question);
 
-      question.setData({//每切换到材料题就把占位框复位
+      question.setData({ //每切换到材料题就把占位框复位
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"   
       })
 
@@ -479,20 +469,13 @@ Page({
   xiaotiSliderChange: function(e) {
     let self = this;
 
-    if (e.detail.source != 'touch') return;//如果不是手动滑动就返回
+    if (e.detail.source != 'touch') return; //如果不是手动滑动就返回
     let current = e.detail.current;
     let lastSliderIndex = self.data.lastSliderIndex;
     let sliderShitiArray = self.data.sliderShitiArray;
-    let sliderShiti = sliderShitiArray[lastSliderIndex];//当前材料题
-    let xt = sliderShiti.xiaoti[current];//当前小题
+    let sliderShiti = sliderShitiArray[lastSliderIndex]; //当前材料题
+    let xt = sliderShiti.xiaoti[current]; //当前小题
 
-    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    if (strs.length > 140) {
-      xt.style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      this.setData({
-        sliderShitiArray: sliderShitiArray
-      })
-    }
 
     let px = self.data.px;
     let shitiArray = self.data.shitiArray;
@@ -500,6 +483,8 @@ Page({
     let clpx = shiti.clpx;
 
     let shitiNum = current + shiti.clpx;
+
+    share.ifOverHeight(self, sliderShiti.xiaoti[current], sliderShitiArray);
     self.setData({
       shitiNum: shitiNum
     })
@@ -560,11 +545,13 @@ Page({
     shiti.confirm = true;
     sliderShiti.confirm = true;
 
-    question.setData({//每切换到材料题就把占位框复位
+    question.setData({ //每切换到材料题就把占位框复位
       style2: "positon: fixed; left: 20rpx;height:90rpx", //问题框"   
     })
-    animate.blockFoldAnimation(height,90,question);
+    animate.blockFoldAnimation(height, 90, question);
     isFold = true;
+
+    share.ifOverHeight(self, sliderShiti.xiaoti[0], sliderShitiArray);
 
     self.setData({
       shitiArray: shitiArray,
@@ -648,18 +635,39 @@ Page({
    * 刚载入时的动画
    */
   onShow: function(e) {
-    let self = this; 
+    let self = this;
     let px = undefined;
+    new Promise((resolve, reject) => {
+      if (!self.data.myCurrent) {
+        let interval = setInterval(function() {
+          if (self.data.myCurrent) {
+            resolve(self.data.myCurrent)
+          }
+        }, 30)
+      } else {
+        reject('错误')
+      }
+    }).then(res => {
+      let sliderShitiArray = self.data.sliderShitiArray;
+      let windowHeight = self.data.windowHeight;//当前窗口高度(rpx);
+      let windowWidth = self.data.windowWidth;//当前窗口宽度(px);
+
+      if (sliderShitiArray[res].TX == 99 ) { //如果已经提交试卷，才去判断题是否超过屏幕
+        share.ifOverHeight(self, sliderShitiArray[res].xiaoti[0], sliderShitiArray);
+      }
+    }).catch(res1 => {
+      console.log(res1)
+    })
 
     if (self.data.isSubmit) {
       self._showMarkAnswer();
     }
   },
-  
+
   /**
-  * 材料题点击查看解析
-  */
-  viewJiexi: function (e) {
+   * 材料题点击查看解析
+   */
+  viewJiexi: function(e) {
     let jiexi = e.currentTarget.dataset.jiexi;
     let answer = e.currentTarget.dataset.answer;
 
@@ -677,15 +685,15 @@ Page({
   onUnload: function(e) {
     let self = this;
     let isLoaded = self.data.isLoaded;
-    if(!isLoaded) return;
+    if (!isLoaded) return;
 
     let user = self.data.user;
- 
+
     let modelCount = self.modelCount;
     let pages = getCurrentPages();
     let prevPage = pages[pages.length - 2]; //上一个页面
-    
-    prevPage.setData({//设置回去标记，当返回页面时onshow可以监测到
+
+    prevPage.setData({ //设置回去标记，当返回页面时onshow可以监测到
       back: true
     })
 
@@ -697,7 +705,7 @@ Page({
       clearInterval(self.data.interval); //停止计时器
 
       wx.setStorage({
-        key: self.data.tiTypeStr + 'last_time' + self.data.id+user.username,
+        key: self.data.tiTypeStr + 'last_time' + self.data.id + user.username,
         data: second,
       })
     }
@@ -750,15 +758,6 @@ Page({
       midShiti = shitiArray[cl - 1];
       xiaotiCurrent = px - midShiti.clpx;
       px = cl;
-    }
-
-
-    if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-      let xt = midShiti.xiaoti[0];
-      let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-      if (strs.length > 140) {
-        midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-      }
     }
 
     let sliderShitiArray = [];
@@ -834,21 +833,21 @@ Page({
     //如果是材料题就判断是否动画
     if (midShiti.TX == 99) {
       let str = "#q" + px;
-      let questionStr = midShiti.question;//问题的str
-      let height = common.getQuestionHeight(questionStr);//根据问题长度，计算应该多高显示
+      let questionStr = midShiti.question; //问题的str
+      let height = common.getQuestionHeight(questionStr); //根据问题长度，计算应该多高显示
 
       height = height >= 400 ? 400 : height;
 
       let question = self.selectComponent(str);
 
-      animate.blockSpreadAnimation(90, height, question);//占位框动画
+      animate.blockSpreadAnimation(90, height, question); //占位框动画
 
       question.setData({
         style2: "positon: fixed; left: 20rpx;height:" + height + "rpx", //问题框"
       })
 
       self.setData({
-        height:height
+        height: height
       })
     }
   },
@@ -953,13 +952,13 @@ Page({
         text: "重新评测",
       })
       wx.setStorage({
-        key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id+username,
+        key: self.data.tiTypeStr + 'modelRealIsSubmit' + self.data.id + username,
         data: true,
       })
 
       //设置用时
       wx.setStorage({
-        key: self.data.tiTypeStr + "last_gone_time" + self.data.id+username,
+        key: self.data.tiTypeStr + "last_gone_time" + self.data.id + username,
         data: "用时" + time1.getGoneTimeStr(gone_time)
       })
       //设置答题板的显示文字

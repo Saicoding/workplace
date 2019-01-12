@@ -32,18 +32,20 @@
               <swiper current="{{xiaotiCurrent}}" indicator-dots vertical="true" skip-hidden-item-layout="true" class="swiper-xiaoti" style="height:{{windowHeight-230}}rpx;" bindchange="xiaotiSliderChange" indicator-active-color="#1d9bf7">
                 <block wx:for="{{shiti.xiaoti}}" wx:for-item="xiaoti" wx:key="ti">
                   <swiper-item>
-                    <!--问题-->
-                    <question class="question" num_color="{{xiaoti.num_color}}" px="{{xiaoti.px}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
+                    <view id="h{{xiaoti.id}}">
+                      <!--问题-->
+                      <question class="question" num_color="{{xiaoti.num_color}}" px="{{xiaoti.px}}" tx="{{xiaoti.tx}}" question="{{xiaoti.question}}"></question>
 
-                    <!--单选题-->
-                    <view wx:if="{{xiaoti.TX == 1}}">
-                      <singleSelect data-px="{{xiaoti.px}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
-                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{isSubmit}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
-                    </view>
-                    <!--多选题-->
-                    <view wx:if="{{xiaoti.TX ==2}}">
-                      <multiSelect data-px="{{xiaoti.px}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLAnswerSelect"></multiSelect>
-                      <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}"  wx:if="{{isSubmit}}" class ="viewJiexi" bindtap = "viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
+                      <!--单选题-->
+                      <view wx:if="{{xiaoti.TX == 1}}">
+                        <singleSelect data-px="{{xiaoti.px}}" shiti="{{xiaoti}}" checked="{{checked}}" bindanswerSelect="_CLAnswerSelect"> </singleSelect>
+                        <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{isSubmit}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
+                      </view>
+                      <!--多选题-->
+                      <view wx:if="{{xiaoti.TX ==2}}">
+                        <multiSelect data-px="{{xiaoti.px}}" shiti="{{xiaoti}}" checked="{{checked}}" bindcheckVal="_CLAnswerSelect"></multiSelect>
+                        <view data-answer="{{xiaoti.answer}}" data-jiexi="{{xiaoti.jiexi}}" wx:if="{{isSubmit}}" class="viewJiexi" bindtap="viewJiexi" hover-class='select1' hover-stay-time='500'>查看解析</view>
+                      </view>
                     </view>
                   </swiper-item>
                 </block>
@@ -58,14 +60,14 @@
 
 <!-- 载入动画 -->
 <view wx:if="{{!isLoaded}}">
-  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
+  <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit"></image>
 </view>
 
 <!-- 底部正确错误个数统计条 -->
 <modelCount hidden="{{!isLoaded}}" text="{{text}}" id="modelCount" nums="{{nums}}" px="{{shitiNum}}" class="bottom" bindrestart="_restart" bindsubmit="_submit" bindtoogleMarkAnswer="_toogleMarkAnswer">
 </modelCount>
 <!-- 答题板 -->
-<markAnswer id="markAnswer"  windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
+<markAnswer id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
 <!-- 点击水波 -->
 <waterWave id="waterWave"></waterWave>

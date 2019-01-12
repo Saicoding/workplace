@@ -56,24 +56,28 @@ Page({
       success: function(res) {
         let city = res.userInfo.city;
         app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
+          console.log(res)
+          let company = res.data.data[0].Name;
           let dl = res.data.data[0].dl; 
+          let address = res.data.data[0].address == undefined ? "" : res.data.data[0].address;
+          let tel = res.data.data[0].Tel
           if (dl == 0) { //如果没有城市代理
             wx.setNavigationBarColor({ //设置导航条颜色
               frontColor: "#ffffff",
               backgroundColor: "#6701c1",
               animation: {
                 duration: 1000,
-                timingFunc: 'easeIn'
+                timingFunc: 'easeIn',
               }
             })
             self.setData({ //设置成没有城市代理
-              hasCompany: false,
-              myproduct: myproduct
+              company: company,
+              myproduct: myproduct,
+              tel: tel,
+              address: address,
+              hasCompany: false
             })
           } else {
-            let company = res.data.data[0].Name;
-            let address = res.data.data[0].address == undefined ? "" : res.data.data[0].address;
-            let tel = res.data.data[0].Tel
             self.setData({
               company: company,
               tel: tel,
