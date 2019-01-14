@@ -28,6 +28,33 @@ Page({
       ifGoPage: options.ifGoPage,
       redirect: redirect
     })
+  },
+  /**
+   * 手机登录
+   */
+  userPwdLogin: function(e) {
+    wx.navigateTo({
+      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1 + '&ifGoPage=' + this.data.ifGoPage,
+    })
+  },
+
+  /**
+   * 生命周期事件
+   */
+  onShow:function(){
+    buttonClicked = false
+  },
+
+  /**
+   * 微信授权登录
+   */
+  wxLogin: function(e) {
+    let self = this;
+    let loaded = self.data.loaded;
+
+    //限制连续点击
+    if (buttonClicked && !loaded) return;
+    buttonClicked = true;
 
     wx.login({
       success: res => {
@@ -48,78 +75,49 @@ Page({
               let headurl = res.userInfo.avatarUrl; //头像
               let sex = res.userInfo.gender //性别
 
+              let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
+              let redirect = self.data.redirect;//是否直接转
+              let url = self.data.url; //需要导航的url
+
               //拿到session_key实例化WXBizDataCrypt（）这个函数在下面解密用
               let pc = new WXBizDataCrypt(appId, sesstion_key);
               let data = pc.decryptData(encryptedData, iv);
               let unionid = data.unionId;
-              self.setData({
-                unionid: unionid,
-                loaded:true,
-                nickname: nickname,
-                headurl: headurl,
-                sex: sex,
-                openid: openid
+
+              app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
+                let user = res.data.list[0];
+
+                wx.setStorage({
+                  key: 'user',
+                  data: user
+                })
+
+                wx.navigateBack({}) //先回到登录前的页面
+
+                if (ifGoPage == 'true') {
+                  if (redirect == 'true') {
+                    wx.redirectTo({//是直接跳转
+                      url: url,
+                    })
+                  } else {
+                    wx.navigateTo({
+                      url: url,
+                    })
+                  }
+                }
+
+              })
+            },
+            fail: function (res1) {
+              wx.showToast({
+                duration:3000,
+                title: '得到用户信息失败',
+                icon:'none'
               })
             }
           })
         })
-      }
-    })
-  },
-  /**
-   * 手机登录
-   */
-  userPwdLogin: function(e) {
-    wx.navigateTo({
-      url: '/pages/phoneLogin/phoneLogin?url=' + this.data.url1 + '&ifGoPage=' + this.data.ifGoPage,
-    })
-  },
-
-  /**
-   * 微信授权登录
-   */
-  wxLogin: function(e) {
-    let self = this;
-    let loaded = self.data.loaded;
-
-    //限制连续点击
-    if (buttonClicked && !loaded) return;
-    buttonClicked = true;
-
-    let wxid = ""; //openId
-    let session_key = ""; //
-    let ifGoPage = self.data.ifGoPage //是否返回上一级菜单
-    let redirect = self.data.redirect;//是否直接转
-    let url = self.data.url; //需要导航的url
-
-    let openid = self.data.openid;
-    let nickname = self.data.nickname;
-    let headurl = self.data.headurl;
-    let sex = self.data.sex;
-    let unionId = self.data.unionid;
-
-    app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
-
-      let user = res.data.list[0];
-
-      wx.setStorage({
-        key: 'user',
-        data: user
-      })
-
-      wx.navigateBack({}) //先回到登录前的页面
-
-      if (ifGoPage == 'true') {
-        if (redirect == 'true'){
-          wx.redirectTo({//是直接跳转
-            url: url,
-          })
-        }else{
-          wx.navigateTo({
-            url: url,
-          })
-        }
-      }
+      },
 
     })
   },
