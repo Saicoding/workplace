@@ -26,7 +26,7 @@ Page({
 
     livePlayer.requestFullScreen({
       success: (res) => {
-        console.log(res)
+        
       }
     })
   },
@@ -63,7 +63,7 @@ Page({
 
     livePlayer.requestFullScreen({
       success: (res) => {
-        console.log(res)
+       
       }
     })
 

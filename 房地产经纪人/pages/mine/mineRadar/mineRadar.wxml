@@ -4,6 +4,8 @@
       <image class="pic" src="{{user.Pic}}" mode="aspectFit"></image>
     </view>
     <view class="nickname">{{user.Nickname}}</view>
+    <image class="up-backimg1" src="/imgs/img-head.png"></image>
+    <image class="up-backimg2" src="/imgs/front-back.png"></image>
   </view>
   <view class="time">
     <picker class="picker changeType" mode="multiSelector" value="{{dateTime}}" bindchange="changeDateTime" bindcolumnchange="changeDateTimeColumn" range="{{dateTimeArray}}">
@@ -18,6 +20,6 @@
     <canvas class='radarCanvas' canvas-id='radarCanvas'></canvas>
   </view>
   <view wx:if="{{!loaded}}">
-    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style = "margin-top:100rpx;"></image>
+    <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" style="margin-top:100rpx;"></image>
   </view>
 </view>

@@ -434,7 +434,6 @@ Page({
     isFold = true;
 
     share.ifOverHeight(self, sliderShiti.xiaoti[0], sliderShitiArray);
-    console.log('ok')
 
     self.setData({
       shitiArray: shitiArray,

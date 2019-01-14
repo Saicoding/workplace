@@ -226,7 +226,7 @@ Page({
       })
 
     }
-
+    console.log(user)
     this.setData({
       user: user
     })

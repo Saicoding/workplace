@@ -675,7 +675,6 @@ Page({
     } else {
       stid = shiti.id;
     }
-    console.log(stid)
 
     app.post(API_URL, "action=JiuCuo&LoginRandom=" + LoginRandom + "&zcode=" + zcode + "&stid=" + stid + "&reason=" + reason, true, false, "提交中").then((res) => {
       self.errorRecovery.hideDialog();

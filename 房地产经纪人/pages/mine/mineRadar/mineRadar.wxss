@@ -6,9 +6,12 @@
 .up {
   background: #2983fe;
   width: 100%;
-  height: 450rpx;
+  height: 400rpx;
   color: white;
   padding-top: 30rpx;
+  position: relative;
+  align-items: center;
+  z-index: 0;
 }
 
 .pic-container {
@@ -16,6 +19,25 @@
   height: 200rpx;
   border-radius: 200rpx;
   margin: 0 auto;
+}
+
+.up-backimg1 {
+    position: absolute;
+    left: 24rpx;
+    bottom: 0;
+    width: 702rpx;
+    height: 114rpx;
+    z-index: 10;
+    opacity: 0.1;
+}
+
+.up-backimg2 {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 20rpx;
+    z-index: 10000;
 }
 
 .pic {

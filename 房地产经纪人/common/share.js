@@ -87,14 +87,12 @@ function getNum(word) {
 function monitorConnectType(self){
   //侦测网络情况
   let isOn = wx.getStorageSync('turnonWifiPrompt');
-  console.log(isOn+"网络类型")
 
   if (isOn == "" || isOn == 0) {
     let interval = setInterval((res) => {
       wx.getNetworkType({ //查看当前的网络类型,如果是非wifi,就不自动播放,如果多次是同一类型就只执行一次
         success: function (res) {
           let networkType = res.networkType
-          console.log(networkType)
           
           if (networkType != "wifi") {
             let lastType = self.data.lastType;
@@ -152,15 +150,11 @@ function ifOverHeight(self,shiti, sliderShitiArray){
       setTimeout(function () {
         query.select(str).boundingClientRect(function (rect) {
           //当前受测组件的高度(rpx);
-          console.log(rect)
           let height = rect.height * (750 / windowWidth);
-          console.log('受测窗口高度' + height);
-          console.log('当前窗口高度' + windowHeight);
+
           if (windowHeight - 220 < height) {
-            console.log('超高' + (height - windowHeight + 220) + 'rpx');
             // midShiti.xiaoti[0].style = "padding-left:20rpx;font-size:25rpx;line-height:40rpx;";
             if (height - windowHeight + 220 < 115) {//如果只超了120
-              console.log('haha')
               let sub = (height - windowHeight + 220) / 2;
               // shiti.style = "padding-top:" + (25 - sub) + "rpx;padding-bottom:" + (25 - sub) +"rpx;"
               shiti.style = "padding-top:5rpx;padding-bottom:5rpx;"
@@ -173,7 +167,7 @@ function ifOverHeight(self,shiti, sliderShitiArray){
                 sliderShitiArray: sliderShitiArray
               })
             } else if (height - windowHeight + 220 >= 455) {
-              shiti.style = "padding-top:0rpx;padding-bottom:0rpx;font-size:22rpx;padding-left:0rpx;line-height:35rpx;"
+              shiti.style = "padding-top:3rpx;padding-bottom:3rpx;font-size:23rpx;padding-left:0rpx;line-height:37rpx;"
               self.setData({
                 sliderShitiArray: sliderShitiArray
               })

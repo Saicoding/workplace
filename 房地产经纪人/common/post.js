@@ -7,7 +7,6 @@ let share = require('share.js')
  */
 function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   let shitiArray = res.data.shiti;
-  console.log(shitiArray)
   let username = user.username;
   let acode = user.acode;
 
@@ -157,14 +156,6 @@ function markOnload(options, px, circular, myFavorite,res, username, acode, self
   let sliderShitiArray = [];
 
   common.initShiti(midShiti, self); //初始化试题对象
-
-  if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-    let xt = midShiti.xiaoti[0];
-    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    if (strs.length > 140) {
-      midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-    }
-  }
   
   if(shitiArray.length !=1){
     nextShiti = shitiArray[1];
@@ -241,15 +232,6 @@ function wrongOnload(options, px, circular, myFavorite, res, user, requesttime, 
   let sliderShitiArray = [];
 
   common.initShiti(midShiti, self); //初始化试题对象
-
-  if (midShiti.TX == 99) {//判断答案长度,根据长度改变样式
-    let xt = midShiti.xiaoti[0];
-    let strs = xt.A + xt.B + xt.C + xt.D + xt.E;
-    console.log(strs)
-    if (strs.length > 140) {
-      midShiti.xiaoti[0].style = "padding-left:20rpx;padding-top:10rpx;padding-bottom:10rpx;font-size:25rpx;line-height:40rpx;";
-    }
-  }
 
   if (shitiArray.length != 1) {
     nextShiti = shitiArray[1];

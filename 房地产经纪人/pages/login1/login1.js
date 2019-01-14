@@ -20,7 +20,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
     let self = this;
     let redirect = options.redirect == undefined ? "" : options.redirect;//是否直接转
     this.setData({
@@ -99,10 +98,7 @@ Page({
     let sex = self.data.sex;
     let unionId = self.data.unionid;
 
-    console.log("action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex)
-
     app.post(API_URL, "action=Login_wx&unionId=" + unionId + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
-      console.log('ok')
 
       let user = res.data.list[0];
 
@@ -115,7 +111,6 @@ Page({
 
       if (ifGoPage == 'true') {
         if (redirect == 'true'){
-          console.log(url)
           wx.redirectTo({//是直接跳转
             url: url,
           })
