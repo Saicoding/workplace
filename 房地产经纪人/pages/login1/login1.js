@@ -50,16 +50,15 @@ Page({
    */
   wxLogin: function(e) {
     let self = this;
-    let loaded = self.data.loaded;
 
     //限制连续点击
-    if (buttonClicked && !loaded) return;
+    if (buttonClicked ) return;
     buttonClicked = true;
 
     wx.login({
       success: res => {
         let code = res.code;
-        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
+        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
           let sesstion_key = res.data.sessionKey;
           let openid = res.data.openid;
 
@@ -84,7 +83,7 @@ Page({
               let data = pc.decryptData(encryptedData, iv);
               let unionid = data.unionId;
 
-              app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, true, false, "登录中").then((res) => {
+              app.post(API_URL, "action=Login_wx&unionId=" + unionid + "&openid=" + openid + "&nickname=" + nickname + "&headurl=" + headurl + "&sex=" + sex, false, false, "").then((res) => {
                 let user = res.data.list[0];
 
                 wx.setStorage({
