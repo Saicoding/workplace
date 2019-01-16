@@ -21,7 +21,7 @@ Page({
    */
   onLoad: function(options) {
     let self = this;
-    let redirect = options.redirect == undefined ? "" : options.redirect;//是否直接转
+    let redirect = options.redirect == undefined ? "" : options.redirect;//是否直接转 测试
     this.setData({
       url: decodeURIComponent(options.url),
       url1: options.url,
