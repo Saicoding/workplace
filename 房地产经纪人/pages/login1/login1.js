@@ -15,7 +15,7 @@ Page({
     text: '获取验证码', //按钮文字
     currentTime: 61, //倒计时
     disabled: false, //按钮是否禁用
-    submit_disabled:true,//默认提交按钮禁用
+    submit_disabled: true, //默认提交按钮禁用
     phone: '', //获取到的手机栏中的值
     openId: '', //用户唯一标识  
     unionId: '',
@@ -144,17 +144,27 @@ Page({
   changeLoginType: function(e) {
     let toStatu = e.currentTarget.dataset.statu;
     let status = this.data.status;
+    let interval = this.data.interval;
+    clearInterval(interval);
     if (toStatu == 1) {
       this.setData({
-        statu: status[1]
+        statu: status[1],
+        currentTime: 61,
+        disabled: false,
+        color: '#388ff8',
+        text: '获取验证码',
       })
-    } else if (toStatu == 2) {//注册帐号
+    } else if (toStatu == 2) { //注册帐号
       this.setData({
         statu: status[2],
-          phoneText: "",
-          pwdText:'',
-          phone:"",
-          pwd:"",
+        phoneText: "",
+        pwdText: '',
+        phone: "",
+        pwd: "",
+        currentTime: 61,
+        disabled: false,
+        color: '#388ff8',
+        text: '获取验证码',
       })
     } else if (toStatu == 0) {
       this.setData({
@@ -175,7 +185,7 @@ Page({
   /**
    * 验证码发送
    */
-  codeButtonTap:function(e){
+  codeButtonTap: function(e) {
     let self = this;
 
     self.setData({
@@ -210,7 +220,7 @@ Page({
       })
 
       //设置一分钟的倒计时
-      var interval = setInterval(function () {
+      var interval = setInterval(function() {
         currentTime--; //每执行一次让倒计时秒数减一
         self.setData({
           text: currentTime + 's', //按钮文字变成倒计时对应秒数
@@ -226,6 +236,10 @@ Page({
           })
         }
       }, 1000);
+
+      self.setData({
+        interval:interval
+      })
 
     };
 
@@ -253,9 +267,9 @@ Page({
     let phone = e.detail.value;
     let submit_disabled = null;
     //校验手机号码
-    if(phone.trim().length == 11 || /^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)){
+    if (phone.trim().length == 11 || /^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)) {
       submit_disabled = false;
-    }else{
+    } else {
       submit_disabled = true;
     }
 
@@ -268,7 +282,7 @@ Page({
   /**
    * 密码输入框
    */
-  pwdInput:function(e){
+  pwdInput: function(e) {
     this.setData({
       pwd: e.detail.value
     })
@@ -281,28 +295,28 @@ Page({
     let statu = this.data.statu;
     switch (statu.code) {
       case 0:
-        this.userPwdLogin();//帐号密码登录
+        this.userPwdLogin(); //帐号密码登录
         break;
       case 1:
-        this.codeLogin();//验证码登录
+        this.codeLogin(); //验证码登录
         break;
       case 2:
-        this.sign();//注册
-      break;
+        this.sign(); //注册
+        break;
     }
   },
 
   /**
    * 验证码登录
    */
-  codeLogin: function () {
+  codeLogin: function() {
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
     let ifGoPage = self.data.ifGoPage;
     let url = self.data.url;
 
-    if (code == identifyCode && code != undefined) {//如果相等
+    if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
@@ -310,9 +324,8 @@ Page({
         wx.setStorage({
           key: 'user',
           data: user,
-          success: function () {
-            wx.navigateBack({
-            })
+          success: function() {
+            wx.navigateBack({})
 
             if (ifGoPage == "true") {
               wx.navigateTo({
@@ -320,7 +333,7 @@ Page({
               })
             }
           },
-          fail: function () {
+          fail: function() {
             console.log('存储失败')
           }
         })
@@ -343,7 +356,7 @@ Page({
   /**
    * 帐号密码登录
    */
-  userPwdLogin: function (e) {
+  userPwdLogin: function(e) {
     let self = this;
     let phone = self.data.phone;
     let pwd = self.data.pwd;
@@ -356,21 +369,22 @@ Page({
       warn = "号码不能为空";
     } else if (phone.trim().length != 11 || !/^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)) {
       warn = "手机号格式不正确";
-    } else if (pwd == '' || undefined){
+    } else if (pwd == '' || undefined) {
       warn = "密码不能为空";
     } else if (!/^(\w){6,20}$/.test(pwd)) {
       warn = "只能输入6-20个字母、数字、下划线";
-    }else{
+    } else {
       //开始登录
+      pwd = md5.md5(pwd).toLowerCase();
+      console.log(pwd)
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
 
         wx.setStorage({
           key: 'user',
           data: user,
-          success: function () {
-            wx.navigateBack({
-            })
+          success: function() {
+            wx.navigateBack({})
 
             if (ifGoPage == "true") {
               wx.navigateTo({
@@ -378,7 +392,7 @@ Page({
               })
             }
           },
-          fail: function () {
+          fail: function() {
             console.log('存储失败')
           }
         })
@@ -387,9 +401,9 @@ Page({
 
     if (warn != null) {
       wx.showToast({
-        icon:'none',
+        icon: 'none',
         title: warn,
-        duration:3000
+        duration: 3000
       })
       return;
     };
@@ -398,7 +412,7 @@ Page({
   /**
    * 帐号注册
    */
-  sign:function(){
+  sign: function() {
     let self = this;
     let code = self.data.code;
     let identifyCode = self.data.identifyCode;
@@ -410,18 +424,17 @@ Page({
       warn = "密码不能为空";
     } else if (!/^(\w){6,20}$/.test(pwd)) {
       warn = "只能输入6-20个字母、数字、下划线";
-    }else if (code == identifyCode && code != undefined) {//如果相等
+    } else if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
-      app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code+"&pwd="+pwd, true, true, "注册中").then((res) => {
+      app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
         console.log(res)
         let user = res.data.list[0];
 
         wx.setStorage({
           key: 'user',
           data: user,
-          success: function () {
-            wx.navigateBack({
-            })
+          success: function() {
+            wx.navigateBack({})
 
             if (ifGoPage == "true") {
               wx.navigateTo({
@@ -429,7 +442,7 @@ Page({
               })
             }
           },
-          fail: function () {
+          fail: function() {
             console.log('存储失败')
           }
         })
