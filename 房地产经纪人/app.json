@@ -1,10 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/login1/login1",
     "pages/pay/pay",
     "pages/pay/kanjia/kanjia",
     "pages/tiku/zuoti/zuoti",
-    "pages/login1/login1",
     "pages/prompt/jieAnswerAll/jieAnswerAll",
     "pages/tiku/wrong/wrong",
     "pages/prompt/hasNoShiti/hasNoShiti",

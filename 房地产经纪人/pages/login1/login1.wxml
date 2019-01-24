@@ -1,21 +1,48 @@
 <!--pages/login1/login1.wxml-->
-<view class="container">
+<view class="mycontainer">
+  <view class="title">
+    {{statu.title}}
+  </view>
+  <view class="block">
+    <input value= "{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' bindinput="phoneInput" />
+  </view>
 
-  <image class="big-img" src="/imgs/login1.png" mode="aspectFit"></image>
-
-
-  <view class="login">
-    <button class="login-button-1" hover-class="select1" bindtap='userPwdLogin' hover-stay-time='500' >
-
-      <image class="small-img" src="/imgs/login2.png" mode='aspectFit'></image>
-
-      <text class="login-text">手机快捷登录</text>
+  <!-- 验证码 -->
+  <view wx:if="{{statu.code != 0}}" class="block code">
+    <input type="number" class="block-input code-input" placeholder='请输入验证码' bindinput="codeInput" />
+    <button class="identify-code" bindtap="codeButtonTap" disabled='{{disabled}}' style="background-color:{{color}}">
+      {{text}}
     </button>
-    <button class="login-button-2" open-type="getUserInfo"  hover-class="select2" hover-stay-time='500' bindgetuserinfo="wxLogin">
+  </view>
 
-      <image class="small-img" src="/imgs/login3.png" mode="aspectFit"></image>
+  <view wx:if="{{statu.code!=1}}"  class="block">
+    <input value="{{pwdText}}" type="password" class="block-input" placeholder="{{statu.code==0?'请输入密码':'设置登录密码'}}" bindinput="pwdInput" />
+  </view>
 
-      <text class="login-text">微信授权登录</text>
-    </button>
+  <view class="smallblock">
+    <view class="smallblock-forget">忘记密码</view>
+    <view data-statu="{{(statu.code !=2 && statu.code !=1)?2:0}}"  class="smallblock-sign" bindtap="changeLoginType">{{statu.code !=2 && statu.code !=1?'没有账号? 马上注册':'帐号密码登录'}}</view>
+  </view>
+
+  <!-- 确定按钮 -->
+  <view wx:if="{{!submit_disabled}}"  class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500' >{{statu.code !=2 ?'确定':'注册'}}</view>
+
+  <view wx:if="{{submit_disabled}}"  class="submit" style="background: linear-gradient(to right,#cacaca,#858585);">{{statu.code !=2 ?'确定':'注册'}}</view>
+
+  <!-- 快速登录 -->
+  <view class="line">
+    <view class="line-border"></view>
+    <view class="line-text" style="margin-left:30rpx;">快速登录</view>
+    <view class="line-border" style="margin-left:30rpx;"></view>
+  </view>
+
+  <!-- 快速登录的两个图标 -->
+  <view class="fastlogin">
+    <view data-statu="1" bindtap="changeLoginType" hover-class='select1' hover-stay-time='200'>
+      <image class="fastlogin-icon" src="/imgs/phone3.png"></image>
+    </view>
+    <view bindtap="wxLogin" hover-class='select1' hover-stay-time='500'>
+      <image class="fastlogin-icon" src="/imgs/wx.png" style="margin-left:80rpx;"></image>
+    </view>
   </view>
 </view>

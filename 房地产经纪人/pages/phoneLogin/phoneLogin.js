@@ -112,7 +112,6 @@ Page({
         color: '#388ff8'
       })
       return;
-
     };
   },
 
