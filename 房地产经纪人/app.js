@@ -37,11 +37,12 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
-          if (ifShow) {
+          if (ifShow) {//隐藏载入
             wx.hideLoading();
           }
           let status = res.data.status;
           let message = res.data.message;
+          console.log(res)
           if (status == 1) { //请求成功
             resolve(res);
           } else if (status == -2) { //没有权限
@@ -67,26 +68,14 @@ App({
               isLoaded: true,
               message: message
             })
-          } else if (status == -201) {
-            console.log('余额不足')
-            wx.showToast({
-              title: '余额不足',
-              icon: 'none',
-              duration: 3000
-            })
-          } else if (status == -1) {
+          } else if (status < 0) {
+            console.log(message)
             wx.showToast({
               title: message,
               icon: 'none',
               duration: 3000
             })
-          } else if (status == -990) {
-            wx.showToast({
-              title: message,
-              icon: 'none',
-              duration: 3000
-            })
-          }
+          } 
         },
         error: function(e) {
           reject('网络出错');

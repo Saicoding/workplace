@@ -24,18 +24,30 @@ Page({
       {
         code: 0,
         title: '帐号登录',
-        ph_user: '请输入手机帐号'
+        ph_user: '请输入手机帐号',
+        ph_user2: '请输入登录密码',
+        confirm_text:'登录'
       },
       {
         code: 1,
-        title: '手机快捷登录',
-        ph_user: '请输入手机号码'
+        title: '手机短信登录',
+        ph_user: '请输入手机号码',
+        confirm_text: '登录'
       },
       {
         code: 2,
         title: '注册帐号',
-        ph_user: '请输入手机帐号'
+        ph_user: '请输入手机帐号',
+        ph_user2: '设置登录密码',
+        confirm_text: '注册'
       },
+      {
+        code: 3,
+        title: '找回密码',
+        ph_user: '请输入找回密码的手机帐号',
+        ph_user2:'设置新密码',
+        confirm_text: '确定'
+      }
     ]
   },
   /**
@@ -78,7 +90,7 @@ Page({
         app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
           let sesstion_key = res.data.sessionKey;
           let openid = res.data.openid;
-
+          buttonClicked = false;
           wx.getUserInfo({
             success: function(res) {
               let wxid = ""; //openId
@@ -107,7 +119,7 @@ Page({
                   key: 'user',
                   data: user
                 })
-
+                buttonClicked = false;
                 wx.navigateBack({}) //先回到登录前的页面
 
                 if (ifGoPage == 'true') {
@@ -125,6 +137,7 @@ Page({
               })
             },
             fail: function(res1) {
+              buttonClicked = false;
               wx.showToast({
                 duration: 3000,
                 title: '得到用户信息失败',
@@ -145,6 +158,8 @@ Page({
     let toStatu = e.currentTarget.dataset.statu;
     let status = this.data.status;
     let interval = this.data.interval;
+    let submit_disabled ;
+    
     clearInterval(interval);
     if (toStatu == 1) {
       this.setData({
@@ -165,12 +180,38 @@ Page({
         disabled: false,
         color: '#388ff8',
         text: '获取验证码',
+        code:''
       })
     } else if (toStatu == 0) {
       this.setData({
         statu: status[0]
       })
+    } else if(toStatu == 3){//找回密码
+      this.setData({
+        statu: status[3],
+        phoneText: "",
+        pwdText: '',
+        phone: "",
+        pwd: "",
+        currentTime: 61,
+        disabled: false,
+        color: '#388ff8',
+        text: '获取验证码',
+        code: ''
+      })
     }
+
+  //设置按钮状态
+    let phone = this.data.phone;
+    if (phone.trim().length == 11 || /^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)) {
+      submit_disabled = false;
+    } else {
+      submit_disabled = true;
+    }
+
+    this.setData({
+      submit_disabled: submit_disabled
+    })
   },
 
   /**
@@ -256,7 +297,6 @@ Page({
         color: '#388ff8'
       })
       return;
-
     };
   },
 
@@ -302,6 +342,9 @@ Page({
         break;
       case 2:
         this.sign(); //注册
+        break;
+      case 3:
+        this.findPwd();//找回密码
         break;
     }
   },
@@ -369,14 +412,13 @@ Page({
       warn = "号码不能为空";
     } else if (phone.trim().length != 11 || !/^1[3|4|5|6|7|8|9]\d{9}$/.test(phone)) {
       warn = "手机号格式不正确";
-    } else if (pwd == '' || undefined) {
+    } else if (pwd == '' || pwd == undefined) {
       warn = "密码不能为空";
     } else if (!/^(\w){6,20}$/.test(pwd)) {
       warn = "只能输入6-20个字母、数字、下划线";
     } else {
       //开始登录
       pwd = md5.md5(pwd).toLowerCase();
-      console.log(pwd)
       app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&pwd=" + pwd, true, true, "登录中").then((res) => {
         let user = res.data.list[0];
 
@@ -419,16 +461,33 @@ Page({
     let ifGoPage = self.data.ifGoPage;
     let pwd = self.data.pwd;
     let url = self.data.url;
+    let warn;
 
     if (pwd == '' || undefined) {
       warn = "密码不能为空";
     } else if (!/^(\w){6,20}$/.test(pwd)) {
       warn = "只能输入6-20个字母、数字、下划线";
-    } else if (code == identifyCode && code != undefined) { //如果相等
+    } 
+
+    if(warn){
+      wx.showToast({
+        icon:'none',
+        title: warn,
+        duration:3000
+      })
+      return;
+    }
+    
+    if (code == identifyCode && code != undefined) { //如果相等
       //开始登录
-      app.post(API_URL, "action=Login&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
-        console.log(res)
+      app.post(API_URL, "action=Reg&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "注册中").then((res) => {
         let user = res.data.list[0];
+
+        wx.showToast({
+          icon:'none',
+          title: '注册成功',
+          duration:3000
+        })
 
         wx.setStorage({
           key: 'user',
@@ -448,12 +507,76 @@ Page({
         })
       })
     } else if (code == undefined) {
+      console.log('heihei')
       wx.showToast({
         title: '验证码不能为空',
         icon: 'none',
         duration: 2000
       });
     } else {
+      console.log('lele')
+      wx.showToast({
+        title: '验证码不正确',
+        icon: 'none',
+        duration: 2000
+      });
+    }
+  },
+
+  /**
+   * 找回密码
+   */
+  findPwd:function(){
+    let self = this;
+    let code = self.data.code;
+    let identifyCode = self.data.identifyCode;
+    let ifGoPage = self.data.ifGoPage;
+    let pwd = self.data.pwd;
+    let url = self.data.url;
+    let status  = self.data.status;
+    let warn;
+
+    if (pwd == '' || undefined) {
+      warn = "新密码不能为空";
+    } else if (!/^(\w){6,20}$/.test(pwd)) {
+      warn = "只能输入6-20个字母、数字、下划线";
+    }
+
+    if (warn) {
+      wx.showToast({
+        icon: 'none',
+        title: warn,
+        duration: 3000
+      })
+      return;
+    }
+
+    if (code == identifyCode && code != undefined) { //如果相等
+      //开始登录
+      pwd = md5.md5(pwd).toLowerCase();
+      app.post(API_URL, "action=GetPwd&mobile=" + self.data.phone + "&yzm=" + code + "&pwd=" + pwd, true, true, "修改密码中...").then((res) => {
+        if(res.data.status == '1'){
+          self.setData({
+            statu: status[0],
+            pwd:'',
+            pwdText:''
+          })
+          wx.showToast({
+            icon: 'none',
+            title: '密码修改成功',
+            duration: 3000
+          })
+        }
+      })
+    } else if (code == undefined) {
+      console.log('heihei')
+      wx.showToast({
+        title: '验证码不能为空',
+        icon: 'none',
+        duration: 2000
+      });
+    } else {
+      console.log('lele')
       wx.showToast({
         title: '验证码不正确',
         icon: 'none',
