@@ -21,7 +21,7 @@
 
   <view class="smallblock">
     <view class="smallblock-forget">忘记密码</view>
-    <view data-statu="{{(statu.code !=2 && statu.code !=1)?2:0}}"  class="smallblock-sign" bindtap="changeLoginType">{{statu.code !=2 && statu.code !=1?'没有账号? 马上注册':'帐号密码登录'}}</view>
+    <view data-statu="{{(statu.code !=2 && statu.code !=1)?2:0}}"  class="smallblock-sign" bindtap="changeLoginType">{{statu.code !=2 && statu.code !=1?'没有帐号? 马上注册':'帐号密码登录'}}</view>
   </view>
 
   <!-- 确定按钮 -->

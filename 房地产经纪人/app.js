@@ -10,7 +10,7 @@ App({
    * +-------------------
    * @return {Promise}    promise 返回promise供后续操作
    */
-  post: function(url, data, ifShow,ifCanCancel,title,pageUrl,ifGoPage,self) {
+  post: function(url, data, ifShow, ifCanCancel, title, pageUrl, ifGoPage, self) {
 
     if (ifShow) {
       wx.showLoading({
@@ -37,55 +37,56 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
+          if (ifShow) {
+            wx.hideLoading();
+          }
           let status = res.data.status;
           let message = res.data.message;
-          if (status == 1) {//请求成功
+          if (status == 1) { //请求成功
             resolve(res);
-          } else if(status == -2){//没有权限
+          } else if (status == -2) { //没有权限
             let product = res.data.taocan;
-           
+
             wx.navigateTo({
               url: '/pages/pay/pay?product=' + product,
             })
-          } else if(status == -5){//重复登录
+          } else if (status == -5) { //重复登录
             console.log('重复登录')
-            if (self) {//如果传了这个参数
+            if (self) { //如果传了这个参数
               self.setData({
                 isReLoad: true
               })
             }
             wx.navigateTo({
-              url: '/pages/login1/login1?url=' + pageUrl+'&ifGoPage='+ifGoPage
+              url: '/pages/login1/login1?url=' + pageUrl + '&ifGoPage=' + ifGoPage
             })
-          } else if (status == -101){//没有试题
+          } else if (status == -101) { //没有试题
             console.log('没有试题')
             self.setData({
-              isHasShiti:false,
-              isLoaded:true,
+              isHasShiti: false,
+              isLoaded: true,
               message: message
             })
-          }else if(status == -201){
+          } else if (status == -201) {
             console.log('余额不足')
             wx.showToast({
               title: '余额不足',
-              icon:'none',
-              duration:3000
+              icon: 'none',
+              duration: 3000
             })
-          }else if(status == -1){
+          } else if (status == -1) {
             wx.showToast({
               title: message,
               icon: 'none',
               duration: 3000
             })
-          }else if(status == -990){
+          } else if (status == -990) {
             wx.showToast({
               title: message,
               icon: 'none',
               duration: 3000
             })
           }
-
-          wx.hideLoading();
         },
         error: function(e) {
           reject('网络出错');
