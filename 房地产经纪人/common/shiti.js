@@ -877,7 +877,7 @@ function changeMultiShiti(done_daan, shiti) {
  */
 function postAnswerToServer(acode, username, id, flag, done_daan, app, API_URL) {
   //向服务器提交做题结果
-  app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => {})
+  app.post(API_URL, "action=saveShitiResult&acode=" + acode + "&username=" + username + "&tid=" + id + "&flag=" + flag + "&answer=" + done_daan, false).then((res) => { })
 }
 
 /**
@@ -1101,7 +1101,7 @@ function restartModelReal(self) {
  */
 
 function startWatch(startTime, self) {
-  let interval = setInterval(function() {
+  let interval = setInterval(function () {
     startTime--;
     let time = myTime.getTime(startTime);
     let hStr = time.h;

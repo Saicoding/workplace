@@ -4,7 +4,7 @@
     {{statu.title}}
   </view>
   <view class="block">
-    <input value= "{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' bindinput="phoneInput" />
+    <input value="{{phoneText}}" type="number" class="block-input" placeholder='{{statu.ph_user}}' bindinput="phoneInput" />
   </view>
 
   <!-- 验证码 -->
@@ -15,19 +15,19 @@
     </button>
   </view>
 
-  <view wx:if="{{statu.code!=1}}"  class="block">
+  <view wx:if="{{statu.code!=1}}" class="block">
     <input value="{{pwdText}}" type="password" class="block-input" placeholder="{{statu.ph_user2}}" bindinput="pwdInput" />
   </view>
 
   <view class="smallblock">
-    <view data-statu="3" class="smallblock-forget" bindtap = "changeLoginType">忘记密码?</view>
-    <view data-statu="{{(statu.code !=2 && statu.code !=1)?2:0}}"  class="smallblock-sign" bindtap="changeLoginType">{{statu.code !=2 && statu.code !=1?'没有帐号? 马上注册':'帐号密码登录'}}</view>
+    <view data-statu="3" class="smallblock-forget" bindtap="changeLoginType">忘记密码?</view>
+    <view data-statu="{{(statu.code !=2 && statu.code !=1)?2:0}}" class="smallblock-sign" bindtap="changeLoginType">{{statu.code !=2 && statu.code !=1?'没有帐号? 马上注册':'帐号密码登录'}}</view>
   </view>
 
   <!-- 确定按钮 -->
-  <view wx:if="{{!submit_disabled}}"  class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500' >{{statu.confirm_text}}</view>
+  <view wx:if="{{!submit_disabled}}" class="submit" bindtap="submit" hover-class='select2' hover-stay-time='500'>{{statu.confirm_text}}</view>
 
-  <view wx:if="{{submit_disabled}}"  class="submit" style="background: linear-gradient(to right,#cacaca,#858585);">{{statu.confirm_text}}</view>
+  <view wx:if="{{submit_disabled}}" class="submit" style="background: linear-gradient(to right,#cacaca,#858585);">{{statu.confirm_text}}</view>
 
   <!-- 快速登录 -->
   <view class="line">
@@ -41,8 +41,9 @@
     <view data-statu="1" bindtap="changeLoginType" hover-class='select1' hover-stay-time='200'>
       <image class="fastlogin-icon" src="/imgs/phone3.png"></image>
     </view>
-    <view bindtap="wxLogin" hover-class='select1' hover-stay-time='500'>
-      <image class="fastlogin-icon" src="/imgs/wx.png" style="margin-left:80rpx;"></image>
+    <view>
+      <button open-type="getUserInfo" class="fastlogin-button" bindgetuserinfo="wxLogin" hover-class='select1' hover-stay-time='500' >
+      </button>
     </view>
   </view>
 </view>

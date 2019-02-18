@@ -79,7 +79,6 @@ Page({
    */
   wxLogin: function(e) {
     let self = this;
-
     //限制连续点击
     if (buttonClicked) return;
     buttonClicked = true;

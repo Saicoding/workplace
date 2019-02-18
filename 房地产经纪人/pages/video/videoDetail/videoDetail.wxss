@@ -2,14 +2,19 @@
 .video,.video-img{
   width:750rpx;
   height:422rpx;
+  z-index:100;
 }
 
 .wifi{
+  position: absolute;
+  top:0rpx;
+  left:0rpx;
   width:750rpx;
   height:422rpx;
   background: black;
   color:white;
   text-align: center;
+  z-index:101;
 }
 
 .unBuy{
@@ -33,10 +38,11 @@
   font-size:30rpx;
   letter-spacing: 2rpx;
   margin-top:90rpx;
+  height:80rpx;
+  line-height: 60rpx;
 }
 .wifi-text2{
   font-size:25rpx;
-  margin-top:30rpx;
   letter-spacing: 1rpx;
 }
 
@@ -49,7 +55,6 @@
   border-radius: 5rpx;
   margin:80rpx auto;
   color:#b74e2a;
-
 }
 
 .loading-img{
@@ -59,14 +64,13 @@
   margin:300rpx auto;
 }
 
-.video-play{
-
-}
-
 .video-icon{
+  position: absolute;
+  top:150rpx;
+  left:325rpx;
   width:100rpx;
   height:100rpx;
-  margin:153rpx auto;
+  z-index:99;
 }
 
 .up-block{

@@ -57,7 +57,6 @@ Page({
     }
 
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
-      
       post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
     }).catch((errMsg) => {
