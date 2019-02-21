@@ -36,6 +36,12 @@ Page({
 
     })
   },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+
+  },
 
   /**
    * 全屏状态改变时

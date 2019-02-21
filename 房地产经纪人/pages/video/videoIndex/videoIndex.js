@@ -13,7 +13,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    loaded:false,
+    loaded: false,
   },
 
   /**
@@ -31,7 +31,7 @@ Page({
     let url = encodeURIComponent('/pages/video/videoIndex/videoIndex');
 
     let user = wx.getStorageSync('user');
-    
+
     wx.removeStorageSync('page');
 
     if (user) {
@@ -63,6 +63,12 @@ Page({
         })
       }
     });
+  },
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
+
   },
 
   /**
@@ -99,7 +105,7 @@ Page({
         let videoList = res.data.list;
         self.setData({
           videoList: videoList,
-          loaded:true
+          loaded: true
         })
 
         //得到消息数目
@@ -128,17 +134,17 @@ Page({
    */
   changeProduct: function(e) {
     let self = this;
-    let currentProduct = self.data.product;//当前种类
-    let product = e.currentTarget.dataset.product;//点击的视频种类
-    if (product == currentProduct) return;//如果没有改变就不作任何操作
+    let currentProduct = self.data.product; //当前种类
+    let product = e.currentTarget.dataset.product; //点击的视频种类
+    if (product == currentProduct) return; //如果没有改变就不作任何操作
 
     self.setData({
-      loaded:false
+      loaded: false
     })
 
-    let windowWidth = self.data.windowWidth;//窗口宽度
-    let moveData = undefined;//动画
-    if(product == "xl"){
+    let windowWidth = self.data.windowWidth; //窗口宽度
+    let moveData = undefined; //动画
+    if (product == "xl") {
       moveData = animate.ChangeWidthAndmoveX(easeOutAnimation, 265 * (windowWidth / 750), 276 * (windowWidth / 750));
       app.post(API_URL, "action=GetCourseList&types=xl", false, true, "", "").then((res) => {
         let videoList = res.data.list;
@@ -147,8 +153,8 @@ Page({
           loaded: true
         })
       })
-    }else{
-      moveData = animate.ChangeWidthAndmoveX(easeOutAnimation, 200 * (windowWidth / 750),  0);
+    } else {
+      moveData = animate.ChangeWidthAndmoveX(easeOutAnimation, 200 * (windowWidth / 750), 0);
       app.post(API_URL, "action=GetCourseList&types=jjr", false, true, "", "").then((res) => {
         let videoList = res.data.list;
         self.setData({
@@ -157,7 +163,7 @@ Page({
         })
       })
     }
-    
+
     self.setData({
       product: product,
       moveData: moveData
@@ -167,7 +173,7 @@ Page({
   /**
    * 观看视频
    */
-  watch:function(e){
+  watch: function(e) {
     if (buttonClicked) return;
     buttonClicked = true;
     let self = this;
@@ -187,7 +193,7 @@ Page({
 
     // validate.validateDPLLoginOrPwdChange(zcode, LoginRandom, pwd, url1, url, true) //验证重复登录
     wx.navigateTo({
-      url: '/pages/video/videoDetail/videoDetail?kc_id='+kc_id+'&img='+img+"&product="+product+"&title="+title,
+      url: '/pages/video/videoDetail/videoDetail?kc_id=' + kc_id + '&img=' + img + "&product=" + product + "&title=" + title,
     })
   }
 })

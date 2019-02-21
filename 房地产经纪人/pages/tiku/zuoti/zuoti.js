@@ -488,6 +488,13 @@ Page({
   },
 
   /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+
+  },
+
+  /**
    * 重新开始练习
    */
   _restart:function(){

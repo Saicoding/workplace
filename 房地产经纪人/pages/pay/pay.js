@@ -99,6 +99,12 @@ Page({
       phoneNumber: '400-6456-114' //仅为示例，并非真实的电话号码
     })
   },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+
+  },
 
   /**
    * 拨打电话

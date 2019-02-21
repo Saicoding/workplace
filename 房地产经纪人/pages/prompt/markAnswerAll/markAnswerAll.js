@@ -20,6 +20,12 @@ Page({
   //     delta: 1
   //   })
   // },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+
+  },
 
   restart: function (options) {
     let pages = getCurrentPages();

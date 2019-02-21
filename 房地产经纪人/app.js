@@ -37,7 +37,7 @@ App({
           'content-type': 'application/x-www-form-urlencoded'
         },
         success: function(res) { //服务器返回数据
-          if (ifShow) {//隐藏载入
+          if (ifShow) { //隐藏载入
             wx.hideLoading();
           }
           let status = res.data.status;
@@ -75,7 +75,7 @@ App({
               icon: 'none',
               duration: 3000
             })
-          } 
+          }
         },
         error: function(e) {
           reject('网络出错');

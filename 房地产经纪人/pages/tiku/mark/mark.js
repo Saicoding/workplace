@@ -80,6 +80,12 @@ Page({
       }
     });
   },
+  /**
+ * 用户点击右上角分享
+ */
+  onShareAppMessage: function () {
+
+  },
 
   /**
    * 切换问题的动画
