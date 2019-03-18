@@ -397,7 +397,7 @@ Page({
       nextShiti = shitiArray[px];
     }
 
-    common.storeLastShiti(px, self); //存储最后一题的状态
+    common.storeModelRealLastShiti(px, self); //存储最后一题的状态
 
     //滑动结束后,更新滑动试题数组
     let sliderShitiArray = [];

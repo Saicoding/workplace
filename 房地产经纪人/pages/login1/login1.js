@@ -89,10 +89,13 @@ Page({
     if (buttonClicked) return;
     buttonClicked = true;
 
+    wx.showLoading({
+      title: '登录中',
+    })
     wx.login({
       success: res => {
         let code = res.code;
-        app.post(API_URL, "action=getSessionKey&code=" + code, true, false, "登录中").then((res) => {
+        app.post(API_URL, "action=getSessionKey&code=" + code, false, false, "").then((res) => {
           let sesstion_key = res.data.sessionKey;
           let openid = res.data.openid;
           buttonClicked = false;
@@ -125,6 +128,7 @@ Page({
                   data: user
                 })
                 buttonClicked = false;
+                wx.hideLoading();
                 wx.navigateBack({}) //先回到登录前的页面
 
                 if (ifGoPage == 'true') {
