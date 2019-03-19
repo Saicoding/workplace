@@ -55,7 +55,8 @@ Page({
     wx.getUserInfo({
       success: function(res) {
         let city = res.userInfo.city;
-        app.post(API_URL, "action=getDlInfo&city=" + city, false, true, "").then((res) => {
+        let province = res.userInfo.province;
+        app.post(API_URL, "action=getDlInfo&city=" + city + "&province=" + province, false, true, "").then((res) => {
           console.log(res)
           let company = res.data.data[0].Name;
           let dl = res.data.data[0].dl; 

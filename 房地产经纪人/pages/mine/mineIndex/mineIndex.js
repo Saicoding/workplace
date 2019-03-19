@@ -79,12 +79,11 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function() {
-  },
+  onLoad: function() {},
   /**
- * 用户点击右上角分享
- */
-  onShareAppMessage: function () {
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
 
   },
 
@@ -138,6 +137,15 @@ Page({
         })
       }
     });
+  },
+
+  /**
+   * 导航到精品推荐
+   */
+  GOtuijian: function() {
+    wx.navigateTo({
+      url: '/pages/mine/tuijian/tuijian',
+    })
   },
   /**
    * 设置页面
@@ -202,15 +210,15 @@ Page({
         console.log(nums)
         self.setData({
           nums: nums,
-          user:user
+          user: user
         })
 
-        if(nums > 0){
+        if (nums > 0) {
           wx.setTabBarBadge({
             index: 3,
             text: nums.toString(),
           })
-        }else{
+        } else {
           wx.removeTabBarBadge({
             index: 3
           })

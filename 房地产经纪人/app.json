@@ -27,7 +27,8 @@
     "pages/mine/set/set",
     "pages/video/videoDetail/videoDetail",
     "pages/tiku/live/live",
-    "pages/tiku/pastVideo/pastVideo"
+    "pages/tiku/pastVideo/pastVideo",
+    "pages/mine/tuijian/tuijian"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -72,5 +73,11 @@
         "text": "我的"
       }
     ]
-  }
+  },
+  "navigateToMiniProgramAppIdList": [
+    "wxfc4ecbaf91acfaf6",
+    "wx4bfad2a6c360e9c4",
+    "wx274bc5c5c5ce0434",
+    "wx1264a65218ad1fab"
+  ]
 }
