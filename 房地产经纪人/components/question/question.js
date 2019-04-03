@@ -62,7 +62,6 @@ Component({
    * 组件的方法列表
    */
   methods: {
-
     toogleShow: function() {
       if (this.data.tx != "材料题") return;
       this.triggerEvent('toogleAnimation')

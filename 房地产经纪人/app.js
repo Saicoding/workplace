@@ -40,10 +40,9 @@ App({
           if (ifShow) { //隐藏载入
             wx.hideLoading();
           }
-          let status = res.data.status;
+          let status = res.data.status*1;
           let message = res.data.message;
-          console.log(res)
-          if (status == 1) { //请求成功
+          if (status == 1 ) { //请求成功
             resolve(res);
           } else if (status == -2) { //没有权限
             let product = res.data.taocan;

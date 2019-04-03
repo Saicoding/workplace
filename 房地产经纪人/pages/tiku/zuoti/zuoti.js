@@ -123,7 +123,6 @@ Page({
    * slider改变事件
    */
   sliderChange: function(e) {
-    console.log(e)
     let self = this;
     let lastSliderIndex = self.data.lastSliderIndex;
     let current = e.detail.current;
@@ -308,7 +307,7 @@ Page({
     })
 
     common.changeNum(shiti.flag, self); //更新答题的正确和错误数量
-
+            
     common.postAnswerToServer(self.data.acode, self.data.username, shiti.id, shiti.flag, shiti.done_daan, app, API_URL); //向服务器提交答题结
     common.storeAnswerStatus(shiti, self); //存储答题状态
 
@@ -438,8 +437,10 @@ Page({
     let currentXiaoti = currentShiti.xiaoti
 
     if (shiti.isAnswer) return;
+    shiti.flag = 0;
 
     for (let i = 0; i < xiaoti.length; i++) {
+      if (xiaoti[i].flag == 1) shiti.flag = 1;
       if (px - 1 == i) { //找到对应的小题
         if (xiaoti[i].isAnswer) return;
         done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : xiaoti[i].selectAnswer; //根据单选还是多选得到done_daan,多选需要排序
@@ -687,6 +688,7 @@ Page({
     let sliderShiti = sliderShitiArray[lastSliderIndex];//当前材料题
     let xtCurrent = e.detail.current;
     let xt = sliderShiti.xiaoti[xtCurrent];//当前小题
+    console.log(xt.answer)
 
     share.ifOverHeight(self, xt, sliderShitiArray)
 

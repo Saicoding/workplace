@@ -150,27 +150,29 @@ function ifOverHeight(self,shiti, sliderShitiArray){
       setTimeout(function () {
         query.select(str).boundingClientRect(function (rect) {
           //当前受测组件的高度(rpx);
-          let height = rect.height * (750 / windowWidth);
+          if(rect){
+            let height = rect.height * (750 / windowWidth);
 
-          if (windowHeight - 220 < height) {
-            // midShiti.xiaoti[0].style = "padding-left:20rpx;font-size:25rpx;line-height:40rpx;";
-            if (height - windowHeight + 220 < 115) {//如果只超了120
-              let sub = (height - windowHeight + 220) / 2;
-              // shiti.style = "padding-top:" + (25 - sub) + "rpx;padding-bottom:" + (25 - sub) +"rpx;"
-              shiti.style = "padding-top:5rpx;padding-bottom:5rpx;"
-              self.setData({
-                sliderShitiArray: sliderShitiArray
-              })
-            } else if (height - windowHeight + 220 >= 115 && height - windowHeight + 220 < 455) {
-              shiti.style = "padding-top:5rpx;padding-bottom:5rpx;font-size:25rpx;padding-left:20rpx;line-height:40rpx;"
-              self.setData({
-                sliderShitiArray: sliderShitiArray
-              })
-            } else if (height - windowHeight + 220 >= 455) {
-              shiti.style = "padding-top:3rpx;padding-bottom:3rpx;font-size:23rpx;padding-left:0rpx;line-height:37rpx;"
-              self.setData({
-                sliderShitiArray: sliderShitiArray
-              })
+            if (windowHeight - 220 < height) {
+              // midShiti.xiaoti[0].style = "padding-left:20rpx;font-size:25rpx;line-height:40rpx;";
+              if (height - windowHeight + 220 < 115) {//如果只超了120
+                let sub = (height - windowHeight + 220) / 2;
+                // shiti.style = "padding-top:" + (25 - sub) + "rpx;padding-bottom:" + (25 - sub) +"rpx;"
+                shiti.style = "padding-top:5rpx;padding-bottom:5rpx;"
+                self.setData({
+                  sliderShitiArray: sliderShitiArray
+                })
+              } else if (height - windowHeight + 220 >= 115 && height - windowHeight + 220 < 455) {
+                shiti.style = "padding-top:5rpx;padding-bottom:5rpx;font-size:25rpx;padding-left:20rpx;line-height:40rpx;"
+                self.setData({
+                  sliderShitiArray: sliderShitiArray
+                })
+              } else if (height - windowHeight + 220 >= 455) {
+                shiti.style = "padding-top:3rpx;padding-bottom:3rpx;font-size:23rpx;padding-left:0rpx;line-height:37rpx;"
+                self.setData({
+                  sliderShitiArray: sliderShitiArray
+                })
+              }
             }
           }
         }).exec();
