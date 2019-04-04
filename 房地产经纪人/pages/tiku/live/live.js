@@ -74,7 +74,6 @@ Page({
     })
 
     let user = wx.getStorageSync('user');
-
     let LoginRandom = user.Login_random;
     let zcode = user.zcode;
     let sign = this.data.sign;

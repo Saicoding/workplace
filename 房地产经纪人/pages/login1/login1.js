@@ -128,8 +128,11 @@ Page({
                   data: user
                 })
                 buttonClicked = false;
-                wx.hideLoading();
-                wx.navigateBack({}) //先回到登录前的页面
+                wx.navigateBack({
+                  success:function(){
+                    wx.hideLoading();
+                  }
+                }) //先回到登录前的页面
 
                 if (ifGoPage == 'true') {
                   if (redirect == 'true') {
