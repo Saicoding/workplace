@@ -14,7 +14,7 @@
 .line {
   display: float;
   float: left;
-  width: 278rpx;
+  width: 275rpx;
   height:30rpx;
   margin-top: 20rpx;
   border-top: 1rpx solid rgb(226, 226, 226);
@@ -29,6 +29,7 @@
 }
 
 .jiexi {
+  position: relative;
   margin: 0 auto;
   margin-top: 25rpx;
   margin-bottom:50rpx;
@@ -47,6 +48,23 @@
 .jiexi-text1{
   font-size:28rpx;
   color:black;
+}
+
+.ad{
+  position: fixed;
+  left:0rpx;
+  width:100%;
+  bottom:0rpx;
+  z-index:60;
+}
+
+.close-icon{
+  position: fixed;
+  bottom:200rpx;
+  width:40rpx;
+  height:40rpx;
+  z-index:61;
+  right:20rpx;
 }
 
 .jiexi-text2{

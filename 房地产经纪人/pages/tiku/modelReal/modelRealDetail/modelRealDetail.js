@@ -587,7 +587,7 @@ Page({
 
     for (let i = 0; i < xiaoti.length; i++) {
       if (px - shiti.clpx == i) { //找到对应的小题
-        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort();; //根据单选还是多选得到done_daan,多选需要排序
+        done_daan = xiaoti[i].TX == 1 ? e.detail.done_daan : e.detail.done_daan.sort(); //根据单选还是多选得到done_daan,多选需要排序
 
         common.changeModelRealSelectStatus(done_daan, currentXiaoti[i], false); //改变试题状态
         common.changeModelRealSelectStatus(done_daan, xiaoti[i], false); //改变试题状态
