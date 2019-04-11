@@ -262,9 +262,9 @@ Page({
     });
   },
   /**
- * 用户点击右上角分享
- */
-  onShareAppMessage: function () {
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function() {
 
   },
   /**
@@ -655,10 +655,10 @@ Page({
       }
     }).then(res => {
       let sliderShitiArray = self.data.sliderShitiArray;
-      let windowHeight = self.data.windowHeight;//当前窗口高度(rpx);
-      let windowWidth = self.data.windowWidth;//当前窗口宽度(px);
+      let windowHeight = self.data.windowHeight; //当前窗口高度(rpx);
+      let windowWidth = self.data.windowWidth; //当前窗口宽度(px);
 
-      if (sliderShitiArray[res].TX == 99 ) { //如果已经提交试卷，才去判断题是否超过屏幕
+      if (sliderShitiArray[res].TX == 99) { //如果已经提交试卷，才去判断题是否超过屏幕
         share.ifOverHeight(self, sliderShitiArray[res].xiaoti[0], sliderShitiArray);
       }
     }).catch(res1 => {
@@ -891,12 +891,39 @@ Page({
 
       switch (doneAnswer.select) {
         case "单选题":
+          if (doneAnswer.isRight == 0) { //正确
+            rightNums += 1;
+            score += shitiArray[px - 1].score;
+          } else {
+            wrongNums += 1;
+          }
+          break;
+
         case "多选题":
           if (doneAnswer.isRight == 0) { //正确
             rightNums += 1;
             score += shitiArray[px - 1].score;
           } else {
             wrongNums += 1;
+
+            let has = true; //是否包含
+            let num = 0;
+            for (let m = 0; m < doneAnswer.done_daan.length; m++) {
+              let done = doneAnswer.done_daan[m];
+              if (shitiArray[px - 1].answer.indexOf(done) == -1) { //如果不包含
+                has = false;
+              } else {
+                num++;
+              }
+            }
+
+            if (has) { //如果部分正确
+              if (num == 1) {
+                score += 0.5;
+              } else if (num > 1) {
+                score += 1;
+              }
+            }
           }
           break;
 
@@ -909,6 +936,28 @@ Page({
               score += shitiArray[px - 1].xiaoti[daan.px - shitiArray[px - 1].clpx].score;
             } else {
               wrongNums += 1;
+              if (typeof daan.done_daan == "object") {
+                console.log(daan)
+                let has = true; //是否包含
+                let num = 0;
+
+                for (let m = 0; m < daan.done_daan.length; m++) {
+                  let done = daan.done_daan[m];
+                  if (shitiArray[px - 1].xiaoti[daan.px - daan.clpx-1].answer.indexOf(done) == -1) { //如果不包含
+                    has = false;
+                  } else {
+                    num++;
+                  }
+                }
+
+                if (has) { //如果部分正确
+                  if (num == 1) {
+                    score += 0.5;
+                  } else if (num > 1) {
+                    score += 1;
+                  }
+                }
+              }
             }
           }
           break;

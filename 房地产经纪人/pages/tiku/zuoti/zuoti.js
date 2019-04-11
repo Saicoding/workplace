@@ -57,6 +57,7 @@ Page({
     }
 
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
+      console.log('权限',res.data.buy)
       post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
     }).catch((errMsg) => {
@@ -129,36 +130,8 @@ Page({
     let source = e.detail.source;
     let myFavorite = 0;
     let buy = this.data.buy;
-
-
-    if (source != "touch") return;
-
     let px = self.data.px;
-
-    if(px >= 9 &&  buy == 0 ){//如果滑动大于10，并且没有购买
-      console.log(self.data.zhangjie_id)
-      let product = "";
-      let zhangjie_id = self.data.zhangjie_id;
-      if (zhangjie_id !="263" && zhangjie_id !="262"){
-        product = 'DB16'
-      }else{
-        product = 'DB16'
-      }
-
-      wx.showModal({
-        title: '提示',
-        content: '您还没有购买课程,购买课程继续观看',
-        confirmColor:'#2983fe',
-        success:function(res){
-          if(res.confirm){
-
-            wx.navigateTo({
-              url: '/pages/pay/pay?product=' + product +"&goBack=haha",
-            })
-          }
-        }
-      })
-    }
+    if (source != "touch") return;
 
     let direction = "";
     let shitiArray = self.data.shitiArray;
@@ -180,11 +153,45 @@ Page({
       direction = "右滑";
     }
 
+    if (px >= 9 && buy == 0 && direction == "左滑") {//如果滑动大于10，并且没有购买
+      console.log(self.data.zhangjie_id)
+      let product = "";
+      let zhangjie_id = self.data.zhangjie_id;
+      if (zhangjie_id != "263" && zhangjie_id != "262") {
+        product = 'DB16'
+      } else {
+        product = 'DB16'
+      }
+
+      wx.showModal({
+        title: '提示',
+        content: '您还没有购买课程,购买课程继续观看',
+        confirmColor: '#2983fe',
+        success: function (res) {
+          if (res.confirm) {
+
+            wx.navigateTo({
+              url: '/pages/pay/pay?product=' + product + "&goBack=haha",
+            })
+          }
+
+          if (!res.confirm) {
+            common.storeLastShiti(px - 1, self); //存储最后一题的状态
+            wx.navigateBack({
+
+            })
+          }
+
+        }
+      })
+    }
+
     if(direction == "左滑"){
       px++;
     }else{
       px--;
     }
+
 
     let preShiti = undefined;//前一题
     let nextShiti = undefined;//后一题
@@ -593,6 +600,8 @@ Page({
       display:true
     })
 
+    let nowPx = this.data.nowPx;
+
     let px = e.detail.px;
 
     if (px >= 9 && this.data.buy == 0) {//如果滑动大于10，并且没有购买
@@ -614,6 +623,12 @@ Page({
 
             wx.navigateTo({
               url: '/pages/pay/pay?product=' + product + "&goBack=haha",
+            })
+          }
+
+          if (!res.confirm) {
+            common.storeLastShiti(nowPx, self); //存储最后一题的状态
+            wx.navigateBack({
             })
           }
         }
