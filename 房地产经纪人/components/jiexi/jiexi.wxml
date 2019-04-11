@@ -13,10 +13,9 @@
   </view>
 </view>
 
-<!-- 广告关闭按钮 -->
-  <image wx:if="{{!hidden}}" class="close-icon" src="/imgs/close2.png" bindtap="close"></image>
-
 <!-- 广告 -->
 <view wx:if="{{!hidden}}" class="ad">
+  <!-- 广告关闭按钮 -->
+  <image wx:if="{{!hidden}}" class="close-icon" src="/imgs/close2.png" bindtap="close"></image>
   <ad unit-id="adunit-9a8348df3c153364"></ad>
 </view>

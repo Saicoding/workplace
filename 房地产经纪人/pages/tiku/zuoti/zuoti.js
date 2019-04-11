@@ -128,10 +128,38 @@ Page({
     let current = e.detail.current;
     let source = e.detail.source;
     let myFavorite = 0;
+    let buy = this.data.buy;
+
 
     if (source != "touch") return;
 
     let px = self.data.px;
+
+    if(px >= 9 &&  buy == 0 ){//如果滑动大于10，并且没有购买
+      console.log(self.data.zhangjie_id)
+      let product = "";
+      let zhangjie_id = self.data.zhangjie_id;
+      if (zhangjie_id !="263" && zhangjie_id !="262"){
+        product = 'DB16'
+      }else{
+        product = 'DB16'
+      }
+
+      wx.showModal({
+        title: '提示',
+        content: '您还没有购买课程,购买课程继续观看',
+        confirmColor:'#2983fe',
+        success:function(res){
+          if(res.confirm){
+
+            wx.navigateTo({
+              url: '/pages/pay/pay?product=' + product +"&goBack=haha",
+            })
+          }
+        }
+      })
+    }
+
     let direction = "";
     let shitiArray = self.data.shitiArray;
     let circular = self.data.circular;
@@ -486,6 +514,7 @@ Page({
    */
   onShow: function(e) {
     let self = this;
+    console.log(self.data.buy)
   },
 
   /**
@@ -565,6 +594,31 @@ Page({
     })
 
     let px = e.detail.px;
+
+    if (px >= 9 && this.data.buy == 0) {//如果滑动大于10，并且没有购买
+      console.log(self.data.zhangjie_id)
+      let product = "";
+      let zhangjie_id = self.data.zhangjie_id;
+      if (zhangjie_id != "263" && zhangjie_id != "262") {
+        product = 'DB16'
+      } else {
+        product = 'DB18'
+      }
+
+      wx.showModal({
+        title: '提示',
+        content: '您还没有购买课程,购买课程继续观看',
+        confirmColor: '#2983fe',
+        success: function (res) {
+          if (res.confirm) {
+
+            wx.navigateTo({
+              url: '/pages/pay/pay?product=' + product + "&goBack=haha",
+            })
+          }
+        }
+      })
+    }
  
     let zhangIdx = self.data.zhangIdx;
     let jieIdx = self.data.jieIdx;

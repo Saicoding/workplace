@@ -391,6 +391,7 @@ Page({
     buttonClicked = true;
     let self = this;
     let z_id = e.currentTarget.id;
+
     let zhangIdx = e.currentTarget.dataset.itemidx; //点击的章index
     let jieIdx = e.currentTarget.dataset.jieidx; //点击的节index
 
@@ -752,7 +753,7 @@ Page({
       z_id = tiku.id;
       index = tiku.index;
     }
-
+    console.log(res)
     this.setData({
       array: res,
       zhangjie_id: z_id,

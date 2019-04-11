@@ -15,6 +15,17 @@ Component({
     answer:{
       type: String,
       value:""
+    },
+    buy:{
+      type:Number,
+      value:-1,
+      observer:function(res){
+        if(res ==1){
+          this.setData({
+            hidden:true,
+          })
+        }
+      }
     }
   },
 

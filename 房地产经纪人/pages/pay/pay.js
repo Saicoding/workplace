@@ -210,7 +210,7 @@ Page({
         delta:2
       })
     }else{
-      wx.navigateBack({})
+
     }
   },
 
@@ -293,8 +293,13 @@ Page({
                       prevPage.setData({
                         buied: product
                       })
+
+                      prevPage.setData({
+                        buy: 1
+                      })
+                      
                       wx.navigateBack({
-                        delta:2
+                        delta:1
                       })
                       wx.showToast({
                         title: '购买成功',
@@ -304,7 +309,9 @@ Page({
                     })
                   }
                 },
-                fail: function (res) { }
+                fail: function (res) { 
+                  console.log('取消购买')
+                }
               }
               wx.requestPayment(myObject)
             }

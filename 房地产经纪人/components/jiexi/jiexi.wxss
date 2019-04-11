@@ -59,12 +59,13 @@
 }
 
 .close-icon{
-  position: fixed;
-  bottom:200rpx;
+  position: absolute;
+  bottom:180rpx;
   width:40rpx;
   height:40rpx;
   z-index:61;
   right:20rpx;
+  opacity: 0.5;
 }
 
 .jiexi-text2{

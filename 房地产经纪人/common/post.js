@@ -9,6 +9,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
   let shitiArray = res.data.shiti;
   let username = user.username;
   let acode = user.acode;
+  let buy = res.data.buy
 
   common.initShitiArrayDoneAnswer(shitiArray);//将试题的所有done_daan置空
 
@@ -96,7 +97,7 @@ function zuotiOnload(options, px, circular, myFavorite, res, user, self){
     zhangjie_id: options.zhangjie_id, //章节的id号，用于本地存储的key
     zhangIdx: options.zhangIdx, //章的id号
     jieIdx: options.jieIdx, //节的id号
-
+    buy: buy,
     px:px,
     user:user,
     title: options.title,//标题
