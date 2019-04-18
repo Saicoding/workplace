@@ -129,6 +129,7 @@ Page({
         let windowHeight = res.windowHeight;
         let windowWidth = res.windowWidth;
         let platform = res.platform;
+        console.log(platform)
         windowHeight = (windowHeight * (750 / windowWidth));
         self.setData({
           windowWidth: windowWidth,

@@ -16,6 +16,11 @@ Component({
       type: String,
       value:""
     },
+    isModelReal:{
+      type:Boolean,
+      value:false
+    },
+
     buy:{
       type:Number,
       value:-1,

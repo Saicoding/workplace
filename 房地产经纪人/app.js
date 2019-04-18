@@ -68,7 +68,7 @@ App({
               message: message
             })
           } else if (status < 0) {
-            console.log(message)
+            console.log('异常', url + postData)
             wx.showToast({
               title: message,
               icon: 'none',

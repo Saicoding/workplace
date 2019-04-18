@@ -1,6 +1,7 @@
 /* pages/tiku/modelReal/modelRealList/modelRealList.wxss */
 
 .item {
+  display: flex;
   width: 100%;
   height: 120rpx;
   border-bottom: 1px dashed #eee;
@@ -14,33 +15,23 @@
   margin:300rpx auto;
 }
 
-.circle {
-  display: float;
-  float: left;
-  width: 35rpx;
-  height: 35rpx;
-  border-radius: 35rpx;
-  margin-top: 46rpx;
-}
 
 .title {
-  display: float;
-  float: left;
-  font-size: 35rpx;
-  width: 73%;
-  margin-top: 40rpx;
-  margin-left: 30rpx;
+  height:120rpx;
+  line-height: 120rpx;
+  font-size: 28rpx;
+  width: 630rpx;
+  margin-left: 10rpx;
   white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .score {
-  display: float;
-  float: left;
   width: 50rpx;
   height: 50rpx;
   line-height: 47rpx;
-  margin-top: 40rpx;
+  margin-top: 35rpx;
   margin-left: 30rpx;
   font-size: 25rpx;
   text-align: center;

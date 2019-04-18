@@ -56,8 +56,9 @@ Page({
       circular:false
     }
 
+    console.log("action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode)
     app.post(API_URL, "action=SelectShiti&px=" + px + "&z_id=" + options.z_id + "&username=" + username + "&acode=" + acode, false, false, "").then((res) => {
-      console.log('权限',res.data.buy)
+      console.log(res)
       post.zuotiOnload(options, px, circular,myFavorite,res, user, self) //对数据进行处理和初始化
       isFold = false;
     }).catch((errMsg) => {
@@ -165,7 +166,7 @@ Page({
 
       wx.showModal({
         title: '提示',
-        content: '您还没有购买课程,购买课程继续观看',
+        content: '权限不足！开通权限后继续学习。',
         confirmColor: '#2983fe',
         success: function (res) {
           if (res.confirm) {
@@ -181,7 +182,6 @@ Page({
 
             })
           }
-
         }
       })
     }

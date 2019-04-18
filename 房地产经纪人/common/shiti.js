@@ -719,7 +719,8 @@ function changeModelRealSelectStatus(done_daan, shiti, ifSubmit) {
       let new_done_daan = changeShitiChecked(done_daan, shiti);
       changeMultiShiti(new_done_daan, shiti);
 
-      let answers = shiti.answer.split(""); //将“ABD” 这种字符串转为字符数组
+      let answers = shiti.answer.replace(/,|\s+/g, "");
+      answers = answers.split(""); //将“ABD” 这种字符串转为字符数组
       if (!ifSubmit) shiti.done_daan = new_done_daan; //已经做的选择
 
       for (let i = 0; i < new_done_daan.length; i++) {
