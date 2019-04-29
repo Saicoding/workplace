@@ -142,6 +142,7 @@ Page({
 
     let lastStr = "#q" + px;
     let question = self.selectComponent(lastStr);
+    console.log(self.selectComponent('#q1'),self.selectComponent('#q2'),self.selectComponent('#q3'),self.selectComponent('#q4'),self.selectComponent('#q5'))
 
     question.setData({
       style1: "display:block;margin-bottom:30rpx;height:90rpx"

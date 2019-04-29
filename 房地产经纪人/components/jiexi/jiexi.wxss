@@ -53,8 +53,8 @@
 .ad{
   position: fixed;
   left:0rpx;
-  width:100%;
-  bottom:0rpx;
+  width:750rpx;
+  bottom:80rpx;
   z-index:60;
 }
 

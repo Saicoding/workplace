@@ -70,7 +70,7 @@
 <markAnswer id="markAnswer" windowHeight="{{windowHeight}}" markAnswerItems="{{markAnswerItems}}" bind:tapEvent="_tapEvent">
 </markAnswer>
 <!-- 点击水波 -->
-<waterWave id="waterWave"></waterWave>
+<waterwave id="waterWave"></waterwave>
 
 <!-- 材料题解析面板 -->
 <clJiexi id="clJiexi" cl_jiexi="{{cl_jiexi}}" cl_answer="{{cl_answer}}"></clJiexi>

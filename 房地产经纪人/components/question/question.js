@@ -50,6 +50,7 @@ Component({
   data: {
 
   },
+  
 
   pageLifetimes: {
     show: function() {
@@ -63,6 +64,7 @@ Component({
    */
   methods: {
     toogleShow: function() {
+      console.log(this)
       if (this.data.tx != "材料题") return;
       this.triggerEvent('toogleAnimation')
     },

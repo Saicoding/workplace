@@ -18,9 +18,9 @@
   <view class="bottom-text" style="color:#e85e60;width:30rpx;height:30rpx;margin-left:20rpx;">{{wrongNum}}</view>
 </view>
 
-<view class="bottom-block" bindtap="_toggleMarkAnswer" style = "float:right">
+<view class="bottom-block" bindtap="_toggleMarkAnswer" style = "float:left;">
   <image src="/imgs/list.png" mod="aspectFit" class="bottom-img-list" ></image>
-  <view class="bottom-text" style= "width:78rpx;text-align:right;line-height:40rpx;">{{px}}</view>
+  <view class="bottom-text" style= "width:75rpx;text-align:right;line-height:40rpx;">{{px}}</view>
   <view class="bottom-text" style ="line-height:32rpx;">/</view>
-  <view class="bottom-text" style="color:#a0a0a0;margin-left:10rpx;width:78rpx;line-height:40rpx;">{{nums}}</view>
+  <view class="bottom-text" style="color:#a0a0a0;margin-left:10rpx;width:75rpx;line-height:40rpx;">{{nums}}</view>
 </view>

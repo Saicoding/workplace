@@ -78,7 +78,7 @@
   <hasNoPage str="{{message}}"></hasNoPage>
 </view>
 <!-- 点击水波 -->
-<waterWave id="waterWave"></waterWave>
+<waterwave id="waterWave"></waterwave>
 
 <!-- 纠错板 -->
 <errorRecovery id="errorRecovery" windowWidth="{{windowWidth}}" windowHeight="{{windowHeight}}" bindsubmit="_submit"></errorRecovery>

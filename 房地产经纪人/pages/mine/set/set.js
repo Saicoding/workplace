@@ -38,8 +38,6 @@ Page({
    */
   onReady: function () {
     let self = this;
-
-    this.loginOut = this.selectComponent('#loginOut');
     wx.getSystemInfo({ //得到窗口高度,这里必须要用到异步,而且要等到窗口bar显示后再去获取,所以要在onReady周期函数中使用获取窗口高度方法
       success: function (res) { //转换窗口高度
         let windowHeight = res.windowHeight;
@@ -85,7 +83,6 @@ Page({
    * 退出登录
    */
   goOut: function () {
-    // this.loginOut.showDialog();
     wx.showModal({
       content: '您确定要退出登录吗？',
       confirmColor: '#0097f5',

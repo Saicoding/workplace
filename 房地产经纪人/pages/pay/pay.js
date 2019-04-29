@@ -165,7 +165,6 @@ Page({
       app.post(API_URL, "action=KanjiaInfo_sim&loginrandom=" + loginrandom + "&zcode=" + zcode + "&types=" + product, false, false, "", "", "", self).then(res => {
         let hasEndtime = true;
         let interval = "";
-       
         let endtime = res.data.data[0].endtime;
         if (endtime == "") {
           hasEndtime = false

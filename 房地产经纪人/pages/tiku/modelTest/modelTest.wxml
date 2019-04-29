@@ -65,5 +65,5 @@
   </count>
 
   <!-- 点击水波 -->
-  <waterWave id = "waterWave"></waterWave>
+  <waterwave id = "waterWave"></waterwave>
 

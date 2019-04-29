@@ -30,4 +30,4 @@
   <image class="loading-img" src="/imgs/timg.gif" mode="aspectFit" ></image>
 </view>
 
-<waterWave id="waterWave"></waterWave>
+<waterwave id="waterWave"></waterwave>

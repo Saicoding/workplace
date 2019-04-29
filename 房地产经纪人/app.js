@@ -28,6 +28,15 @@ App({
       postData.signature = that.makeSign(postData);
       */
       //网络请求
+  
+      // postData = postData.split('&')
+      // let obj = {};
+      // for (let i = 0; i < postData.length; i++) {
+      //   let m = postData[i];
+      //   m = m.split('=');
+      //   obj[m[0]] = m[1]
+      // }
+      // postData = obj
 
       wx.request({
         url: url,
